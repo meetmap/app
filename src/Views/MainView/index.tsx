@@ -1,0 +1,35 @@
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import React from 'react'
+import { Button, SafeAreaView, Text, View } from 'react-native'
+import { RootStackParamList } from '../../types/NavigationProps';
+import PrimaryButton from '../../shared/Buttons/PrimaryButton';
+import LikeButton from '../../shared/Buttons/LikeButton';
+import styled from 'styled-components/native';
+import BottomControlls from './BottomControlls';
+import { CustomSafeAreaView } from '../../shared/CustomSafeAreaView';
+
+export interface IMainViewProps {
+    navigation: NativeStackNavigationProp<RootStackParamList, 'MainView'>;
+}
+
+const MainView = ({ navigation }: IMainViewProps) => {
+    return (
+        <CustomSafeAreaView>
+            {/* <MapContent /> */}
+            <StyledMainPageContainer>
+                <BottomControlls navigation={navigation} />
+            </StyledMainPageContainer>
+        </CustomSafeAreaView>
+    )
+}
+
+export default MainView
+
+const StyledMainPageContainer = styled(View)`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  /* background: linear-gradient(180deg, #0066FF 0%, rgba(148, 216, 255, 0) 25%); */
+`
