@@ -9,6 +9,7 @@ import SelfProfileView from './Views/SelfProfileView';
 import FilterModalView from './Views/FilterModalView';
 import { InitializeUserThunk } from './store/slices/userSlice';
 import EventModalView from './Views/EventModalView';
+import WelcomeLoaderView from './Views/WelcomeLoaderView';
 
 const Stack = createNativeStackNavigator();
 
@@ -27,38 +28,45 @@ const Navigator = () => {
             }}
 
         >
-            {user ?
-                <Stack.Group>
-                    <Stack.Screen
-                        name="Home"
-                        component={MainView}
-                        options={{ headerShown: false }}
-                    />
-                    <Stack.Screen options={{ presentation: "modal", headerShown: false }} name='EventModalView' component={EventModalView} />
-                    <Stack.Screen options={{ presentation: "modal", headerShown: false }} name='FilterModalView' component={FilterModalView} />
-                    <Stack.Screen name="ProfileView" component={ProfileView} />
-                    <Stack.Screen options={{ title: "Your Profile"}} name="SelfProfileView" component={SelfProfileView} />
-                </Stack.Group>
+            {!isLoading ?
+                user ?
+                    <Stack.Group >
+                        <Stack.Screen
+                            name="Home"
+                            component={MainView}
+                            options={{ headerShown: false }}
+                        />
+                        <Stack.Screen options={{ presentation: "modal", headerShown: false }} name='EventModalView' component={EventModalView} />
+                        <Stack.Screen options={{ presentation: "modal", headerShown: false }} name='FilterModalView' component={FilterModalView} />
+                        <Stack.Screen name="ProfileView" component={ProfileView} />
+                        <Stack.Screen options={{ title: "Your Profile" }} name="SelfProfileView" component={SelfProfileView} />
+                    </Stack.Group>
+                    :
+                    <Stack.Group>
+                        <Stack.Screen
+                            name="WelcomeView"
+                            component={WelcomeView}
+                            options={{ headerShown: false }}
+                        />
+                        <Stack.Screen
+                            name="LoginView"
+                            component={LoginView}
+                            options={{ headerShown: false }}
+                        />
+                        <Stack.Screen
+                            name="RegisterView"
+                            component={WelcomeView}
+                            options={{ headerShown: false }}
+                        />
+                    </Stack.Group>
                 :
-                <Stack.Group>
-                    <Stack.Screen
-                        name="WelcomeView"
-                        component={WelcomeView}
-                        options={{ headerShown: false }}
-                    />
-                    <Stack.Screen
-                        name="LoginView"
-                        component={LoginView}
-                        options={{ headerShown: false }}
-                    />
-                    <Stack.Screen
-                        name="RegisterView"
-                        component={WelcomeView}
-                        options={{ headerShown: false }}
-                    />
-                </Stack.Group>
+                <Stack.Screen
+                    name="WelcomeLoaderView"
+                    component={WelcomeLoaderView}
+                    options={{ headerShown: false }}
+                />
             }
-        </Stack.Navigator>
+        </Stack.Navigator >
     )
 }
 

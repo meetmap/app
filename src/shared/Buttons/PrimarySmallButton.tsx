@@ -26,6 +26,7 @@ const StyledPrimarySmallButton = styled(TouchableOpacity) <{ btnType: ButtonType
     padding: 10px 16px;
     justify-content: center;
     align-items: center;
+    flex: 1;
 
     background: ${props => props.theme.colors.BUTTON[props.btnType].BGDefault};
     border-radius: 20px;
