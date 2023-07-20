@@ -11,6 +11,8 @@ export type RootStackParamList = {
 
     MainView: undefined;
 
+    EventModalView: { eventId: string }
+
     ProfileView: { name: string; }; // a screen that we are 
     // navigating to, in the current screen,
     // that we should pass a prop named `slug` to it

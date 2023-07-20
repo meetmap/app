@@ -1,6 +1,6 @@
 import { debounce } from 'lodash';
-import { useState, useEffect, useMemo, useRef } from 'react';
-import Supercluster, { PointFeature, ClusterFeature, AnyProps, ClusterProperties } from 'supercluster';
+import { useState, useEffect, useRef } from 'react';
+import Supercluster, { PointFeature, AnyProps, ClusterProperties } from 'supercluster';
 
 type Position = [number, number] | [number, number, number];
 

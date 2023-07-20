@@ -34,7 +34,7 @@ const EventLg = ({ eventData }: { eventData: IEvent }) => {
                 <LikeButton eventId={eventData.id} isLiked={eventData.userStats.isUserLike} />
             </StyledEventLgImageContainer>
             <StyledAboutEventContainer>
-                <StyledAboutEventTextInfo onPress={() => navigation.navigate("MainView")}>
+                <StyledAboutEventTextInfo onPress={() => navigation.navigate("EventModalView", {eventId: eventData.id})}>
                     <H6 style={{flexWrap: "wrap"}}>
                         {eventData.title}
                         {eventData.eventType === "organizer-event" &&

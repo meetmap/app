@@ -8,6 +8,7 @@ import ProfileView from './Views/ProfileView';
 import SelfProfileView from './Views/SelfProfileView';
 import FilterModalView from './Views/FilterModalView';
 import { InitializeUserThunk } from './store/slices/userSlice';
+import EventModalView from './Views/EventModalView';
 
 const Stack = createNativeStackNavigator();
 
@@ -33,6 +34,7 @@ const Navigator = () => {
                         component={MainView}
                         options={{ headerShown: false }}
                     />
+                    <Stack.Screen options={{ presentation: "modal", headerShown: false }} name='EventModalView' component={EventModalView} />
                     <Stack.Screen options={{ presentation: "modal", headerShown: false }} name='FilterModalView' component={FilterModalView} />
                     <Stack.Screen name="ProfileView" component={ProfileView} />
                     <Stack.Screen options={{ title: "Your Profile"}} name="SelfProfileView" component={SelfProfileView} />
