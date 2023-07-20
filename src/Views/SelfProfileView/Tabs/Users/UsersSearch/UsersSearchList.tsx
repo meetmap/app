@@ -3,11 +3,10 @@ import LoaderContainer from "../../../../../shared/LoaderContainer"
 import TextStatus from "../../../../../shared/TextStatus"
 import { IPartialUser } from "../../../../../types/users"
 import UserDataInList from "../../../../../shared/Profile/UserDataInList"
-import { ScrollView } from "react-native"
+import { FlatList, ScrollView } from "react-native"
 import styled from "styled-components/native"
 
 const UsersSearchList = ({ searchUsersData, searchUsersLoading }: { searchUsersData: IPartialUser[] | null, searchUsersLoading: boolean }) => {
-
     if (searchUsersLoading) {
         return <LoaderContainer />
     }
@@ -19,11 +18,14 @@ const UsersSearchList = ({ searchUsersData, searchUsersLoading }: { searchUsersD
     if (searchUsersData) {
         return (
             <StyledUsersList>
-                {
-                    searchUsersData.map((friend) => (
-                        <UserDataInList key={friend.id} userData={friend} />
-                    ))
-                }
+                <FlatList
+                    contentContainerStyle={{ paddingBottom: 25, backgroundColor: "white" }}
+                    data={searchUsersData}
+                    horizontal={false}
+                    scrollEnabled
+                    renderItem={({ item }) => <UserDataInList userData={item} />}
+                    keyExtractor={item => item.id}
+                />
             </StyledUsersList>
         )
     }

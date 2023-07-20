@@ -18,8 +18,10 @@ const Users = () => {
 export default Users;
 
 const UsersContainer = styled(View)`
-display: flex;
-flex-direction: column;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
   gap: 12px;
-  padding:  0 16px;
+  padding:  16px;
+  background-color: white;
 `;

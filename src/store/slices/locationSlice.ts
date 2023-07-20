@@ -27,6 +27,9 @@ const locationSlice = createSlice({
     builder.addCase(updateUserLocationThunk.fulfilled, (state, action) => {
       state.userCoordinates = action.payload;
     });
+    builder.addCase(updateUserLocationThunk.rejected, (state, action) => {
+      state.userCoordinates = action.meta.arg;
+    });
     builder.addCase(getUpdatedFriendsLocationThunk.fulfilled, (state, action) => {
       state.friendsCoordinates = action.payload;
     });
@@ -40,11 +43,16 @@ export const updateUserLocationThunk = createAsyncThunk<
     lng: number;
   }
 >("location/update-self", async (payload, { rejectWithValue }) => {
-  const data = await debouncedUpdateUserLocation(payload);
-  if (!data) {
-    throw new Error("No data yet");
+  try {
+    const data = await debouncedUpdateUserLocation(payload);
+    if (!data) {
+      throw new Error("No data yet");
+    }
+    return data;
+  } catch (error) {
+    console.log(error)
+    return payload
   }
-  return data;
 });
 
 export const getUpdatedFriendsLocationThunk = createAsyncThunk<GetFriendsLocationResponse[]>(
@@ -55,6 +63,6 @@ export const getUpdatedFriendsLocationThunk = createAsyncThunk<GetFriendsLocatio
   }
 );
 
-export const {} = locationSlice.actions;
+export const { } = locationSlice.actions;
 
 export default locationSlice.reducer;

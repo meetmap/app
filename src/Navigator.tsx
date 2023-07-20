@@ -16,10 +16,16 @@ const Navigator = () => {
     const dispatch = useAppDispatch()
     useEffect(() => {
         dispatch(InitializeUserThunk());
-        console.log("user", user)
     }, []);
     return (
-        <Stack.Navigator>
+        <Stack.Navigator
+            screenOptions={{
+                contentStyle: {
+                    backgroundColor: "white"
+                }
+            }}
+
+        >
             {user ?
                 <Stack.Group>
                     <Stack.Screen
@@ -29,7 +35,7 @@ const Navigator = () => {
                     />
                     <Stack.Screen options={{ presentation: "modal", headerShown: false }} name='FilterModalView' component={FilterModalView} />
                     <Stack.Screen name="ProfileView" component={ProfileView} />
-                    <Stack.Screen name="SelfProfileView" component={SelfProfileView} />
+                    <Stack.Screen options={{ title: "Your Profile"}} name="SelfProfileView" component={SelfProfileView} />
                 </Stack.Group>
                 :
                 <Stack.Group>

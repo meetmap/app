@@ -1,9 +1,10 @@
 import styled from "styled-components/native";
 
-import React, { ReactNode } from 'react'
-import { TextInput, TextInputProps, View } from "react-native";
+import React, { ReactNode, useState } from 'react'
+import { TextInput, TextInputProps, TouchableOpacity, View } from "react-native";
 import { Text } from "react-native-svg";
 import { H1, Span } from "../Text";
+import EyeIcon from "../Icons/Eye";
 
 interface IPrimaryFormInput extends TextInputProps {
     name: string
@@ -13,31 +14,25 @@ interface IPrimaryFormInput extends TextInputProps {
     icon?: ReactNode
 }
 
-const PrimaryFormInput = ({ name, label, isSuccess, isError, icon, ...rest }: IPrimaryFormInput) => {
+const SercuredFormInput = ({ name, label, isSuccess, isError, icon, ...rest }: IPrimaryFormInput) => {
+    const [passwordHidden, setPasswordHidden] = useState(true)
     return (
         <StyledInputContent>
             <Span>{label}</Span>
             <StyledInputWrapper>
-                <StyledPrimaryInput {...rest} id={name} autoCapitalize="none"/>
-                <StyledInputStatus>
-                    {/* <AnimatePresence>
-                        {isSuccess && <SuccessIcon />}
-                    </AnimatePresence>
-                    <AnimatePresence>
-                        {isError && <ErrorIcon />}
-                    </AnimatePresence> */}
-                </StyledInputStatus>
-                <StyledInputIcon>
-                    {/* <AnimatePresence>
-                        {!isError && !isSuccess && icon}
-                    </AnimatePresence> */}
-                </StyledInputIcon>
+                <StyledPrimaryInput secureTextEntry={passwordHidden} {...rest} id={name} autoCapitalize="none" />
+                <StyledSetVisiblePassword
+                    onPressIn={() =>  setPasswordHidden(false)}
+                    onPressOut={() =>  setPasswordHidden(true)}
+                >
+                    <EyeIcon/>
+                </StyledSetVisiblePassword>
             </StyledInputWrapper>
         </StyledInputContent>
     )
 }
 
-export default PrimaryFormInput
+export default SercuredFormInput
 
 const StyledInputContent = styled(View)`
     display: flex;
@@ -48,13 +43,15 @@ const StyledInputContent = styled(View)`
 const StyledInputWrapper = styled(View)`
     position: relative;
 `
-const StyledInputStatus = styled(View)`
+const StyledSetVisiblePassword = styled(TouchableOpacity)`
     position: absolute;
-    right: 24px;
+    right: 8px;
     display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    padding: 0 14px;
 `
-const StyledInputIcon = styled(StyledInputStatus)``
-
 const StyledPrimaryInput = styled(TextInput)`
     width: 100%;
     background-color: transparent;

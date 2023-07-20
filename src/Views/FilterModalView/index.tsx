@@ -3,17 +3,21 @@ import EventLg from "../../shared/EventInList/EventLg"
 import LoaderContainer from "../../shared/LoaderContainer"
 import { H3 } from "../../shared/Text"
 import TextStatus from "../../shared/TextStatus"
-import { CustomSafeAreaView } from "../../shared/CustomSafeAreaView"
 import { useAppDispatch } from "../../store/hooks"
 import { useState } from "react"
 import { IEvent } from "../../types/event"
 import styled from "styled-components/native"
-import { NativeSyntheticEvent, Text, TextInputChangeEventData, View } from "react-native"
+import { FlatList, NativeSyntheticEvent, Text, TextInputChangeEventData, View } from "react-native"
 import SearchInput from "../../shared/Input/SearchInput"
 import { searchEvents } from "../../api/events"
+import { NativeStackNavigationProp } from "@react-navigation/native-stack"
+import { RootStackParamList } from "../../types/NavigationProps"
 
-const FilterModalView = () => {
+export interface IMainViewProps {
+    navigation: NativeStackNavigationProp<RootStackParamList, 'FilterModalView'>;
+}
 
+const FilterModalView = ({ }: IMainViewProps) => {
     const [searchEventsData, setSearchEventsData] = useState<IEvent[] | null>(null)
     const [isSearchLoading, setIsSearchLoading] = useState(false)
     const searchEventsDataFunc = async (text: string) => {
@@ -27,31 +31,29 @@ const FilterModalView = () => {
         setIsSearchLoading(false)
     }
     return (
-        <View>
-            {/* <Text>zalupa</Text> */}
-            <StyledSearchModal>
-                <StyledSearchInputContainer>
-                    <SearchInput
-                        placeholder="Search..."
-                        onChangeText={searchEventsDataFunc}
-                    />
-                </StyledSearchInputContainer>
-                {searchEventsData ?
-                    isSearchLoading ?
-                        <LoaderContainer />
-                        :
-                        <StyledSearchData>
-                            {searchEventsData.map(event => (
-                                <EventLg key={`eventList-${event.id}`} eventData={event} />
-                            ))}
-                        </StyledSearchData>
+        <StyledSearchModal>
+            <StyledSearchInputContainer>
+                <SearchInput
+                    placeholder="Search..."
+                    onChangeText={searchEventsDataFunc}
+                />
+            </StyledSearchInputContainer>
+            {searchEventsData ?
+                isSearchLoading ?
+                    <LoaderContainer />
                     :
-                    <TextStatus>
-                        <H3>Events not found</H3>
-                    </TextStatus>
-                }
-            </StyledSearchModal>
-        </View>
+                    <FlatList
+                        contentContainerStyle={{ paddingBottom: 25 }}
+                        data={searchEventsData}
+                        horizontal={false}
+                        scrollEnabled
+                        renderItem={({ item }) => <EventLg eventData={item} />}
+                        keyExtractor={item => item.id}
+                    />
+                :
+                <TextStatus>Events not found</TextStatus>
+            }
+        </StyledSearchModal>
     )
 }
 
@@ -60,12 +62,10 @@ export default FilterModalView
 
 const StyledSearchModal = styled(View)`
     flex-direction: column;
-    gap: 24px;
     padding: 0 16px;
 `
 
 const StyledSearchInputContainer = styled(View)`
-    position: sticky;
     top: 0;
     padding-top: 16px;
     padding-bottom: 16px;
@@ -73,9 +73,4 @@ const StyledSearchInputContainer = styled(View)`
     /* background: linear-gradient(180deg, #FFFFFF 90%, rgba(255, 255, 255, 0) 100%); */
 `
 
-const StyledSearchData = styled(View)`
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-`
 

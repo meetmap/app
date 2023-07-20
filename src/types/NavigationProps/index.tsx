@@ -1,4 +1,5 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { StackNavigationProp } from "@react-navigation/stack";
 
 export type RootStackParamList = {
 
@@ -22,3 +23,6 @@ export type RootStackParamList = {
 
     ScreenFour: undefined;
 };
+
+
+export type NavigationProps = StackNavigationProp<RootStackParamList>

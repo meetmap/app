@@ -1,3 +1,9 @@
+import { useState } from "react"
+import { FriendshipStatusType, IPartialUser } from "../../../types/users"
+import MoreIcon from "../../Icons/MoreIcon"
+import UserInListActions from "../../Actions/Users/UserInListActions"
+import { TouchableOpacity } from "react-native"
+
 const FriendsInListButton = ({ userData, localFriendshipStatus, handleChangeFriendshipStatus }: {
     userData: IPartialUser,
     handleChangeFriendshipStatus: () => void
@@ -7,15 +13,7 @@ const FriendsInListButton = ({ userData, localFriendshipStatus, handleChangeFrie
 
     if (localFriendshipStatus === "friends") {
         return (
-            <>
-                <button onClick={() => setActionsOpened(true)}><MoreIcon /></button>
-                <UserInListActions
-                    isOpen={actionsOpened}
-                    setIsOpen={setActionsOpened}
-                    userData={userData}
-                    handleChangeFriendshipStatus={handleChangeFriendshipStatus}
-                />
-            </>
+            <TouchableOpacity onPress={() => UserInListActions(userData)}><MoreIcon /></TouchableOpacity>
         )
     }
     return null

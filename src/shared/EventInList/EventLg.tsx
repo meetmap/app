@@ -8,26 +8,34 @@ import { H6, Span } from "../Text";
 import MoreIcon from "../Icons/MoreIcon";
 import OpenEventActions from "../Actions/Events/OpenEventActions";
 import styled from "styled-components/native";
-import { TouchableOpacity, View } from "react-native";
+import { Image, ImageBackground, TouchableOpacity, View } from "react-native";
+import { useCalculateDistance } from "../../hooks/useCalculateDistance";
+import LoadableImage from "../LoadableImage/LoadableImage";
+import { useNavigation } from "@react-navigation/native";
+import { IMainViewProps } from "../../Views/WelcomeView";
+import { NavigationProps } from "../../types/NavigationProps";
 
 const EventLg = ({ eventData }: { eventData: IEvent }) => {
-    // const distance = useCalculateDistance(
-    //     eventData.location.coordinates.coordinates[0],
-    //     eventData.location.coordinates.coordinates[1],
-    //     35.064,
-    //     32.9278599
-    // )
+    const distance = useCalculateDistance(
+        eventData.location.coordinates.coordinates[0],
+        eventData.location.coordinates.coordinates[1],
+        35.064,
+        32.9278599
+    )
     const formattedStartTime = moment(eventData.startTime).format('MMM D - h A');
     const dispatch = useAppDispatch()
+    const navigation = useNavigation<NavigationProps>();
     return (
         <StyledEventLgContainer>
             <StyledEventLgImageContainer>
-                <img src={eventData.picture} />
+                <LoadableImage source={{
+                    uri: eventData.picture
+                }} />
                 <LikeButton eventId={eventData.id} isLiked={eventData.userStats.isUserLike} />
             </StyledEventLgImageContainer>
             <StyledAboutEventContainer>
-                <StyledAboutEventTextInfo onPress={() => console.warn('need to add modal')}>
-                    <H6>
+                <StyledAboutEventTextInfo onPress={() => navigation.navigate("MainView")}>
+                    <H6 style={{flexWrap: "wrap"}}>
                         {eventData.title}
                         {eventData.eventType === "organizer-event" &&
                             <>
@@ -35,14 +43,13 @@ const EventLg = ({ eventData }: { eventData: IEvent }) => {
                             </>
                         }
                     </H6>
-                    {/* <Span>{distance} away from you</Span> */}
+                    <Span>{distance} away from you</Span>
                     <Span>{formattedStartTime}</Span>
                 </StyledAboutEventTextInfo>
                 <StyledEventMoreAction onPress={() => OpenEventActions(eventData)}>
                     <MoreIcon />
                 </StyledEventMoreAction>
             </StyledAboutEventContainer>
-            {/* <EventActions eventData={eventData} isOpen={actionsOpened} setIsOpen={setActionsOpened} title={eventData.title}/> */}
         </StyledEventLgContainer >
     )
 }
@@ -52,27 +59,22 @@ export default EventLg
 const StyledEventLgContainer = styled(View)`
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    padding: 8px 0;
     align-items: stretch;
 `
 const StyledEventLgImageContainer = styled(View)`
     position: relative;
-    img{
-        width: 100%;
-        height: 270px;
-        object-fit: cover;
-        border-radius: 12px;
-    }
+    height: 270px;
 `
 const StyledAboutEventContainer = styled(View)`
-    display: flex;
+    flex-direction: row;
     justify-content: space-between;
+    align-items: center;
 `
 const StyledAboutEventTextInfo = styled(TouchableOpacity)`
-    flex: 1;
-    display: flex;
-    flex-direction: column;
+    padding-top: 8px;
     gap: 2px;
+    flex: 1;
 `
 
 

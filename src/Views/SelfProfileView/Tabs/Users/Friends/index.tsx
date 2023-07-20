@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { H3, Span } from "../../../../../shared/Text";
 import ChooseFrendsListType from "../../../../../shared/Actions/Users/ChooseFrendsListType";
 import VerticalArrowSmIcon from "../../../../../shared/Icons/VerticalArrowSmIcon";
@@ -8,7 +8,6 @@ import { TouchableOpacity, View } from "react-native";
 import styled from "styled-components/native";
 
 const Friends = ({ searchUsersInputData }: { searchUsersInputData: string | null }) => {
-    const [isOpen, setIsOpen] = useState(false);
     const [friendListType, setFriendListType] = useState("Friends")
 
     if (!searchUsersInputData) {
@@ -39,6 +38,7 @@ const StyledUsersListInfo = styled(View)`
 `
 const StyledListsButton = styled(TouchableOpacity)`
   display: flex;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
   gap: 6px;

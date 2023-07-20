@@ -6,6 +6,7 @@ import FriendsInListButton from "../Buttons/Users/FriendsInListButton"
 import styled from "styled-components/native"
 import { Image, TouchableOpacity, View } from "react-native"
 import useFriendship from "../../hooks/useFriendship"
+import LoadableProfileImage from "../LoadableImage/LoadableProfileImage"
 
 const UserDataInList = ({ userData, profile = false }: { userData: IPartialUser, profile?: boolean }) => {
     // const [localFriendshipStatus, setLocalFriendshipStatus] = useState(userData.friendshipStatus)
@@ -13,20 +14,20 @@ const UserDataInList = ({ userData, profile = false }: { userData: IPartialUser,
     return (
         <StyledUserDataInList>
             <StyledUserDataInfo>
-                <StyledUserImg source={{ uri: userData.profilePicture }} />
+                <LoadableProfileImage profilePicture={userData.profilePicture} containerSize={56} />
                 <StyledUserInfo>
-                    <H6>{userData.name}</H6>
+                    {userData.name && <H6>{userData.name}</H6>}
                     <Span textcolor='Primary'>@{userData.username}</Span>
-                    {!profile && <Span>{userData.description}</Span>}
+                    {/* {!profile && <Span>{userData.description}</Span>} */}
                 </StyledUserInfo>
             </StyledUserDataInfo>
             <StyledUserActions>
                 {/* <MoreIcon /> */}
-                <RequestFriendshipIconButton
+                {/* <RequestFriendshipIconButton
                     handleChangeFriendshipStatus={handleChangeFriendshipStatus}
                     localFriendshipStatus={localFriendshipStatus}
                     userCId={userData.cid}
-                />
+                /> */}
                 <FriendsInListButton
                     handleChangeFriendshipStatus={handleChangeFriendshipStatus}
                     localFriendshipStatus={localFriendshipStatus}
@@ -40,27 +41,21 @@ const UserDataInList = ({ userData, profile = false }: { userData: IPartialUser,
 export default UserDataInList
 
 const StyledUserDataInList = styled(View)`
-    display: flex;
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    padding: 8px 0;
 `
 const StyledUserDataInfo = styled(TouchableOpacity)`
     flex: 1;
     display: flex;
+    flex-direction: row;
     gap: 10px;
     align-items: center;
-`
-const StyledUserImg = styled(Image)`
-    height: 56px;
-    width: 56px;
-    border-radius: 50%;
 `
 const StyledUserInfo = styled(View)`
     flex: 1;
 `
 const StyledUserActions = styled(View)`
-    height: 56px;
-    width: 56px;
-    border-radius: 50%;
 `
 

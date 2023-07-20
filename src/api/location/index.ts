@@ -11,7 +11,7 @@ export const updateUserLocation = async ({
   lat: number;
   lng: number;
 }): Promise<UpdateUserLocationResponse> => {
-  const { data } = await getAxios("location-service", true).post<UpdateUserLocationResponse>("/users/update-location", {
+  const { data } = await getAxios("location-service", true).post<UpdateUserLocationResponse>("/location/update", {
     lat,
     lng,
   });

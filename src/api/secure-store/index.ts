@@ -4,8 +4,7 @@ import { SecureStoreKeys } from '../../constants';
 
 export const getFromSecureStore = async (key: SecureStoreKeys): Promise<string | null> => {
     const value = await AsyncStorage.getItem(key);
-    return value != null ? JSON.parse(value) : null;
-    // return value ?? null;
+    return value ?? null;
 };
 
 export const setToSecureStore = async (key: SecureStoreKeys, value: string) => {

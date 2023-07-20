@@ -15,7 +15,6 @@ export const getAxios = (microserviceName: MicroserviceNames, auth: boolean) => 
   if (auth) {
     _axios.interceptors.request.use(async (config) => {
       const accessToken = await getFromSecureStore(SecureStoreKeys.ACCESS_TOKEN);
-
       if (config.headers) {
         config.headers.Authorization = `Bearer ${accessToken}`;
       }

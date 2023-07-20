@@ -23,9 +23,24 @@ const SelfProfileView = ({ navigation }: ISelfProfileViewProps) => {
         return null
     }
     return (
-        <View style={{ height: "100%" }}>
+        <View style={{ height: "100%", backgroundColor: "white" }}>
             <UserProfileInfo userData={selfUserData} />
-            <Tab.Navigator>
+            <Tab.Navigator
+                screenOptions={{
+                    tabBarStyle: {
+                        height: 42,
+                    },
+                    tabBarLabelStyle: {
+                        fontSize: 14,
+                        textTransform: "none",
+                    },
+                    tabBarActiveTintColor: "#2671FF",
+                    tabBarInactiveTintColor: "#5C5E66",
+                    tabBarIndicatorStyle: {
+                        backgroundColor: "#2671FF"
+                    }
+                }}
+            >
                 <Tab.Screen name="Liked Events" component={LikedEvents} />
                 <Tab.Screen name="Users" component={Users} />
             </Tab.Navigator>

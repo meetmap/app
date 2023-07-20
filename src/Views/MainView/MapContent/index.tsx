@@ -1,69 +1,75 @@
-import { mapConfig } from '@utils/configs/mapbox/mapbox.config'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
-import Map, { Layer, MapRef, MapboxEvent, Marker, Source, ViewStateChangeEvent } from 'react-map-gl';
-import 'mapbox-gl/dist/mapbox-gl.css'
-import { useAppDispatch, useAppSelector } from '@store/hooks';
-import { getEventsByLocationThunk } from '@store/slices/eventsSlice';
-import { AnimatePresence } from 'framer-motion';
+import { LegacyRef, RefObject, useEffect, useRef, useState } from "react";
+import { Alert, Linking, PermissionsAndroid, Platform, Text, ToastAndroid, View } from "react-native"
+import MapView, { Details, Marker, Region } from "react-native-maps"
+import Geolocation, { GeoPosition } from 'react-native-geolocation-service';
+import useLocation from "../../../hooks/useLocation";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import { setAddressState } from "../../../store/slices/mapSlice";
 
-import { setViewState } from '@store/slices/mapSlice';
-import useSupercluster from '@hooks/useSuperCluster';
-import EventPin from '@shared/Pins/EventPin';
-import ClusterEventPin from '@shared/Pins/ClusterEventPin';
-import EventsClusters from './EventsClusters';
 const MapContent = () => {
+    const { userCoordinates } = useAppSelector(state => state.locationSlice)
+    // type Camera = {
+    //     center: {
+    //        latitude: number,
+    //        longitude: number,
+    //    },
+    //    pitch: number,
+    //    heading: number,
+
+    //    // Only on iOS MapKit, in meters. The property is ignored by Google Maps.
+    //    altitude: number,
+
+    //    // Only when using Google Maps.
+    //    zoom: number
+    // }
+    const [location, setLocation] = useState()
+    // const { getLocation } = useLocation()
+    // useEffect(() => {
+    //     const location =  getLocation()
+
+    // }, [third])
+
+    const initialRegion = {
+        latitude: 37.78825,
+        longitude: -122.4324,
+        latitudeDelta: 0.0922,
+        longitudeDelta: 0.0421,
+    };
+
     const dispatch = useAppDispatch()
-    const { viewState } = useAppSelector(state => state.mapSlice)
-    const eventsdata = useAppSelector(state => state.eventsSlice.eventsGeo)
+    const mapRef = useRef<MapView>(null)
+    const handleRegionChangeComplete = async (region: Region, details: Details) => {
+        const data = await mapRef.current?.addressForCoordinate({latitude: region.latitude, longitude: region.longitude})
+        dispatch(setAddressState(data))
+    };
 
-    const onMoveEnd = (evt: ViewStateChangeEvent) => {
-        const zoomLevel = evt.viewState.zoom;
-        const scale = 156_543.03392 * Math.cos(evt.viewState.latitude * Math.PI / 180) / 2 ** zoomLevel
-        const visibleRadius = scale * window.innerWidth / 2 / 1000 * 2;
-        dispatch(getEventsByLocationThunk(
-            {
-                lat: evt.viewState.latitude,
-                lng: evt.viewState.longitude,
-                radius: visibleRadius
-            }
-        ))
-    }
-    const mapRef = useRef<MapRef>(null);
 
-    const [bounds, setBounds] = useState<[number, number, number, number] | undefined>(undefined)
-    const onLoad = (evt: MapboxEvent) => {
-        setBounds(evt.target.getBounds().toArray().flat() as [number, number, number, number])
-    }
-
-    const { clusters } = useSupercluster({
-        points: eventsdata,
-        bounds,
-        zoom: viewState?.zoom || 20,
-        options: {
-            radius: 75,
-            maxZoom: 40,
-            reduce: (accumulated, props) => {
-                // Объедините массивы изображений из каждой точки и кластера
-                accumulated.picture = [...accumulated.picture, ...props.picture];
-            },
-        },
-    });
-    const onMove = useCallback((evt: ViewStateChangeEvent) => {
-        dispatch(setViewState(evt.viewState))
-    }, []);
-    
     return (
-        <Map
+        <MapView
             ref={mapRef}
-            onMoveEnd={onMoveEnd}
-            // onViewportChange={newViewport => setViewport(newViewport)}
-            onLoad={onLoad}
-            onMove={onMove}
-            {...mapConfig}
+            style={{ flex: 1 }}
+            showsCompass={false}
+            // initialRegion={{
+            //     latitude: userCoordinates?.lat || 0,
+            //     longitude: userCoordinates?.lng || 0,
+            //     latitudeDelta: 0.0922,
+            //     longitudeDelta: 0.0421,
+            // }}
+
+            userInterfaceStyle={"light"}
+            showsPointsOfInterest={false}
+            onRegionChangeComplete={handleRegionChangeComplete}
         >
-            <EventsClusters clusters={clusters}/>
-        </Map>
+
+            {/* <Marker>
+                <View style={{ backgroundColor: "red", padding: 10 }}>
+                    <Text>SF</Text>
+                </View>
+            </Marker> */}
+            {/* <EventsClusters clusters={clusters}/> */}
+        </MapView >
     )
+
 }
 
 export default MapContent

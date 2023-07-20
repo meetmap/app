@@ -1,23 +1,25 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { Address } from "react-native-maps";
 
 interface InitialState {
-    viewState: ViewState | null
+    // viewState: ViewState | null
+    addressState: Address | undefined 
 }
 
 const initialState: InitialState = {
-    viewState: null,
+    addressState: undefined,
 };
 
 const appSlice = createSlice({
     name: "appSlice",
     initialState,
     reducers: {
-        setViewState: (state, action: { payload: ViewState }) => {
-            state.viewState = action.payload
+        setAddressState: (state, action: { payload: Address | undefined }) => {
+            state.addressState = action.payload
         },
     },
 });
 
-export const { setViewState } = appSlice.actions;
+export const { setAddressState } = appSlice.actions;
 
 export default appSlice.reducer;

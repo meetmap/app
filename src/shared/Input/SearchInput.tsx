@@ -38,7 +38,16 @@ const StyledInputStatus = styled(View)`
     left: 16px;
     display: flex;
 `
-const StyledInputIcon = styled(StyledInputStatus)``
+const StyledInputIcon = styled(StyledInputStatus)`
+    position: absolute;
+    top: 0;
+    left: 16px;
+    bottom: 0;
+    z-index: 1;
+    margin-top: auto;
+    margin-bottom: auto;
+    justify-content: center;
+`
 
 const StyledPrimaryInput = styled(TextInput)`
     width: 100%;

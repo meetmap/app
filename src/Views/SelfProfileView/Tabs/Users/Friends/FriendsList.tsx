@@ -5,7 +5,7 @@ import LoaderContainer from "../../../../../shared/LoaderContainer";
 import TextStatus from "../../../../../shared/TextStatus";
 import UserDataInList from "../../../../../shared/Profile/UserDataInList";
 import styled from "styled-components/native";
-import { ScrollView } from "react-native";
+import { FlatList, ScrollView } from "react-native";
 
 const FriendsList = ({ friendListType, setFriendListType }: { friendListType: string, setFriendListType: Dispatch<SetStateAction<string>> }) => {
 
@@ -39,8 +39,8 @@ const FriendsList = ({ friendListType, setFriendListType }: { friendListType: st
         }
     }
 
-    if(isLoading){
-        return <LoaderContainer/>
+    if (isLoading) {
+        return <LoaderContainer />
     }
     if (choosedFriendsData().length === 0) {
         return (
@@ -48,11 +48,14 @@ const FriendsList = ({ friendListType, setFriendListType }: { friendListType: st
         )
     }
     return (
-        <StyledUsersList>
-            {choosedFriendsData().map((friend) => (
-                <UserDataInList key={friend.id} userData={friend} />
-            ))}
-        </StyledUsersList>
+        <FlatList
+            contentContainerStyle={{ paddingBottom: 25, flex: 1 }}
+            data={choosedFriendsData()}
+            horizontal={false}
+            scrollEnabled
+            renderItem={({ item }) => <UserDataInList userData={item} />}
+            keyExtractor={item => item.id}
+        />
     )
 }
 

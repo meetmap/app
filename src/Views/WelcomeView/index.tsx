@@ -4,7 +4,6 @@ import PrimaryButton from '../../shared/Buttons/PrimaryButton'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../types/NavigationProps';
 import { H1, Title } from '../../shared/Text';
-import { CustomSafeAreaView } from '../../shared/CustomSafeAreaView';
 import HorizontalLogoIcon from '../../shared/Icons/Logos/HorizontalLogoIcon';
 
 export interface IMainViewProps {
@@ -12,7 +11,6 @@ export interface IMainViewProps {
 }
 
 const WelcomeView = ({ navigation }: IMainViewProps) => {
-    console.log("aa", require('../../assets/globe.png'))
     return (
         <StyledWelcomeView>
             <StyledImageBackground
@@ -53,7 +51,7 @@ const StyledWelcomeView = styled(View)`
     flex: 1;
     background-color: black;
 `
-const StyledWelcomeViewContent = styled(CustomSafeAreaView)`
+const StyledWelcomeViewContent = styled(SafeAreaView)`
     justify-content: space-between;
     flex: 1;
     `

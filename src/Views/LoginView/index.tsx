@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useAppDispatch } from "../../store/hooks";
-import { CustomSafeAreaView } from "../../shared/CustomSafeAreaView";
 import PrimaryButton from "../../shared/Buttons/PrimaryButton";
 import { Text } from "react-native-svg";
 import { TouchableOpacity, View } from "react-native";
@@ -8,6 +7,8 @@ import { LoginUserThunk } from "../../store/slices/userSlice";
 import styled from "styled-components/native";
 import PrimaryFormInput from "../../shared/Input/PrimaryFormInput";
 import { H1, H2, Span, Title } from "../../shared/Text";
+import { SafeAreaView } from "react-native-safe-area-context";
+import SercuredFormInput from "../../shared/Input/SercuredFormInput";
 
 interface ILoginFormData {
     username: string,
@@ -88,7 +89,7 @@ const LoginView = () => {
                 </StyledAuthHeadContent>
                 <StyledFormContent>
                     <PrimaryFormInput autoComplete="username" label='Your username or e-mail' name='username' isError={errors.username} value={values.username} onChangeText={(text) => handleChange("username", text)} placeholder='Username' />
-                    <PrimaryFormInput autoComplete="current-password" label='Password' name='password' isError={errors.password} value={values.password} onChangeText={(text) => handleChange("password", text)} placeholder='Password' />
+                    <SercuredFormInput autoComplete="current-password" label='Password' name='password' isError={errors.password} value={values.password} onChangeText={(text) => handleChange("password", text)} placeholder='Password' />
                     <TouchableOpacity>
                         <Span textcolor="Primary">
                             Forgot password
@@ -107,7 +108,7 @@ const LoginView = () => {
 export default LoginView
 
 
-const StyledLoginViewContainer = styled(CustomSafeAreaView)`
+const StyledLoginViewContainer = styled(SafeAreaView)`
     background-color: #F2F5FA;
     flex: 1;
     justify-content: space-between;

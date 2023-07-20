@@ -1,19 +1,19 @@
-import { useAppDispatch } from "../../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import CubeButton from "../../../shared/Buttons/CubeButton";
 import SearchIcon from "../../../shared/Icons/SearchIcon";
 import { Image, TouchableOpacity, View } from "react-native";
 import styled from "styled-components/native";
 import { IMainViewProps } from "..";
+import { SafeAreaView } from "react-native-safe-area-context";
+import LoadableProfileImage from "../../../shared/LoadableImage/LoadableProfileImage";
 
 const BottomControlls = ({ navigation }: IMainViewProps) => {
-
+    const profilePic = useAppSelector(state => state.userSlice.user?.profilePicture)
     return (
         <StyledBottomControlls>
             <CubeButton onPress={() => navigation.navigate('FilterModalView')}><SearchIcon /></CubeButton>
             <StyledProfileButton onPress={() => navigation.navigate('SelfProfileView')}>
-                <StyledProfileButtonImage source={{
-                    uri: 'https://reactnative.dev/img/tiny_logo.png',
-                }} />
+                <LoadableProfileImage containerSize={56} containerBorderRadius={18}  profilePicture={profilePic}  />
             </StyledProfileButton>
             <StyledCubeButton>
             </StyledCubeButton>
@@ -23,7 +23,11 @@ const BottomControlls = ({ navigation }: IMainViewProps) => {
 
 export default BottomControlls
 
-const StyledBottomControlls = styled(View)`
+const StyledBottomControlls = styled(SafeAreaView)`
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
     flex-direction: row;
     justify-content: center;
     gap: 36px;
@@ -31,7 +35,8 @@ const StyledBottomControlls = styled(View)`
 `
 
 const StyledProfileButton = styled(TouchableOpacity)`
-    padding: 5px;
+    align-items: center;
+    justify-content: center;
     background-color: white;
     border-radius: 22px;
     height: 64px;

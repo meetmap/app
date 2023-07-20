@@ -1,9 +1,7 @@
 import { ActionSheetIOS } from "react-native";
 import { IPartialUser } from "../../../types/users";
 
-const UserInListActions = ({ userData }: {
-    userData: IPartialUser
-}) => {
+const UserInListActions = (userData: IPartialUser) => {
     ActionSheetIOS.showActionSheetWithOptions(
         {
             options: ['Cancel', 'Remove from friends', 'Share profile', 'Disable geolocation', 'See on map'],

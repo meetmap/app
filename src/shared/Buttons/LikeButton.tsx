@@ -40,7 +40,7 @@ const StyledLikeButton = styled(TouchableOpacity) <{ active: boolean }>`
     left: 16px;
     bottom: 16px;
     /* background: ${props => props.active ? "linear-gradient(180deg, rgba(255, 85, 47, 0.665) 0%, rgba(255, 64, 64, 0.699) 65.04%)" : "rgba(184, 199, 229, 0.25)"}; */
-    background-color: red;
+    background-color: #a17f7f55;
     transition: background 0.4s ease;
     padding: 12px;
     border-radius: 16px;

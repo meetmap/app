@@ -2,11 +2,13 @@ import styled from "styled-components/native";
 import { IPartialUser, IUserSelf } from "../../types/users";
 import { Image, View } from "react-native";
 import { H1, P } from "../Text";
+import LoadableImage from "../LoadableImage/LoadableImage";
+import LoadableProfileImage from "../LoadableImage/LoadableProfileImage";
 // import AppIcon from '../../assets/appIcon.png'
 const UserProfileInfo = ({ userData }: { userData: IPartialUser | IUserSelf }) => {
   return (
     <StyledUserInfoHead>
-      <StyledUserIcon borderRadius={50} width={100} height={100} source={{ uri: userData.profilePicture }} />
+      <LoadableProfileImage profilePicture={userData.profilePicture}/>
       <StyledUserTextInfo>
         <StyledUserTextGeneralInfo>
           {userData.name && <H1>{userData.name}</H1>}
@@ -31,13 +33,9 @@ const StyledUserInfoHead = styled(View)`
   justify-content: center;
   align-items: center;
   gap: 10px;
+  padding: 16px;
 `;
 
-const StyledUserIcon = styled(Image)`
-  width: 100px;
-  height: 100px;
-  background-color: black;
-`;
 const StyledUserTextInfo = styled(View)`
   align-items: center;
   display: flex;

@@ -1,5 +1,4 @@
-import { Dispatch, SetStateAction } from "react";
-import { ActionSheetIOS } from "react-native/Libraries/ActionSheetIOS/ActionSheetIOS"
+import { ActionSheetIOS } from "react-native";
 import { IEvent } from "../../../types/event";
 
 const OpenEventActions = (eventData: IEvent) => {
