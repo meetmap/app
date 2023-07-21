@@ -12,6 +12,7 @@ export type RootStackParamList = {
     MainView: undefined;
 
     EventModalView: { eventId: string }
+    MyBottomSheet: undefined
 
     ProfileView: { name: string; }; // a screen that we are 
     // navigating to, in the current screen,

@@ -1,72 +1,125 @@
-import { LegacyRef, RefObject, useEffect, useRef, useState } from "react";
-import { Alert, Linking, PermissionsAndroid, Platform, Text, ToastAndroid, View } from "react-native"
+import { LegacyRef, RefObject, createContext, useCallback, useEffect, useRef, useState } from "react";
 import MapView, { Details, Marker, Region } from "react-native-maps"
-import Geolocation, { GeoPosition } from 'react-native-geolocation-service';
-import useLocation from "../../../hooks/useLocation";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 import { setAddressState } from "../../../store/slices/mapSlice";
+import UserMarker from "./UserMarker";
+import { useMap } from "../../../hooks/MapProvider";
+import { debounce } from "lodash";
+import { Dimensions } from "react-native";
+import { getEventsByLocationThunk } from "../../../store/slices/eventsSlice";
+import useSupercluster, { ClusterPoint } from "../../../hooks/useSuperCluster";
+import EventsClusters from "./EventsClusters";
+import { IEvent } from "../../../types/event";
+import { store } from "../../../store/store";
+
 
 const MapContent = () => {
+    const { mapViewRef } = useMap();
     const { userCoordinates } = useAppSelector(state => state.locationSlice)
-    // type Camera = {
-    //     center: {
-    //        latitude: number,
-    //        longitude: number,
-    //    },
-    //    pitch: number,
-    //    heading: number,
-
-    //    // Only on iOS MapKit, in meters. The property is ignored by Google Maps.
-    //    altitude: number,
-
-    //    // Only when using Google Maps.
-    //    zoom: number
-    // }
-    const [location, setLocation] = useState()
-    // const { getLocation } = useLocation()
-    // useEffect(() => {
-    //     const location =  getLocation()
-
-    // }, [third])
-
-    const initialRegion = {
-        latitude: 37.78825,
-        longitude: -122.4324,
-        latitudeDelta: 0.0922,
-        longitudeDelta: 0.0421,
-    };
 
     const dispatch = useAppDispatch()
-    const mapRef = useRef<MapView>(null)
+    const [clusters, setClusters] = useState<ClusterPoint[]>([])
+
+    const toGeoJson = (payload: IEvent[]) => {
+        return payload.map(feature => ({
+            type: 'Feature' as "Feature",
+            properties: {
+              cluster: false,
+              data: feature,
+              picture: [feature.picture]
+            },
+            geometry: {
+              type: 'Point' as "Point",
+              coordinates: [
+                feature.location.coordinates.coordinates[0],
+                feature.location.coordinates.coordinates[1]
+              ]
+            }
+          }));
+    }
+    // const [geoJsonEvent, setgeoJsonEvent] = useState([])
     const handleRegionChangeComplete = async (region: Region, details: Details) => {
-        const data = await mapRef.current?.addressForCoordinate({latitude: region.latitude, longitude: region.longitude})
+        const data = await mapViewRef.current?.addressForCoordinate({ latitude: region.latitude, longitude: region.longitude })
         dispatch(setAddressState(data))
+        const scale = 156_543.03392 * Math.cos(region.latitude * Math.PI / 180) / 2 ** zoomLevel
+        const visibleRadius = scale * windowWidth / 2 / 1000 * 4;
+        await dispatch(getEventsByLocationThunk(
+            {
+                lat: region.latitude,
+                lng: region.longitude,
+                radius: visibleRadius
+            }
+        ))
+        console.log('eblan')
     };
+
+
+    // const eventsData = useAppSelector(state => state.eventsSlice.eventsGeo)
+
+    const windowWidth = Dimensions.get('window').width;
+    const [bounds, setBounds] = useState<[number, number, number, number] | undefined>(undefined)
+    const [zoomLevel, setZoomLevel] = useState(20)
+
+    const handleRegionChange = 
+        debounce(async (region: Region) => {
+            // const scale = 156_543.03392 * Math.cos(region.latitude * Math.PI / 180) / 2 ** zoomLevel
+            // const visibleRadius = scale * windowWidth / 2 / 1000 * 4;
+
+            // const eventsData =  await dispatch(getEventsByLocationThunk(
+            //     {
+            //         lat: region.latitude,
+            //         lng: region.longitude,
+            //         radius: visibleRadius
+            //     }
+            // ))
+            // const geoJsonData = toGeoJson(eventsData.payload as IEvent[])
+
+            const zoomLevelI = Math.log2(360 * (windowWidth / 256 / region.longitudeDelta)) + 1;
+            setZoomLevel(zoomLevelI);
+            const boundsData = await mapViewRef.current?.getMapBoundaries();
+            if (!boundsData) {
+                return
+                // setBounds();
+            }
+            const clustersData = useSupercluster({
+                points: store.getState().eventsSlice.eventsGeo,
+                bounds: [boundsData?.southWest.longitude - 0.02, boundsData?.southWest.latitude - 0.02, boundsData?.northEast.longitude + 0.02, boundsData?.northEast.latitude + 0.02],
+                zoom: zoomLevel,
+                options: {
+                    radius: 75,
+                    maxZoom: 40,
+                    minZoom: 2,
+                    reduce: (accumulated, props) => {
+                        // Объедините массивы изображений из каждой точки и кластера
+                        accumulated.picture = [...accumulated.picture, ...props.picture];
+                    },
+                },
+            });
+    
+            setClusters(clustersData)
+        }, 300, {maxWait: 300})
+
 
 
     return (
         <MapView
-            ref={mapRef}
+            ref={mapViewRef}
             style={{ flex: 1 }}
             showsCompass={false}
-            // initialRegion={{
-            //     latitude: userCoordinates?.lat || 0,
-            //     longitude: userCoordinates?.lng || 0,
-            //     latitudeDelta: 0.0922,
-            //     longitudeDelta: 0.0421,
-            // }}
+            initialRegion={{
+                latitude: userCoordinates?.lat || 0,
+                longitude: userCoordinates?.lng || 0,
+                latitudeDelta: 0.0922,
+                longitudeDelta: 0.0421,
+            }}
 
             userInterfaceStyle={"light"}
             showsPointsOfInterest={false}
+            onRegionChange={handleRegionChange}
             onRegionChangeComplete={handleRegionChangeComplete}
         >
-
-            {/* <Marker>
-                <View style={{ backgroundColor: "red", padding: 10 }}>
-                    <Text>SF</Text>
-                </View>
-            </Marker> */}
-            {/* <EventsClusters clusters={clusters}/> */}
+            <EventsClusters clusters={clusters} />
+            <UserMarker />
         </MapView >
     )
 

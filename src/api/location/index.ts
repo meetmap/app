@@ -1,21 +1,28 @@
+import { ICoordinates, ILocation } from "../../types/location";
 import { getAxios } from "../axios";
 
 export interface UpdateUserLocationResponse {
-  lat: number;
-  lng: number;
+  cid: string
+  id: string
+  location: ICoordinates
 }
+
+
 export const updateUserLocation = async ({
   lat,
   lng,
 }: {
   lat: number;
   lng: number;
-}): Promise<UpdateUserLocationResponse> => {
+}): Promise<ICoordinates> => {
   const { data } = await getAxios("location-service", true).post<UpdateUserLocationResponse>("/location/update", {
     lat,
     lng,
   });
-  return data;
+  return {
+    lat: data.location.lat,
+    lng: data.location.lng
+  };
 };
 
 export interface GetFriendsLocationResponse {

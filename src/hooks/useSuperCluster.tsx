@@ -1,10 +1,10 @@
 import { debounce } from 'lodash';
-import { useState, useEffect, useRef } from 'react';
-import Supercluster, { PointFeature, AnyProps, ClusterProperties } from 'supercluster';
+import { useState, useEffect, useMemo, useRef } from 'react';
+import Supercluster, { PointFeature, ClusterFeature, AnyProps, ClusterProperties } from 'supercluster';
 
 type Position = [number, number] | [number, number, number];
 
-interface ClusterPoint {
+export interface ClusterPoint {
   type: 'Feature';
   geometry: {
     type: 'Point';
@@ -31,38 +31,23 @@ type UseSuperclusterProps = {
   options: Options;
 };
 
-function useSupercluster({
+function getClusters({
   points,
   bounds,
   zoom,
   options,
-}: UseSuperclusterProps) {
-    const [clusters, setClusters] = useState<ClusterPoint[]>([]);
-    const superclusterRef = useRef<Supercluster<Readonly<AnyProps>, ClusterProperties> | null>(null);
-  
-    useEffect(() => {
-      superclusterRef.current = new Supercluster(options);
-      superclusterRef.current.load(points);
-    }, [points, options]);
-  
-    useEffect(() => {
-        if (!bounds || !superclusterRef.current) {
-          return;
-        }
-        const debouncedUpdateClusters = debounce(() => {
-          const [west, south, east, north] = bounds;
-          const clusters = superclusterRef.current!.getClusters([west, south, east, north], zoom);
-          setClusters(clusters as ClusterPoint[]);
-        }, 300);
-  
-        debouncedUpdateClusters();
-  
-        // Очистка функции при завершении
-        return () => {
-          debouncedUpdateClusters.cancel();
-        };
-      }, [bounds, zoom]);
-    return { clusters, supercluster: superclusterRef.current };
+}: UseSuperclusterProps) : ClusterPoint[] {
+  const supercluster = new Supercluster(options);
+  supercluster.load(points);
+
+  if (!bounds) {
+    return []
+  }
+  console.log('zalupa')
+  const [west, south, east, north] = bounds;
+  const clusters = supercluster.getClusters([west, south, east, north], zoom) as ClusterPoint[];
+
+  return clusters ;
 }
 
-export default useSupercluster;
+export default getClusters;

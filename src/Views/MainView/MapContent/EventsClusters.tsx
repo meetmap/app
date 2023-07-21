@@ -1,10 +1,10 @@
-import ClusterEventPin from '@shared/Pins/ClusterEventPin'
-import EventPin from '@shared/Pins/EventPin'
-import { AnimatePresence } from 'framer-motion'
-import React, { useMemo } from 'react'
-import { Marker } from 'react-map-gl'
+import { Marker } from "react-native-maps"
+import EventPin from "../../../shared/Pins/EventPin"
+import { ClusterPoint } from "../../../hooks/useSuperCluster"
+import ClusterEventPin from "../../../shared/Pins/ClusterEventPin"
 
-const EventsClusters = ({ clusters }) => {
+const EventsClusters = ({ clusters }: {clusters: ClusterPoint[]}) => {
+    // console.log("clustersChanged")
     return (
         <>
             {clusters.map((cluster, index) => {
@@ -13,8 +13,10 @@ const EventsClusters = ({ clusters }) => {
                     return (
                         <Marker
                             key={`cluster${cluster.properties.data.id, index}`}
-                            longitude={long}
-                            latitude={lat}
+                            coordinate={{
+                                latitude: lat,
+                                longitude: long
+                            }}
                         >
                             <ClusterEventPin
                                 eventData={cluster.properties.data}
@@ -28,8 +30,10 @@ const EventsClusters = ({ clusters }) => {
                 return (
                     <Marker
                         key={`pin${cluster.properties.data.id}`}
-                        longitude={long}
-                        latitude={lat}
+                        coordinate={{
+                            latitude: lat,
+                            longitude: long
+                        }}
                     >
                         <EventPin eventData={cluster.properties.data} />
                     </Marker>

@@ -3,6 +3,7 @@ import { Alert, Linking, PermissionsAndroid, Platform, ToastAndroid } from "reac
 import Geolocation, { GeoPosition } from 'react-native-geolocation-service';
 import { useAppDispatch } from "../store/hooks";
 import { updateUserLocationThunk } from "../store/slices/locationSlice";
+import { ICoordinates } from "../types/location";
 
 const useLocation = () => {
     const [forceLocation, setForceLocation] = useState(true);
@@ -114,13 +115,13 @@ const useLocation = () => {
         const hasPermission = await hasLocationPermission();
 
         if (!hasPermission) {
-            return;
+            return null;
         }
 
         Geolocation.getCurrentPosition(
             position => {
-                dispatch(updateUserLocationThunk({lat: position.coords.latitude, lng: position.coords.longitude}));
-                console.log(position);
+                dispatch(updateUserLocationThunk({ lat: position.coords.latitude, lng: position.coords.longitude }));
+                // return {lat: position.coords.latitude, lng: position.coords.longitude}
             },
             error => {
                 Alert.alert(`Code ${error.code}`, error.message);
@@ -146,7 +147,7 @@ const useLocation = () => {
     const getLocationUpdates = async () => {
         const hasPermission = await hasLocationPermission();
 
-        if(watchId.current){
+        if (watchId.current) {
             return
         }
         if (!hasPermission) {
@@ -161,7 +162,7 @@ const useLocation = () => {
 
         watchId.current = Geolocation.watchPosition(
             position => {
-                dispatch(updateUserLocationThunk({lat: position.coords.latitude, lng: position.coords.longitude}));
+                dispatch(updateUserLocationThunk({ lat: position.coords.latitude, lng: position.coords.longitude }));
                 // console.log("pos", position);
             },
             error => {

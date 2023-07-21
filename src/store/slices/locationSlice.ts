@@ -6,6 +6,7 @@ const debouncedUpdateUserLocation = debounce(updateUserLocation, 500);
 
 interface LocationState {
   userCoordinates: ICoordinates | null;
+  userCoordsUpdated: boolean
   friendsCoordinates: GetFriendsLocationResponse[];
 }
 
@@ -16,6 +17,7 @@ export interface ICoordinates {
 
 const initialState: LocationState = {
   userCoordinates: null,
+  userCoordsUpdated: false,
   friendsCoordinates: [],
 };
 
@@ -26,9 +28,11 @@ const locationSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(updateUserLocationThunk.fulfilled, (state, action) => {
       state.userCoordinates = action.payload;
+      state.userCoordsUpdated = true
     });
     builder.addCase(updateUserLocationThunk.rejected, (state, action) => {
       state.userCoordinates = action.meta.arg;
+      state.userCoordsUpdated = true
     });
     builder.addCase(getUpdatedFriendsLocationThunk.fulfilled, (state, action) => {
       state.friendsCoordinates = action.payload;

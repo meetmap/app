@@ -14,19 +14,25 @@ import { store } from './src/store/store';
 import Navigator from './src/Navigator';
 import { View } from 'react-native';
 import codePush from 'react-native-code-push';
+import { MapProvider } from './src/hooks/MapProvider';
+import 'react-native-gesture-handler';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 function App(): JSX.Element {
   return (
-    
     <Provider store={store}>
-      <ThemeProvider theme={mainTheme}>
-          <NavigationContainer>
-            <Navigator />
-          </NavigationContainer>
-      </ThemeProvider>
+      <MapProvider>
+        <ThemeProvider theme={mainTheme}>
+          <GestureHandlerRootView style={{ flex: 1 }}>
+            <NavigationContainer>
+              <Navigator />
+            </NavigationContainer>
+          </GestureHandlerRootView>
+        </ThemeProvider>
+      </MapProvider>
     </Provider>
   );
 }
-let codePushOptions = {checkFrequency: codePush.CheckFrequency.ON_APP_RESUME};
+let codePushOptions = { checkFrequency: codePush.CheckFrequency.ON_APP_RESUME };
 const CodePushApp = codePush(codePushOptions)(App);
 export default CodePushApp;

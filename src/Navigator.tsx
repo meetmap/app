@@ -10,6 +10,7 @@ import FilterModalView from './Views/FilterModalView';
 import { InitializeUserThunk } from './store/slices/userSlice';
 import EventModalView from './Views/EventModalView';
 import WelcomeLoaderView from './Views/WelcomeLoaderView';
+import MyBottomSheet from './Views/MyBottomSheet';
 
 const Stack = createNativeStackNavigator();
 
@@ -22,9 +23,10 @@ const Navigator = () => {
     return (
         <Stack.Navigator
             screenOptions={{
-                contentStyle: {
-                    backgroundColor: "white"
-                }
+            
+                // contentStyle: {
+                //     backgroundColor: "white"
+                // }
             }}
 
         >
@@ -40,6 +42,14 @@ const Navigator = () => {
                         <Stack.Screen options={{ presentation: "modal", headerShown: false }} name='FilterModalView' component={FilterModalView} />
                         <Stack.Screen name="ProfileView" component={ProfileView} />
                         <Stack.Screen options={{ title: "Your Profile" }} name="SelfProfileView" component={SelfProfileView} />
+                        <Stack.Screen
+                            name={"MyBottomSheet"}
+                            component={MyBottomSheet}
+                            options={{
+                                headerShown: false,
+                                presentation: "transparentModal",
+                            }}
+                        />
                     </Stack.Group>
                     :
                     <Stack.Group>

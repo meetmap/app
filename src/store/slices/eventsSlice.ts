@@ -39,7 +39,6 @@ export const getEventsByLocationThunk = createAsyncThunk<
   }
 >("events/location", async (payload, { rejectWithValue }) => {
   const data = await getAllNearEvents(payload);
-
   return data;
 });
 

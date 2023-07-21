@@ -15,7 +15,7 @@ const BottomControlls = ({ navigation }: IMainViewProps) => {
             <StyledProfileButton onPress={() => navigation.navigate('SelfProfileView')}>
                 <LoadableProfileImage containerSize={56} containerBorderRadius={18}  profilePicture={profilePic}  />
             </StyledProfileButton>
-            <StyledCubeButton>
+            <StyledCubeButton onPress={() => navigation.navigate('MyBottomSheet')}>
             </StyledCubeButton>
         </StyledBottomControlls>
     )
