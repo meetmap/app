@@ -19,7 +19,6 @@ const Friends = ({ searchUsersInputData }: { searchUsersInputData: string | null
                         <Span textcolor="Primary">Lists</Span><VerticalArrowSmIcon />
                     </StyledListsButton>
                 </StyledUsersListInfo>
-                <Line />
                 <FriendsList friendListType={friendListType} setFriendListType={setFriendListType} />
             </>
         )

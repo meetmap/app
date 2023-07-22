@@ -1,12 +1,11 @@
 import * as React from "react"
-import { ActivityIndicator, Image, View } from "react-native"
+import { ActivityIndicator, Image, TouchableOpacity, View } from "react-native"
 import Svg, { SvgProps, Path, Rect, Mask } from "react-native-svg"
 import styled from "styled-components"
 import LoadableProfileImage from "../LoadableImage/LoadableProfileImage"
 import { useState } from "react"
 import { useNavigation } from "@react-navigation/native"
 import { NavigationProps } from "../../types/NavigationProps"
-import { TouchableOpacity } from "react-native-gesture-handler"
 
 interface IUserPin extends SvgProps {
     profilePicture: string | undefined
@@ -28,4 +27,5 @@ const StyledUserPinView = styled(TouchableOpacity)`
     background-color: black;
     border-radius: 36px;
     padding: 1px;
+
 `

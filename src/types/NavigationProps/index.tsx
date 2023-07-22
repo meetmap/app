@@ -17,14 +17,11 @@ export type RootStackParamList = {
     ProfileView: { userId: string, username: string }; // a screen that we are 
     // navigating to, in the current screen,
     // that we should pass a prop named `slug` to it
+    SettingsView: undefined
 
     FilterModalView: undefined;
 
     SelfProfileView: undefined;
-
-    ScreenThree: { data: Array<string> };
-
-    ScreenFour: undefined;
 };
 
 

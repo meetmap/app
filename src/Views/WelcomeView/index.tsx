@@ -34,8 +34,8 @@ const WelcomeView = ({ navigation }: IMainViewProps) => {
                         </StyledHeadText>
                     </StyledHeadContent>
                     <StyledBottomContent>
-                        <PrimaryButton onPress={() => navigation.navigate("RegisterView")} btnType='White'>Sign up</PrimaryButton>
-                        <PrimaryButton onPress={() => navigation.navigate("LoginView")} btnType='Black'>Sign in</PrimaryButton>
+                        <PrimaryButton onPress={() => navigation.navigate("RegisterView")} btnType='White' title='Sign up' />
+                        <PrimaryButton onPress={() => navigation.navigate("LoginView")} btnType='Black' title='Sign in' />
                     </StyledBottomContent>
                 </StyledWelcomeViewContent>
             </StyledImageBackground>

@@ -9,13 +9,15 @@ export type ButtonType = "Primary" | "Secondary" | "White" | "Black"
 export interface IPrimaryButton extends TouchableOpacityProps {
     btnType?: ButtonType,
     textColor?: TextcolorsType
-    children: ReactNode
+    children?: ReactNode
+    title?: string
 }
 
-const PrimaryButton = ({ children, btnType = "Primary", textColor, ...rest }: IPrimaryButton) => {
+const PrimaryButton = ({ children, btnType = "Primary", title, textColor, ...rest }: IPrimaryButton) => {
     return (
         <StyledPrimaryButton btnType={btnType} {...rest }>
-            <StyledPrimaryButtonText textColor={textColor} btnType={btnType}>{children}</StyledPrimaryButtonText>
+            {children}
+            <StyledPrimaryButtonText textColor={textColor} btnType={btnType}>{title}</StyledPrimaryButtonText>
         </StyledPrimaryButton>
     )
 }
@@ -23,7 +25,7 @@ const PrimaryButton = ({ children, btnType = "Primary", textColor, ...rest }: IP
 export default PrimaryButton
 
 const StyledPrimaryButton = styled(TouchableOpacity) <{ btnType: ButtonType }>`
-    display: flex;
+    flex-direction: row;
     padding: 20px 24px;
     justify-content: center;
     align-items: center;

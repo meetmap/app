@@ -13,6 +13,7 @@ import { RootStackParamList } from '../../types/NavigationProps'
 import TicketIcon from '../../shared/Icons/TicketIcon'
 import PrimarySmallButton from '../../shared/Buttons/PrimarySmallButton'
 import LoaderContainer from '../../shared/LoaderContainer'
+import PrimaryMediumButton from '../../shared/Buttons/PrimaryMediumButton'
 
 
 export interface IEventModalViewProps {
@@ -44,18 +45,18 @@ const EventModalView = (props: IEventModalViewProps) => {
             });
         }
     };
-    if(eventDataLoading){
+    if (eventDataLoading) {
         return (
-            <LoaderContainer/>
+            <LoaderContainer />
         )
     }
     if (eventData)
         return (
-            <View >
+            <View>
                 <StyledEventModalContent>
                     <StyledEventImgContainer>
                         <LoadableImage source={{ uri: eventData.picture }} />
-                        <LikeButton eventId={eventData.id} isLiked={false} />
+                        <LikeButton eventId={eventData.id} isLiked={eventData.userStats.isUserLike} />
                     </StyledEventImgContainer>
                     <EventInfoContainer>
                         <StyledEventInfoHead>
@@ -73,11 +74,11 @@ const EventModalView = (props: IEventModalViewProps) => {
                         </P>
                     </EventInfoContainer>
                     <StyledEventFooter>
-                        <PrimaryButton onPress={handleBuyTicketOpenLink} btnType='Primary'><TicketIcon />Buy tickets</PrimaryButton>
+                        <PrimaryMediumButton onPress={handleBuyTicketOpenLink} btnType='Primary' title='Buy tickets'><TicketIcon /></PrimaryMediumButton>
                         <StyledEventFooterActions>
-                            <PrimarySmallButton btnType='Secondary'>Invite friend</PrimarySmallButton>
-                            <PrimarySmallButton btnType='Secondary'>See who goes</PrimarySmallButton>
-                            <PrimarySmallButton btnType='Secondary'>I will go</PrimarySmallButton>
+                            <PrimaryMediumButton style={{flex: 1}} btnType='Secondary' title='Invite friend' />
+                            <PrimaryMediumButton style={{flex: 1}} btnType='Secondary' title='See who goes' />
+                            <PrimaryMediumButton style={{flex: 1}} btnType='Secondary' title='I will go' />
                         </StyledEventFooterActions>
                     </StyledEventFooter>
                 </StyledEventModalContent>

@@ -4,8 +4,8 @@ import { Path, Svg } from 'react-native-svg'
 const MoreIcon = () => {
     return (
         <Svg
-        width={20}
-        height={18}
+        width={21}
+        height={21}
         fill="none"
       >
         <Path

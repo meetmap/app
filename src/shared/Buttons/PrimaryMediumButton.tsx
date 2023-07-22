@@ -1,15 +1,18 @@
 import styled from "styled-components/native";
 import React, { ReactNode } from 'react'
 import { TextcolorsType } from "../Text";
-import {Text, TouchableOpacity, TouchableOpacityProps } from "react-native";
+import { Text, TouchableOpacity, TouchableOpacityProps } from "react-native";
 import { IPrimaryButton } from "./PrimaryButton";
 
 export type ButtonType = "Primary" | "Secondary" | "White" | "Black"
 
-const PrimaryMediumButton = ({ children, btnType = "Primary", textColor, ...rest }: IPrimaryButton) => {
+const PrimaryMediumButton = ({ children, btnType = "Primary", title, textColor, ...rest }: IPrimaryButton) => {
     return (
-        <StyledPrimaryButton btnType={btnType} {...rest }>
-            <StyledPrimaryButtonText textColor={textColor} btnType={btnType}>{children}</StyledPrimaryButtonText>
+        <StyledPrimaryButton btnType={btnType} {...rest}>
+            {children}
+            {title &&
+                <StyledPrimaryButtonText textColor={textColor} btnType={btnType}>{title}</StyledPrimaryButtonText>
+            }
         </StyledPrimaryButton>
     )
 }
@@ -17,6 +20,7 @@ const PrimaryMediumButton = ({ children, btnType = "Primary", textColor, ...rest
 export default PrimaryMediumButton
 
 const StyledPrimaryButton = styled(TouchableOpacity) <{ btnType: ButtonType }>`
+    flex-direction: row;
     padding: 12px 12px;
     justify-content: center;
     align-items: center;
@@ -27,7 +31,7 @@ const StyledPrimaryButton = styled(TouchableOpacity) <{ btnType: ButtonType }>`
     border-radius: 8px;
 `
 
-const StyledPrimaryButtonText = styled(Text)<{btnType: ButtonType, textColor?: TextcolorsType}>`
+const StyledPrimaryButtonText = styled(Text) <{ btnType: ButtonType, textColor?: TextcolorsType }>`
     color: ${props => props.textColor ? props.theme.colors.TEXT[props.textColor] : props.theme.colors.BUTTON[props.btnType].TextDefault};
     font-size: 14px;
     font-style: normal;

@@ -10,9 +10,9 @@ import { flyTo } from "../../hooks/useFlyTo";
 
 const EventPin = ({ eventData }: { eventData: IEvent }) => {
     const navigation = useNavigation<NavigationProps>();
-    
+    const { mapViewRef } = useMap();
     const checkEvent = () => {
-        flyTo(eventData.location.coordinates.coordinates[1], eventData.location.coordinates.coordinates[0])
+        flyTo(eventData.location.coordinates.coordinates[1], eventData.location.coordinates.coordinates[0], mapViewRef)
         navigation.navigate("EventModalView", { eventId: eventData.id })
     }
     return (

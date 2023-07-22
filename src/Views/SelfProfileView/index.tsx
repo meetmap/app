@@ -24,22 +24,20 @@ const Tab = createMaterialTopTabNavigator();
 
 const SelfProfileView = ({ navigation }: ISelfProfileViewProps) => {
     const selfUserData = useAppSelector(state => state.userSlice.user)
-    const {mapViewRef} = useMap()
+    const { mapViewRef } = useMap()
     if (!selfUserData) {
         return null
     }
     return (
-        <View style={{height: "100%", backgroundColor: "white" }}>
+        <View style={{ height: "100%", backgroundColor: "white" }}>
             <UserProfileInfo userData={selfUserData} />
             <StyledProfileActions>
                 {/* <PrimaryMediumButton style={{flex: 1}} btnType='Secondary'>
                     Create Event
                 </PrimaryMediumButton> */}
-                <PrimaryMediumButton style={{flex: 1}} btnType='Secondary'>
-                    Invite friend
-                </PrimaryMediumButton>
+                <PrimaryMediumButton style={{ flex: 1 }} btnType='Secondary' title='Invite friend' />
                 <PrimaryMediumButton btnType='Secondary' onPress={() => SelfProfileActions(selfUserData)}>
-                    <MoreIcon/>
+                    <MoreIcon />
                 </PrimaryMediumButton>
             </StyledProfileActions>
             <Tab.Navigator

@@ -29,6 +29,7 @@ export type FriendshipStatusType = "add-friend" | "requested" | "pending" | "rej
 
 export interface IPartialUser {
   friendshipStatus: FriendshipStatusType;
+  friends: IUserWithoutFriends[]
   id: string;
   email: string; // Email address
   phone?: string; // Phone number

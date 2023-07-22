@@ -56,5 +56,5 @@ export default LikedEvents
 const StyledLikedEventsContainer = styled(View)`
     background-color: white;
     flex: 1;
-    padding: 16px;
+    padding: 0 16px;
 `

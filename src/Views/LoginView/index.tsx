@@ -98,7 +98,7 @@ const LoginView = () => {
                 </StyledFormContent>
             </StyledInputsContent>
             <StyledButtonContent>
-                <PrimaryButton onPress={handleSubmit} btnType='Primary'>Submit</PrimaryButton>
+                <PrimaryButton onPress={handleSubmit} btnType='Primary' title="Submit" />
                 {/* <LoginFacebook /> */}
             </StyledButtonContent>
         </StyledLoginViewContainer>

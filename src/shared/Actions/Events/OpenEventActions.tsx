@@ -3,9 +3,10 @@ import { IEvent } from "../../../types/event";
 import { flyTo } from "../../../hooks/useFlyTo";
 import { useNavigation } from "@react-navigation/native";
 import { NavigationProps } from "../../../types/NavigationProps";
+import { RefObject } from "react";
+import MapView from "react-native-maps";
 
-const OpenEventActions = (eventData: IEvent) => {
-  const navigation = useNavigation<NavigationProps>();
+const OpenEventActions = (eventData: IEvent, mapViewRef: RefObject<MapView>, navigation: NavigationProps) => {
   ActionSheetIOS.showActionSheetWithOptions(
     {
       options: ['Cancel', 'Share', 'See on map'],
@@ -16,8 +17,8 @@ const OpenEventActions = (eventData: IEvent) => {
         // cancel action
       } else if (buttonIndex === 1) {
       } else if (buttonIndex === 2) {
-        flyTo(eventData.location.coordinates.coordinates[1], eventData.location.coordinates.coordinates[0])
-        navigation.navigate("EventModalView", { eventId: eventData.id })
+        navigation.navigate("MainView")
+        flyTo(eventData.location.coordinates.coordinates[1], eventData.location.coordinates.coordinates[0], mapViewRef)
       }
     },
   );

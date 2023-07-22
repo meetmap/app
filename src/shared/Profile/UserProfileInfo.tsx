@@ -8,13 +8,17 @@ import LoadableProfileImage from "../LoadableImage/LoadableProfileImage";
 const UserProfileInfo = ({ userData }: { userData: IPartialUser | IUserSelf }) => {
   return (
     <StyledUserInfoHead>
-      <LoadableProfileImage profilePicture={userData.profilePicture}/>
+      <LoadableProfileImage profilePicture={userData.profilePicture} />
       <StyledUserTextInfo>
         <StyledUserTextGeneralInfo>
           {userData.name && <H1>{userData.name}</H1>}
-          <P textcolor="Primary">{`@${userData.username}`}</P>
+          <StyledUserProfileInfo>
+            <P textcolor="Primary">{`@${userData.username}`}</P>
+            <P textcolor="Grey">•</P>
+            <P textcolor="Grey">{`${userData.friends.length} friends`}</P>
+          </StyledUserProfileInfo>
         </StyledUserTextGeneralInfo>
-        {userData.description && <P textcolor="Grey" style={{textAlign: "center", paddingHorizontal: 18}}>{userData.description}</P>}
+        {userData.description && <P textcolor="Grey" style={{ textAlign: "center", paddingHorizontal: 18 }}>{userData.description}</P>}
       </StyledUserTextInfo>
       {/* <StyledSocialNetworks>
         <InstagramIcon />
@@ -35,20 +39,22 @@ const StyledUserInfoHead = styled(View)`
   gap: 10px;
   padding: 16px;
 `;
-
 const StyledUserTextInfo = styled(View)`
   align-items: center;
   display: flex;
-  gap: 6px;
+  gap: 8px;
   flex-direction: column;
   text-align: center;
   padding: 0 22px;
 `;
+const StyledUserProfileInfo = styled(View)`
+  flex-direction: row;
+  gap: 4px;
+`
 const StyledUserTextGeneralInfo = styled(View)`
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
 `;
 const StyledSocialNetworks = styled(View)`
   display: flex;

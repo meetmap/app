@@ -3,18 +3,14 @@ import styled from "styled-components/native";
 import React, { ButtonHTMLAttributes, ReactNode } from 'react'
 import { TextcolorsType } from "../Text";
 import { Button, ButtonProps, StyleSheet, Text, TouchableOpacity, TouchableOpacityProps, View } from "react-native";
-import { ButtonType } from "./PrimaryButton";
+import { ButtonType, IPrimaryButton } from "./PrimaryButton";
 
-interface IPrimaryButton extends TouchableOpacityProps {
-    btnType?: ButtonType,
-    textColor?: TextcolorsType
-    children: ReactNode
-}
 
-const PrimarySmallButton = ({ children, btnType = "Primary", textColor, ...rest }: IPrimaryButton) => {
+const PrimarySmallButton = ({ children, btnType = "Primary", title, textColor, ...rest }: IPrimaryButton) => {
     return (
-        <StyledPrimarySmallButton btnType={btnType} {...rest }>
-            <StyledPrimaryButtonText textColor={textColor} btnType={btnType}>{children}</StyledPrimaryButtonText>
+        <StyledPrimarySmallButton btnType={btnType} {...rest}>
+            {children}
+            <StyledPrimaryButtonText textColor={textColor} btnType={btnType}>{title}</StyledPrimaryButtonText>
         </StyledPrimarySmallButton>
     )
 }
@@ -34,7 +30,7 @@ const StyledPrimarySmallButton = styled(TouchableOpacity) <{ btnType: ButtonType
     transition: color .2s ease, border .2s ease, background .2s ease;
 `
 
-const StyledPrimaryButtonText = styled(Text)<{btnType: ButtonType, textColor?: TextcolorsType}>`
+const StyledPrimaryButtonText = styled(Text) <{ btnType: ButtonType, textColor?: TextcolorsType }>`
     color: ${props => props.textColor ? props.theme.colors.TEXT[props.textColor] : props.theme.colors.BUTTON[props.btnType].TextDefault};
     font-size: 12;
     font-style: normal;

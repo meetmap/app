@@ -11,8 +11,11 @@ import { InitializeUserThunk } from './store/slices/userSlice';
 import EventModalView from './Views/EventModalView';
 import WelcomeLoaderView from './Views/WelcomeLoaderView';
 import MyBottomSheet from './Views/MyBottomSheet';
-import { Alert, Button } from 'react-native';
-
+import { Alert, Button, TouchableOpacity } from 'react-native';
+import LoadableProfileImage from './shared/LoadableImage/LoadableProfileImage';
+import SettingsIcon from './shared/Icons/SettingsIcon';
+import GoBackArrowIcon from './shared/Icons/GoBackArrowIcon';
+import SettingsView from './Views/SettingsView';
 const Stack = createNativeStackNavigator();
 
 const Navigator = () => {
@@ -23,13 +26,13 @@ const Navigator = () => {
     }, []);
     return (
         <Stack.Navigator
-            screenOptions={{
+            screenOptions={({ navigation }) => ({
 
                 // contentStyle: {
                 //     backgroundColor: "white"
                 // }
-                headerShadowVisible: false
-            }}
+                headerShadowVisible: false,
+            })}
 
         >
             {!isLoading ?
@@ -54,17 +57,23 @@ const Navigator = () => {
                             })}
                         />
                         <Stack.Screen
-                            options={{
-                                title: "Your Profile",
+                            options={({navigation}) => ({
+                                title: "",
                                 headerRight: (data) => (
-                                    <Button
-                                        onPress={() => Alert.alert((JSON.stringify(data)))}
-                                        title="Settings"
-                                    />
+                                    <TouchableOpacity
+                                        onPress={() => navigation.navigate('SettingsView')}
+                                    >
+                                        <SettingsIcon />
+                                    </TouchableOpacity>
                                 ),
-                            }}
+
+                            })}
                             name="SelfProfileView"
                             component={SelfProfileView}
+                        />
+                        <Stack.Screen
+                            name={"SettingsView"}
+                            component={SettingsView}
                         />
                         <Stack.Screen
                             name={"MyBottomSheet"}

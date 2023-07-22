@@ -14,6 +14,7 @@ import LoadableImage from "../LoadableImage/LoadableImage";
 import { useNavigation } from "@react-navigation/native";
 import { IMainViewProps } from "../../Views/WelcomeView";
 import { NavigationProps } from "../../types/NavigationProps";
+import { useMap } from "../../hooks/MapProvider";
 
 const EventLg = ({ eventData }: { eventData: IEvent }) => {
     const distance = useCalculateDistance(
@@ -25,8 +26,10 @@ const EventLg = ({ eventData }: { eventData: IEvent }) => {
     const formattedStartTime = moment(eventData.startTime).format('MMM D - h A');
     const dispatch = useAppDispatch()
     const navigation = useNavigation<NavigationProps>();
+    const { mapViewRef } = useMap()
+
     return (
-        <StyledEventLgContainer>
+        <StyledEventLgContainer onPress={() => navigation.navigate("EventModalView", { eventId: eventData.id })}>
             <StyledEventLgImageContainer>
                 <LoadableImage source={{
                     uri: eventData.picture
@@ -34,8 +37,8 @@ const EventLg = ({ eventData }: { eventData: IEvent }) => {
                 <LikeButton eventId={eventData.id} isLiked={eventData.userStats.isUserLike} />
             </StyledEventLgImageContainer>
             <StyledAboutEventContainer>
-                <StyledAboutEventTextInfo onPress={() => navigation.navigate("EventModalView", {eventId: eventData.id})}>
-                    <H6 style={{flexWrap: "wrap"}}>
+                <StyledAboutEventTextInfo>
+                    <H6 style={{ flexWrap: "wrap" }}>
                         {eventData.title}
                         {eventData.eventType === "organizer-event" &&
                             <>
@@ -46,7 +49,7 @@ const EventLg = ({ eventData }: { eventData: IEvent }) => {
                     <Span>{distance} away from you</Span>
                     <Span>{formattedStartTime}</Span>
                 </StyledAboutEventTextInfo>
-                <StyledEventMoreAction onPress={() => OpenEventActions(eventData)}>
+                <StyledEventMoreAction onPress={() => OpenEventActions(eventData, mapViewRef, navigation)}>
                     <MoreIcon />
                 </StyledEventMoreAction>
             </StyledAboutEventContainer>
@@ -56,7 +59,7 @@ const EventLg = ({ eventData }: { eventData: IEvent }) => {
 
 export default EventLg
 
-const StyledEventLgContainer = styled(View)`
+const StyledEventLgContainer = styled(TouchableOpacity)`
     display: flex;
     flex-direction: column;
     padding: 8px 0;

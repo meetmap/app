@@ -3,7 +3,6 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import React, {useEffect} from 'react';
 import {Button, SafeAreaView, Text, View} from 'react-native';
 import {RootStackParamList} from '../../types/NavigationProps';
-import PrimaryButton from '../../shared/Buttons/PrimaryButton';
 import LikeButton from '../../shared/Buttons/LikeButton';
 import styled from 'styled-components/native';
 import BottomControlls from './BottomControlls';

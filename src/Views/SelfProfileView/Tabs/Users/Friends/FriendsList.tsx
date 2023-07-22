@@ -49,7 +49,7 @@ const FriendsList = ({ friendListType, setFriendListType }: { friendListType: st
     }
     return (
         <FlatList
-            contentContainerStyle={{ paddingBottom: 25, flex: 1 }}
+            contentContainerStyle={{ paddingBottom: 25, flex: 1, gap: 12 }}
             data={choosedFriendsData()}
             horizontal={false}
             scrollEnabled

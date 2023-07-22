@@ -47,7 +47,7 @@ const StyledUserDataInList = styled(View)`
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 8px 0;
+    /* padding: 6px 0; */
 `
 const StyledUserDataInfo = styled(TouchableOpacity)`
     flex: 1;
@@ -58,6 +58,7 @@ const StyledUserDataInfo = styled(TouchableOpacity)`
 `
 const StyledUserInfo = styled(View)`
     flex: 1;
+    gap: 4px;
 `
 const StyledUserActions = styled(View)`
 `

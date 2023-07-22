@@ -21,7 +21,7 @@ interface IPageProps {
 const ProfileView = (props: IPageProps) => {
     const [userData, setUserData] = useState<IPartialUser | null>(null)
     const [userDataLoading, setUserDataLoading] = useState<boolean>(false)
-    const {mapViewRef} = useMap()
+    const { mapViewRef } = useMap()
     const getUserDataById = async () => {
         setUserDataLoading(true)
         const userResData = await getUserById(props.route.params.userId)
@@ -32,17 +32,16 @@ const ProfileView = (props: IPageProps) => {
         getUserDataById()
     }, [props.route.params.userId])
 
+    // console.log(userData?.friends)
     if (userDataLoading) {
         return <LoaderContainer />
     }
     if (userData) {
         return (
-            <View style={{height: "100%", backgroundColor: "white" }}>
+            <View style={{ height: "100%", backgroundColor: "white" }}>
                 <UserProfileInfo userData={userData} />
                 <StyledProfileActions>
-                    <PrimaryMediumButton style={{ flex: 1 }} btnType='Secondary'>
-                        Invite to an event
-                    </PrimaryMediumButton>
+                    <PrimaryMediumButton style={{ flex: 1 }} btnType='Secondary' title='Invite to an event' />
                     <PrimaryMediumButton btnType='Secondary' onPress={() => ProfileActions(userData, mapViewRef, props.navigation)}>
                         <MoreIcon />
                     </PrimaryMediumButton>

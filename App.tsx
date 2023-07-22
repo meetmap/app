@@ -15,19 +15,15 @@ import Navigator from './src/Navigator';
 import {View} from 'react-native';
 import codePush from 'react-native-code-push';
 import {MapProvider} from './src/hooks/MapProvider';
-// import 'react-native-gesture-handler';
-// import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const App: () => JSX.Element = () => {
   return (
     <Provider store={store}>
       <MapProvider>
         <ThemeProvider theme={mainTheme}>
-          {/* <GestureHandlerRootView style={{ flex: 1 }}> */}
           <NavigationContainer>
             <Navigator />
           </NavigationContainer>
-          {/* </GestureHandlerRootView> */}
         </ThemeProvider>
       </MapProvider>
     </Provider>
