@@ -21,7 +21,7 @@ export const mainTheme = {
             },
             Secondary: {
                 BGDefault: "transparent",
-                TextDefault: "#5C5E66",
+                TextDefault: "#1A1A1A",
                 BorderDefault: "#E6EAF2"
             },
             White: {

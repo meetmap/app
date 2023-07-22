@@ -1,6 +1,13 @@
 import { ICoordinates, ILocation } from "../../types/location";
 import { getAxios } from "../axios";
 
+function newAbortSignal(timeoutMs: number) {
+  const abortController = new AbortController();
+  setTimeout(() => abortController.abort(), timeoutMs || 0);
+
+  return abortController.signal;
+}
+
 export interface UpdateUserLocationResponse {
   cid: string
   id: string
@@ -26,13 +33,17 @@ export const updateUserLocation = async ({
 };
 
 export interface GetFriendsLocationResponse {
-  userId: string;
+  id: string;
+  cid: string
+  username: string
+  name?: string
+  profilePicture: string
   location: {
     lat: number;
     lng: number;
-  } | null;
+  };
 }
 export const getUpdatedFriendsLocation = async (): Promise<GetFriendsLocationResponse[]> => {
-  const { data } = await getAxios("location-service", true).get<GetFriendsLocationResponse[]>("/friends/location");
+  const { data } = await getAxios("location-service", true).get<GetFriendsLocationResponse[]>("/location/friends", {signal: newAbortSignal(3000)});
   return data;
 };

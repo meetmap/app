@@ -50,7 +50,6 @@ const EventInListActions = ({ isOpen, setIsOpen, title, eventData }: {
     {
       options: ['Cancel', 'Share', 'See on map', 'Invite friend'],
       cancelButtonIndex: 0,
-      userInterfaceStyle: 'dark',
     },
     buttonIndex => {
       if (buttonIndex === 0) {

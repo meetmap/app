@@ -4,15 +4,18 @@ import { Alert } from 'react-native'
 const ConfirmAlert = (
     submitFunc: () => void,
     alertTitle: string,
-    alertMessage: string | undefined
+    alertMessage?: string
 ) => {
     Alert.alert(alertTitle, alertMessage, [
         {
             text: 'Cancel',
             // onPress: () => console.log('Cancel Pressed'),
-            style: 'cancel',
+            style: "cancel"
         },
-        { text: 'OK', onPress: () => submitFunc() },
+        {
+            text: 'Yes',
+            onPress: () => submitFunc(),
+        },
     ]);
 }
 

@@ -6,7 +6,6 @@ const ChooseFrendsListType = (setFriendListType: Dispatch<SetStateAction<string>
         {
             options: ['Cancel', 'Outcoming requests', 'Incoming requests', 'Friends'],
             cancelButtonIndex: 0,
-            userInterfaceStyle: 'dark',
         },
         buttonIndex => {
             if (buttonIndex === 0) {

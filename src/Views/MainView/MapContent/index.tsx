@@ -11,6 +11,7 @@ import useSupercluster, { ClusterPoint } from "../../../hooks/useSuperCluster";
 import EventsClusters from "./EventsClusters";
 import { IEvent } from "../../../types/event";
 import { store } from "../../../store/store";
+import UsersClusters from "./UsersClusters";
 
 
 const MapContent = () => {
@@ -20,24 +21,23 @@ const MapContent = () => {
     const dispatch = useAppDispatch()
     const [clusters, setClusters] = useState<ClusterPoint[]>([])
 
-    const toGeoJson = (payload: IEvent[]) => {
-        return payload.map(feature => ({
-            type: 'Feature' as "Feature",
-            properties: {
-              cluster: false,
-              data: feature,
-              picture: [feature.picture]
-            },
-            geometry: {
-              type: 'Point' as "Point",
-              coordinates: [
-                feature.location.coordinates.coordinates[0],
-                feature.location.coordinates.coordinates[1]
-              ]
-            }
-          }));
-    }
-    // const [geoJsonEvent, setgeoJsonEvent] = useState([])
+    // const toGeoJson = (payload: IEvent[]) => {
+    //     return payload.map(feature => ({
+    //         type: 'Feature' as "Feature",
+    //         properties: {
+    //           cluster: false,
+    //           data: feature,
+    //           picture: [feature.picture]
+    //         },
+    //         geometry: {
+    //           type: 'Point' as "Point",
+    //           coordinates: [
+    //             feature.location.coordinates.coordinates[0],
+    //             feature.location.coordinates.coordinates[1]
+    //           ]
+    //         }
+    //       }));
+    // }
     const handleRegionChangeComplete = async (region: Region, details: Details) => {
         const data = await mapViewRef.current?.addressForCoordinate({ latitude: region.latitude, longitude: region.longitude })
         dispatch(setAddressState(data))
@@ -50,36 +50,19 @@ const MapContent = () => {
                 radius: visibleRadius
             }
         ))
-        console.log('eblan')
     };
 
 
-    // const eventsData = useAppSelector(state => state.eventsSlice.eventsGeo)
-
     const windowWidth = Dimensions.get('window').width;
-    const [bounds, setBounds] = useState<[number, number, number, number] | undefined>(undefined)
     const [zoomLevel, setZoomLevel] = useState(20)
 
     const handleRegionChange = 
         debounce(async (region: Region) => {
-            // const scale = 156_543.03392 * Math.cos(region.latitude * Math.PI / 180) / 2 ** zoomLevel
-            // const visibleRadius = scale * windowWidth / 2 / 1000 * 4;
-
-            // const eventsData =  await dispatch(getEventsByLocationThunk(
-            //     {
-            //         lat: region.latitude,
-            //         lng: region.longitude,
-            //         radius: visibleRadius
-            //     }
-            // ))
-            // const geoJsonData = toGeoJson(eventsData.payload as IEvent[])
-
             const zoomLevelI = Math.log2(360 * (windowWidth / 256 / region.longitudeDelta)) + 1;
             setZoomLevel(zoomLevelI);
             const boundsData = await mapViewRef.current?.getMapBoundaries();
             if (!boundsData) {
                 return
-                // setBounds();
             }
             const clustersData = useSupercluster({
                 points: store.getState().eventsSlice.eventsGeo,
@@ -112,13 +95,13 @@ const MapContent = () => {
                 latitudeDelta: 0.0922,
                 longitudeDelta: 0.0421,
             }}
-
             userInterfaceStyle={"light"}
             showsPointsOfInterest={false}
             onRegionChange={handleRegionChange}
             onRegionChangeComplete={handleRegionChangeComplete}
         >
-            <EventsClusters clusters={clusters} />
+            {/* <EventsClusters clusters={clusters} /> */}
+            <UsersClusters />
             <UserMarker />
         </MapView >
     )

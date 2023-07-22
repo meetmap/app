@@ -3,17 +3,21 @@ import { FriendshipStatusType, IPartialUser } from "../../../types/users"
 import MoreIcon from "../../Icons/MoreIcon"
 import UserInListActions from "../../Actions/Users/UserInListActions"
 import { TouchableOpacity } from "react-native"
+import { useMap } from "../../../hooks/MapProvider"
+import { useNavigation } from "@react-navigation/native"
+import { NavigationProps } from "../../../types/NavigationProps"
 
 const FriendsInListButton = ({ userData, localFriendshipStatus, handleChangeFriendshipStatus }: {
     userData: IPartialUser,
-    handleChangeFriendshipStatus: () => void
+    handleChangeFriendshipStatus: () => Promise<void>
     localFriendshipStatus: FriendshipStatusType
 }) => {
-    const [actionsOpened, setActionsOpened] = useState(false)
+    const { mapViewRef } = useMap();
+    const navigation = useNavigation<NavigationProps>();
 
     if (localFriendshipStatus === "friends") {
         return (
-            <TouchableOpacity onPress={() => UserInListActions(userData)}><MoreIcon /></TouchableOpacity>
+            <TouchableOpacity onPress={() => UserInListActions(userData, handleChangeFriendshipStatus, mapViewRef, navigation)}><MoreIcon /></TouchableOpacity>
         )
     }
     return null

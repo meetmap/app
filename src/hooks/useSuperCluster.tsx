@@ -43,7 +43,6 @@ function getClusters({
   if (!bounds) {
     return []
   }
-  console.log('zalupa')
   const [west, south, east, north] = bounds;
   const clusters = supercluster.getClusters([west, south, east, north], zoom) as ClusterPoint[];
 

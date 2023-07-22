@@ -3,12 +3,19 @@ import { Path, Svg } from 'react-native-svg'
 
 const MoreIcon = () => {
     return (
-        <Svg width="30" height="30" viewBox="0 0 30 30" fill="none">
-            <Path d="M15 16.25C15.6904 16.25 16.25 15.6904 16.25 15C16.25 14.3096 15.6904 13.75 15 13.75C14.3096 13.75 13.75 14.3096 13.75 15C13.75 15.6904 14.3096 16.25 15 16.25Z" fill="#7A7B84" stroke="#7A7B84" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-            <Path d="M15 7.5C15.6904 7.5 16.25 6.94036 16.25 6.25C16.25 5.55964 15.6904 5 15 5C14.3096 5 13.75 5.55964 13.75 6.25C13.75 6.94036 14.3096 7.5 15 7.5Z" fill="#7A7B84" stroke="#7A7B84" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-            <Path d="M15 25C15.6904 25 16.25 24.4404 16.25 23.75C16.25 23.0596 15.6904 22.5 15 22.5C14.3096 22.5 13.75 23.0596 13.75 23.75C13.75 24.4404 14.3096 25 15 25Z" fill="#7A7B84" stroke="#7A7B84" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-        </Svg>
-
+        <Svg
+        width={20}
+        height={18}
+        fill="none"
+      >
+        <Path
+          stroke="#7A7B84"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={1.538}
+          d="M10.5 11.333a.833.833 0 1 0 0-1.666.833.833 0 0 0 0 1.666ZM10.5 5.5a.833.833 0 1 0 0-1.667.833.833 0 0 0 0 1.667ZM10.5 17.167a.833.833 0 1 0 0-1.667.833.833 0 0 0 0 1.667Z"
+        />
+      </Svg>
     )
 }
 

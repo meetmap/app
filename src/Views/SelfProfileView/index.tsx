@@ -9,6 +9,11 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import Friends from './Tabs/Users/Friends';
 import { useAppSelector } from '../../store/hooks';
 import UserProfileInfo from '../../shared/Profile/UserProfileInfo';
+import PrimaryMediumButton from '../../shared/Buttons/PrimaryMediumButton';
+import { styled } from 'styled-components/native';
+import MoreIcon from '../../shared/Icons/MoreIcon';
+import { useMap } from '../../hooks/MapProvider';
+import SelfProfileActions from '../../shared/Actions/Users/SelfProfileActions copy';
 
 
 export interface ISelfProfileViewProps {
@@ -19,12 +24,24 @@ const Tab = createMaterialTopTabNavigator();
 
 const SelfProfileView = ({ navigation }: ISelfProfileViewProps) => {
     const selfUserData = useAppSelector(state => state.userSlice.user)
+    const {mapViewRef} = useMap()
     if (!selfUserData) {
         return null
     }
     return (
-        <View style={{ height: "100%", backgroundColor: "white" }}>
+        <View style={{height: "100%", backgroundColor: "white" }}>
             <UserProfileInfo userData={selfUserData} />
+            <StyledProfileActions>
+                {/* <PrimaryMediumButton style={{flex: 1}} btnType='Secondary'>
+                    Create Event
+                </PrimaryMediumButton> */}
+                <PrimaryMediumButton style={{flex: 1}} btnType='Secondary'>
+                    Invite friend
+                </PrimaryMediumButton>
+                <PrimaryMediumButton btnType='Secondary' onPress={() => SelfProfileActions(selfUserData)}>
+                    <MoreIcon/>
+                </PrimaryMediumButton>
+            </StyledProfileActions>
             <Tab.Navigator
                 screenOptions={{
                     tabBarStyle: {
@@ -49,3 +66,10 @@ const SelfProfileView = ({ navigation }: ISelfProfileViewProps) => {
 }
 
 export default SelfProfileView
+
+const StyledProfileActions = styled(View)`
+    flex-direction: row;
+    gap: 8px;
+    width: 100%;
+    padding: 0 16px;
+`

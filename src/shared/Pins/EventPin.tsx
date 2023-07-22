@@ -6,17 +6,13 @@ import LoadableImage from "../LoadableImage/LoadableImage";
 import { NavigationProps } from "../../types/NavigationProps";
 import { useNavigation } from "@react-navigation/native";
 import Svg, { SvgProps, Path, Mask, Rect } from "react-native-svg"
+import { flyTo } from "../../hooks/useFlyTo";
 
 const EventPin = ({ eventData }: { eventData: IEvent }) => {
-    const { mapViewRef } = useMap();
     const navigation = useNavigation<NavigationProps>();
+    
     const checkEvent = () => {
-        mapViewRef.current?.animateToRegion({
-            latitude: eventData.location.coordinates.coordinates[1],
-            longitude: eventData.location.coordinates.coordinates[0],
-            latitudeDelta: 0.02,
-            longitudeDelta: 0.01
-        })
+        flyTo(eventData.location.coordinates.coordinates[1], eventData.location.coordinates.coordinates[0])
         navigation.navigate("EventModalView", { eventId: eventData.id })
     }
     return (

@@ -7,13 +7,16 @@ import styled from "styled-components/native"
 import { Image, TouchableOpacity, View } from "react-native"
 import useFriendship from "../../hooks/useFriendship"
 import LoadableProfileImage from "../LoadableImage/LoadableProfileImage"
+import { useNavigation } from "@react-navigation/native"
+import { NavigationProps } from "../../types/NavigationProps"
 
 const UserDataInList = ({ userData, profile = false }: { userData: IPartialUser, profile?: boolean }) => {
     // const [localFriendshipStatus, setLocalFriendshipStatus] = useState(userData.friendshipStatus)
     const { handleChangeFriendshipStatus, localFriendshipStatus } = useFriendship(userData.friendshipStatus, userData.cid)
+    const navigation = useNavigation<NavigationProps>();
     return (
         <StyledUserDataInList>
-            <StyledUserDataInfo>
+            <StyledUserDataInfo onPress={() => navigation.navigate("ProfileView", { userId: userData.cid })}>
                 <LoadableProfileImage profilePicture={userData.profilePicture} containerSize={56} />
                 <StyledUserInfo>
                     {userData.name && <H6>{userData.name}</H6>}
@@ -23,11 +26,11 @@ const UserDataInList = ({ userData, profile = false }: { userData: IPartialUser,
             </StyledUserDataInfo>
             <StyledUserActions>
                 {/* <MoreIcon /> */}
-                {/* <RequestFriendshipIconButton
+                <RequestFriendshipIconButton
                     handleChangeFriendshipStatus={handleChangeFriendshipStatus}
                     localFriendshipStatus={localFriendshipStatus}
                     userCId={userData.cid}
-                /> */}
+                />
                 <FriendsInListButton
                     handleChangeFriendshipStatus={handleChangeFriendshipStatus}
                     localFriendshipStatus={localFriendshipStatus}

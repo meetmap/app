@@ -3,7 +3,7 @@ import LoaderContainer from "../../../../../shared/LoaderContainer"
 import TextStatus from "../../../../../shared/TextStatus"
 import { IPartialUser } from "../../../../../types/users"
 import UserDataInList from "../../../../../shared/Profile/UserDataInList"
-import { FlatList, ScrollView } from "react-native"
+import { FlatList, ScrollView, View } from "react-native"
 import styled from "styled-components/native"
 
 const UsersSearchList = ({ searchUsersData, searchUsersLoading }: { searchUsersData: IPartialUser[] | null, searchUsersLoading: boolean }) => {
@@ -34,6 +34,6 @@ const UsersSearchList = ({ searchUsersData, searchUsersLoading }: { searchUsersD
 
 export default UsersSearchList
 
-const StyledUsersList = styled(ScrollView)`
+const StyledUsersList = styled(View)`
   gap: 9px;
 `;

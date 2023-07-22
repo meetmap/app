@@ -18,7 +18,7 @@ export const Title = styled(Text) <{ textcolor?: TextcolorsType }>`
 export const H1 = styled(Text) <{ textcolor?: TextcolorsType }>`
     font-size: 24px;
     font-style: normal;
-    font-weight: bold;
+    font-weight: 900;
     flex-wrap: wrap;
 
     color: ${props => props.textcolor ? props.theme.colors.TEXT[props.textcolor] : props.theme.colors.TEXT.Black};
@@ -63,6 +63,8 @@ export const P = styled(Text) <{ textcolor?: TextcolorsType }>`
     font-size: 14px;
     font-style: normal;
     font-weight: normal;
+    line-height: 19.6px; 
+    letter-spacing: -0.28px;
 
     color: ${props => props.textcolor ? props.theme.colors.TEXT[props.textcolor] : props.theme.colors.TEXT.Black};
 `

@@ -1,18 +1,12 @@
 import styled from "styled-components/native";
-
-import React, { ButtonHTMLAttributes, ReactNode } from 'react'
+import React, { ReactNode } from 'react'
 import { TextcolorsType } from "../Text";
-import { Button, ButtonProps, StyleSheet, Text, TouchableOpacity, TouchableOpacityProps, View } from "react-native";
+import {Text, TouchableOpacity, TouchableOpacityProps } from "react-native";
+import { IPrimaryButton } from "./PrimaryButton";
 
 export type ButtonType = "Primary" | "Secondary" | "White" | "Black"
 
-export interface IPrimaryButton extends TouchableOpacityProps {
-    btnType?: ButtonType,
-    textColor?: TextcolorsType
-    children: ReactNode
-}
-
-const PrimaryButton = ({ children, btnType = "Primary", textColor, ...rest }: IPrimaryButton) => {
+const PrimaryMediumButton = ({ children, btnType = "Primary", textColor, ...rest }: IPrimaryButton) => {
     return (
         <StyledPrimaryButton btnType={btnType} {...rest }>
             <StyledPrimaryButtonText textColor={textColor} btnType={btnType}>{children}</StyledPrimaryButtonText>
@@ -20,23 +14,23 @@ const PrimaryButton = ({ children, btnType = "Primary", textColor, ...rest }: IP
     )
 }
 
-export default PrimaryButton
+export default PrimaryMediumButton
 
 const StyledPrimaryButton = styled(TouchableOpacity) <{ btnType: ButtonType }>`
-    display: flex;
-    padding: 20px 24px;
+    padding: 12px 12px;
     justify-content: center;
     align-items: center;
     gap: 8px;
 
     background: ${props => props.theme.colors.BUTTON[props.btnType].BGDefault};
     border: solid 1px ${props => props.theme.colors.BUTTON[props.btnType].BorderDefault};
-    border-radius: 20px;
+    border-radius: 8px;
 `
 
 const StyledPrimaryButtonText = styled(Text)<{btnType: ButtonType, textColor?: TextcolorsType}>`
     color: ${props => props.textColor ? props.theme.colors.TEXT[props.textColor] : props.theme.colors.BUTTON[props.btnType].TextDefault};
-    font-size: 16px;
+    font-size: 14px;
     font-style: normal;
-    font-weight: 600;
+    font-weight: 500;
+    letter-spacing: -0.28px;
 `

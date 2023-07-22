@@ -11,6 +11,7 @@ import { InitializeUserThunk } from './store/slices/userSlice';
 import EventModalView from './Views/EventModalView';
 import WelcomeLoaderView from './Views/WelcomeLoaderView';
 import MyBottomSheet from './Views/MyBottomSheet';
+import { Alert, Button } from 'react-native';
 
 const Stack = createNativeStackNavigator();
 
@@ -23,10 +24,11 @@ const Navigator = () => {
     return (
         <Stack.Navigator
             screenOptions={{
-            
+
                 // contentStyle: {
                 //     backgroundColor: "white"
                 // }
+                headerShadowVisible: false
             }}
 
         >
@@ -34,14 +36,26 @@ const Navigator = () => {
                 user ?
                     <Stack.Group >
                         <Stack.Screen
-                            name="Home"
+                            name="MainView"
                             component={MainView}
                             options={{ headerShown: false }}
                         />
                         <Stack.Screen options={{ presentation: "modal", headerShown: false }} name='EventModalView' component={EventModalView} />
                         <Stack.Screen options={{ presentation: "modal", headerShown: false }} name='FilterModalView' component={FilterModalView} />
                         <Stack.Screen name="ProfileView" component={ProfileView} />
-                        <Stack.Screen options={{ title: "Your Profile" }} name="SelfProfileView" component={SelfProfileView} />
+                        <Stack.Screen
+                            options={{
+                                title: "Your Profile",
+                                headerRight: (data) => (
+                                    <Button
+                                        onPress={() => Alert.alert((JSON.stringify(data)))}
+                                        title="Settings"
+                                    />
+                                ),
+                            }}
+                            name="SelfProfileView"
+                            component={SelfProfileView}
+                        />
                         <Stack.Screen
                             name={"MyBottomSheet"}
                             component={MyBottomSheet}

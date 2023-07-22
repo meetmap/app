@@ -14,7 +14,7 @@ const UserProfileInfo = ({ userData }: { userData: IPartialUser | IUserSelf }) =
           {userData.name && <H1>{userData.name}</H1>}
           <P textcolor="Primary">{`@${userData.username}`}</P>
         </StyledUserTextGeneralInfo>
-        {userData.description && <P textcolor="Grey">{userData.description}</P>}
+        {userData.description && <P textcolor="Grey" style={{textAlign: "center", paddingHorizontal: 18}}>{userData.description}</P>}
       </StyledUserTextInfo>
       {/* <StyledSocialNetworks>
         <InstagramIcon />

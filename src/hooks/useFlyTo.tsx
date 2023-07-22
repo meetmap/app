@@ -1,23 +1,11 @@
-// import { useAppDispatch } from "@store/hooks";
-// import { setIsOpenedEventModal } from "@store/slices/eventModalSlice";
-// import { setIsOpenedSearchModal } from "@store/slices/searchModalSlice";
-// import { useMap } from "react-map-gl";
+import { useMap } from "./MapProvider";
 
-export const useFlyTo = (lat: number, lng: number) => {
-    // const map = useMap();
-
-    // const dispatch = useAppDispatch()
-    // const flyTo = () => {
-    //     map.default?.flyTo({
-    //         center: [
-    //             lat,
-    //             lng
-    //         ],
-    //         zoom: 20
-    //     })
-    //     dispatch(setIsOpenedEventModal(false))
-    //     dispatch(setIsOpenedSearchModal(false))
-    // }
-
-    // return flyTo
+export const flyTo = (lat: number, lng: number) => {
+    const { mapViewRef } = useMap();
+    mapViewRef.current?.animateToRegion({
+        latitude: lat,
+        longitude: lng,
+        latitudeDelta: 0.01,
+        longitudeDelta: 0.01
+    })
 }
