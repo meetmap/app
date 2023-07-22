@@ -15,19 +15,23 @@ const UsersClusters = () => {
     }, [])
 
     const { friendsCoordinates } = useAppSelector(state => state.locationSlice)
-    return (
-        friendsCoordinates.map(friend => (
-            <Marker
-                coordinate={{
-                    latitude: friend.location.lat,
-                    longitude: friend.location.lng
-                }}
-                key={friend.id}
-            >
-                <FriendPin userId={friend.id} profilePicture={friend.profilePicture} />
-            </Marker>
-        ))
-    )
+    const mapFiler = useAppSelector(state => state.mapSlice.mapFilters)
+    if (mapFiler === "Friends" || mapFiler === "All") {
+        return (
+            friendsCoordinates.map(friend => (
+                <Marker
+                    coordinate={{
+                        latitude: friend.location.lat,
+                        longitude: friend.location.lng
+                    }}
+                    key={friend.id}
+                >
+                    <FriendPin userData={friend} profilePicture={friend.profilePicture} />
+                </Marker>
+            ))
+        )
+    }
+    return null
 }
 
 export default UsersClusters

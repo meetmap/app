@@ -20,7 +20,7 @@ const MapContent = () => {
 
     const dispatch = useAppDispatch()
     const [clusters, setClusters] = useState<ClusterPoint[]>([])
-
+    const mapFiler = useAppSelector(state => state.mapSlice.mapFilters)
     // const toGeoJson = (payload: IEvent[]) => {
     //     return payload.map(feature => ({
     //         type: 'Feature' as "Feature",
@@ -38,9 +38,15 @@ const MapContent = () => {
     //         }
     //       }));
     // }
+
     const handleRegionChangeComplete = async (region: Region, details: Details) => {
         const data = await mapViewRef.current?.addressForCoordinate({ latitude: region.latitude, longitude: region.longitude })
         dispatch(setAddressState(data))
+
+        if (mapFiler === "Friends") {
+            return;
+        }
+
         const scale = 156_543.03392 * Math.cos(region.latitude * Math.PI / 180) / 2 ** zoomLevel
         const visibleRadius = scale * windowWidth / 2 / 1000 * 4;
         await dispatch(getEventsByLocationThunk(
@@ -56,31 +62,33 @@ const MapContent = () => {
     const windowWidth = Dimensions.get('window').width;
     const [zoomLevel, setZoomLevel] = useState(20)
 
-    const handleRegionChange = 
-        debounce(async (region: Region) => {
-            const zoomLevelI = Math.log2(360 * (windowWidth / 256 / region.longitudeDelta)) + 1;
-            setZoomLevel(zoomLevelI);
-            const boundsData = await mapViewRef.current?.getMapBoundaries();
-            if (!boundsData) {
-                return
-            }
-            const clustersData = useSupercluster({
-                points: store.getState().eventsSlice.eventsGeo,
-                bounds: [boundsData?.southWest.longitude - 0.02, boundsData?.southWest.latitude - 0.02, boundsData?.northEast.longitude + 0.02, boundsData?.northEast.latitude + 0.02],
-                zoom: zoomLevel,
-                options: {
-                    radius: 75,
-                    maxZoom: 40,
-                    minZoom: 2,
-                    reduce: (accumulated, props) => {
-                        // Объедините массивы изображений из каждой точки и кластера
-                        accumulated.picture = [...accumulated.picture, ...props.picture];
-                    },
+    const handleRegionChange = debounce(async (region: Region) => {
+        if(mapFiler === "Friends"){
+            return
+        }
+        const zoomLevelI = Math.log2(360 * (windowWidth / 256 / region.longitudeDelta)) + 1;
+        setZoomLevel(zoomLevelI);
+        const boundsData = await mapViewRef.current?.getMapBoundaries();
+        if (!boundsData) {
+            return
+        }
+        const clustersData = useSupercluster({
+            points: store.getState().eventsSlice.eventsGeo,
+            bounds: [boundsData?.southWest.longitude - 0.02, boundsData?.southWest.latitude - 0.02, boundsData?.northEast.longitude + 0.02, boundsData?.northEast.latitude + 0.02],
+            zoom: zoomLevel,
+            options: {
+                radius: 75,
+                maxZoom: 40,
+                minZoom: 2,
+                reduce: (accumulated, props) => {
+                    // Объедините массивы изображений из каждой точки и кластера
+                    accumulated.picture = [...accumulated.picture, ...props.picture];
                 },
-            });
-    
-            setClusters(clustersData)
-        }, 300, {maxWait: 300})
+            },
+        });
+
+        setClusters(clustersData)
+    }, 300, { maxWait: 300 })
 
 
 
@@ -100,7 +108,7 @@ const MapContent = () => {
             onRegionChange={handleRegionChange}
             onRegionChangeComplete={handleRegionChangeComplete}
         >
-            {/* <EventsClusters clusters={clusters} /> */}
+            <EventsClusters clusters={clusters} />
             <UsersClusters />
             <UserMarker />
         </MapView >

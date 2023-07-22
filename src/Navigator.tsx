@@ -42,7 +42,17 @@ const Navigator = () => {
                         />
                         <Stack.Screen options={{ presentation: "modal", headerShown: false }} name='EventModalView' component={EventModalView} />
                         <Stack.Screen options={{ presentation: "modal", headerShown: false }} name='FilterModalView' component={FilterModalView} />
-                        <Stack.Screen name="ProfileView" component={ProfileView} />
+                        <Stack.Screen
+                            name="ProfileView"
+                            component={ProfileView}
+                            options={(route) => ({
+                                title: `@${route.route.params.username}`,
+                                headerTitleStyle: {
+                                    fontSize: 18,
+                                    fontWeight: "900"
+                                }
+                            })}
+                        />
                         <Stack.Screen
                             options={{
                                 title: "Your Profile",

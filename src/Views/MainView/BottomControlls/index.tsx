@@ -6,6 +6,8 @@ import styled from "styled-components/native";
 import { IMainViewProps } from "..";
 import { SafeAreaView } from "react-native-safe-area-context";
 import LoadableProfileImage from "../../../shared/LoadableImage/LoadableProfileImage";
+import { setMapFiltersState } from "../../../store/slices/mapSlice";
+import ChangeFiltersButton from "./ChangeFiltersButton";
 
 const BottomControlls = ({ navigation }: IMainViewProps) => {
     const profilePic = useAppSelector(state => state.userSlice.user?.profilePicture)
@@ -13,10 +15,9 @@ const BottomControlls = ({ navigation }: IMainViewProps) => {
         <StyledBottomControlls>
             <CubeButton onPress={() => navigation.navigate('FilterModalView')}><SearchIcon /></CubeButton>
             <StyledProfileButton onPress={() => navigation.navigate('SelfProfileView')}>
-                <LoadableProfileImage containerSize={56} containerBorderRadius={18}  profilePicture={profilePic}  />
+                <LoadableProfileImage containerSize={56} containerBorderRadius={18} profilePicture={profilePic} />
             </StyledProfileButton>
-            <StyledCubeButton onPress={() => navigation.navigate('MyBottomSheet')}>
-            </StyledCubeButton>
+            <ChangeFiltersButton/>
         </StyledBottomControlls>
     )
 }
@@ -41,19 +42,4 @@ const StyledProfileButton = styled(TouchableOpacity)`
     border-radius: 22px;
     height: 64px;
     width: 64px;
-`
-const StyledProfileButtonImage = styled(Image)`
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
-    border-radius: 18px;
-`
-
-const StyledCubeButton = styled(CubeButton)`
-    position: relative;
-    overflow: hidden;
-    label{
-        display: flex;
-        position: absolute;
-    }
 `

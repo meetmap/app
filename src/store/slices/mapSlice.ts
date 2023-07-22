@@ -4,10 +4,12 @@ import { Address } from "react-native-maps";
 interface InitialState {
     // viewState: ViewState | null
     addressState: Address | undefined 
+    mapFilters: string
 }
 
 const initialState: InitialState = {
     addressState: undefined,
+    mapFilters: "All"
 };
 
 const appSlice = createSlice({
@@ -17,9 +19,12 @@ const appSlice = createSlice({
         setAddressState: (state, action: { payload: Address | undefined }) => {
             state.addressState = action.payload
         },
+        setMapFiltersState: (state, action: {payload: string}) => {
+            state.mapFilters = action.payload
+        }
     },
 });
 
-export const { setAddressState } = appSlice.actions;
+export const { setAddressState, setMapFiltersState } = appSlice.actions;
 
 export default appSlice.reducer;

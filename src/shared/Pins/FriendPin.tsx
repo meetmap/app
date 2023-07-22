@@ -7,15 +7,17 @@ import { ViewProps } from "react-native-svg/lib/typescript/fabric/utils"
 import { TouchableOpacity } from "react-native-gesture-handler"
 import { useNavigation } from "@react-navigation/native"
 import { NavigationProps } from "../../types/NavigationProps"
+import { IPartialUser } from "../../types/users"
+import { GetFriendsLocationResponse } from "../../api/location"
 
 interface IFriendPin {
     profilePicture: string | undefined
-    userId: string
+    userData: GetFriendsLocationResponse
 }
-const FriendPin = ({ userId, profilePicture }: IFriendPin) => {
+const FriendPin = ({ userData, profilePicture }: IFriendPin) => {
     const navigation = useNavigation<NavigationProps>();
     return (
-        <StyledUserPinView onPress={() => navigation.navigate("ProfileView", { userId })}>
+        <StyledUserPinView onPress={() => navigation.navigate("ProfileView", { userId: userData.cid, username: userData.username })}>
             <LoadableProfileImage containerSize={36} profilePicture={profilePicture} />
         </StyledUserPinView>
     )
