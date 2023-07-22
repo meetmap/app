@@ -1273,21 +1273,6 @@
   resolved "https://registry.npmjs.org/@eslint/js/-/js-8.44.0.tgz"
   integrity sha512-Ag+9YM4ocKQx9AarydN0KY2j0ErMHNIocPDrVo8zAE44xLTjEtz81OdR68/cydGtk6m6jDb5Za3r2useMzYmSw==
 
-"@gorhom/bottom-sheet@^4.4.7":
-  version "4.4.7"
-  resolved "https://registry.yarnpkg.com/@gorhom/bottom-sheet/-/bottom-sheet-4.4.7.tgz#fc80b3f0b7ebab056ce226f3aa3a89b2db8660dd"
-  integrity sha512-ukTuTqDQi2heo68hAJsBpUQeEkdqP9REBcn47OpuvPKhdPuO1RBOOADjqXJNCnZZRcY+HqbnGPMSLFVc31zylQ==
-  dependencies:
-    "@gorhom/portal" "1.0.14"
-    invariant "^2.2.4"
-
-"@gorhom/portal@1.0.14":
-  version "1.0.14"
-  resolved "https://registry.yarnpkg.com/@gorhom/portal/-/portal-1.0.14.tgz#1953edb76aaba80fb24021dc774550194a18e111"
-  integrity sha512-MXyL4xvCjmgaORr/rtryDNFy3kU4qUbKlwtQqqsygd0xX3mhKjOLn6mQK8wfu0RkoE0pBE0nAasRoHua+/QZ7A==
-  dependencies:
-    nanoid "^3.3.1"
-
 "@hapi/hoek@^9.0.0":
   version "9.3.0"
   resolved "https://registry.npmjs.org/@hapi/hoek/-/hoek-9.3.0.tgz"
@@ -5705,7 +5690,7 @@ mute-stream@0.0.8:
   resolved "https://registry.npmjs.org/mute-stream/-/mute-stream-0.0.8.tgz"
   integrity sha512-nnbWWOkoWyUsTjKrhgD0dcz22mdkSnpYqbEjIm2nhwhuxlSkpywJmBo8h0ZqJdkp73mb90SssHkN4rsRaBAfAA==
 
-nanoid@^3.1.23, nanoid@^3.3.1, nanoid@^3.3.6:
+nanoid@^3.1.23, nanoid@^3.3.6:
   version "3.3.6"
   resolved "https://registry.npmjs.org/nanoid/-/nanoid-3.3.6.tgz"
   integrity sha512-BGcqMMJuToF7i1rt+2PWSNVnWIkGCU78jBG3RxO/bZlnZPK2Cmi2QaffxGO/2RvWi9sL+FAiRiXMgsyxQ1DIDA==

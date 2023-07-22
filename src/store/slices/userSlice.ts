@@ -1,8 +1,13 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { SecureStoreKeys } from "../../constants/secure-store";
-import { IUserSelf } from "../../types/users";
-import { ICreateUser, createUser, getUserSelf, loginWithUsername } from "../../api/users";
-import { getFromSecureStore, setToSecureStore } from "../../api/secure-store";
+import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+import {SecureStoreKeys} from '../../constants/secure-store';
+import {IUserSelf} from '../../types/users';
+import {
+  ICreateUser,
+  createUser,
+  getUserSelf,
+  loginWithUsername,
+} from '../../api/users';
+import {getFromSecureStore, setToSecureStore} from '../../api/secure-store';
 
 interface InitialState {
   user: IUserSelf | null;
@@ -11,11 +16,11 @@ interface InitialState {
 
 const initialState: InitialState = {
   user: null,
-  isLoading: false,
+  isLoading: true,
 };
 
 const userSlice = createSlice({
-  name: "usersSlice",
+  name: 'usersSlice',
   initialState,
   reducers: {},
   extraReducers(builder) {
@@ -49,14 +54,16 @@ const userSlice = createSlice({
   },
 });
 
-export const InitializeUserThunk = createAsyncThunk<IUserSelf>("users/init", async () => {
-  
-  const user = await getUserSelf();
-  if (!user) {
-    throw new Error("Login first");
-  }
-  return user;
-});
+export const InitializeUserThunk = createAsyncThunk<IUserSelf>(
+  'users/init',
+  async () => {
+    const user = await getUserSelf();
+    if (!user) {
+      throw new Error('Login first');
+    }
+    return user;
+  },
+);
 
 export const LoginUserThunk = createAsyncThunk<
   IUserSelf,
@@ -64,24 +71,23 @@ export const LoginUserThunk = createAsyncThunk<
     username: string;
     password: string;
   }
->("users/login", async ({ password, username }) => {
-  const data = await loginWithUsername({ username, password });
+>('users/login', async ({password, username}) => {
+  const data = await loginWithUsername({username, password});
   await setToSecureStore(SecureStoreKeys.ACCESS_TOKEN, data.tokens.at);
   await setToSecureStore(SecureStoreKeys.REFRESH_TOKEN, data.tokens.rt);
   await setToSecureStore(SecureStoreKeys.USER, JSON.stringify(data.user));
   return data.user;
 });
 
-
-export const RegisterUserThunk = createAsyncThunk<
-  IUserSelf,
-  ICreateUser
->("users/create", async ({ username, email, birthDate, password }) => {
-  const data = await createUser({ username, email, birthDate, password });
-  await setToSecureStore(SecureStoreKeys.ACCESS_TOKEN, data.tokens.at);
-  await setToSecureStore(SecureStoreKeys.REFRESH_TOKEN, data.tokens.rt);
-  await setToSecureStore(SecureStoreKeys.USER, JSON.stringify(data.user));
-  return data.user;
-});
+export const RegisterUserThunk = createAsyncThunk<IUserSelf, ICreateUser>(
+  'users/create',
+  async ({username, email, birthDate, password}) => {
+    const data = await createUser({username, email, birthDate, password});
+    await setToSecureStore(SecureStoreKeys.ACCESS_TOKEN, data.tokens.at);
+    await setToSecureStore(SecureStoreKeys.REFRESH_TOKEN, data.tokens.rt);
+    await setToSecureStore(SecureStoreKeys.USER, JSON.stringify(data.user));
+    return data.user;
+  },
+);
 
 export default userSlice.reducer;
