@@ -2,11 +2,11 @@ import { Image, TouchableOpacity, View } from "react-native"
 import styled from "styled-components"
 import { Span } from "../Text"
 import Svg, { SvgProps, Path, Mask, Rect } from "react-native-svg"
-import { IEvent } from "../../types/event"
+import { IEvent, IEventByLocation } from "../../types/event"
 import LoadableImage from "../LoadableImage/LoadableImage"
 
 const ClusterEventPin = ({ eventData, count, coordinates, pictures }: {
-    eventData: IEvent,
+    eventData: IEventByLocation,
     count: number,
     coordinates: number[],
     pictures: string[]

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { TouchableOpacity } from 'react-native'
+import { trigger } from "react-native-haptic-feedback";
 import styled from 'styled-components'
 import { useAppDispatch } from '../../store/hooks'
 import { likeEvent, removeLikeOnEvent } from '../../api/events'
@@ -16,10 +17,12 @@ const LikeButton = ({ eventId, isLiked }: { eventId: string, isLiked: boolean })
         await removeLikeOnEvent(eventId)
     }
     const HandleLikeEvent = async () => {
-        if (!isLikedState) {
-            LikeEvent()
-        } else {
+        if (isLikedState) {
             RemoveLikeOnEvent()
+            trigger("rigid");
+        } else {
+            trigger("impactLight");
+            LikeEvent()
         }
     }
     return (

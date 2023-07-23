@@ -1,8 +1,8 @@
-import {useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import React, {useEffect} from 'react';
-import {Button, SafeAreaView, Text, View} from 'react-native';
-import {RootStackParamList} from '../../types/NavigationProps';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import React, { useEffect } from 'react';
+import { Button, SafeAreaView, Text, View } from 'react-native';
+import { RootStackParamList } from '../../types/NavigationProps';
 import LikeButton from '../../shared/Buttons/LikeButton';
 import styled from 'styled-components/native';
 import BottomControlls from './BottomControlls';
@@ -14,8 +14,8 @@ export interface IMainViewProps {
   navigation: NativeStackNavigationProp<RootStackParamList, 'MainView'>;
 }
 
-const MainView = ({navigation}: IMainViewProps) => {
-  const {getLocationUpdates} = useLocation();
+const MainView = ({ navigation }: IMainViewProps) => {
+  const { getLocationUpdates } = useLocation();
   useEffect(() => {
     getLocationUpdates();
   }, []);

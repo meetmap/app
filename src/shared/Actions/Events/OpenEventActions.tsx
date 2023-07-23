@@ -5,8 +5,10 @@ import { useNavigation } from "@react-navigation/native";
 import { NavigationProps } from "../../../types/NavigationProps";
 import { RefObject } from "react";
 import MapView from "react-native-maps";
+import { trigger } from "react-native-haptic-feedback";
 
 const OpenEventActions = (eventData: IEvent, mapViewRef: RefObject<MapView>, navigation: NavigationProps) => {
+  trigger("impactLight");
   ActionSheetIOS.showActionSheetWithOptions(
     {
       options: ['Cancel', 'Share', 'See on map'],

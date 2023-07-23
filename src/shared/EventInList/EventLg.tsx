@@ -24,7 +24,6 @@ const EventLg = ({ eventData }: { eventData: IEvent }) => {
         32.9278599
     )
     const formattedStartTime = moment(eventData.startTime).format('MMM D - h A');
-    const dispatch = useAppDispatch()
     const navigation = useNavigation<NavigationProps>();
     const { mapViewRef } = useMap()
 
@@ -74,7 +73,7 @@ const StyledAboutEventContainer = styled(View)`
     justify-content: space-between;
     align-items: center;
 `
-const StyledAboutEventTextInfo = styled(TouchableOpacity)`
+const StyledAboutEventTextInfo = styled(View)`
     padding-top: 8px;
     gap: 2px;
     flex: 1;

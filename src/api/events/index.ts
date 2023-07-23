@@ -1,5 +1,5 @@
 
-import { ICreateEvent, IEvent } from "../../types/event";
+import { ICreateEvent, IEvent, IEventByLocation } from "../../types/event";
 import { getAxios } from "../axios";
 import { EVENTS_URL } from "../baseUrl";
 import FormData from "form-data";
@@ -15,12 +15,12 @@ export const searchEvents = async (eventData: string) => {
 };
 
 export const getAllNearEvents = async ({ lat, lng, radius }: { lat: number; lng: number; radius: number }) => {
-  const res = await getAxios("events-fetcher", true).post<IEvent[]>(`/events/location`, {
+  const res = await getAxios("events-fetcher", true).post<IEventByLocation[]>(`/events/location`, {
     latitude: lat,
     longitude: lng,
     radius: radius < 1 ? 1 : radius > 90 ? 90 : radius,
   });
-  return res.data.filter((event) => +new Date(event.endTime) + 1000 * 60 * 60 * 24 > +Date.now());
+  return res.data
 };
 export const getLikedEvents = async () => {
   const res = await getAxios("events-fetcher", true).get<IEvent[]>(`/users/events/liked`);

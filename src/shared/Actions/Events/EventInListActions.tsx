@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction } from "react"
 import { IEvent } from "../../../types/event"
 import { ActionSheetIOS } from "react-native";
+import { trigger } from "react-native-haptic-feedback";
 
 const EventInListActions = ({ isOpen, setIsOpen, title, eventData }: {
   isOpen: boolean,
@@ -8,44 +9,7 @@ const EventInListActions = ({ isOpen, setIsOpen, title, eventData }: {
   title: string,
   eventData: IEvent
 }) => {
-  // const flyTo = useFlyTo(eventData.location.coordinates.coordinates[0], eventData.location.coordinates.coordinates[1])
-
-  // const dispatch = useAppDispatch()
-  // const history = useHistory()
-  // const flyToF = () => {
-  //   if (location.pathname !== '/') {
-  //     history.push('/');
-  //   }
-
-  //   dispatch(setIsOpenedEventModal(false))
-  //   dispatch(setIsOpenedSearchModal(false))
-  //   flyTo()
-  // }
-  // return (
-  //   <IonActionSheet isOpen={isOpen}
-  //     header={title}
-  //     buttons={[
-  //       {
-  //         text: 'Invite friend',
-  //         handler: () => flyToF(),
-  //       },
-  //       {
-  //         text: 'Share',
-  //         // handler: () => handleActionSheetDidDismiss('share'),
-  //       },
-  //       {
-  //         text: 'See on map',
-  //         handler: () => flyToF(),
-  //         // handler: () => handleActionSheetDidDismiss('flyTo'),
-  //       },
-  //       {
-  //         text: 'Cancel',
-  //         role: 'cancel',
-  //         // handler: () => handleActionSheetDidDismiss('cancel'),
-  //       },
-  //     ]}
-  //     onDidDismiss={() => setIsOpen(false)}
-  //   />
+  trigger("impactLight");
   ActionSheetIOS.showActionSheetWithOptions(
     {
       options: ['Cancel', 'Share', 'See on map', 'Invite friend'],

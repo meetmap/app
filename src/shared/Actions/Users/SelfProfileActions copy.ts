@@ -6,8 +6,10 @@ import { flyToUser } from "../../../hooks/flyToUser";
 import { RefObject } from "react";
 import MapView from "react-native-maps";
 import { NavigationProps } from "../../../types/NavigationProps";
+import { trigger } from "react-native-haptic-feedback";
 
 const SelfProfileActions = (userData: IUserSelf) => {
+    trigger("impactLight");
     ActionSheetIOS.showActionSheetWithOptions(
         {
             options: ['Cancel', 'Share profile'],

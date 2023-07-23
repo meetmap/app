@@ -24,6 +24,12 @@ export interface IEvent {
   userStats: IEventUserStats
 }
 
+export interface IEventByLocation {
+  id: string,
+  coordinates: number[],
+  picture: string
+}
+
 export interface IEventUserStats {
   isUserSave: boolean,
   isUserLike: boolean,

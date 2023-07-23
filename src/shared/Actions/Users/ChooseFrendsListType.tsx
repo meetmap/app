@@ -1,7 +1,9 @@
 import React, { Dispatch, SetStateAction, useState } from 'react'
 import { ActionSheetIOS } from 'react-native';
+import { trigger } from 'react-native-haptic-feedback';
 
 const ChooseFrendsListType = (setFriendListType: Dispatch<SetStateAction<string>>) => {
+    trigger("impactLight");
     ActionSheetIOS.showActionSheetWithOptions(
         {
             options: ['Cancel', 'Outcoming requests', 'Incoming requests', 'Friends'],

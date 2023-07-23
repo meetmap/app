@@ -1,15 +1,15 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { IEvent } from "../../types/event";
+import { IEvent, IEventByLocation } from "../../types/event";
 import { getAllNearEvents } from "../../api/events";
 
 interface InitialState {
-  events: IEvent[];
+  events: IEventByLocation[];
   eventsGeo: {
     type: "Feature";
     properties: {
       cluster: boolean;
-      data: IEvent;
+      data: IEventByLocation;
       picture: string[];
     };
     geometry: {
@@ -17,8 +17,8 @@ interface InitialState {
       coordinates: number[];
     };
   }[]
-  centeredCoords?: Position;
-  visibleRadius?: number;
+  // centeredCoords?: Position;
+  // visibleRadius?: number;
   isLoading: boolean;
 }
 
@@ -26,12 +26,12 @@ const initialState: InitialState = {
   events: [],
   eventsGeo: [],
   isLoading: false,
-  centeredCoords: undefined,
-  visibleRadius: undefined,
+  // centeredCoords: undefined,
+  // visibleRadius: undefined,
 };
 
 export const getEventsByLocationThunk = createAsyncThunk<
-  IEvent[],
+  IEventByLocation[],
   {
     lat: number;
     lng: number;
@@ -46,12 +46,6 @@ const eventsSlice = createSlice({
   name: "eventsSlice",
   initialState,
   reducers: {
-    setCenteredCoords: (state, action: PayloadAction<Position | undefined>) => {
-      state.centeredCoords = action.payload;
-    },
-    setVisibleRadius: (state, action: PayloadAction<number | undefined>) => {
-      state.visibleRadius = action.payload;
-    },
   },
   extraReducers: (builder) => {
     // Add reducers for additional action types here, and handle loading state as needed
@@ -69,8 +63,8 @@ const eventsSlice = createSlice({
           geometry: {
             type: 'Point',
             coordinates: [
-              feature.location.coordinates.coordinates[0],
-              feature.location.coordinates.coordinates[1]
+              feature.coordinates[0],
+              feature.coordinates[1]
             ]
           }
         }));
@@ -84,6 +78,6 @@ const eventsSlice = createSlice({
   },
 });
 
-export const { setCenteredCoords, setVisibleRadius } = eventsSlice.actions;
+export const { } = eventsSlice.actions;
 
 export default eventsSlice.reducer;

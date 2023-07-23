@@ -6,8 +6,10 @@ import { flyToUser } from "../../../hooks/flyToUser";
 import { RefObject } from "react";
 import MapView from "react-native-maps";
 import { NavigationProps } from "../../../types/NavigationProps";
+import { trigger } from "react-native-haptic-feedback";
 
 const UserInListActions = (userData: IPartialUser, handleChangeFriendshipStatus: () => Promise<void>, mapViewRef: RefObject<MapView>, navigation: NavigationProps) => {
+    trigger("impactLight");
     ActionSheetIOS.showActionSheetWithOptions(
         {
             options: ['Cancel', 'Remove from friends', 'Share profile', 'Disable geolocation', 'See on map'],

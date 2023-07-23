@@ -3,6 +3,9 @@ import EventPin from "../../../shared/Pins/EventPin"
 import { ClusterPoint } from "../../../hooks/useSuperCluster"
 import ClusterEventPin from "../../../shared/Pins/ClusterEventPin"
 import { useAppSelector } from "../../../store/hooks"
+import Animated, { FadeIn, FadeOut } from "react-native-reanimated"
+
+const AnimatedMarker = Animated.createAnimatedComponent(Marker);
 
 const EventsClusters = ({ clusters }: { clusters: ClusterPoint[] }) => {
     const mapFiler = useAppSelector(state => state.mapSlice.mapFilters)
@@ -13,8 +16,9 @@ const EventsClusters = ({ clusters }: { clusters: ClusterPoint[] }) => {
                     const [long, lat] = cluster.geometry.coordinates
                     if (cluster.properties.cluster) {
                         return (
-                            <Marker
-                                key={`cluster${cluster.properties.data.id, index}`}
+                            <AnimatedMarker
+                                entering={FadeIn}
+                                key={`cluster${cluster.properties.data.id}`}
                                 coordinate={{
                                     latitude: lat,
                                     longitude: long
@@ -26,11 +30,12 @@ const EventsClusters = ({ clusters }: { clusters: ClusterPoint[] }) => {
                                     coordinates={[long, lat]}
                                     pictures={cluster.properties.picture}
                                 />
-                            </Marker>
+                            </AnimatedMarker>
                         )
                     }
                     return (
-                        <Marker
+                        <AnimatedMarker
+                            entering={FadeIn}
                             key={`pin${cluster.properties.data.id}`}
                             coordinate={{
                                 latitude: lat,
@@ -38,7 +43,7 @@ const EventsClusters = ({ clusters }: { clusters: ClusterPoint[] }) => {
                             }}
                         >
                             <EventPin eventData={cluster.properties.data} />
-                        </Marker>
+                        </AnimatedMarker>
                     )
                 })}
 
