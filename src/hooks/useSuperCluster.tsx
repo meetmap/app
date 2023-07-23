@@ -1,6 +1,7 @@
 import { debounce } from 'lodash';
 import { useState, useEffect, useMemo, useRef } from 'react';
 import Supercluster, { PointFeature, ClusterFeature, AnyProps, ClusterProperties } from 'supercluster';
+import { IEventByLocation } from '../types/event';
 
 type Position = [number, number] | [number, number, number];
 
@@ -10,7 +11,11 @@ export interface ClusterPoint {
     type: 'Point';
     coordinates: Position;
   };
-  properties: ClusterProperties & AnyProps;
+  properties: IEventClusterProperties;
+}
+interface IEventClusterProperties extends ClusterProperties {
+  data: IEventByLocation
+  picture: string[]
 }
 
 interface Options {

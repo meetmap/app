@@ -15,6 +15,7 @@ const EventsClusters = ({ clusters }: { clusters: ClusterPoint[] }) => {
                 {clusters.map((cluster, index) => {
                     const [long, lat] = cluster.geometry.coordinates
                     if (cluster.properties.cluster) {
+                        console.log(cluster.properties.data.id)
                         return (
                             <AnimatedMarker
                                 entering={FadeIn}
