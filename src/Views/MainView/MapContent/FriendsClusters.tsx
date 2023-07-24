@@ -25,7 +25,7 @@ const FriendsClusters = () => {
       friendsCoordinates.map(friend => {
         if (friend.location) {
           return (
-            <FriendMarker friend={friend} />
+            <FriendMarker key={friend.id} friend={friend} />
           )
         }
         return null

@@ -12,12 +12,12 @@ const FriendsInListButton = ({ userData, localFriendshipStatus, handleChangeFrie
     handleChangeFriendshipStatus: () => Promise<void>
     localFriendshipStatus: FriendshipStatusType
 }) => {
-    const { mapViewRef } = useMap();
+    const { mapViewRef, flyTo } = useMap();
     const navigation = useNavigation<NavigationProps>();
 
     if (localFriendshipStatus === "friends") {
         return (
-            <TouchableOpacity onPress={() => UserInListActions(userData, handleChangeFriendshipStatus, mapViewRef, navigation)}><MoreIcon /></TouchableOpacity>
+            <TouchableOpacity onPress={() => UserInListActions(userData, handleChangeFriendshipStatus, flyTo, navigation)}><MoreIcon /></TouchableOpacity>
         )
     }
     return null

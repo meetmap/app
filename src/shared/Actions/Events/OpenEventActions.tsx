@@ -6,8 +6,9 @@ import { NavigationProps } from "../../../types/NavigationProps";
 import { RefObject } from "react";
 import MapView from "react-native-maps";
 import { trigger } from "react-native-haptic-feedback";
+import { ICoordinates } from "../../../types/location";
 
-const OpenEventActions = (eventData: IEvent, mapViewRef: RefObject<MapView>, navigation: NavigationProps) => {
+const OpenEventActions = (eventData: IEvent, flyTo: (coordinates: ICoordinates) => Promise<void>, navigation: NavigationProps) => {
   trigger("impactLight");
   ActionSheetIOS.showActionSheetWithOptions(
     {
@@ -20,7 +21,7 @@ const OpenEventActions = (eventData: IEvent, mapViewRef: RefObject<MapView>, nav
       } else if (buttonIndex === 1) {
       } else if (buttonIndex === 2) {
         navigation.navigate("MainView")
-        flyTo(eventData.location.coordinates.coordinates[1], eventData.location.coordinates.coordinates[0], mapViewRef)
+        flyTo({lat: eventData.location.coordinates.coordinates[1], lng: eventData.location.coordinates.coordinates[0]})
       }
     },
   );

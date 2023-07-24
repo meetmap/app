@@ -2,13 +2,10 @@ import { Dispatch, SetStateAction } from "react"
 import { IEvent } from "../../../types/event"
 import { ActionSheetIOS } from "react-native";
 import { trigger } from "react-native-haptic-feedback";
+import { ICoordinates } from "../../../types/location";
+import { NavigationProps } from "../../../types/NavigationProps";
 
-const EventInListActions = ({ isOpen, setIsOpen, title, eventData }: {
-  isOpen: boolean,
-  setIsOpen: Dispatch<SetStateAction<boolean>>,
-  title: string,
-  eventData: IEvent
-}) => {
+const EventInListActions = (eventData: IEvent, flyTo: (coordinates: ICoordinates) => Promise<void>, navigation: NavigationProps) => {
   trigger("impactLight");
   ActionSheetIOS.showActionSheetWithOptions(
     {
@@ -21,7 +18,8 @@ const EventInListActions = ({ isOpen, setIsOpen, title, eventData }: {
       } else if (buttonIndex === 1) {
 
       } else if (buttonIndex === 2) {
-
+        navigation.navigate("MainView")
+        flyTo({lat: eventData.location.coordinates.coordinates[1], lng: eventData.location.coordinates.coordinates[0]})
       } else if (buttonIndex === 3) {
 
       }

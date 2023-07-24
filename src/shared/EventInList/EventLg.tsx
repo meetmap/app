@@ -26,7 +26,7 @@ const EventLg = ({ eventData }: { eventData: IEvent }) => {
     )
     const formattedStartTime = moment(eventData.startTime).format('MMM D - h A');
     const navigation = useNavigation<NavigationProps>();
-    const { mapViewRef } = useMap()
+    const { flyTo } = useMap()
 
     return (
         <StyledEventLgContainer onPress={() => navigation.navigate("EventModalView", { eventId: eventData.id })}>
@@ -51,7 +51,7 @@ const EventLg = ({ eventData }: { eventData: IEvent }) => {
                     }
                     <Span>{formattedStartTime}</Span>
                 </StyledAboutEventTextInfo>
-                <StyledEventMoreAction onPress={() => OpenEventActions(eventData, mapViewRef, navigation)}>
+                <StyledEventMoreAction onPress={() => OpenEventActions(eventData, flyTo, navigation)}>
                     <MoreIcon />
                 </StyledEventMoreAction>
             </StyledAboutEventContainer>

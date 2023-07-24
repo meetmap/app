@@ -13,7 +13,7 @@ import PrimaryMediumButton from '../../shared/Buttons/PrimaryMediumButton';
 import { styled } from 'styled-components/native';
 import MoreIcon from '../../shared/Icons/MoreIcon';
 import { useMap } from '../../hooks/MapProvider';
-import SelfProfileActions from '../../shared/Actions/Users/SelfProfileActions copy';
+import SelfProfileActions from '../../shared/Actions/Users/SelfProfileActions';
 
 
 export interface ISelfProfileViewProps {

@@ -11,7 +11,7 @@ import styled from 'styled-components';
 import PrimaryMediumButton from '../../shared/Buttons/PrimaryMediumButton';
 import MoreIcon from '../../shared/Icons/MoreIcon';
 import { useMap } from '../../hooks/MapProvider';
-import SelfProfileActions from '../../shared/Actions/Users/SelfProfileActions copy';
+import SelfProfileActions from '../../shared/Actions/Users/SelfProfileActions';
 import ProfileActions from '../../shared/Actions/Users/ProfileActions';
 
 interface IPageProps {
@@ -21,7 +21,7 @@ interface IPageProps {
 const ProfileView = (props: IPageProps) => {
     const [userData, setUserData] = useState<IPartialUser | null>(null)
     const [userDataLoading, setUserDataLoading] = useState<boolean>(false)
-    const { mapViewRef } = useMap()
+    const { flyTo } = useMap()
     const getUserDataById = async () => {
         setUserDataLoading(true)
         const userResData = await getUserById(props.route.params.userId)
@@ -42,7 +42,7 @@ const ProfileView = (props: IPageProps) => {
                 <UserProfileInfo userData={userData} />
                 <StyledProfileActions>
                     <PrimaryMediumButton style={{ flex: 1 }} btnType='Secondary' title='Invite to an event' />
-                    <PrimaryMediumButton btnType='Secondary' onPress={() => ProfileActions(userData, mapViewRef, props.navigation)}>
+                    <PrimaryMediumButton btnType='Secondary' onPress={() => ProfileActions(userData, flyTo, props.navigation)}>
                         <MoreIcon />
                     </PrimaryMediumButton>
                 </StyledProfileActions>

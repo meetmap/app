@@ -7,8 +7,9 @@ import { RefObject } from "react";
 import MapView from "react-native-maps";
 import { NavigationProps } from "../../../types/NavigationProps";
 import { trigger } from "react-native-haptic-feedback";
+import { ICoordinates } from "../../../types/location";
 
-const UserInListActions = (userData: IPartialUser, handleChangeFriendshipStatus: () => Promise<void>, mapViewRef: RefObject<MapView>, navigation: NavigationProps) => {
+const UserInListActions = (userData: IPartialUser, handleChangeFriendshipStatus: () => Promise<void>, flyTo: (coordinates: ICoordinates) => Promise<void>, navigation: NavigationProps) => {
     trigger("impactLight");
     ActionSheetIOS.showActionSheetWithOptions(
         {
@@ -24,7 +25,7 @@ const UserInListActions = (userData: IPartialUser, handleChangeFriendshipStatus:
             } else if (buttonIndex === 2) {
             } else if (buttonIndex === 3) {
             }else if (buttonIndex === 4) {
-                flyToUser(userData.cid, mapViewRef, navigation)
+                flyToUser(userData.cid, flyTo, navigation)
             }
         },
     );

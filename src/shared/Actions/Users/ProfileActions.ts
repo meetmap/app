@@ -8,8 +8,9 @@ import MapView from "react-native-maps";
 import { NavigationProps, RootStackParamList } from "../../../types/NavigationProps";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { trigger } from "react-native-haptic-feedback";
+import { ICoordinates } from "../../../types/location";
 
-const ProfileActions = (userData: IPartialUser,  mapViewRef: RefObject<MapView>, navigation: NativeStackNavigationProp<RootStackParamList, 'ProfileView'>) => {
+const ProfileActions = (userData: IPartialUser, flyTo: (coordinates: ICoordinates) => Promise<void>,  navigation: NativeStackNavigationProp<RootStackParamList, 'ProfileView'>) => {
     trigger("impactLight");
     ActionSheetIOS.showActionSheetWithOptions(
         {
@@ -22,7 +23,7 @@ const ProfileActions = (userData: IPartialUser,  mapViewRef: RefObject<MapView>,
             } else if (buttonIndex === 1) {
 
             } else if (buttonIndex === 2) {
-                flyToUser(userData.cid, mapViewRef, navigation)
+                flyToUser(userData.cid, flyTo, navigation)
             } 
         },
     );
