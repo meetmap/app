@@ -1,7 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
-import { getUpdatedFriendsLocation } from "../api/location";
-import { NavigationProps, RootStackParamList } from "../types/NavigationProps";
-import { useMap } from "./MapProvider";
+import { getUpdatedFriendsLocation } from "../../api/location";
+import { NavigationProps, RootStackParamList } from "../../types/NavigationProps";
+import { useMap } from "../MapProvider";
 import { RefObject } from "react";
 import MapView from "react-native-maps";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";

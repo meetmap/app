@@ -5,7 +5,15 @@ import { EVENTS_URL } from "../baseUrl";
 import FormData from "form-data";
 
 export const getEventById = async (eventId: string) => {
-  const res = await getAxios("events-fetcher", true).get(EVENTS_URL + `/events/${eventId}`);
+  const res = await getAxios("events-fetcher", true).get(`/events/${eventId}`);
+  return res.data;
+};
+export const getEventsListByIds = async (eventIds: string[]) => {
+  const res = await getAxios("events-fetcher", true).get(`/events/batch`, {
+    params: {
+      ids: eventIds
+    }
+  });
   return res.data;
 };
 

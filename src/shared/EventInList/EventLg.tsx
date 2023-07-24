@@ -1,5 +1,5 @@
 import moment from "moment";
-import { useAppDispatch } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { IEvent } from "../../types/event";
 import { useState } from "react";
 import LikeButton from "../Buttons/LikeButton";
@@ -17,11 +17,12 @@ import { NavigationProps } from "../../types/NavigationProps";
 import { useMap } from "../../hooks/MapProvider";
 
 const EventLg = ({ eventData }: { eventData: IEvent }) => {
+    const { userCoordinates } = useAppSelector(state => state.locationSlice)
     const distance = useCalculateDistance(
-        eventData.location.coordinates.coordinates[0],
         eventData.location.coordinates.coordinates[1],
-        35.064,
-        32.9278599
+        eventData.location.coordinates.coordinates[0],
+        userCoordinates?.lat,
+        userCoordinates?.lng
     )
     const formattedStartTime = moment(eventData.startTime).format('MMM D - h A');
     const navigation = useNavigation<NavigationProps>();
@@ -45,7 +46,9 @@ const EventLg = ({ eventData }: { eventData: IEvent }) => {
                             </>
                         }
                     </H6>
-                    <Span>{distance} away from you</Span>
+                    {distance &&
+                        <Span> {distance} away from you</Span>
+                    }
                     <Span>{formattedStartTime}</Span>
                 </StyledAboutEventTextInfo>
                 <StyledEventMoreAction onPress={() => OpenEventActions(eventData, mapViewRef, navigation)}>

@@ -25,7 +25,7 @@ const EventModalView = (props: IEventModalViewProps) => {
     const [eventDataLoading, setEventDataLoading] = useState<boolean>(false)
     const getEvent = async () => {
         setEventDataLoading(true)
-        const event = await getEventById(props.route.params.eventId as string)
+        const event = await getEventById(props.route.params.eventId)
         setEventDataLoading(false)
         setEventData(event)
 

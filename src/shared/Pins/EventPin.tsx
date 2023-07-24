@@ -6,13 +6,12 @@ import LoadableImage from "../LoadableImage/LoadableImage";
 import { NavigationProps } from "../../types/NavigationProps";
 import { useNavigation } from "@react-navigation/native";
 import Svg, { SvgProps, Path, Mask, Rect } from "react-native-svg"
-import { flyTo } from "../../hooks/useFlyTo";
 
 const EventPin = ({ eventData }: { eventData: IEventByLocation }) => {
     const navigation = useNavigation<NavigationProps>();
-    const { mapViewRef } = useMap();
+    const { mapViewRef, flyTo } = useMap();
     const checkEvent = () => {
-        flyTo(eventData.coordinates[1], eventData.coordinates[0], mapViewRef)
+        flyTo({lat: eventData.coordinates[1], lng: eventData.coordinates[0]})
         navigation.navigate("EventModalView", { eventId: eventData.id })
     }
     return (
@@ -57,8 +56,10 @@ export default EventPin
 
 const StyledEventPinContent = styled(TouchableOpacity)`
     position: relative;
+    top: -50%;
 `
 const StyledEventImage = styled(Image)`
+    background-color: white;
     position: absolute;
     height: 56px;
     width: 56px;

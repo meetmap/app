@@ -15,7 +15,7 @@ export interface ClusterPoint {
 }
 interface IEventClusterProperties extends ClusterProperties {
   data: IEventByLocation
-  picture: string[]
+  ids: string[]
 }
 
 interface Options {
@@ -44,7 +44,6 @@ function getClusters({
 }: UseSuperclusterProps) : ClusterPoint[] {
   const supercluster = new Supercluster(options);
   supercluster.load(points);
-
   if (!bounds) {
     return []
   }

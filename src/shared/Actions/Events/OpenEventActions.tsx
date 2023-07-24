@@ -1,6 +1,6 @@
 import { ActionSheetIOS } from "react-native";
 import { IEvent } from "../../../types/event";
-import { flyTo } from "../../../hooks/useFlyTo";
+import { flyTo } from "../../../hooks/Map/useFlyTo";
 import { useNavigation } from "@react-navigation/native";
 import { NavigationProps } from "../../../types/NavigationProps";
 import { RefObject } from "react";

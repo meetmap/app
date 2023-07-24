@@ -16,6 +16,7 @@ import LoadableProfileImage from './shared/LoadableImage/LoadableProfileImage';
 import SettingsIcon from './shared/Icons/SettingsIcon';
 import GoBackArrowIcon from './shared/Icons/GoBackArrowIcon';
 import SettingsView from './Views/SettingsView';
+import EventsListModalView from './Views/EventListModalView';
 const Stack = createNativeStackNavigator();
 
 const Navigator = () => {
@@ -44,6 +45,7 @@ const Navigator = () => {
                             options={{ headerShown: false }}
                         />
                         <Stack.Screen options={{ presentation: "modal", headerShown: false }} name='EventModalView' component={EventModalView} />
+                        <Stack.Screen options={{ presentation: "modal", headerShown: false }} name='EventsListModalView' component={EventsListModalView} />
                         <Stack.Screen options={{ presentation: "modal", headerShown: false }} name='FilterModalView' component={FilterModalView} />
                         <Stack.Screen
                             name="ProfileView"

@@ -9,6 +9,7 @@ const LoaderContainer = () => {
             <ActivityIndicator
                 animating={true}
             />
+            {/* <LoaderIcon/> */}
         </StyledLoaderContent>
     )
 }

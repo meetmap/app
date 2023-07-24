@@ -11,7 +11,7 @@ import useSupercluster, { ClusterPoint } from "../../../hooks/useSuperCluster";
 import EventsClusters from "./EventsClusters";
 import { IEvent } from "../../../types/event";
 import { store } from "../../../store/store";
-import UsersClusters from "./UsersClusters";
+import FriendsClusters from "./FriendsClusters";
 
 
 const MapContent = () => {
@@ -47,7 +47,7 @@ const MapContent = () => {
     const [zoomLevel, setZoomLevel] = useState(20)
 
     const handleRegionChange = debounce(async (region: Region) => {
-        if(mapFiler === "Friends"){
+        if (mapFiler === "Friends") {
             return
         }
         const zoomLevelI = Math.log2(360 * (windowWidth / 256 / region.longitudeDelta)) + 1;
@@ -61,12 +61,11 @@ const MapContent = () => {
             bounds: [boundsData?.southWest.longitude - 0.02, boundsData?.southWest.latitude - 0.02, boundsData?.northEast.longitude + 0.02, boundsData?.northEast.latitude + 0.02],
             zoom: zoomLevel,
             options: {
-                radius: 55,
+                radius: 75,
                 maxZoom: 40,
                 minZoom: 2,
                 reduce: (accumulated, props) => {
-                    // Объедините массивы изображений из каждой точки и кластера
-                    accumulated.picture = [...accumulated.picture, ...props.picture];
+                    accumulated.ids = [...accumulated.ids, ...props.ids];
                 },
             },
         });
@@ -93,7 +92,7 @@ const MapContent = () => {
             onRegionChangeComplete={handleRegionChangeComplete}
         >
             <EventsClusters clusters={clusters} />
-            <UsersClusters />
+            <FriendsClusters />
             <UserMarker />
         </MapView >
     )

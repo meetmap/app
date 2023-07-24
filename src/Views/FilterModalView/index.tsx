@@ -38,7 +38,7 @@ const FilterModalView = ({ }: IMainViewProps) => {
                     onChangeText={searchEventsDataFunc}
                 />
             </StyledSearchInputContainer>
-            {searchEventsData ?
+            {searchEventsData?.length ?
                 isSearchLoading ?
                     <LoaderContainer />
                     :

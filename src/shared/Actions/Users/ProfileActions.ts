@@ -1,8 +1,8 @@
 import { ActionSheetIOS, Alert } from "react-native";
 import { IPartialUser, IUserSelf } from "../../../types/users";
-import { flyTo } from "../../../hooks/useFlyTo";
+import { flyTo } from "../../../hooks/Map/useFlyTo";
 import ConfirmAlert from "../../Alerts/ConfirmAlert";
-import { flyToUser } from "../../../hooks/flyToUser";
+import { flyToUser } from "../../../hooks/Map/flyToUser";
 import { RefObject } from "react";
 import MapView from "react-native-maps";
 import { NavigationProps, RootStackParamList } from "../../../types/NavigationProps";

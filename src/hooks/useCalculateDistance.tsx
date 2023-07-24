@@ -1,4 +1,5 @@
-export const useCalculateDistance = (lat1: number, lon1: number, lat2: number, lon2: number): string => {
+export const useCalculateDistance = (lat1?: number, lon1?: number, lat2?: number, lon2?: number): string | undefined => {
+    if(!lat1 || !lon1 || !lat2 || !lon2) return
     const R = 6371; 
     const dLat = ((lat2 - lat1) * Math.PI) / 180;
     const dLon = ((lon2 - lon1) * Math.PI) / 180;

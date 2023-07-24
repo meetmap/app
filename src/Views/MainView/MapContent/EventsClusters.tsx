@@ -13,23 +13,22 @@ const EventsClusters = ({ clusters }: { clusters: ClusterPoint[] }) => {
         return (
             <>
                 {clusters.map((cluster, index) => {
-                    const [long, lat] = cluster.geometry.coordinates
+                    const [lng, lat] = cluster.geometry.coordinates
                     if (cluster.properties.cluster) {
-                        console.log(cluster.properties.data.id)
                         return (
                             <AnimatedMarker
                                 entering={FadeIn}
                                 key={`cluster${cluster.properties.data.id}`}
                                 coordinate={{
                                     latitude: lat,
-                                    longitude: long
+                                    longitude: lng
                                 }}
                             >
                                 <ClusterEventPin
                                     eventData={cluster.properties.data}
                                     count={cluster.properties.point_count}
-                                    coordinates={[long, lat]}
-                                    pictures={cluster.properties.picture}
+                                    coordinates={[lng, lat]}
+                                    ids={cluster.properties.ids}
                                 />
                             </AnimatedMarker>
                         )
@@ -40,7 +39,7 @@ const EventsClusters = ({ clusters }: { clusters: ClusterPoint[] }) => {
                             key={`pin${cluster.properties.data.id}`}
                             coordinate={{
                                 latitude: lat,
-                                longitude: long
+                                longitude: lng
                             }}
                         >
                             <EventPin eventData={cluster.properties.data} />

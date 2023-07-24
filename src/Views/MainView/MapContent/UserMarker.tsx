@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useAppSelector } from '../../../store/hooks'
-import { Marker } from 'react-native-maps'
+import { AnimatedRegion, LatLng, Marker } from 'react-native-maps'
 import { useMap } from '../../../hooks/MapProvider';
 import UserPin from '../../../shared/Pins/UserPin';
 
@@ -16,18 +16,44 @@ const UserMarker = () => {
                 latitudeDelta: 0.0922,
                 longitudeDelta: 0.0421,
             })
+            const reg = new AnimatedRegion({
+                latitude: userLocation.lat,
+                longitude: userLocation.lng,
+                latitudeDelta: 0,
+                longitudeDelta: 0,
+            })
+            setCoordinate(reg)
         }
     }, [!!userLocation])
 
-    if (userLocation) {
+    const [coordinate, setCoordinate] = useState<AnimatedRegion | null>(null);
+
+    useEffect(() => {
+        animateMarker();
+    }, [userLocation]);
+
+
+    const animateMarker = () => {
+        if (userLocation && coordinate) {
+            coordinate.timing({
+                latitude: userLocation.lat, 
+                longitude: userLocation.lng, 
+                useNativeDriver: false,
+                toValue: 0,
+                duration: 2000,
+                latitudeDelta: 0,
+                longitudeDelta: 0
+            }).start();
+        }
+    };
+
+    if (userLocation && coordinate) {
         return (
-            <Marker coordinate={{
-                latitude: userLocation.lat,
-                longitude: userLocation.lng
-            }}
+            <Marker.Animated
+                coordinate={coordinate as any}
             >
                 <UserPin profilePicture={userData} />
-            </Marker>
+            </Marker.Animated>
         )
     }
     return null

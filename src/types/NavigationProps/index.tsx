@@ -12,6 +12,8 @@ export type RootStackParamList = {
     MainView: undefined;
 
     EventModalView: { eventId: string }
+    EventsListModalView : { eventIds: string[] }
+
     MyBottomSheet: undefined
 
     ProfileView: { userId: string, username: string }; // a screen that we are 

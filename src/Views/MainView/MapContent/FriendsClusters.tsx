@@ -4,10 +4,11 @@ import { Marker } from 'react-native-maps';
 import { getUpdatedFriendsLocationThunk } from '../../../store/slices/locationSlice';
 import FriendPin from '../../../shared/Pins/FriendPin';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
+import FriendMarker from './FriendMarker';
 
-const AnimatedMarker = Animated.createAnimatedComponent(Marker);
+// const AnimatedMarker = Animated.createAnimatedComponent(Marker);
 
-const UsersClusters = () => {
+const FriendsClusters = () => {
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(getUpdatedFriendsLocationThunk());
@@ -21,25 +22,17 @@ const UsersClusters = () => {
   const mapFiler = useAppSelector(state => state.mapSlice.mapFilters);
   if (mapFiler === 'Friends' || mapFiler === 'All') {
     return (
-      friendsCoordinates.map(friend => (
-        <AnimatedMarker
-          entering={FadeIn}
-          key={friend.id}
-          coordinate={{
-            latitude: friend.location.lat,
-            longitude: friend.location.lng,
-          }}
-        >
-          <FriendPin
-            userData={friend}
-            profilePicture={friend.profilePicture}
-          />
-        </AnimatedMarker>
-      ))
-
+      friendsCoordinates.map(friend => {
+        if (friend.location) {
+          return (
+            <FriendMarker friend={friend} />
+          )
+        }
+        return null
+      })
     );
   }
   return null;
 };
 
-export default UsersClusters;
+export default FriendsClusters;
