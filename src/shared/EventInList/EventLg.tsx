@@ -15,6 +15,7 @@ import { useNavigation } from "@react-navigation/native";
 import { IMainViewProps } from "../../Views/WelcomeView";
 import { NavigationProps } from "../../types/NavigationProps";
 import { useMap } from "../../hooks/MapProvider";
+import EventInListActions from "../Actions/Events/EventInListActions";
 
 const EventLg = ({ eventData }: { eventData: IEvent }) => {
     const { userCoordinates } = useAppSelector(state => state.locationSlice)
@@ -51,7 +52,7 @@ const EventLg = ({ eventData }: { eventData: IEvent }) => {
                     }
                     <Span>{formattedStartTime}</Span>
                 </StyledAboutEventTextInfo>
-                <StyledEventMoreAction onPress={() => OpenEventActions(eventData, flyTo, navigation)}>
+                <StyledEventMoreAction onPress={() => EventInListActions(eventData, flyTo, navigation)}>
                     <MoreIcon />
                 </StyledEventMoreAction>
             </StyledAboutEventContainer>
