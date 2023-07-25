@@ -21,7 +21,7 @@ export const loginWithUsername = async ({
   password,
 }: ILoginWithUsername): Promise<ILoginWithUsernameResponse> => {
   try {
-    
+
     const { data } = await getAxios("auth-service", false).post<ILoginWithUsernameResponse>("/auth/login", {
       username,
       password,
@@ -84,6 +84,25 @@ export const searchUsersByQuery = async (query: string): Promise<IPartialUser[]>
 
 export const getUserById = async (id: string): Promise<IPartialUser> => {
   const { data } = await getAxios("main-app", true).get<IPartialUser>(`/users/get/${id}`);
+
+  return data;
+};
+
+export interface IUploadedImage {
+  uri: string;
+  type: string;
+  name: string;
+}
+
+export const changeUserProfilePicture = async (picture: IUploadedImage): Promise<IUserSelf> => {
+  const formData = new FormData();
+  formData.append("photo", picture);
+  console.log(formData)
+  const { data } = await getAxios("main-app", true).post<IUserSelf>(`/users/profile/picture`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
 
   return data;
 };

@@ -4,10 +4,10 @@ import LoaderContainer from "../../shared/LoaderContainer"
 import { H3 } from "../../shared/Text"
 import TextStatus from "../../shared/TextStatus"
 import { useAppDispatch } from "../../store/hooks"
-import { useState } from "react"
+import { useCallback, useState } from "react"
 import { IEvent } from "../../types/event"
 import styled from "styled-components/native"
-import { FlatList, NativeSyntheticEvent, Text, TextInputChangeEventData, View } from "react-native"
+import { FlatList, NativeSyntheticEvent, RefreshControl, ScrollView, Text, TextInputChangeEventData, View } from "react-native"
 import SearchInput from "../../shared/Input/SearchInput"
 import { searchEvents } from "../../api/events"
 import { NativeStackNavigationProp } from "@react-navigation/native-stack"
@@ -20,16 +20,29 @@ export interface IMainViewProps {
 const FilterModalView = ({ }: IMainViewProps) => {
     const [searchEventsData, setSearchEventsData] = useState<IEvent[] | null>(null)
     const [isSearchLoading, setIsSearchLoading] = useState(false)
+    const [searchInputData, setSearchInputData] = useState<string | null>(null)
+
     const searchEventsDataFunc = async (text: string) => {
         setIsSearchLoading(true)
         if (text.length > 0) {
+            setSearchInputData(text)
             const events = await searchEvents(text)
             setSearchEventsData(events)
         } else {
+            setSearchInputData(null)
             setSearchEventsData(null)
         }
         setIsSearchLoading(false)
     }
+    const [refreshing, setRefreshing] = useState(false);
+
+    const onRefresh = useCallback(async () => {
+        if (searchInputData) {
+            const events = await searchEvents(searchInputData)
+            setSearchEventsData(events)
+        }
+        setRefreshing(false)
+    }, []);
     return (
         <StyledSearchModal>
             <StyledSearchInputContainer>
@@ -43,6 +56,7 @@ const FilterModalView = ({ }: IMainViewProps) => {
                     <LoaderContainer />
                     :
                     <FlatList
+                        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
                         contentContainerStyle={{ paddingBottom: 25 }}
                         data={searchEventsData}
                         horizontal={false}
@@ -51,7 +65,12 @@ const FilterModalView = ({ }: IMainViewProps) => {
                         keyExtractor={item => item.id}
                     />
                 :
-                <TextStatus>Events not found</TextStatus>
+                <ScrollView
+                    style={{flex: 1}}
+                    refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+                >
+                    <TextStatus>Events not found</TextStatus>
+                </ScrollView>
             }
         </StyledSearchModal>
     )
@@ -62,6 +81,7 @@ export default FilterModalView
 
 const StyledSearchModal = styled(View)`
     flex-direction: column;
+    flex: 1;
     padding: 0 16px;
 `
 

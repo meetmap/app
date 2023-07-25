@@ -30,6 +30,7 @@ const EventsListModalView = ({ route }: IEventsListModalViewProps) => {
         getEventsByIds()
     }, [])
 
+    
     if (eventsListDataLoading) {
         return (
             <LoaderContainer />

@@ -1,6 +1,6 @@
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useEffect, useState } from 'react'
-import { Button, SafeAreaView, Text, View } from 'react-native'
+import { Button, RefreshControl, SafeAreaView, ScrollView, Text, View } from 'react-native'
 import { RootStackParamList } from '../../types/NavigationProps';
 import UserProfileInfo from '../../shared/Profile/UserProfileInfo';
 import { getUserById } from '../../api/users';
@@ -11,8 +11,8 @@ import styled from 'styled-components';
 import PrimaryMediumButton from '../../shared/Buttons/PrimaryMediumButton';
 import MoreIcon from '../../shared/Icons/MoreIcon';
 import { useMap } from '../../hooks/MapProvider';
-import SelfProfileActions from '../../shared/Actions/Users/SelfProfileActions';
 import ProfileActions from '../../shared/Actions/Users/ProfileActions';
+
 
 interface IPageProps {
     navigation: NativeStackNavigationProp<RootStackParamList, 'ProfileView'>;
@@ -32,13 +32,24 @@ const ProfileView = (props: IPageProps) => {
         getUserDataById()
     }, [props.route.params.userId])
 
+    const [refreshing, setRefreshing] = React.useState(false);
+
+    const onRefresh = React.useCallback(async () => {
+        const userResData = await getUserById(props.route.params.userId)
+        setUserData(userResData)
+        setRefreshing(false)
+    }, []);
+
     // console.log(userData?.friends)
     if (userDataLoading) {
         return <LoaderContainer />
     }
     if (userData) {
         return (
-            <View style={{ height: "100%", backgroundColor: "white" }}>
+            <ScrollView
+                style={{ height: "100%", backgroundColor: "white" }}
+                refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+            >
                 <UserProfileInfo userData={userData} />
                 <StyledProfileActions>
                     <PrimaryMediumButton style={{ flex: 1 }} btnType='Secondary' title='Invite to an event' />
@@ -46,11 +57,16 @@ const ProfileView = (props: IPageProps) => {
                         <MoreIcon />
                     </PrimaryMediumButton>
                 </StyledProfileActions>
-            </View>
+            </ScrollView>
         )
     }
     return (
-        <TextStatus>User not found</TextStatus>
+        <ScrollView
+            style={{ height: "100%", backgroundColor: "white" }}
+            refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+        >
+            <TextStatus>User not found</TextStatus>
+        </ScrollView>
     )
 }
 

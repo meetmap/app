@@ -15,7 +15,7 @@ const UserProfileInfo = ({ userData }: { userData: IPartialUser | IUserSelf }) =
           <StyledUserProfileInfo>
             <P textcolor="Primary">{`@${userData.username}`}</P>
             <P textcolor="Grey">•</P>
-            <P textcolor="Grey">{`${userData.friends.length} friends`}</P>
+            <P textcolor="Grey">{`${userData.friends?.length} friends`}</P>
           </StyledUserProfileInfo>
         </StyledUserTextGeneralInfo>
         {userData.description && <P textcolor="Grey" style={{ textAlign: "center", paddingHorizontal: 18 }}>{userData.description}</P>}

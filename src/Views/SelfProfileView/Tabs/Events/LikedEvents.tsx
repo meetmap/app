@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { IEvent } from "../../../../types/event"
 import { getLikedEvents } from "../../../../api/events"
 import LoaderContainer from "../../../../shared/LoaderContainer"
 import TextStatus from "../../../../shared/TextStatus"
 import EventLg from "../../../../shared/EventInList/EventLg"
 import styled from "styled-components/native"
-import { FlatList, ListRenderItem, SafeAreaView, ScrollView, Text, View } from "react-native"
+import { FlatList, ListRenderItem, RefreshControl, SafeAreaView, ScrollView, Text, View } from "react-native"
 
 const LikedEvents = () => {
 
@@ -21,6 +21,14 @@ const LikedEvents = () => {
     useEffect(() => {
         fetchLikedEvents()
     }, [])
+
+    const [refreshing, setRefreshing] = useState(false);
+
+    const onRefresh = useCallback(async () => {
+        const likedEventsData = await getLikedEvents()
+        setlikedEvents(likedEventsData)
+        setRefreshing(false)
+    }, []);
 
     if (isLoading) {
         return (
@@ -39,10 +47,9 @@ const LikedEvents = () => {
     return (
         <StyledLikedEventsContainer >
             <FlatList
+                refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
                 contentContainerStyle={{ paddingBottom: 25, backgroundColor: "white" }}
                 data={likedEvents}
-                horizontal={false}
-                scrollEnabled
                 renderItem={({ item }) => <EventLg eventData={item} />}
                 keyExtractor={item => item.id}
             />

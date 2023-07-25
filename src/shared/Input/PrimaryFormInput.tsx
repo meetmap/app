@@ -6,8 +6,8 @@ import { Text } from "react-native-svg";
 import { H1, Span } from "../Text";
 
 interface IPrimaryFormInput extends TextInputProps {
-    name: string
-    label: string
+    name?: string
+    label?: string
     isSuccess?: boolean
     isError?: boolean | string
     icon?: ReactNode

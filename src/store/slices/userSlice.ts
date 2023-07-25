@@ -1,13 +1,13 @@
-import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import {SecureStoreKeys} from '../../constants/secure-store';
-import {IUserSelf} from '../../types/users';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { SecureStoreKeys } from '../../constants/secure-store';
+import { IUserSelf } from '../../types/users';
 import {
   ICreateUser,
   createUser,
   getUserSelf,
   loginWithUsername,
 } from '../../api/users';
-import {getFromSecureStore, setToSecureStore} from '../../api/secure-store';
+import { getFromSecureStore, setToSecureStore } from '../../api/secure-store';
 
 interface InitialState {
   user: IUserSelf | null;
@@ -22,7 +22,11 @@ const initialState: InitialState = {
 const userSlice = createSlice({
   name: 'usersSlice',
   initialState,
-  reducers: {},
+  reducers: {
+    setUserdata: (state, action) => {
+      state.user = action.payload
+    }
+  },
   extraReducers(builder) {
     builder
       .addCase(LoginUserThunk.fulfilled, (state, action) => {
@@ -71,8 +75,8 @@ export const LoginUserThunk = createAsyncThunk<
     username: string;
     password: string;
   }
->('users/login', async ({password, username}) => {
-  const data = await loginWithUsername({username, password});
+>('users/login', async ({ password, username }) => {
+  const data = await loginWithUsername({ username, password });
   await setToSecureStore(SecureStoreKeys.ACCESS_TOKEN, data.tokens.at);
   await setToSecureStore(SecureStoreKeys.REFRESH_TOKEN, data.tokens.rt);
   await setToSecureStore(SecureStoreKeys.USER, JSON.stringify(data.user));
@@ -81,13 +85,16 @@ export const LoginUserThunk = createAsyncThunk<
 
 export const RegisterUserThunk = createAsyncThunk<IUserSelf, ICreateUser>(
   'users/create',
-  async ({username, email, birthDate, password}) => {
-    const data = await createUser({username, email, birthDate, password});
+  async ({ username, email, birthDate, password }) => {
+    const data = await createUser({ username, email, birthDate, password });
     await setToSecureStore(SecureStoreKeys.ACCESS_TOKEN, data.tokens.at);
     await setToSecureStore(SecureStoreKeys.REFRESH_TOKEN, data.tokens.rt);
     await setToSecureStore(SecureStoreKeys.USER, JSON.stringify(data.user));
     return data.user;
   },
 );
+
+
+export const { setUserdata } = userSlice.actions;
 
 export default userSlice.reducer;

@@ -74,6 +74,7 @@ const Navigator = () => {
                             component={SelfProfileView}
                         />
                         <Stack.Screen
+                            options={{title: "Settings"}}
                             name={"SettingsView"}
                             component={SettingsView}
                         />
