@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>NSMotionUsageDescription</key>
-	<string>$(PRODUCT_NAME) uses motion usage</string>
+	<string>$(PRODUCT_NAME) needs to track user location to share it with friends</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
