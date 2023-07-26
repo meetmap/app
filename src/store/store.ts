@@ -9,6 +9,7 @@ import eventModalSlice from "./slices/eventModalSlice";
 import searchModalSlice from "./slices/searchModalSlice";
 import eventListModalSlice from "./slices/eventListModalSlice";
 import usersListModalSlice from "./slices/usersListModalSlice";
+
 export const store = configureStore({
   reducer: {
     appSlice,

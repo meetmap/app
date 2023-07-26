@@ -4,6 +4,8 @@ import jwtDecode from "jwt-decode";
 import { refreshAccessToken } from "./refreshAccessToken";
 import { SecureStoreKeys } from "../constants/secure-store";
 import { getFromSecureStore, setToSecureStore } from "./secure-store";
+import { store } from "../store/store";
+import { setUserdata } from "../store/slices/userSlice";
 
 type MicroserviceNames = "auth-service" | "main-app" | "events-fetcher" | "user-service" | "location-service"
 
@@ -23,11 +25,19 @@ export const getAxios = (microserviceName: MicroserviceNames, auth: boolean) => 
         if (!refreshToken) {
           throw new Error("Login first");
         }
-        const response = await refreshAccessToken(refreshToken);
-        if (config.headers) {
-          config.headers.Authorization = `Bearer ${response.accessToken}`;
+        try {
+          const response = await refreshAccessToken(refreshToken);
+          if (config.headers) {
+            config.headers.Authorization = `Bearer ${response.accessToken}`;
+          }
+          await setToSecureStore(SecureStoreKeys.ACCESS_TOKEN, response.accessToken);
+          return config;
+        } catch (error) {
+          if (error.response && error.response.status === 401) {
+            store.dispatch(setUserdata(null));
+          }
+          throw error;
         }
-        await setToSecureStore(SecureStoreKeys.ACCESS_TOKEN, response.accessToken);
       }
       return config;
     });

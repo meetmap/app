@@ -33,6 +33,11 @@ export const mainTheme = {
                 BGDefault: "#000000",
                 TextDefault: "#ffffff",
                 BorderDefault: "#000000"
+            },
+            Error: {
+                BGDefault: "rgba(232, 77, 77, 0.10)",
+                TextDefault: "#E84D4D",
+                BorderDefault: "rgba(232, 77, 77, 0)"
             }
         },
         INPUT: {

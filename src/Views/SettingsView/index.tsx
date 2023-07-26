@@ -11,8 +11,9 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import EditView from './EditView';
 import { IUploadedImage, changeUserProfilePicture, getUserSelf } from '../../api/users';
 import LoaderContainer from '../../shared/LoaderContainer';
-import { InitializeUserThunk, setUserdata } from '../../store/slices/userSlice';
+import { InitializeUserThunk, LogOutThunk, setUserdata } from '../../store/slices/userSlice';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
+import PrimaryButton from '../../shared/Buttons/PrimaryButton';
 
 export interface ISettingsViewProps {
   navigation: NativeStackNavigationProp<RootStackParamList, 'SettingsView'>;
@@ -26,6 +27,7 @@ const SettingsView = ({ }: ISettingsViewProps) => {
   const [image, setImage] = useState<IUploadedImage | undefined>()
   const [isEditing, setIsEditing] = useState(false)
   const dispatch = useAppDispatch()
+
   const editFunc = async () => {
     if (editMode) {
       if (image) {
@@ -73,6 +75,7 @@ const SettingsView = ({ }: ISettingsViewProps) => {
         style={{ flex: 1, backgroundColor: "white" }}
       >
         <UserProfileInfo userData={userData} />
+        <PrimaryButton onPress={() => dispatch(LogOutThunk())} btnType='Error' title='Logout'/>
       </ScrollView>
     )
   }

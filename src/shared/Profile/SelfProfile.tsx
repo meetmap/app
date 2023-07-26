@@ -2,30 +2,33 @@ import styled from "styled-components/native";
 import { IPartialUser, IUserSelf } from "../../types/users";
 import { Image, View } from "react-native";
 import { H1, P } from "../Text";
-import LoadableImage from "../LoadableImage/LoadableImage";
 import LoadableProfileImage from "../LoadableImage/LoadableProfileImage";
-// import AppIcon from '../../assets/appIcon.png'
-const UserProfileInfo = ({ userData }: { userData: IPartialUser }) => {
-  return (
-    <StyledUserInfoHead>
-      <LoadableProfileImage profilePicture={userData.profilePicture} />
-      <StyledUserTextInfo>
-        <StyledUserTextGeneralInfo>
-          {userData.name && <H1>{userData.name}</H1>}
-          <P textcolor="Grey">{`${userData.friends?.length} friends`}</P>
-        </StyledUserTextGeneralInfo>
-        {userData.description && <P textcolor="Grey" style={{ textAlign: "center", paddingHorizontal: 18 }}>{userData.description}</P>}
-      </StyledUserTextInfo>
-      {/* <StyledSocialNetworks>
+
+const SelfProfileInfo = ({ userData }: { userData: IUserSelf }) => {
+    return (
+        <StyledUserInfoHead>
+            <LoadableProfileImage profilePicture={userData.profilePicture} />
+            <StyledUserTextInfo>
+                <StyledUserTextGeneralInfo>
+                    {userData.name && <H1>{userData.name}</H1>}
+                    <StyledUserProfileInfo>
+                        <P textcolor="Primary">{`@${userData.username}`}</P>
+                        <P textcolor="Grey">•</P>
+                        <P textcolor="Grey">{`${userData.friends?.length} friends`}</P>
+                    </StyledUserProfileInfo>
+                </StyledUserTextGeneralInfo>
+                {userData.description && <P textcolor="Grey" style={{ textAlign: "center", paddingHorizontal: 18 }}>{userData.description}</P>}
+            </StyledUserTextInfo>
+            {/* <StyledSocialNetworks>
         <InstagramIcon />
         <FacebookIcon />
         <TwitterIcon />
       </StyledSocialNetworks> */}
-    </StyledUserInfoHead>
-  );
+        </StyledUserInfoHead>
+    );
 };
 
-export default UserProfileInfo;
+export default SelfProfileInfo;
 
 const StyledUserInfoHead = styled(View)`
   display: flex;
@@ -48,7 +51,6 @@ const StyledUserProfileInfo = styled(View)`
   gap: 4px;
 `
 const StyledUserTextGeneralInfo = styled(View)`
-  gap: 8px;
   display: flex;
   flex-direction: column;
   align-items: center;

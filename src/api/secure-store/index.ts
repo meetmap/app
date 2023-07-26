@@ -7,6 +7,14 @@ export const getFromSecureStore = async (key: SecureStoreKeys): Promise<string |
     return value ?? null;
 };
 
+export const removeFromSecureStore = async (key: SecureStoreKeys) => {
+    try {
+        await AsyncStorage.removeItem(key)
+    } catch (e) {
+        // remove error
+    }
+};
+
 export const setToSecureStore = async (key: SecureStoreKeys, value: string) => {
     return await AsyncStorage.setItem(key, value);
 };

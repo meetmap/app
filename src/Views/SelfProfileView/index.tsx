@@ -8,12 +8,12 @@ import { RootStackParamList } from '../../types/NavigationProps';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import Friends from './Tabs/Users/Friends';
 import { useAppSelector } from '../../store/hooks';
-import UserProfileInfo from '../../shared/Profile/UserProfileInfo';
 import PrimaryMediumButton from '../../shared/Buttons/PrimaryMediumButton';
 import { styled } from 'styled-components/native';
 import MoreIcon from '../../shared/Icons/MoreIcon';
 import { useMap } from '../../hooks/MapProvider';
 import SelfProfileActions from '../../shared/Actions/Users/SelfProfileActions';
+import SelfProfileInfo from '../../shared/Profile/SelfProfile';
 
 
 export interface ISelfProfileViewProps {
@@ -30,7 +30,7 @@ const SelfProfileView = ({ navigation }: ISelfProfileViewProps) => {
     }
     return (
         <View style={{ height: "100%", backgroundColor: "white" }}>
-            <UserProfileInfo userData={selfUserData} />
+            <SelfProfileInfo userData={selfUserData} />
             <StyledProfileActions>
                 {/* <PrimaryMediumButton style={{flex: 1}} btnType='Secondary'>
                     Create Event

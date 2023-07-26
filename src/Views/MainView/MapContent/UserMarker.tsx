@@ -50,6 +50,7 @@ const UserMarker = () => {
     if (userLocation && coordinate) {
         return (
             <Marker.Animated
+                style={{zIndex: 1}}
                 coordinate={coordinate as any}
             >
                 <UserPin profilePicture={userData} />

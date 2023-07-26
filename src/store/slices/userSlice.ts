@@ -7,7 +7,7 @@ import {
   getUserSelf,
   loginWithUsername,
 } from '../../api/users';
-import { getFromSecureStore, setToSecureStore } from '../../api/secure-store';
+import { getFromSecureStore, removeFromSecureStore, setToSecureStore } from '../../api/secure-store';
 
 interface InitialState {
   user: IUserSelf | null;
@@ -55,6 +55,10 @@ const userSlice = createSlice({
         state.user = null;
         state.isLoading = false;
       });
+    builder
+      .addCase(LogOutThunk.fulfilled, (state, action) => {
+        state.user = null;
+      })
   },
 });
 
@@ -66,6 +70,15 @@ export const InitializeUserThunk = createAsyncThunk<IUserSelf>(
       throw new Error('Login first');
     }
     return user;
+  },
+);
+
+export const LogOutThunk = createAsyncThunk(
+  'users/logout',
+  async () => {
+    await removeFromSecureStore(SecureStoreKeys.USER)
+    await removeFromSecureStore(SecureStoreKeys.ACCESS_TOKEN)
+    await removeFromSecureStore(SecureStoreKeys.REFRESH_TOKEN)
   },
 );
 

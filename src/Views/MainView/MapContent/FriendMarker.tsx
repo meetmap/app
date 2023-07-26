@@ -40,6 +40,7 @@ const FriendMarker = ({ friend }: { friend: GetFriendsLocationResponse }) => {
             key={friend.id}
             // entering={FadeIn}
             coordinate={coordinate as any}
+            style={{zIndex: 1}}
         >
             <FriendPin
                 userData={friend}

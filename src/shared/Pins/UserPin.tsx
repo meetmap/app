@@ -13,8 +13,8 @@ interface IUserPin extends SvgProps {
 const UserPin = ({ profilePicture, ...props }: IUserPin) => {
     const navigation = useNavigation<NavigationProps>();
     return (
-        <StyledUserPinView>
-            <LoadableProfileImage containerSize={36} profilePicture={profilePicture} />
+        <StyledUserPinView onPress={() => navigation.navigate("SelfProfileView")}>
+            <LoadableProfileImage containerSize={40} profilePicture={profilePicture} />
         </StyledUserPinView>
     )
 }

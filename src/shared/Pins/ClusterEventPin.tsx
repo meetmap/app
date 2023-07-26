@@ -74,8 +74,8 @@ const StyledEventsCountSpan = styled(View)`
         border-radius: 12px;
     `
 const StyledEventImage = styled(Image)`
-    width: 56px;
-    height: 56px;
+    width: 52px;
+    height: 52px;
     object-fit: cover;
     top: 0;
     left: 0;

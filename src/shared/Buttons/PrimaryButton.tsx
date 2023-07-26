@@ -4,7 +4,7 @@ import React, { ButtonHTMLAttributes, ReactNode } from 'react'
 import { TextcolorsType } from "../Text";
 import { Button, ButtonProps, StyleSheet, Text, TouchableOpacity, TouchableOpacityProps, View } from "react-native";
 
-export type ButtonType = "Primary" | "Secondary" | "White" | "Black"
+export type ButtonType = "Primary" | "Secondary" | "White" | "Black" | "Error"
 
 export interface IPrimaryButton extends TouchableOpacityProps {
     btnType?: ButtonType,

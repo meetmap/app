@@ -17,7 +17,7 @@ const FriendPin = ({ userData, profilePicture }: IFriendPin) => {
     const navigation = useNavigation<NavigationProps>();
     return (
         <StyledUserPinView onPress={() => navigation.navigate("ProfileView", { userId: userData.cid, username: userData.username })}>
-            <LoadableProfileImage containerSize={36} profilePicture={profilePicture} />
+            <LoadableProfileImage containerSize={40} profilePicture={profilePicture} />
         </StyledUserPinView>
     )
 }

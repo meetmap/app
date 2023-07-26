@@ -8,16 +8,31 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import LoadableProfileImage from "../../../shared/LoadableImage/LoadableProfileImage";
 import { setMapFiltersState } from "../../../store/slices/mapSlice";
 import ChangeFiltersButton from "./ChangeFiltersButton";
+import { useMap } from "../../../hooks/MapProvider";
 
 const BottomControlls = ({ navigation }: IMainViewProps) => {
     const profilePic = useAppSelector(state => state.userSlice.user?.profilePicture)
+    const { areCoordinatesInVisibleRegion, flyTo } = useMap()
+    const { userCoordinates } = useAppSelector(state => state.locationSlice)
+    const handleCheckUser = async () => {
+        if (!userCoordinates) {
+            navigation.navigate('SelfProfileView')
+            return
+        }
+        const isInView = await areCoordinatesInVisibleRegion({ lat: userCoordinates.lat, lng: userCoordinates.lng })
+        if (isInView) {
+            navigation.navigate('SelfProfileView')
+            return
+        }
+        flyTo({ lat: userCoordinates.lat, lng: userCoordinates.lng }, 2000)
+    }
     return (
         <StyledBottomControlls>
             <CubeButton onPress={() => navigation.navigate('FilterModalView')}><SearchIcon /></CubeButton>
-            <StyledProfileButton onPress={() => navigation.navigate('SelfProfileView')}>
+            <StyledProfileButton onPress={handleCheckUser}>
                 <LoadableProfileImage containerSize={56} containerBorderRadius={18} profilePicture={profilePic} />
             </StyledProfileButton>
-            <ChangeFiltersButton/>
+            <ChangeFiltersButton />
         </StyledBottomControlls>
     )
 }
