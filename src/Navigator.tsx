@@ -17,6 +17,7 @@ import SettingsIcon from './shared/Icons/SettingsIcon';
 import GoBackArrowIcon from './shared/Icons/GoBackArrowIcon';
 import SettingsView from './Views/SettingsView';
 import EventsListModalView from './Views/EventListModalView';
+import UsersListModalView from './Views/UsersListModalView';
 const Stack = createNativeStackNavigator();
 
 const Navigator = () => {
@@ -28,13 +29,12 @@ const Navigator = () => {
     return (
         <Stack.Navigator
             screenOptions={({ navigation }) => ({
-
-                // contentStyle: {
-                //     backgroundColor: "white"
-                // }
                 headerShadowVisible: false,
+                cardStyle: { backgroundColor: '#fff' },
+                contentStyle: {
+                    backgroundColor: '#FFFFFF'
+                }
             })}
-
         >
             {!isLoading ?
                 user ?
@@ -46,6 +46,7 @@ const Navigator = () => {
                         />
                         <Stack.Screen options={{ presentation: "modal", headerShown: false }} name='EventModalView' component={EventModalView} />
                         <Stack.Screen options={{ presentation: "modal", headerShown: false }} name='EventsListModalView' component={EventsListModalView} />
+                        <Stack.Screen options={{ presentation: "modal", headerShown: false }} name='UsersListModalView' component={UsersListModalView} />
                         <Stack.Screen options={{ presentation: "modal", headerShown: false }} name='FilterModalView' component={FilterModalView} />
                         <Stack.Screen
                             name="ProfileView"
@@ -59,8 +60,9 @@ const Navigator = () => {
                             })}
                         />
                         <Stack.Screen
-                            options={({navigation}) => ({
+                            options={({ navigation }) => ({
                                 title: "",
+                                headerShown: false,
                                 headerRight: (data) => (
                                     <TouchableOpacity
                                         onPress={() => navigation.navigate('SettingsView')}
@@ -74,7 +76,7 @@ const Navigator = () => {
                             component={SelfProfileView}
                         />
                         <Stack.Screen
-                            options={{title: "Settings"}}
+                            options={{ title: "Settings" }}
                             name={"SettingsView"}
                             component={SettingsView}
                         />
@@ -92,7 +94,12 @@ const Navigator = () => {
                         <Stack.Screen
                             name="WelcomeView"
                             component={WelcomeView}
-                            options={{ headerShown: false }}
+                            options={{
+                                headerShown: false,
+                                contentStyle: {
+                                    backgroundColor: '#000000'
+                                }
+                            }}
                         />
                         <Stack.Screen
                             name="LoginView"

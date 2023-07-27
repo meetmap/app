@@ -38,3 +38,7 @@ export const getOutcomingFrienshipRequests = async (): Promise<GetSelfFriendsRes
   const { data } = await getAxios("main-app", true).get<GetSelfFriendsResponse[]>("/friends/outcoming");
   return data;
 };
+export const getFriendsListByCId = async (userCId: string): Promise<GetSelfFriendsResponse[]> => {
+  const { data } = await getAxios("main-app", true).get<GetSelfFriendsResponse[]>(`/friends/get/${userCId}`);
+  return data;
+};

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, View, useWindowDimensions } from 'react-native'
+import { SafeAreaView, Text, View, useWindowDimensions } from 'react-native'
 import { SceneMap, TabView } from 'react-native-tab-view'
 import Users from './Tabs/Users';
 import LikedEvents from './Tabs/Events/LikedEvents';
@@ -14,6 +14,7 @@ import MoreIcon from '../../shared/Icons/MoreIcon';
 import { useMap } from '../../hooks/MapProvider';
 import SelfProfileActions from '../../shared/Actions/Users/SelfProfileActions';
 import SelfProfileInfo from '../../shared/Profile/SelfProfile';
+import CustomHeader from '../../shared/CustomHeader';
 
 
 export interface ISelfProfileViewProps {
@@ -29,17 +30,19 @@ const SelfProfileView = ({ navigation }: ISelfProfileViewProps) => {
         return null
     }
     return (
-        <View style={{ height: "100%", backgroundColor: "white" }}>
-            <SelfProfileInfo userData={selfUserData} />
-            <StyledProfileActions>
-                {/* <PrimaryMediumButton style={{flex: 1}} btnType='Secondary'>
-                    Create Event
-                </PrimaryMediumButton> */}
-                <PrimaryMediumButton style={{ flex: 1 }} btnType='Secondary' title='Invite friend' />
-                <PrimaryMediumButton btnType='Secondary' onPress={() => SelfProfileActions(selfUserData)}>
-                    <MoreIcon />
-                </PrimaryMediumButton>
-            </StyledProfileActions>
+        <View style={{ height: "100%" }}>
+            <SafeAreaView>
+                <View>
+                    <SelfProfileInfo userData={selfUserData} />
+                    <CustomHeader />
+                    <StyledProfileActions>
+                        <PrimaryMediumButton style={{ flex: 1 }} btnType='Secondary' title='Invite friend' />
+                        <PrimaryMediumButton btnType='Secondary' onPress={() => SelfProfileActions(selfUserData)}>
+                            <MoreIcon />
+                        </PrimaryMediumButton>
+                    </StyledProfileActions>
+                </View>
+            </SafeAreaView>
             <Tab.Navigator
                 screenOptions={{
                     tabBarStyle: {

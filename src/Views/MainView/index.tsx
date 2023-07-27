@@ -10,7 +10,7 @@ import MapContent from './MapContent';
 import useLocation from '../../hooks/useLocation';
 import MapHeader from './MapHeader';
 import BackgroundGeolocation, { Subscription } from 'react-native-background-geolocation';
-import { useAppDispatch } from '../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { updateUserLocationThunk } from '../../store/slices/locationSlice';
 
 export interface IMainViewProps {
@@ -21,6 +21,7 @@ const MainView = ({ navigation }: IMainViewProps) => {
   const [enabled, setEnabled] = React.useState(false);
   // const [location, setLocation] = React.useState('');
   const dispatch = useAppDispatch()
+  const userData = useAppSelector(state => state.userSlice.user)
 
   React.useEffect(() => {
     /// 1.  Subscribe to events.
@@ -67,13 +68,6 @@ const MainView = ({ navigation }: IMainViewProps) => {
       // url: 'http://yourserver.com/locations',
       batchSync: false,       // <-- [Default: false] Set true to sync locations to server in a single HTTP request.
       autoSync: true,         // <-- [Default: true] Set true to sync each location to server as it arrives.
-      // headers: {              // <-- Optional HTTP headers
-      //   "X-FOO": "bar"
-      // },
-      // params: {               // <-- Optional HTTP params
-      //   "auth_token": "maybe_your_server_authenticates_via_token_YES?"
-      // }
-
     }).then((state) => {
       setEnabled(true)
       console.log("- BackgroundGeolocation is configured and ready: ", state.enabled);
@@ -92,16 +86,12 @@ const MainView = ({ navigation }: IMainViewProps) => {
 
   /// 3. start / stop BackgroundGeolocation
   React.useEffect(() => {
-    if (enabled) {
+    if (enabled && userData) {
       BackgroundGeolocation.start();
     } else {
       BackgroundGeolocation.stop();
     }
-  }, [enabled]);
-
-  // useEffect(() => {
-  //   console.log(location)
-  // }, [location])
+  }, [enabled, !!userData]);
 
 
   return (

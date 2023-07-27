@@ -19,11 +19,6 @@ const SelfProfileInfo = ({ userData }: { userData: IUserSelf }) => {
                 </StyledUserTextGeneralInfo>
                 {userData.description && <P textcolor="Grey" style={{ textAlign: "center", paddingHorizontal: 18 }}>{userData.description}</P>}
             </StyledUserTextInfo>
-            {/* <StyledSocialNetworks>
-        <InstagramIcon />
-        <FacebookIcon />
-        <TwitterIcon />
-      </StyledSocialNetworks> */}
         </StyledUserInfoHead>
     );
 };
@@ -36,7 +31,8 @@ const StyledUserInfoHead = styled(View)`
   justify-content: center;
   align-items: center;
   gap: 10px;
-  padding: 16px;
+  padding: 0 16px;
+  padding-bottom: 16px;
 `;
 const StyledUserTextInfo = styled(View)`
   align-items: center;

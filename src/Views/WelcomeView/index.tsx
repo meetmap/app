@@ -1,4 +1,4 @@
-import { Image, ImageBackground, SafeAreaView, View } from 'react-native'
+import { Image, ImageBackground, SafeAreaView, StatusBar, View } from 'react-native'
 import styled from 'styled-components/native'
 import PrimaryButton from '../../shared/Buttons/PrimaryButton'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -12,34 +12,36 @@ export interface IMainViewProps {
 
 const WelcomeView = ({ navigation }: IMainViewProps) => {
     return (
-        <StyledWelcomeView>
-            <StyledImageBackground
-                source={require('../../assets/globe.png')}
-                imageStyle={{
-                    // resizeMode: "cover",
-                    height: 500, // the image height
-                    top: undefined
-                }}
-            >
-                <StyledWelcomeViewContent>
-                    <StyledHeadContent>
-                        <HorizontalLogoIcon />
-                        <StyledHeadText>
-                            <Title textcolor='Grey'>
-                                Meetmap is...
-                            </Title>
-                            <Title textcolor='White'>
-                                interactive map to find events... and friends
-                            </Title>
-                        </StyledHeadText>
-                    </StyledHeadContent>
-                    <StyledBottomContent>
-                        <PrimaryButton onPress={() => navigation.navigate("RegisterView")} btnType='White' title='Sign up' />
-                        <PrimaryButton onPress={() => navigation.navigate("LoginView")} btnType='Black' title='Sign in' />
-                    </StyledBottomContent>
-                </StyledWelcomeViewContent>
-            </StyledImageBackground>
-        </StyledWelcomeView>
+        <>
+            <StyledWelcomeView>
+                <StyledImageBackground
+                    source={require('../../assets/globe.png')}
+                    imageStyle={{
+                        // resizeMode: "cover",
+                        height: 500, // the image height
+                        top: undefined
+                    }}
+                >
+                    <StyledWelcomeViewContent>
+                        <StyledHeadContent>
+                            <HorizontalLogoIcon />
+                            <StyledHeadText>
+                                <Title textcolor='Grey'>
+                                    Meetmap is...
+                                </Title>
+                                <Title textcolor='White'>
+                                    interactive map to find events... and friends
+                                </Title>
+                            </StyledHeadText>
+                        </StyledHeadContent>
+                        <StyledBottomContent>
+                            <PrimaryButton onPress={() => navigation.navigate("RegisterView")} btnType='White' title='Sign up' />
+                            <PrimaryButton onPress={() => navigation.navigate("LoginView")} btnType='Black' title='Sign in' />
+                        </StyledBottomContent>
+                    </StyledWelcomeViewContent>
+                </StyledImageBackground>
+            </StyledWelcomeView>
+        </>
     )
 }
 
@@ -49,7 +51,6 @@ export default WelcomeView
 const StyledWelcomeView = styled(View)`
     justify-content: space-between;
     flex: 1;
-    background-color: black;
 `
 const StyledWelcomeViewContent = styled(SafeAreaView)`
     justify-content: space-between;

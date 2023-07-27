@@ -92,8 +92,9 @@ export const LoginUserThunk = createAsyncThunk<
   const data = await loginWithUsername({ username, password });
   await setToSecureStore(SecureStoreKeys.ACCESS_TOKEN, data.tokens.at);
   await setToSecureStore(SecureStoreKeys.REFRESH_TOKEN, data.tokens.rt);
-  await setToSecureStore(SecureStoreKeys.USER, JSON.stringify(data.user));
-  return data.user;
+  const userData = await getUserSelf()
+  await setToSecureStore(SecureStoreKeys.USER, JSON.stringify(userData));
+  return userData;
 });
 
 export const RegisterUserThunk = createAsyncThunk<IUserSelf, ICreateUser>(

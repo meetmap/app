@@ -14,6 +14,7 @@ import LoaderContainer from '../../shared/LoaderContainer';
 import { InitializeUserThunk, LogOutThunk, setUserdata } from '../../store/slices/userSlice';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 import PrimaryButton from '../../shared/Buttons/PrimaryButton';
+import SelfProfileInfo from '../../shared/Profile/SelfProfile';
 
 export interface ISettingsViewProps {
   navigation: NativeStackNavigationProp<RootStackParamList, 'SettingsView'>;
@@ -74,7 +75,7 @@ const SettingsView = ({ }: ISettingsViewProps) => {
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
         style={{ flex: 1, backgroundColor: "white" }}
       >
-        <UserProfileInfo userData={userData} />
+        <SelfProfileInfo userData={userData} />
         <PrimaryButton onPress={() => dispatch(LogOutThunk())} btnType='Error' title='Logout'/>
       </ScrollView>
     )

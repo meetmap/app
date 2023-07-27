@@ -39,7 +39,6 @@ export default EditView
 
 const StyledEditView = styled(View)`
     gap: 24px;
-    background-color: white;
     padding: 16px;
     flex: 1;
     `

@@ -9,6 +9,9 @@ import { getEventsListByIds } from '../../api/events'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { RootStackParamList } from '../../types/NavigationProps'
 import { H1 } from '../../shared/Text'
+import { getFriendsListByCId } from '../../api/friends'
+import { IPartialUser } from '../../types/users'
+import UserDataInList from '../../shared/Profile/UserDataInList'
 
 
 export interface IEventsListModalViewProps {
@@ -16,47 +19,47 @@ export interface IEventsListModalViewProps {
 }
 
 
-const EventsListModalView = ({ route }: IEventsListModalViewProps) => {
-    const [eventsListData, setEventsListData] = useState<IEvent[] | null>(null)
-    const [eventsListDataLoading, setEventsListDataLoading] = useState<boolean>(false)
+const UsersListModalView = ({ route }: IEventsListModalViewProps) => {
+    const [usersListData, setUsersListData] = useState<IPartialUser[] | null>(null)
+    const [usersListDataLoading, setUsersListDataLoading] = useState<boolean>(false)
 
-    const getEventsByIds = async () => {
-        setEventsListDataLoading(true)
-        const eventsData = await getEventsListByIds(route.params.eventIds)
-        setEventsListData(eventsData)
-        setEventsListDataLoading(false)
+    const getUsersByIds = async () => {
+        setUsersListDataLoading(true)
+        const usersData = await getFriendsListByCId(route.params.userCId)
+        setUsersListData(usersData)
+        setUsersListDataLoading(false)
     }
     useEffect(() => {
-        getEventsByIds()
+        getUsersByIds()
     }, [])
 
-    if (eventsListDataLoading) {
+
+    if (usersListDataLoading) {
         return (
             <LoaderContainer />
         )
     }
-    if (!eventsListData) {
+    if (!usersListData) {
         return (
             <TextStatus>Something went wrong</TextStatus>
         )
     }
     return (
         <StyledEventsListModal>
-            <H1>Events in this place</H1>
+            <H1>{`${route.params.username}\`s friends`}</H1>
             <FlatList
-                contentContainerStyle={{ paddingBottom: 25 }}
-                data={eventsListData}
+                contentContainerStyle={{ paddingBottom: 25, gap: 8 }}
+                data={usersListData}
                 horizontal={false}
                 scrollEnabled
-                renderItem={({ item }) => <EventLg eventData={item} />}
+                renderItem={({ item }) => <UserDataInList userData={item} />}
                 keyExtractor={item => item.id}
             />
         </StyledEventsListModal>
     )
 }
 
-export default EventsListModalView
-
+export default UsersListModalView
 
 const StyledEventsListModal = styled(View)`
     flex-direction: column;

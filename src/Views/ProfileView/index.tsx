@@ -47,7 +47,7 @@ const ProfileView = (props: IPageProps) => {
     if (userData) {
         return (
             <ScrollView
-                style={{ height: "100%", backgroundColor: "white" }}
+                style={{ height: "100%" }}
                 refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
             >
                 <UserProfileInfo userData={userData} />
@@ -62,7 +62,7 @@ const ProfileView = (props: IPageProps) => {
     }
     return (
         <ScrollView
-            style={{ height: "100%", backgroundColor: "white" }}
+            style={{ height: "100%"}}
             refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
         >
             <TextStatus>User not found</TextStatus>

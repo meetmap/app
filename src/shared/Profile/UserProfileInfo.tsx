@@ -1,18 +1,23 @@
 import styled from "styled-components/native";
 import { IPartialUser, IUserSelf } from "../../types/users";
-import { Image, View } from "react-native";
+import { Image, TouchableOpacity, View } from "react-native";
 import { H1, P } from "../Text";
 import LoadableImage from "../LoadableImage/LoadableImage";
 import LoadableProfileImage from "../LoadableImage/LoadableProfileImage";
+import { useNavigation } from "@react-navigation/native";
+import { NavigationProps } from "../../types/NavigationProps";
 // import AppIcon from '../../assets/appIcon.png'
 const UserProfileInfo = ({ userData }: { userData: IPartialUser }) => {
+  const navigation = useNavigation<NavigationProps>()
   return (
     <StyledUserInfoHead>
       <LoadableProfileImage profilePicture={userData.profilePicture} />
       <StyledUserTextInfo>
         <StyledUserTextGeneralInfo>
           {userData.name && <H1>{userData.name}</H1>}
-          <P textcolor="Grey">{`${userData.friends?.length} friends`}</P>
+          <TouchableOpacity onPress={() => navigation.navigate("UsersListModalView", { userCId: userData.cid, username: userData.username })}>
+            {userData.friends && <P textcolor="Grey">{`${userData.friends.length} friend${userData.friends.length > 1 ? "s" : ""}`}</P>}
+          </TouchableOpacity>
         </StyledUserTextGeneralInfo>
         {userData.description && <P textcolor="Grey" style={{ textAlign: "center", paddingHorizontal: 18 }}>{userData.description}</P>}
       </StyledUserTextInfo>
