@@ -47,7 +47,7 @@ const StyledUserPinView = styled(TouchableOpacity) <{ timeDifference: string }>`
     padding: 1px;
 `
 const StyledLocationUpdateTime = styled(View)`
-    padding: 3px 5px;
+    padding: 4px 6px;
     border-radius: 12px;
     background-color: white;
     align-items: baseline;

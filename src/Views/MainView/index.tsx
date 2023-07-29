@@ -53,8 +53,8 @@ const MainView = ({ navigation }: IMainViewProps) => {
     /// 2. ready the plugin.
     BackgroundGeolocation.ready({
       // Geolocation Config
-      desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
-      distanceFilter: 10,
+      desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_MEDIUM,
+      distanceFilter: 100,
       // Activity Recognition
       stopTimeout: 5,
       // Application config
