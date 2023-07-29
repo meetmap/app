@@ -7,7 +7,7 @@ import { getFromSecureStore, setToSecureStore } from "./secure-store";
 import { store } from "../store/store";
 import { setUserdata } from "../store/slices/userSlice";
 
-type MicroserviceNames = "auth-service" | "main-app" | "events-fetcher" | "user-service" | "location-service"
+type MicroserviceNames = "auth" | "users" | "events" | "location"
 
 export const getAxios = (microserviceName: MicroserviceNames, auth: boolean) => {
   const _axios = axios.create({

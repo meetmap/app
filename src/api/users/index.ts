@@ -22,7 +22,7 @@ export const loginWithUsername = async ({
 }: ILoginWithUsername): Promise<ILoginWithUsernameResponse> => {
   try {
 
-    const { data } = await getAxios("auth-service", false).post<ILoginWithUsernameResponse>("/auth/login", {
+    const { data } = await getAxios("auth", false).post<ILoginWithUsernameResponse>("/auth/login", {
       username,
       password,
     });
@@ -30,7 +30,7 @@ export const loginWithUsername = async ({
   } catch (error) {
     console.log(error)
   }
-  const { data } = await getAxios("auth-service", false).post<ILoginWithUsernameResponse>("/auth/login", {
+  const { data } = await getAxios("auth", false).post<ILoginWithUsernameResponse>("/auth/login", {
     username,
     password,
   });
@@ -59,7 +59,7 @@ export const createUser = async ({
   email,
   birthDate,
 }: ICreateUser): Promise<ICreateUserResponse> => {
-  const { data } = await getAxios("auth-service", false).post<ICreateUserResponse>("/auth/signup", {
+  const { data } = await getAxios("auth", false).post<ICreateUserResponse>("/auth/signup", {
     name,
     username,
     password,
@@ -71,12 +71,12 @@ export const createUser = async ({
 };
 
 export const getUserSelf = async (): Promise<IUserSelf> => {
-  const { data } = await getAxios("main-app", true).get<IUserSelf>("/users/me")
+  const { data } = await getAxios("users", true).get<IUserSelf>("/users/me")
   return data;
 };
 
 export const searchUsersByQuery = async (query: string): Promise<IPartialUser[]> => {
-  const { data } = await getAxios("main-app", true).get<IPartialUser[]>("/users/find", {
+  const { data } = await getAxios("users", true).get<IPartialUser[]>("/users/find", {
     params: {
       q: query,
     },
@@ -86,7 +86,7 @@ export const searchUsersByQuery = async (query: string): Promise<IPartialUser[]>
 };
 
 export const getUserById = async (id: string): Promise<IPartialUser> => {
-  const { data } = await getAxios("main-app", true).get<IPartialUser>(`/users/get/${id}`);
+  const { data } = await getAxios("users", true).get<IPartialUser>(`/users/get/${id}`);
 
   return data;
 };
@@ -101,7 +101,7 @@ export const changeUserProfilePicture = async (picture: IUploadedImage): Promise
   const formData = new FormData();
   formData.append("photo", picture);
   console.log(formData)
-  const { data } = await getAxios("main-app", true).post<IUserSelf>(`/users/profile/picture`, formData, {
+  const { data } = await getAxios("users", true).post<IUserSelf>(`/users/profile/picture`, formData, {
     headers: {
       "Content-Type": "multipart/form-data",
     },

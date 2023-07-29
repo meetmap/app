@@ -5,11 +5,11 @@ import { EVENTS_URL } from "../baseUrl";
 import FormData from "form-data";
 
 export const getEventById = async (eventId: string) => {
-  const res = await getAxios("events-fetcher", true).get(`/events/${eventId}`);
+  const res = await getAxios("events", true).get(`/events/${eventId}`);
   return res.data;
 };
 export const getEventsListByIds = async (eventIds: string[]) => {
-  const res = await getAxios("events-fetcher", true).get(`/events/batch`, {
+  const res = await getAxios("events", true).get(`/events/batch`, {
     params: {
       ids: eventIds
     }
@@ -18,12 +18,12 @@ export const getEventsListByIds = async (eventIds: string[]) => {
 };
 
 export const searchEvents = async (eventData: string) => {
-  const res = await getAxios("events-fetcher", true).get(`/events/?q=${eventData}`);
+  const res = await getAxios("events", true).get(`/events/?q=${eventData}`);
   return res.data;
 };
 
 export const getAllNearEvents = async ({ lat, lng, radius }: { lat: number; lng: number; radius: number }) => {
-  const res = await getAxios("events-fetcher", true).post<IEventByLocation[]>(`/events/location`, {
+  const res = await getAxios("events", true).post<IEventByLocation[]>(`/events/location`, {
     latitude: lat,
     longitude: lng,
     radius: radius < 1 ? 1 : radius > 90 ? 90 : radius,
@@ -31,15 +31,15 @@ export const getAllNearEvents = async ({ lat, lng, radius }: { lat: number; lng:
   return res.data
 };
 export const getLikedEvents = async () => {
-  const res = await getAxios("events-fetcher", true).get<IEvent[]>(`/users/events/liked`);
+  const res = await getAxios("events", true).get<IEvent[]>(`/users/events/liked`);
   return res.data
 };
 export const likeEvent = async (eventId: string) => {
-  const res = await getAxios("events-fetcher", true).patch<IEvent[]>(`/events/like/${eventId}`);
+  const res = await getAxios("events", true).patch<IEvent[]>(`/events/like/${eventId}`);
   return res.data
 };
 export const removeLikeOnEvent = async (eventId: string) => {
-  const res = await getAxios("events-fetcher", true).delete<IEvent[]>(`/events/like/${eventId}`);
+  const res = await getAxios("events", true).delete<IEvent[]>(`/events/like/${eventId}`);
   return res.data
 };
 
@@ -53,7 +53,7 @@ export const createEvent = async (rawEvent: ICreateEvent, img: IUploadedImage) =
   const formData = new FormData();
   formData.append("photo", img);
   formData.append("rawEvent", JSON.stringify(rawEvent));
-  return await getAxios("events-fetcher", true).post("/events/create", formData, {
+  return await getAxios("events", true).post("/events/create", formData, {
     headers: {
       "Content-Type": "multipart/form-data",
     },

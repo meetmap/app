@@ -4,41 +4,41 @@ import { getAxios } from "../axios";
 
 export interface GetSelfFriendsResponse extends IPartialUser {}
 export const getUserFriends = async (userСId: string): Promise<GetSelfFriendsResponse[]> => {
-  const { data } = await getAxios("main-app", true).get<GetSelfFriendsResponse[]>("/friends/get/".concat(userСId));
+  const { data } = await getAxios("users", true).get<GetSelfFriendsResponse[]>("/friends/get/".concat(userСId));
   return data;
 };
 
 export const rejectFriendship = async (friendCId: string): Promise<IPartialUser> => {
-  const { data } = await getAxios("main-app", true).post<IPartialUser>("/friends/reject", {
+  const { data } = await getAxios("users", true).post<IPartialUser>("/friends/reject", {
     friendCId,
   });
   return data;
 };
 
 export const acceptFriendship = async (friendCId: string): Promise<IPartialUser> => {
-  const { data } = await getAxios("main-app", true).post<IPartialUser>("/friends/accept", {
+  const { data } = await getAxios("users", true).post<IPartialUser>("/friends/accept", {
     friendCId,
   });
   return data;
 };
 
 export const requestFriendship = async (friendCId: string): Promise<IPartialUser> => {
-  const { data } = await getAxios("main-app", true).post<IPartialUser>("/friends/request", {
+  const { data } = await getAxios("users", true).post<IPartialUser>("/friends/request", {
     friendCId,
   });
   return data;
 };
 
 export const getIncomingFrienshipRequests = async (): Promise<GetSelfFriendsResponse[]> => {
-  const { data } = await getAxios("main-app", true).get<GetSelfFriendsResponse[]>("/friends/incoming");
+  const { data } = await getAxios("users", true).get<GetSelfFriendsResponse[]>("/friends/incoming");
   return data;
 };
 
 export const getOutcomingFrienshipRequests = async (): Promise<GetSelfFriendsResponse[]> => {
-  const { data } = await getAxios("main-app", true).get<GetSelfFriendsResponse[]>("/friends/outcoming");
+  const { data } = await getAxios("users", true).get<GetSelfFriendsResponse[]>("/friends/outcoming");
   return data;
 };
 export const getFriendsListByCId = async (userCId: string): Promise<GetSelfFriendsResponse[]> => {
-  const { data } = await getAxios("main-app", true).get<GetSelfFriendsResponse[]>(`/friends/get/${userCId}`);
+  const { data } = await getAxios("users", true).get<GetSelfFriendsResponse[]>(`/friends/get/${userCId}`);
   return data;
 };

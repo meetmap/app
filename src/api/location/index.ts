@@ -22,7 +22,7 @@ export const updateUserLocation = async ({
   lat: number;
   lng: number;
 }): Promise<ICoordinates> => {
-  const { data } = await getAxios("location-service", true).post<UpdateUserLocationResponse>("/location/update", {
+  const { data } = await getAxios("location", true).post<UpdateUserLocationResponse>("/location/update", {
     lat,
     lng,
   });
@@ -45,6 +45,6 @@ export interface GetFriendsLocationResponse {
   locationUpdatedAt: string
 }
 export const getUpdatedFriendsLocation = async (): Promise<GetFriendsLocationResponse[]> => {
-  const { data } = await getAxios("location-service", true).get<GetFriendsLocationResponse[]>("/location/friends", {signal: newAbortSignal(3000)});
+  const { data } = await getAxios("location", true).get<GetFriendsLocationResponse[]>("/location/friends", {signal: newAbortSignal(3000)});
   return data;
 };
