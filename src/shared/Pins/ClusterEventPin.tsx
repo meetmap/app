@@ -1,6 +1,6 @@
-import { Image, TouchableOpacity, View } from "react-native"
+import { Image, Text, TouchableOpacity, View } from "react-native"
 import styled from "styled-components"
-import { Span } from "../Text"
+import { H6, Span } from "../Text"
 import { IEvent, IEventByLocation } from "../../types/event"
 import { useMap } from "../../hooks/MapProvider"
 import { Camera } from "react-native-maps"
@@ -37,9 +37,9 @@ const ClusterEventPin = ({ eventData, count, coordinates, ids }: {
             />
             <StyledEventsCount>
                 <StyledEventsCountSpan>
-                    <Span>
+                    <Text style={{fontWeight: "700", fontSize: 11}}>
                         {count}
-                    </Span>
+                    </Text>
                 </StyledEventsCountSpan>
             </StyledEventsCount>
         </StyledEventPinContent>

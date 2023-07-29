@@ -42,6 +42,7 @@ export interface GetFriendsLocationResponse {
     lat: number;
     lng: number;
   };
+  locationUpdatedAt: string
 }
 export const getUpdatedFriendsLocation = async (): Promise<GetFriendsLocationResponse[]> => {
   const { data } = await getAxios("location-service", true).get<GetFriendsLocationResponse[]>("/location/friends", {signal: newAbortSignal(3000)});

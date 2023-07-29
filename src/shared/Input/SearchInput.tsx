@@ -60,7 +60,4 @@ const StyledPrimaryInput = styled(TextInput)`
     font-weight: 400;
     font-size: 16px;
     color: black;
-    ::placeholder{
-        color: #898F99;
-    }
 `

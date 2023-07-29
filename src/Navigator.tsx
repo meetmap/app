@@ -18,6 +18,7 @@ import GoBackArrowIcon from './shared/Icons/GoBackArrowIcon';
 import SettingsView from './Views/SettingsView';
 import EventsListModalView from './Views/EventListModalView';
 import UsersListModalView from './Views/UsersListModalView';
+import RegisterView from './Views/RegisterView';
 const Stack = createNativeStackNavigator();
 
 const Navigator = () => {
@@ -108,7 +109,7 @@ const Navigator = () => {
                         />
                         <Stack.Screen
                             name="RegisterView"
-                            component={WelcomeView}
+                            component={RegisterView}
                             options={{ headerShown: false }}
                         />
                     </Stack.Group>

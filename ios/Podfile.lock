@@ -531,6 +531,8 @@ PODS:
     - React-Core
   - RNCAsyncStorage (1.19.1):
     - React-Core
+  - RNDateTimePicker (7.4.1):
+    - React-Core
   - RNGestureHandler (2.12.0):
     - React-Core
   - RNReactNativeHapticFeedback (2.0.3):
@@ -650,6 +652,7 @@ DEPENDENCIES:
   - RNBackgroundFetch (from `../node_modules/react-native-background-fetch`)
   - RNBackgroundGeolocation (from `../node_modules/react-native-background-geolocation`)
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
+  - "RNDateTimePicker (from `../node_modules/@react-native-community/datetimepicker`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNReactNativeHapticFeedback (from `../node_modules/react-native-haptic-feedback`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
@@ -782,6 +785,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-background-geolocation"
   RNCAsyncStorage:
     :path: "../node_modules/@react-native-async-storage/async-storage"
+  RNDateTimePicker:
+    :path: "../node_modules/@react-native-community/datetimepicker"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNReactNativeHapticFeedback:
@@ -863,6 +868,7 @@ SPEC CHECKSUMS:
   RNBackgroundFetch: 9fcdeee8aa00e1e1b3895ff9bbaaf10275288a87
   RNBackgroundGeolocation: d79a73519802bb3a92ed82f5511aaa54546852ba
   RNCAsyncStorage: f47fe18526970a69c34b548883e1aeceb115e3e1
+  RNDateTimePicker: 9b4091348e53f540180abdc54984d839a556f593
   RNGestureHandler: dec4645026e7401a0899f2846d864403478ff6a5
   RNReactNativeHapticFeedback: afa5bf2794aecbb2dba2525329253da0d66656df
   RNReanimated: 9f7068e43b9358a46a688d94a5a3adb258139457

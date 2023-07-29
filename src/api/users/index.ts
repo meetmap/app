@@ -46,18 +46,21 @@ export interface ICreateUserResponse {
 }
 
 export interface ICreateUser {
+  name: string
   username: string;
   password: string;
   email: string;
   birthDate: Date;
 }
 export const createUser = async ({
+  name,
   username,
   password,
   email,
   birthDate,
 }: ICreateUser): Promise<ICreateUserResponse> => {
   const { data } = await getAxios("auth-service", false).post<ICreateUserResponse>("/auth/signup", {
+    name,
     username,
     password,
     email,

@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.19.1",
+    "@react-native-community/datetimepicker": "^7.4.1",
     "@react-navigation/bottom-tabs": "^6.5.8",
     "@react-navigation/material-top-tabs": "^6.6.3",
     "@react-navigation/native": "^6.1.7",
@@ -23,6 +24,7 @@
     "appcenter-analytics": "^4.4.5",
     "appcenter-crashes": "^4.4.5",
     "axios": "^1.4.0",
+    "date-fns": "^2.30.0",
     "jwt-decode": "^3.1.2",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",

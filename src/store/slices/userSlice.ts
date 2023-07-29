@@ -99,8 +99,8 @@ export const LoginUserThunk = createAsyncThunk<
 
 export const RegisterUserThunk = createAsyncThunk<IUserSelf, ICreateUser>(
   'users/create',
-  async ({ username, email, birthDate, password }) => {
-    const data = await createUser({ username, email, birthDate, password });
+  async ({name, username, email, birthDate, password }) => {
+    const data = await createUser({ name, username, email, birthDate, password });
     await setToSecureStore(SecureStoreKeys.ACCESS_TOKEN, data.tokens.at);
     await setToSecureStore(SecureStoreKeys.REFRESH_TOKEN, data.tokens.rt);
     await setToSecureStore(SecureStoreKeys.USER, JSON.stringify(data.user));

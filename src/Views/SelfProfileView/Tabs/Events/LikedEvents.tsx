@@ -45,7 +45,7 @@ const LikedEvents = () => {
         )
     }
     return (
-        <StyledLikedEventsContainer >
+        <StyledLikedEventsContainer>
             <FlatList
                 refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
                 contentContainerStyle={{ paddingBottom: 25, backgroundColor: "white" }}

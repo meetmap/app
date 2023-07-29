@@ -81,7 +81,7 @@ const MapContent = () => {
         ],
         zoom: zoomLevel,
         options: {
-          radius: 75,
+          radius: 105,
           maxZoom: 40,
           minZoom: 2,
           reduce: (accumulated, props) => {

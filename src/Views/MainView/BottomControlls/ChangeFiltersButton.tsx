@@ -28,8 +28,4 @@ export default ChangeFiltersButton
 const StyledCubeButton = styled(CubeButton)`
     position: relative;
     overflow: hidden;
-    label{
-        display: flex;
-        position: absolute;
-    }
 `

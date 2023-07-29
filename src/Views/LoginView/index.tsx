@@ -9,6 +9,9 @@ import PrimaryFormInput from "../../shared/Input/PrimaryFormInput";
 import { H1, H2, Span, Title } from "../../shared/Text";
 import { SafeAreaView } from "react-native-safe-area-context";
 import SercuredFormInput from "../../shared/Input/SercuredFormInput";
+import GoBackArrowIcon from "../../shared/Icons/GoBackArrowIcon";
+import { useNavigation } from "@react-navigation/native";
+import { NavigationProps } from "../../types/NavigationProps";
 
 interface ILoginFormData {
     username: string,
@@ -24,6 +27,7 @@ const LoginView = () => {
 
 
     const dispatch = useAppDispatch()
+    const navigation = useNavigation<NavigationProps>()
 
 
     const [values, setValues] = useState<ILoginFormData>({
@@ -83,9 +87,11 @@ const LoginView = () => {
         <StyledLoginViewContainer>
             <StyledInputsContent>
                 <StyledAuthHeadContent>
-                    {/* <GoBackButton url='/welcome' /> */}
+                    <TouchableOpacity style={{ position: "absolute", left: 0, top: 0 }} onPress={() => navigation.goBack()}>
+                        <GoBackArrowIcon />
+                    </TouchableOpacity>
                     <Title textcolor='Black'>Hey!</Title>
-                    <Title textcolor='Black'>What’s your name?</Title>
+                    <Title textcolor='Black'>Glad you're back</Title>
                 </StyledAuthHeadContent>
                 <StyledFormContent>
                     <PrimaryFormInput autoComplete="username" label='Your username or e-mail' name='username' isError={errors.username} value={values.username} onChangeText={(text) => handleChange("username", text)} placeholder='Username' />
