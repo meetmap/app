@@ -11,14 +11,15 @@ interface IPrimaryFormInput extends TextInputProps {
     isSuccess?: boolean
     isError?: boolean | string
     icon?: ReactNode
+    inputStyle?: "White" | "Primary"
 }
 
-const PrimaryFormInput = ({ name, label, isSuccess, isError, icon, ...rest }: IPrimaryFormInput) => {
+const PrimaryFormInput = ({ name, label, isSuccess, inputStyle = "White", isError, icon, ...rest }: IPrimaryFormInput) => {
     return (
         <StyledInputContent>
             <Span>{label}</Span>
             <StyledInputWrapper>
-                <StyledPrimaryInput {...rest} id={name} autoCapitalize="none"/>
+                <StyledPrimaryInput inputStyle={inputStyle} {...rest} id={name} autoCapitalize="none" />
                 <StyledInputStatus>
                     {/* <AnimatePresence>
                         {isSuccess && <SuccessIcon />}
@@ -55,20 +56,16 @@ const StyledInputStatus = styled(View)`
 `
 const StyledInputIcon = styled(StyledInputStatus)``
 
-const StyledPrimaryInput = styled(TextInput)`
+const StyledPrimaryInput = styled(TextInput) <{ inputStyle: "Primary" | "White" }>`
     width: 100%;
-    background-color: transparent;
     padding: 18px 50px 18px 24px;
     border: none;
 
-    background: #FFFFFF;
+    background: ${props => props.theme.colors.INPUT[props.inputStyle].BGColor};
     border-radius: 20px;
 
     font-style: normal;
     font-weight: 400;
     font-size: 16px;
     color: black;
-    ::placeholder{
-        color: #898F99;
-    }
 `

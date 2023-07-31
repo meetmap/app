@@ -21,6 +21,7 @@ import UsersListModalView from './Views/UsersListModalView';
 import RegisterView from './Views/RegisterView';
 import ChooseLanguageView from './Views/ChooseLanguageView';
 import { useTranslation } from 'react-i18next';
+import ReportAProblemView from './Views/ReportAProblemView';
 const Stack = createNativeStackNavigator();
 
 const Navigator = () => {
@@ -76,6 +77,16 @@ const Navigator = () => {
                             component={SelfProfileView}
                         />
                         <Stack.Screen options={{ title: t("settings") }} name={"SettingsView"} component={SettingsView} />
+                        <Stack.Screen
+                            options={{
+                                presentation: "transparentModal", headerShown: false,
+                                contentStyle: {
+                                    backgroundColor: 'transparent'
+                                }
+                            }}
+                            name='ReportAProblemView'
+                            component={ReportAProblemView}
+                        />
                         <Stack.Screen options={{ title: t("chooseLanguage") }} name={"ChooseLanguageView"} component={ChooseLanguageView} />
                         <Stack.Screen
                             name={"MyBottomSheet"}

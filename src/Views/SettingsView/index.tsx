@@ -2,7 +2,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useCallback, useEffect, useState } from 'react'
 import { ActivityIndicator, Button, RefreshControl, SafeAreaView, ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import { styled } from 'styled-components/native'
-import { RootStackParamList } from '../../types/NavigationProps';
+import { NavigationProps, RootStackParamList } from '../../types/NavigationProps';
 import UserProfileInfo from '../../shared/Profile/UserProfileInfo';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { useNavigation } from '@react-navigation/native';
@@ -70,6 +70,7 @@ const SettingsView = ({ }: ISettingsViewProps) => {
     dispatch(setUserdata(userdata))
     setRefreshing(false)
   }, []);
+  const navigation = useNavigation<NavigationProps>()
 
   if (userData) {
     if (editMode) {
@@ -85,7 +86,10 @@ const SettingsView = ({ }: ISettingsViewProps) => {
         <View style={{ paddingHorizontal: 16 }}>
           <SelfProfileInfo userData={userData} />
           <Settings />
-          <PrimaryButton onPress={() => dispatch(LogOutThunk())} btnType='Error' title={t("logout")} />
+          <StyledButtonsList>
+            <PrimaryButton onPress={() => navigation.navigate("ReportAProblemView")} btnType='Secondary' title={t("reportAProblem")} />
+            <PrimaryButton onPress={() => dispatch(LogOutThunk())} btnType='Error' title={t("logout")} />
+          </StyledButtonsList>
         </View>
       </ScrollView>
     )
@@ -94,3 +98,6 @@ const SettingsView = ({ }: ISettingsViewProps) => {
 
 export default SettingsView
 
+const StyledButtonsList = styled.View`
+  gap: 6px;
+`

@@ -41,9 +41,14 @@ export const mainTheme = {
             }
         },
         INPUT: {
-            BGColor: "#F2F5FA",
-            PlaceholderColor: "#898F99",
-            TextColor: "#000000"
+            Primary: {
+                BGColor: "#F2F5FA",
+                PlaceholderColor: "#898F99",
+            },
+            White: {
+                BGColor: "#ffffff",
+                PlaceholderColor: "#898F99",
+            }
         },
     },
     // SECONDARY_BUTTON_COLOR: '#506680' NICE COLOR

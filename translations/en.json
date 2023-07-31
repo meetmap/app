@@ -33,6 +33,17 @@
     "friends": "Friends",
     "edit": "Edit",
     "logout": "Logout",
+
+    "reportAProblem": "Report a problem",
+    "reportAProblemDescription": "We value your participation and aim to ensure optimal interaction with our service. Your feedback is valuable to us, and we are ready to take all necessary measures to improve our service.",
+    "problemInputTitle": "Choose a problem",
+    "problemInputDescription": "Write more about your problem",
+    "problemsList": ["Cancel", "Problems with profile", "Problems with map", "Problem with creating event",  "Other problem"],
+    "reportGratitudeTitle": "Thank You for Your Feedback!",
+    "reportGratitudeDescription": "Our team is already analyzing the provided information and will strive to resolve the issue as quickly as possible.",
+
+
+
     "editProfileImage": "Edit profile image",
     "aboutYou": "About you",
     "yourName": "Your name",

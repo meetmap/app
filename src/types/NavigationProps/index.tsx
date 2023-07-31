@@ -24,6 +24,8 @@ export type RootStackParamList = {
     // that we should pass a prop named `slug` to it
     SettingsView: undefined
 
+    ReportAProblemView: undefined
+
     ChooseLanguageView: undefined
 
     FilterModalView: undefined;
