@@ -7,12 +7,13 @@ import { RefObject } from "react";
 import MapView from "react-native-maps";
 import { NavigationProps } from "../../../types/NavigationProps";
 import { trigger } from "react-native-haptic-feedback";
+import { t } from "i18next";
 
 const SelfProfileActions = (userData: IUserSelf) => {
     trigger("impactLight");
     ActionSheetIOS.showActionSheetWithOptions(
         {
-            options: ['Cancel', 'Share profile'],
+            options: [t("cancel"), t("shareProfile")],
             cancelButtonIndex: 0,
         },
         async buttonIndex => {

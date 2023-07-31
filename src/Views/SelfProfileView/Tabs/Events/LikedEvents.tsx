@@ -6,6 +6,7 @@ import TextStatus from "../../../../shared/TextStatus"
 import EventLg from "../../../../shared/EventInList/EventLg"
 import styled from "styled-components/native"
 import { FlatList, ListRenderItem, RefreshControl, SafeAreaView, ScrollView, Text, View } from "react-native"
+import { useTranslation } from "react-i18next"
 
 const LikedEvents = () => {
 
@@ -29,7 +30,8 @@ const LikedEvents = () => {
         setlikedEvents(likedEventsData)
         setRefreshing(false)
     }, []);
-
+    const { t } = useTranslation()
+    
     if (isLoading) {
         return (
             <StyledLikedEventsContainer>
@@ -40,7 +42,7 @@ const LikedEvents = () => {
     if (!likedEvents?.length) {
         return (
             <StyledLikedEventsContainer>
-                <TextStatus>You don't have liked events</TextStatus>
+                <TextStatus>{t("youDontHaveLikedEvents")}</TextStatus>
             </StyledLikedEventsContainer>
         )
     }

@@ -6,17 +6,19 @@ import FriendsList from "./FriendsList";
 import { Line } from "react-native-svg";
 import { TouchableOpacity, View } from "react-native";
 import styled from "styled-components/native";
+import { useTranslation } from "react-i18next";
 
 const Friends = ({ searchUsersInputData }: { searchUsersInputData: string | null }) => {
-    const [friendListType, setFriendListType] = useState("Friends")
+    const [friendListType, setFriendListType] = useState("friends")
 
+    const { t } = useTranslation()
     if (!searchUsersInputData) {
         return (
             <>
                 <StyledUsersListInfo>
-                    <H3>{friendListType}</H3>
-                    <StyledListsButton onPress={() => ChooseFrendsListType(setFriendListType)}>
-                        <Span textcolor="Primary">Lists</Span><VerticalArrowSmIcon />
+                    <H3>{t(friendListType)}</H3>
+                    <StyledListsButton onPress={() => ChooseFrendsListType(setFriendListType, t)}>
+                        <Span textcolor="Primary">{t("lists")}</Span><VerticalArrowSmIcon />
                     </StyledListsButton>
                 </StyledUsersListInfo>
                 <FriendsList friendListType={friendListType} setFriendListType={setFriendListType} />

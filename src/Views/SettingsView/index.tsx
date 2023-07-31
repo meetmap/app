@@ -1,13 +1,12 @@
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useCallback, useEffect, useState } from 'react'
-import { ActivityIndicator, Button, RefreshControl, SafeAreaView, ScrollView, View } from 'react-native'
+import { ActivityIndicator, Button, RefreshControl, SafeAreaView, ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import { styled } from 'styled-components/native'
 import { RootStackParamList } from '../../types/NavigationProps';
 import UserProfileInfo from '../../shared/Profile/UserProfileInfo';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { useNavigation } from '@react-navigation/native';
-import { Title } from '../../shared/Text';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { H5, H6, Title } from '../../shared/Text';
 import EditView from './EditView';
 import { IUploadedImage, changeUserProfilePicture, getUserSelf } from '../../api/users';
 import LoaderContainer from '../../shared/LoaderContainer';
@@ -15,12 +14,15 @@ import { InitializeUserThunk, LogOutThunk, setUserdata } from '../../store/slice
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 import PrimaryButton from '../../shared/Buttons/PrimaryButton';
 import SelfProfileInfo from '../../shared/Profile/SelfProfile';
+import Settings from './Settings';
+import { useTranslation } from 'react-i18next';
 
 export interface ISettingsViewProps {
   navigation: NativeStackNavigationProp<RootStackParamList, 'SettingsView'>;
 }
 
 const SettingsView = ({ }: ISettingsViewProps) => {
+  const { t } = useTranslation()
   const [editMode, setEditMode] = useState(false)
   const userData = useAppSelector(state => state.userSlice.user)
   const nav = useNavigation();
@@ -33,7 +35,8 @@ const SettingsView = ({ }: ISettingsViewProps) => {
     if (editMode) {
       if (image) {
         setIsEditing(true)
-        const user = await changeUserProfilePicture(image)
+        await changeUserProfilePicture(image)
+        const user = await getUserSelf()
         dispatch(setUserdata(user))
         setIsEditing(false)
         setEditMode(false)
@@ -51,7 +54,11 @@ const SettingsView = ({ }: ISettingsViewProps) => {
         if (isEditing) {
           return <ActivityIndicator animating={true} />
         }
-        return <Button title={editMode ? "Submit" : "Edit"} onPress={editFunc} />
+        return (
+          <TouchableOpacity style={{ width: 80, alignItems: "flex-end" }} onPress={editFunc}>
+            <H5 textcolor='Primary' numberOfLines={1} >{editMode ? t("submit") : t("edit")}</H5>
+          </TouchableOpacity>
+        )
       },
     });
   }, [editMode, image, isEditing]);
@@ -75,8 +82,11 @@ const SettingsView = ({ }: ISettingsViewProps) => {
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
         style={{ flex: 1, backgroundColor: "white" }}
       >
-        <SelfProfileInfo userData={userData} />
-        <PrimaryButton onPress={() => dispatch(LogOutThunk())} btnType='Error' title='Logout'/>
+        <View style={{ paddingHorizontal: 16 }}>
+          <SelfProfileInfo userData={userData} />
+          <Settings />
+          <PrimaryButton onPress={() => dispatch(LogOutThunk())} btnType='Error' title={t("logout")} />
+        </View>
       </ScrollView>
     )
   }

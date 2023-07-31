@@ -7,6 +7,7 @@ import PrimaryFormInput from '../../shared/Input/PrimaryFormInput'
 import { H6 } from '../../shared/Text'
 import { ImagePickerResponse, launchImageLibrary } from 'react-native-image-picker'
 import { IUploadedImage } from '../../api/events'
+import { useTranslation } from 'react-i18next'
 
 
 const EditView = ({ userData, setImage, image }: { userData: IUserSelf, setImage: Dispatch<SetStateAction<IUploadedImage | undefined>>, image: IUploadedImage | undefined }) => {
@@ -21,15 +22,16 @@ const EditView = ({ userData, setImage, image }: { userData: IUserSelf, setImage
             })
         }
     }
+    const { t } = useTranslation()
     return (
         <StyledEditView>
             <StyledEditImageContainer>
                 <LoadableProfileImage profilePicture={image ? image.uri : userData.profilePicture} />
-                <Button onPress={pickImage} title='Edit profile image' />
+                <Button onPress={pickImage} title={t("editProfileImage")} />
             </StyledEditImageContainer>
             <StyledEditInputsContent>
-                <StyledInput placeholder="Your name" placeholderTextColor={"#898F99"} value={userData.name} />
-                <StyledInput placeholder="About you" placeholderTextColor={"#898F99"} value={userData.description} />
+                <StyledInput placeholder={t("yourName")} placeholderTextColor={"#898F99"} value={userData.name} />
+                <StyledInput placeholder={t("aboutYou")} placeholderTextColor={"#898F99"} value={userData.description} />
             </StyledEditInputsContent>
         </StyledEditView>
     )

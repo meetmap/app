@@ -13,9 +13,9 @@ export type RootStackParamList = {
 
     EventModalView: { eventId: string }
 
-    EventsListModalView : { eventIds: string[] }
+    EventsListModalView: { eventIds: string[] }
 
-    UsersListModalView : { userCId: string, username: string }
+    UsersListModalView: { userCId: string, username: string }
 
     MyBottomSheet: undefined
 
@@ -23,6 +23,8 @@ export type RootStackParamList = {
     // navigating to, in the current screen,
     // that we should pass a prop named `slug` to it
     SettingsView: undefined
+
+    ChooseLanguageView: undefined
 
     FilterModalView: undefined;
 

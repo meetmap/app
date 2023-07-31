@@ -15,8 +15,29 @@ import Navigator from './src/Navigator';
 import { StatusBar, View } from 'react-native';
 import codePush from 'react-native-code-push';
 import { MapProvider } from './src/hooks/MapProvider';
+import './i18n.config'
+import { getFromSecureStore, setToSecureStore } from './src/api/secure-store';
+import { SecureStoreKeys } from './src/constants';
+import { getLocales } from 'react-native-localize';
+import { useTranslation } from 'react-i18next';
 
 const App: () => JSX.Element = () => {
+  const { i18n } = useTranslation()
+  const detectLocale = async () => {
+    const storeLocale = await getFromSecureStore(SecureStoreKeys.LANGUAGE);
+    if (storeLocale) {
+      i18n.changeLanguage(storeLocale)
+      return
+    }
+    const systemLang = getLocales()[0].languageCode
+    i18n.changeLanguage(systemLang)
+    await setToSecureStore(SecureStoreKeys.LANGUAGE, systemLang);
+
+  }
+
+  useEffect(() => {
+    detectLocale()
+  }, []);
   return (
     <Provider store={store}>
       <MapProvider>

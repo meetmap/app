@@ -19,6 +19,8 @@ import SettingsView from './Views/SettingsView';
 import EventsListModalView from './Views/EventListModalView';
 import UsersListModalView from './Views/UsersListModalView';
 import RegisterView from './Views/RegisterView';
+import ChooseLanguageView from './Views/ChooseLanguageView';
+import { useTranslation } from 'react-i18next';
 const Stack = createNativeStackNavigator();
 
 const Navigator = () => {
@@ -27,6 +29,7 @@ const Navigator = () => {
     useEffect(() => {
         dispatch(InitializeUserThunk());
     }, []);
+    const { t } = useTranslation()
     return (
         <Stack.Navigator
             screenOptions={({ navigation }) => ({
@@ -40,11 +43,7 @@ const Navigator = () => {
             {!isLoading ?
                 user ?
                     <Stack.Group >
-                        <Stack.Screen
-                            name="MainView"
-                            component={MainView}
-                            options={{ headerShown: false }}
-                        />
+                        <Stack.Screen name="MainView" component={MainView} options={{ headerShown: false }} />
                         <Stack.Screen options={{ presentation: "modal", headerShown: false }} name='EventModalView' component={EventModalView} />
                         <Stack.Screen options={{ presentation: "modal", headerShown: false }} name='EventsListModalView' component={EventsListModalView} />
                         <Stack.Screen options={{ presentation: "modal", headerShown: false }} name='UsersListModalView' component={UsersListModalView} />
@@ -76,11 +75,8 @@ const Navigator = () => {
                             name="SelfProfileView"
                             component={SelfProfileView}
                         />
-                        <Stack.Screen
-                            options={{ title: "Settings" }}
-                            name={"SettingsView"}
-                            component={SettingsView}
-                        />
+                        <Stack.Screen options={{ title: t("settings") }} name={"SettingsView"} component={SettingsView} />
+                        <Stack.Screen options={{ title: t("chooseLanguage") }} name={"ChooseLanguageView"} component={ChooseLanguageView} />
                         <Stack.Screen
                             name={"MyBottomSheet"}
                             component={MyBottomSheet}

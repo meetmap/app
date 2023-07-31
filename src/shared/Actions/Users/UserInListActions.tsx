@@ -8,12 +8,13 @@ import MapView from "react-native-maps";
 import { NavigationProps } from "../../../types/NavigationProps";
 import { trigger } from "react-native-haptic-feedback";
 import { ICoordinates } from "../../../types/location";
+import { t } from "i18next";
 
 const UserInListActions = (userData: IPartialUser, handleChangeFriendshipStatus: () => Promise<void>, flyTo: (coordinates: ICoordinates) => Promise<void>, navigation: NavigationProps) => {
     trigger("impactLight");
     ActionSheetIOS.showActionSheetWithOptions(
         {
-            options: ['Cancel', 'Remove from friends', 'Share profile', 'Disable geolocation', 'See on map'],
+            options: [t("cancel"), t("removeFromFriends"), t("shareProfile"), t("disableGeolocation"), t("seeOnMap")],
             destructiveButtonIndex: 1,
             cancelButtonIndex: 0,
         },
@@ -21,10 +22,10 @@ const UserInListActions = (userData: IPartialUser, handleChangeFriendshipStatus:
             if (buttonIndex === 0) {
                 // cancel action
             } else if (buttonIndex === 1) {
-               ConfirmAlert(handleChangeFriendshipStatus, "Are you sure?" ,`Do you really want to remove ${userData.name || userData.username} from your friends list`)
+                ConfirmAlert(handleChangeFriendshipStatus, "Are you sure?", `Do you really want to remove ${userData.name || userData.username} from your friends list`)
             } else if (buttonIndex === 2) {
             } else if (buttonIndex === 3) {
-            }else if (buttonIndex === 4) {
+            } else if (buttonIndex === 4) {
                 flyToUser(userData.cid, flyTo, navigation)
             }
         },

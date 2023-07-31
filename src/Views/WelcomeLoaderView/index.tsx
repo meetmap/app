@@ -4,14 +4,22 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import styled from 'styled-components/native'
 import { H2, Title } from '../../shared/Text'
 import LoaderContainer from '../../shared/LoaderContainer'
+import { useTranslation } from 'react-i18next'
 
 const WelcomeLoaderView = () => {
+    const { i18n } = useTranslation()
     return (
         <SafeAreaView>
             <StyledLoaderPageContent>
                 <StyledAuthHeadContent>
-                    <Title textcolor='Black' style={{textAlign: "center"}}>Hey!</Title>
-                    <Title textcolor='Black' style={{textAlign: "center"}}>Glad you're back</Title>
+                    {i18n.language === "en" ?
+                        <>
+                            <Title textcolor='Black' style={{ textAlign: "center" }}>Hey!</Title>
+                            <Title textcolor='Black' style={{ textAlign: "center" }}>Glad you're back</Title>
+                        </>
+                        :
+                        <Title textcolor='Black' style={{ textAlign: "center" }}>Загрузка</Title>
+                    }
                 </StyledAuthHeadContent>
                 <LoaderContainer />
             </StyledLoaderPageContent>

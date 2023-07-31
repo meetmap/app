@@ -9,12 +9,12 @@ import { NavigationProps, RootStackParamList } from "../../../types/NavigationPr
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { trigger } from "react-native-haptic-feedback";
 import { ICoordinates } from "../../../types/location";
-
+import { t } from "i18next";
 const ProfileActions = (userData: IPartialUser, flyTo: (coordinates: ICoordinates) => Promise<void>,  navigation: NativeStackNavigationProp<RootStackParamList, 'ProfileView'>) => {
     trigger("impactLight");
     ActionSheetIOS.showActionSheetWithOptions(
         {
-            options: ['Cancel', 'Share profile', "See on map"],
+            options: [t("cancel"), t("shareProfile"), t("seeOnMap")],
             cancelButtonIndex: 0,
         },
         async buttonIndex => {

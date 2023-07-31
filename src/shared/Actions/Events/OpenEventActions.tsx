@@ -7,12 +7,13 @@ import { RefObject } from "react";
 import MapView from "react-native-maps";
 import { trigger } from "react-native-haptic-feedback";
 import { ICoordinates } from "../../../types/location";
+import { t } from "i18next";
 
 const OpenEventActions = (eventData: IEvent, flyTo: (coordinates: ICoordinates) => Promise<void>, navigation: NavigationProps) => {
   trigger("impactLight");
   ActionSheetIOS.showActionSheetWithOptions(
     {
-      options: ['Cancel', 'Share', 'See on map'],
+      options: [t("cancel"), t("share"), t("seeOnMap")],
       cancelButtonIndex: 0,
     },
     buttonIndex => {

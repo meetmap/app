@@ -15,6 +15,7 @@ import { useMap } from '../../hooks/MapProvider';
 import SelfProfileActions from '../../shared/Actions/Users/SelfProfileActions';
 import SelfProfileInfo from '../../shared/Profile/SelfProfile';
 import CustomHeader from '../../shared/CustomHeader';
+import { useTranslation } from 'react-i18next';
 
 
 export interface ISelfProfileViewProps {
@@ -26,6 +27,7 @@ const Tab = createMaterialTopTabNavigator();
 const SelfProfileView = ({ navigation }: ISelfProfileViewProps) => {
     const selfUserData = useAppSelector(state => state.userSlice.user)
     const { mapViewRef } = useMap()
+    const { t } = useTranslation()
     if (!selfUserData) {
         return null
     }
@@ -36,7 +38,7 @@ const SelfProfileView = ({ navigation }: ISelfProfileViewProps) => {
                     <SelfProfileInfo userData={selfUserData} />
                     <CustomHeader />
                     <StyledProfileActions>
-                        <PrimaryMediumButton style={{ flex: 1 }} btnType='Secondary' title='Invite friend' />
+                        <PrimaryMediumButton style={{ flex: 1 }} btnType='Secondary' title={t("createEvent")} />
                         <PrimaryMediumButton btnType='Secondary' onPress={() => SelfProfileActions(selfUserData)}>
                             <MoreIcon />
                         </PrimaryMediumButton>
@@ -59,8 +61,8 @@ const SelfProfileView = ({ navigation }: ISelfProfileViewProps) => {
                     }
                 }}
             >
-                <Tab.Screen name="Liked Events" component={LikedEvents} />
-                <Tab.Screen name="Users" component={Users} />
+                <Tab.Screen name={t("events")} component={LikedEvents} />
+                <Tab.Screen name={t("users")} component={Users} />
             </Tab.Navigator>
         </View>
     )

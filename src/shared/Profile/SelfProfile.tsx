@@ -3,24 +3,26 @@ import { IPartialUser, IUserSelf } from "../../types/users";
 import { Image, View } from "react-native";
 import { H1, P } from "../Text";
 import LoadableProfileImage from "../LoadableImage/LoadableProfileImage";
+import { useTranslation } from "react-i18next";
 
 const SelfProfileInfo = ({ userData }: { userData: IUserSelf }) => {
-    return (
-        <StyledUserInfoHead>
-            <LoadableProfileImage profilePicture={userData.profilePicture} />
-            <StyledUserTextInfo>
-                <StyledUserTextGeneralInfo>
-                    {userData.name && <H1>{userData.name}</H1>}
-                    <StyledUserProfileInfo>
-                        <P textcolor="Primary">{`@${userData.username}`}</P>
-                        <P textcolor="Grey">•</P>
-                        <P textcolor="Grey">{`${userData.friends?.length} friends`}</P>
-                    </StyledUserProfileInfo>
-                </StyledUserTextGeneralInfo>
-                {userData.description && <P textcolor="Grey" style={{ textAlign: "center", paddingHorizontal: 18 }}>{userData.description}</P>}
-            </StyledUserTextInfo>
-        </StyledUserInfoHead>
-    );
+  const { t } = useTranslation()
+  return (
+    <StyledUserInfoHead>
+      <LoadableProfileImage profilePicture={userData.profilePicture} />
+      <StyledUserTextInfo>
+        <StyledUserTextGeneralInfo>
+          {userData.name && <H1>{userData.name}</H1>}
+          <StyledUserProfileInfo>
+            <P textcolor="Primary">{`@${userData.username}`}</P>
+            <P textcolor="Grey">•</P>
+            <P textcolor="Grey">{t('friendCount', { count: userData.friends.length })}</P>
+          </StyledUserProfileInfo>
+        </StyledUserTextGeneralInfo>
+        {userData.description && <P textcolor="Grey" style={{ textAlign: "center", paddingHorizontal: 18 }}>{userData.description}</P>}
+      </StyledUserTextInfo>
+    </StyledUserInfoHead>
+  );
 };
 
 export default SelfProfileInfo;

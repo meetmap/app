@@ -16,6 +16,8 @@ import { IMainViewProps } from "../../Views/WelcomeView";
 import { NavigationProps } from "../../types/NavigationProps";
 import { useMap } from "../../hooks/MapProvider";
 import EventInListActions from "../Actions/Events/EventInListActions";
+import { useTranslation } from "react-i18next";
+import 'moment/locale/ru'
 
 const EventLg = ({ eventData }: { eventData: IEvent }) => {
     const { userCoordinates } = useAppSelector(state => state.locationSlice)
@@ -25,7 +27,12 @@ const EventLg = ({ eventData }: { eventData: IEvent }) => {
         userCoordinates?.lat,
         userCoordinates?.lng
     )
-    const formattedStartTime = moment(eventData.startTime).format('MMM D - h A');
+    const { i18n, t } = useTranslation()
+    const momentLocaleFormat = {
+        en: "MMM D - h A",
+        ru: "D MMM - h A"
+    }
+    const formattedStartTime = moment(eventData.startTime).locale(i18n.language).format(momentLocaleFormat[i18n.language as keyof typeof momentLocaleFormat]);
     const navigation = useNavigation<NavigationProps>();
     const { flyTo } = useMap()
 
@@ -48,7 +55,7 @@ const EventLg = ({ eventData }: { eventData: IEvent }) => {
                         }
                     </H6>
                     {distance &&
-                        <Span> {distance} away from you</Span>
+                        <Span>{distance} {t("fromYou")}</Span>
                     }
                     <Span>{formattedStartTime}</Span>
                 </StyledAboutEventTextInfo>

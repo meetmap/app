@@ -5,43 +5,43 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../types/NavigationProps';
 import { H1, Title } from '../../shared/Text';
 import HorizontalLogoIcon from '../../shared/Icons/Logos/HorizontalLogoIcon';
+import { useTranslation } from 'react-i18next';
 
 export interface IMainViewProps {
     navigation: NativeStackNavigationProp<RootStackParamList, 'WelcomeView'>;
 }
 
 const WelcomeView = ({ navigation }: IMainViewProps) => {
+    const { t } = useTranslation()
     return (
-        <>
-            <StyledWelcomeView>
-                <StyledImageBackground
-                    source={require('../../assets/globe.png')}
-                    imageStyle={{
-                        // resizeMode: "cover",
-                        height: 500, // the image height
-                        top: undefined
-                    }}
-                >
-                    <StyledWelcomeViewContent>
-                        <StyledHeadContent>
-                            <HorizontalLogoIcon />
-                            <StyledHeadText>
-                                <Title textcolor='Grey'>
-                                    Meetmap is...
-                                </Title>
-                                <Title textcolor='White'>
-                                    interactive map to find events... and friends
-                                </Title>
-                            </StyledHeadText>
-                        </StyledHeadContent>
-                        <StyledBottomContent>
-                            <PrimaryButton onPress={() => navigation.navigate("RegisterView")} btnType='White' title='Sign up' />
-                            <PrimaryButton onPress={() => navigation.navigate("LoginView")} btnType='Black' title='Sign in' />
-                        </StyledBottomContent>
-                    </StyledWelcomeViewContent>
-                </StyledImageBackground>
-            </StyledWelcomeView>
-        </>
+        <StyledWelcomeView>
+            <StyledImageBackground
+                source={require('../../assets/globe.png')}
+                imageStyle={{
+                    // resizeMode: "cover",
+                    height: 500, // the image height
+                    top: undefined
+                }}
+            >
+                <StyledWelcomeViewContent>
+                    <StyledHeadContent>
+                        <HorizontalLogoIcon />
+                        <StyledHeadText>
+                            <Title textcolor='Grey'>
+                                {t("welcomeTitle1")}
+                            </Title>
+                            <Title textcolor='White'>
+                                {t("welcomeTitle2")}
+                            </Title>
+                        </StyledHeadText>
+                    </StyledHeadContent>
+                    <StyledBottomContent>
+                        <PrimaryButton onPress={() => navigation.navigate("RegisterView")} btnType='White' title={t("signUp")} />
+                        <PrimaryButton onPress={() => navigation.navigate("LoginView")} btnType='Black' title={t("signIn")} />
+                    </StyledBottomContent>
+                </StyledWelcomeViewContent>
+            </StyledImageBackground>
+        </StyledWelcomeView>
     )
 }
 

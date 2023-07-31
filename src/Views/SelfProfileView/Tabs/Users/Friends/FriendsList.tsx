@@ -23,16 +23,16 @@ const FriendsList = ({ friendListType, setFriendListType }: { friendListType: st
 
     useEffect(() => {
         if (incomingRequests.length > 0) {
-            setFriendListType("Incoming")
+            setFriendListType("incomingRequests")
         }
     }, [incomingRequests])
 
 
     const choosedFriendsData = () => {
         switch (friendListType) {
-            case "Incoming":
+            case "incomingRequests":
                 return incomingRequests
-            case "Outcoming":
+            case "outcomingRequests":
                 return outcomingRequests;
             default:
                 return friends

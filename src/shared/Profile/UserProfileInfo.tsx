@@ -6,9 +6,11 @@ import LoadableImage from "../LoadableImage/LoadableImage";
 import LoadableProfileImage from "../LoadableImage/LoadableProfileImage";
 import { useNavigation } from "@react-navigation/native";
 import { NavigationProps } from "../../types/NavigationProps";
+import { useTranslation } from "react-i18next";
 // import AppIcon from '../../assets/appIcon.png'
 const UserProfileInfo = ({ userData }: { userData: IPartialUser }) => {
   const navigation = useNavigation<NavigationProps>()
+  const { t } = useTranslation()
   return (
     <StyledUserInfoHead>
       <LoadableProfileImage profilePicture={userData.profilePicture} />
@@ -16,7 +18,7 @@ const UserProfileInfo = ({ userData }: { userData: IPartialUser }) => {
         <StyledUserTextGeneralInfo>
           {userData.name && <H1>{userData.name}</H1>}
           <TouchableOpacity onPress={() => navigation.navigate("UsersListModalView", { userCId: userData.cid, username: userData.username })}>
-            {userData.friends && <P textcolor="Grey">{`${userData.friends.length} friend${userData.friends.length > 1 ? "s" : ""}`}</P>}
+            {userData.friends && <P textcolor="Grey">{t('friendCount', { count: userData.friends.length })}</P>}
           </TouchableOpacity>
         </StyledUserTextGeneralInfo>
         {userData.description && <P textcolor="Grey" style={{ textAlign: "center", paddingHorizontal: 18 }}>{userData.description}</P>}

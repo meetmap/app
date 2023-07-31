@@ -9,6 +9,7 @@ import { getEventsListByIds } from '../../api/events'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { RootStackParamList } from '../../types/NavigationProps'
 import { H1 } from '../../shared/Text'
+import { useTranslation } from 'react-i18next'
 
 
 export interface IEventsListModalViewProps {
@@ -30,6 +31,8 @@ const EventsListModalView = ({ route }: IEventsListModalViewProps) => {
         getEventsByIds()
     }, [])
 
+    const { t } = useTranslation()
+
     if (eventsListDataLoading) {
         return (
             <LoaderContainer />
@@ -37,12 +40,12 @@ const EventsListModalView = ({ route }: IEventsListModalViewProps) => {
     }
     if (!eventsListData) {
         return (
-            <TextStatus>Something went wrong</TextStatus>
+            <TextStatus>{t("somethingWentWrong")}</TextStatus>
         )
     }
     return (
         <StyledEventsListModal>
-            <H1>Events in this place</H1>
+            <H1>{t("eventsInThisPlace")}</H1>
             <FlatList
                 contentContainerStyle={{ paddingBottom: 25 }}
                 data={eventsListData}

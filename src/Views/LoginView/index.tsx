@@ -12,6 +12,7 @@ import SercuredFormInput from "../../shared/Input/SercuredFormInput";
 import GoBackArrowIcon from "../../shared/Icons/GoBackArrowIcon";
 import { useNavigation } from "@react-navigation/native";
 import { NavigationProps } from "../../types/NavigationProps";
+import { useTranslation } from "react-i18next";
 
 interface ILoginFormData {
     username: string,
@@ -82,6 +83,7 @@ const LoginView = () => {
         }
     }, [errors])
 
+    const { t } = useTranslation()
 
     return (
         <StyledLoginViewContainer>
@@ -90,22 +92,19 @@ const LoginView = () => {
                     <TouchableOpacity style={{ position: "absolute", left: 0, top: 0 }} onPress={() => navigation.goBack()}>
                         <GoBackArrowIcon />
                     </TouchableOpacity>
-                    <Title textcolor='Black'>Hey!</Title>
-                    <Title textcolor='Black'>Glad you're back</Title>
+                    <Title textcolor='Black'>{t("hey")}</Title>
+                    <Title style={{textAlign: "center"}} textcolor='Black'>{t("greetings")}</Title>
                 </StyledAuthHeadContent>
                 <StyledFormContent>
-                    <PrimaryFormInput autoComplete="username" label='Your username or e-mail' name='username' isError={errors.username} value={values.username} onChangeText={(text) => handleChange("username", text)} placeholder='Username' />
-                    <SercuredFormInput autoComplete="current-password" label='Password' name='password' isError={errors.password} value={values.password} onChangeText={(text) => handleChange("password", text)} placeholder='Password' />
+                    <PrimaryFormInput autoComplete="username" label={t("username")} name='username' isError={errors.username} value={values.username} onChangeText={(text) => handleChange("username", text)} placeholder={t("username")} />
+                    <SercuredFormInput autoComplete="current-password" label={t("password")} name='password' isError={errors.password} value={values.password} onChangeText={(text) => handleChange("password", text)} placeholder={t("password")} />
                     <TouchableOpacity>
-                        <Span textcolor="Primary">
-                            Forgot password
-                        </Span>
+                        <Span textcolor="Primary">{t("forgotPassword")}</Span>
                     </TouchableOpacity>
                 </StyledFormContent>
             </StyledInputsContent>
             <StyledButtonContent>
-                <PrimaryButton onPress={handleSubmit} btnType='Primary' title="Submit" />
-                {/* <LoginFacebook /> */}
+                <PrimaryButton onPress={handleSubmit} btnType='Primary' title={t("submit")} />
             </StyledButtonContent>
         </StyledLoginViewContainer>
     )

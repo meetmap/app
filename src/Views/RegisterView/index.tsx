@@ -13,6 +13,7 @@ import { useNavigation } from "@react-navigation/native";
 import { NavigationProps } from "../../types/NavigationProps";
 import RNDateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import PrimaryDatePicker from "../../shared/Input/PrimaryDatePicker";
+import { useTranslation } from "react-i18next";
 
 interface ILoginFormData {
     name: string,
@@ -123,6 +124,8 @@ const RegisterView = () => {
         }
     }, [errors])
 
+    const { t } = useTranslation()
+
     return (
         <StyledLoginViewContainer>
             <StyledInputsContent>
@@ -135,20 +138,19 @@ const RegisterView = () => {
                 </StyledAuthHeadContent>
                 <StyledFormContent>
                     <PrimaryFormInput label='Your name' name='name' isError={errors.name} value={values.name} onChangeText={(text) => handleChange("name", text)} placeholder='Name' />
-                    <PrimaryFormInput label='Your username' name='username' isError={errors.username} value={values.username} onChangeText={(text) => handleChange("username", text)} placeholder='Username' />
+                    <PrimaryFormInput label='Your username' name='username' isError={errors.username} value={values.username} onChangeText={(text) => handleChange("username", text)} placeholder={t("username")}/>
                     <PrimaryFormInput label='Your e-mail' name='email' isError={errors.email} value={values.email} onChangeText={(text) => handleChange("username", text)} placeholder='E-mail' />
                     <PrimaryDatePicker
                         label="Your birth date"
                         value={new Date(values.birthDate)}
                         onChange={handleDateChange}
                     />
-                    <SercuredFormInput label='Password' name='password' isError={errors.password} value={values.password} onChangeText={(text) => handleChange("password", text)} placeholder='Password' />
-                    <SercuredFormInput label='Repeat password' name='repeatPassword' isError={errors.repeatPassword} value={values.repeatPassword} onChangeText={(text) => handleChange("repeatPassword", text)} placeholder='Password' />
+                    <SercuredFormInput label='Password' name='password' isError={errors.password} value={values.password} onChangeText={(text) => handleChange("password", text)} placeholder={t("password")} />
+                    <SercuredFormInput label='Repeat password' name='repeatPassword' isError={errors.repeatPassword} value={values.repeatPassword} onChangeText={(text) => handleChange("repeatPassword", text)} placeholder={t("repeatPassword")} />
                 </StyledFormContent>
             </StyledInputsContent>
             <StyledButtonContent>
-                <PrimaryButton onPress={handleSubmit} btnType='Primary' title="Submit" />
-                {/* <LoginFacebook /> */}
+                <PrimaryButton onPress={handleSubmit} btnType='Primary' title={t("submit")}/>
             </StyledButtonContent>
         </StyledLoginViewContainer>
     )

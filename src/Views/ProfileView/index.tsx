@@ -12,6 +12,7 @@ import PrimaryMediumButton from '../../shared/Buttons/PrimaryMediumButton';
 import MoreIcon from '../../shared/Icons/MoreIcon';
 import { useMap } from '../../hooks/MapProvider';
 import ProfileActions from '../../shared/Actions/Users/ProfileActions';
+import { useTranslation } from 'react-i18next';
 
 
 interface IPageProps {
@@ -40,6 +41,8 @@ const ProfileView = (props: IPageProps) => {
         setRefreshing(false)
     }, []);
 
+    const { t } = useTranslation()
+
     // console.log(userData?.friends)
     if (userDataLoading) {
         return <LoaderContainer />
@@ -52,7 +55,7 @@ const ProfileView = (props: IPageProps) => {
             >
                 <UserProfileInfo userData={userData} />
                 <StyledProfileActions>
-                    <PrimaryMediumButton style={{ flex: 1 }} btnType='Secondary' title='Invite to an event' />
+                    <PrimaryMediumButton style={{ flex: 1 }} btnType='Secondary' title={t("inviteToAnEvent")} />
                     <PrimaryMediumButton btnType='Secondary' onPress={() => ProfileActions(userData, flyTo, props.navigation)}>
                         <MoreIcon />
                     </PrimaryMediumButton>
@@ -62,10 +65,10 @@ const ProfileView = (props: IPageProps) => {
     }
     return (
         <ScrollView
-            style={{ height: "100%"}}
+            style={{ height: "100%" }}
             refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
         >
-            <TextStatus>User not found</TextStatus>
+            <TextStatus>{t("userNotFound")}</TextStatus>
         </ScrollView>
     )
 }

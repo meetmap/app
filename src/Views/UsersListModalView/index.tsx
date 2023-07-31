@@ -12,6 +12,7 @@ import { H1 } from '../../shared/Text'
 import { getFriendsListByCId } from '../../api/friends'
 import { IPartialUser } from '../../types/users'
 import UserDataInList from '../../shared/Profile/UserDataInList'
+import { useTranslation } from 'react-i18next'
 
 
 export interface IEventsListModalViewProps {
@@ -20,6 +21,7 @@ export interface IEventsListModalViewProps {
 
 
 const UsersListModalView = ({ route }: IEventsListModalViewProps) => {
+    const { t } = useTranslation()
     const [usersListData, setUsersListData] = useState<IPartialUser[] | null>(null)
     const [usersListDataLoading, setUsersListDataLoading] = useState<boolean>(false)
 
@@ -41,12 +43,12 @@ const UsersListModalView = ({ route }: IEventsListModalViewProps) => {
     }
     if (!usersListData) {
         return (
-            <TextStatus>Something went wrong</TextStatus>
+            <TextStatus>{t("somethingWentWrong")}</TextStatus>
         )
     }
     return (
         <StyledEventsListModal>
-            <H1>{`${route.params.username}\`s friends`}</H1>
+            <H1>{t("userFriendsLabel", {username: route.params.username})}</H1>
             <FlatList
                 contentContainerStyle={{ paddingBottom: 25, gap: 8 }}
                 data={usersListData}

@@ -5,14 +5,16 @@ import { IPartialUser } from "../../../../../types/users"
 import UserDataInList from "../../../../../shared/Profile/UserDataInList"
 import { FlatList, ScrollView, View } from "react-native"
 import styled from "styled-components/native"
+import { useTranslation } from "react-i18next"
 
 const UsersSearchList = ({ searchUsersData, searchUsersLoading }: { searchUsersData: IPartialUser[] | null, searchUsersLoading: boolean }) => {
+    const { t } = useTranslation()
     if (searchUsersLoading) {
         return <LoaderContainer />
     }
     if (searchUsersData?.length === 0) {
         return (
-            <TextStatus>User not found</TextStatus>
+            <TextStatus>{t("userNotFound")}</TextStatus>
         )
     }
     if (searchUsersData) {

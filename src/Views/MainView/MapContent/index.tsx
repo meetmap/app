@@ -20,34 +20,22 @@ import EventsClusters from './EventsClusters';
 import { IEvent } from '../../../types/event';
 import { store } from '../../../store/store';
 import FriendsClusters from './FriendsClusters';
+import useEventsOnMap from '../../../hooks/useEventsOnMap';
 
 const MapContent = () => {
   const { mapViewRef } = useMap();
   const { userCoordinates } = useAppSelector(state => state.locationSlice);
 
   const dispatch = useAppDispatch();
-  const [clusters, setClusters] = useState<ClusterPoint[]>([]);
-  const mapFiler = useAppSelector(state => state.mapSlice.mapFilters);
+
+  const { clusters, getEventsByCoordinates, clusterizeEvents, changeZoomLevel } = useEventsOnMap()
 
   const handleRegionChangeComplete = async (
     region: Region,
     details: Details,
   ) => {
-
-    if (mapFiler !== 'Friends') {
-      const scale =
-        (156_543.03392 * Math.cos((region.latitude * Math.PI) / 180)) /
-        2 ** zoomLevel;
-      const visibleRadius = ((scale * windowWidth) / 2 / 1000) * 10;
-      await dispatch(
-        getEventsByLocationThunk({
-          lat: region.latitude,
-          lng: region.longitude,
-          radius: visibleRadius,
-        }),
-      );
-    }
-
+    getEventsByCoordinates(region)
+    
     const data = await mapViewRef.current?.addressForCoordinate({
       latitude: region.latitude,
       longitude: region.longitude,
@@ -56,41 +44,10 @@ const MapContent = () => {
 
   };
 
-  const windowWidth = Dimensions.get('window').width;
-  const [zoomLevel, setZoomLevel] = useState(20);
-
   const handleRegionChange = debounce(
     async (region: Region) => {
-      if (mapFiler === 'Friends') {
-        return;
-      }
-      const zoomLevelI =
-        Math.log2(360 * (windowWidth / 256 / region.longitudeDelta)) + 1;
-      setZoomLevel(zoomLevelI);
-      const boundsData = await mapViewRef.current?.getMapBoundaries();
-      if (!boundsData) {
-        return;
-      }
-      const clustersData = useSupercluster({
-        points: store.getState().eventsSlice.eventsGeo,
-        bounds: [
-          boundsData?.southWest.longitude - 0.02,
-          boundsData?.southWest.latitude - 0.02,
-          boundsData?.northEast.longitude + 0.02,
-          boundsData?.northEast.latitude + 0.02,
-        ],
-        zoom: zoomLevel,
-        options: {
-          radius: 105,
-          maxZoom: 40,
-          minZoom: 2,
-          reduce: (accumulated, props) => {
-            accumulated.ids = [...accumulated.ids, ...props.ids];
-          },
-        },
-      });
-
-      setClusters(clustersData);
+      changeZoomLevel(region)
+      await clusterizeEvents()
     },
     200,
     { maxWait: 200 },
@@ -105,13 +62,14 @@ const MapContent = () => {
       initialRegion={{
         latitude: userCoordinates?.lat || 0,
         longitude: userCoordinates?.lng || 0,
-        latitudeDelta: 0.0922,
+        latitudeDelta: 0.0422,
         longitudeDelta: 0.0421,
       }}
       userInterfaceStyle={'light'}
       showsPointsOfInterest={false}
       onRegionChange={handleRegionChange}
-      onRegionChangeComplete={handleRegionChangeComplete}>
+      onRegionChangeComplete={handleRegionChangeComplete}
+    >
       <EventsClusters clusters={clusters} />
       <FriendsClusters />
       <UserMarker />

@@ -1,6 +1,9 @@
+import { t } from "i18next";
+
+
 export const useCalculateDistance = (lat1?: number, lon1?: number, lat2?: number, lon2?: number): string | undefined => {
-    if(!lat1 || !lon1 || !lat2 || !lon2) return
-    const R = 6371; 
+    if (!lat1 || !lon1 || !lat2 || !lon2) return
+    const R = 6371;
     const dLat = ((lat2 - lat1) * Math.PI) / 180;
     const dLon = ((lon2 - lon1) * Math.PI) / 180;
     const a =
@@ -14,11 +17,11 @@ export const useCalculateDistance = (lat1?: number, lon1?: number, lat2?: number
 
     let formattedDistance = "";
     if (distance < 1) {
-        formattedDistance = `${Math.round(distance * 1000)} meters`;
+        formattedDistance = t("metersAway", { count: Math.round(distance * 1000) });
     } else if (distance < 10) {
-        formattedDistance = `${distance.toFixed(1)} kilometers`;
+        formattedDistance = t("kilometersAway", { count: +distance.toFixed(1) });
     } else {
-        formattedDistance = `${Math.round(distance)} kilometers`;
+        formattedDistance = t("kilometersAway", { count: Math.round(distance) });
     }
 
     return formattedDistance;

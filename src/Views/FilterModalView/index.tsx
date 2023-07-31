@@ -12,6 +12,7 @@ import SearchInput from "../../shared/Input/SearchInput"
 import { searchEvents } from "../../api/events"
 import { NativeStackNavigationProp } from "@react-navigation/native-stack"
 import { RootStackParamList } from "../../types/NavigationProps"
+import { useTranslation } from "react-i18next"
 
 export interface IMainViewProps {
     navigation: NativeStackNavigationProp<RootStackParamList, 'FilterModalView'>;
@@ -43,11 +44,14 @@ const FilterModalView = ({ }: IMainViewProps) => {
         }
         setRefreshing(false)
     }, []);
+    
+    const { t } = useTranslation()
+
     return (
         <StyledSearchModal>
             <StyledSearchInputContainer>
                 <SearchInput
-                    placeholder="Search..."
+                    placeholder={t("searchPlaceholder")}
                     onChangeText={searchEventsDataFunc}
                 />
             </StyledSearchInputContainer>
@@ -69,7 +73,7 @@ const FilterModalView = ({ }: IMainViewProps) => {
                     style={{flex: 1}}
                     refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
                 >
-                    <TextStatus>Events not found</TextStatus>
+                    <TextStatus>{t("eventsNotFound")}</TextStatus>
                 </ScrollView>
             }
         </StyledSearchModal>

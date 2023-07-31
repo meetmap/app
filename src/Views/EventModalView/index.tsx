@@ -14,6 +14,8 @@ import TicketIcon from '../../shared/Icons/TicketIcon'
 import PrimarySmallButton from '../../shared/Buttons/PrimarySmallButton'
 import LoaderContainer from '../../shared/LoaderContainer'
 import PrimaryMediumButton from '../../shared/Buttons/PrimaryMediumButton'
+import { useTranslation } from 'react-i18next'
+import TextStatus from '../../shared/TextStatus'
 
 
 export interface IEventModalViewProps {
@@ -34,6 +36,8 @@ const EventModalView = (props: IEventModalViewProps) => {
         getEvent()
     }, [])
 
+    const { t } = useTranslation()
+
     const handleBuyTicketOpenLink = () => {
         if (eventData?.link) {
             Linking.canOpenURL(eventData.link).then(supported => {
@@ -50,41 +54,44 @@ const EventModalView = (props: IEventModalViewProps) => {
             <LoaderContainer />
         )
     }
-    if (eventData)
+    if (!eventData) {
         return (
-            <View>
-                <StyledEventModalContent>
-                    <StyledEventImgContainer>
-                        <LoadableImage source={{ uri: eventData.picture }} />
-                        <LikeButton eventId={eventData.id} isLiked={eventData.userStats.isUserLike} />
-                    </StyledEventImgContainer>
-                    <EventInfoContainer>
-                        <StyledEventInfoHead>
-                            <H1>
-                                {eventData.title}
-                            </H1>
-                            <StyledAgeLimit>
-                                <Span textcolor='Grey'>
-                                    {eventData.ageLimit}+
-                                </Span>
-                            </StyledAgeLimit>
-                        </StyledEventInfoHead>
-                        <P>
-                            {eventData?.description}
-                        </P>
-                    </EventInfoContainer>
-                    <StyledEventFooter>
-                        <PrimaryMediumButton onPress={handleBuyTicketOpenLink} btnType='Primary' title='Buy tickets'><TicketIcon /></PrimaryMediumButton>
-                        <StyledEventFooterActions>
-                            <PrimaryMediumButton style={{flex: 1}} btnType='Secondary' title='Invite friend' />
-                            <PrimaryMediumButton style={{flex: 1}} btnType='Secondary' title='See who goes' />
-                            <PrimaryMediumButton style={{flex: 1}} btnType='Secondary' title='I will go' />
-                        </StyledEventFooterActions>
-                    </StyledEventFooter>
-                </StyledEventModalContent>
-            </View>
+            <TextStatus>{t("somethingWentWrong")}</TextStatus>
         )
-    return null
+    }
+    return (
+        <View>
+            <StyledEventModalContent>
+                <StyledEventImgContainer>
+                    <LoadableImage source={{ uri: eventData.picture }} />
+                    <LikeButton eventId={eventData.id} isLiked={eventData.userStats.isUserLike} />
+                </StyledEventImgContainer>
+                <EventInfoContainer>
+                    <StyledEventInfoHead>
+                        <H1>
+                            {eventData.title}
+                        </H1>
+                        <StyledAgeLimit>
+                            <Span textcolor='Grey'>
+                                {eventData.ageLimit}+
+                            </Span>
+                        </StyledAgeLimit>
+                    </StyledEventInfoHead>
+                    <P>
+                        {eventData?.description}
+                    </P>
+                </EventInfoContainer>
+                <StyledEventFooter>
+                    <PrimaryMediumButton onPress={handleBuyTicketOpenLink} btnType='Primary' title={t("buyTickets")}><TicketIcon /></PrimaryMediumButton>
+                    <StyledEventFooterActions>
+                        <PrimaryMediumButton style={{ flex: 1 }} btnType='Secondary' title={t("inviteFriend")} />
+                        <PrimaryMediumButton style={{ flex: 1 }} btnType='Secondary' title={t("seeWhoGoes")} />
+                        <PrimaryMediumButton style={{ flex: 1 }} btnType='Secondary' title={t("iWillGo")} />
+                    </StyledEventFooterActions>
+                </StyledEventFooter>
+            </StyledEventModalContent>
+        </View>
+    )
 }
 
 export default EventModalView
