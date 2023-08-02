@@ -117,7 +117,6 @@ export const changeUserProfilePicture = async (
 ): Promise<IUserSelf> => {
   const formData = new FormData();
   formData.append('photo', picture);
-  console.log(formData);
   const {data} = await getAxios('assets', true).post<IUserSelf>(
     `/upload/avatar`,
     formData,

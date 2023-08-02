@@ -1,24 +1,10 @@
-import {
-  LegacyRef,
-  RefObject,
-  createContext,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
 import MapView, { Details, Marker, Region } from 'react-native-maps';
 import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import { setAddressState } from '../../../store/slices/mapSlice';
+import { getAddressThunk, setAddressState } from '../../../store/slices/mapSlice';
 import UserMarker from './UserMarker';
 import { useMap } from '../../../hooks/MapProvider';
 import { debounce } from 'lodash';
-import { Dimensions } from 'react-native';
-import { getEventsByLocationThunk } from '../../../store/slices/eventsSlice';
-import useSupercluster, { ClusterPoint } from '../../../hooks/useSuperCluster';
 import EventsClusters from './EventsClusters';
-import { IEvent } from '../../../types/event';
-import { store } from '../../../store/store';
 import FriendsClusters from './FriendsClusters';
 import useEventsOnMap from '../../../hooks/useEventsOnMap';
 
@@ -35,12 +21,19 @@ const MapContent = () => {
     details: Details,
   ) => {
     getEventsByCoordinates(region)
-    
-    const data = await mapViewRef.current?.addressForCoordinate({
-      latitude: region.latitude,
-      longitude: region.longitude,
-    });
-    dispatch(setAddressState(data));
+
+    if (mapViewRef.current) {
+      dispatch(getAddressThunk({
+        mapView: mapViewRef.current,
+        latitude: region.latitude,
+        longitude: region.longitude,
+      }))
+    }
+    // const data = await mapViewRef.current?.addressForCoordinate({
+    //   latitude: region.latitude,
+    //   longitude: region.longitude,
+    // });
+    // dispatch(setAddressState(data));
 
   };
 
@@ -69,6 +62,7 @@ const MapContent = () => {
       showsPointsOfInterest={false}
       onRegionChange={handleRegionChange}
       onRegionChangeComplete={handleRegionChangeComplete}
+      zoomControlEnabled
     >
       <EventsClusters clusters={clusters} />
       <FriendsClusters />

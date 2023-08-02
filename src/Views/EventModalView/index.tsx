@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { Linking, View } from 'react-native'
+import { FlatList, Linking, ScrollView, View } from 'react-native'
 import styled from 'styled-components/native'
 import LikeButton from '../../shared/Buttons/LikeButton'
-import { Image } from 'react-native-svg'
-import LoadableImage from '../../shared/LoadableImage/LoadableImage'
 import { IEvent } from '../../types/event'
 import { getEventById } from '../../api/events'
-import { H1, P, Span } from '../../shared/Text'
-import PrimaryButton from '../../shared/Buttons/PrimaryButton'
+import { H1, H3, P, Span } from '../../shared/Text'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { RootStackParamList } from '../../types/NavigationProps'
 import TicketIcon from '../../shared/Icons/TicketIcon'
@@ -16,6 +13,13 @@ import LoaderContainer from '../../shared/LoaderContainer'
 import PrimaryMediumButton from '../../shared/Buttons/PrimaryMediumButton'
 import { useTranslation } from 'react-i18next'
 import TextStatus from '../../shared/TextStatus'
+import { useCalculateDistance } from '../../hooks/useCalculateDistance'
+import moment from 'moment'
+import { useAppSelector } from '../../store/hooks'
+import { Line } from '../../shared/Line'
+import EventCarousel from '../../shared/Carousel'
+import useAxios from '../../hooks/useAxios'
+import EventSm from '../../shared/EventInList/EventSm'
 
 
 export interface IEventModalViewProps {
@@ -23,20 +27,10 @@ export interface IEventModalViewProps {
 }
 
 const EventModalView = (props: IEventModalViewProps) => {
-    const [eventData, setEventData] = useState<IEvent | null>(null)
-    const [eventDataLoading, setEventDataLoading] = useState<boolean>(false)
-    const getEvent = async () => {
-        setEventDataLoading(true)
-        const event = await getEventById(props.route.params.eventId)
-        setEventDataLoading(false)
-        setEventData(event)
+    const { data: eventData, loading: eventDataLoading, error } = useAxios<IEvent>(getEventById(props.route.params.eventId))
+    const userCoordinates = useAppSelector(state => state.locationSlice.userCoordinates)
 
-    }
-    useEffect(() => {
-        getEvent()
-    }, [])
-
-    const { t } = useTranslation()
+    const { t, i18n } = useTranslation()
 
     const handleBuyTicketOpenLink = () => {
         if (eventData?.link) {
@@ -49,6 +43,17 @@ const EventModalView = (props: IEventModalViewProps) => {
             });
         }
     };
+    const distance = useCalculateDistance(
+        eventData?.location.coordinates.coordinates[1],
+        eventData?.location.coordinates.coordinates[0],
+        userCoordinates?.lat,
+        userCoordinates?.lng
+    )
+    const momentLocaleFormat = {
+        en: "MMM D - h A",
+        ru: "D MMM - h A"
+    }
+    const formattedStartTime = moment(eventData?.startTime).locale(i18n.language).format(momentLocaleFormat[i18n.language as keyof typeof momentLocaleFormat]);
     if (eventDataLoading) {
         return (
             <LoaderContainer />
@@ -60,10 +65,10 @@ const EventModalView = (props: IEventModalViewProps) => {
         )
     }
     return (
-        <View>
+        <ScrollView>
             <StyledEventModalContent>
                 <StyledEventImgContainer>
-                    <LoadableImage source={{ uri: eventData.picture }} />
+                    <EventCarousel eventsImagesList={[eventData.picture, eventData.picture, eventData.picture]} />
                     <LikeButton eventId={eventData.id} isLiked={eventData.userStats.isUserLike} />
                 </StyledEventImgContainer>
                 <EventInfoContainer>
@@ -71,12 +76,22 @@ const EventModalView = (props: IEventModalViewProps) => {
                         <H1>
                             {eventData.title}
                         </H1>
+                    </StyledEventInfoHead>
+                    <Line />
+                    <StyledAdditionEventInfo>
+                        <View style={{ gap: 6 }}>
+                            {distance &&
+                                <P>{distance} {t("fromYou")}</P>
+                            }
+                            <P>{formattedStartTime}</P>
+                        </View>
                         <StyledAgeLimit>
                             <Span textcolor='Grey'>
                                 {eventData.ageLimit}+
                             </Span>
                         </StyledAgeLimit>
-                    </StyledEventInfoHead>
+                    </StyledAdditionEventInfo>
+                    <Line />
                     <P>
                         {eventData?.description}
                     </P>
@@ -90,7 +105,18 @@ const EventModalView = (props: IEventModalViewProps) => {
                     </StyledEventFooterActions>
                 </StyledEventFooter>
             </StyledEventModalContent>
-        </View>
+            <StyledSimilarEventsContainer>
+                <H3 style={{paddingLeft: 16}}>{t("similarEvents")}</H3>
+                <StyledSimilarEvents
+                    contentContainerStyle={{ paddingBottom: 25, paddingHorizontal: 16, gap: 8 }}
+                    data={[eventData, eventData, eventData, eventData] as IEvent[]}
+                    horizontal={true}
+                    scrollEnabled
+                    renderItem={({ item }) => <EventSm eventData={item as IEvent} />}
+                    keyExtractor={item => item.id}
+                />
+            </StyledSimilarEventsContainer>
+        </ScrollView>
     )
 }
 
@@ -141,6 +167,20 @@ const StyledEventFooter = styled(View)`
     }
 `
 const StyledEventFooterActions = styled(View)`
+    flex-direction: row;
+    gap: 6px;
+`
+const StyledAdditionEventInfo = styled(View)`
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 6px;
+`
+const StyledSimilarEventsContainer = styled(View)`
+    gap: 6px;
+    padding-top: 24px;
+`
+const StyledSimilarEvents = styled(FlatList)`
     flex-direction: row;
     gap: 6px;
 `

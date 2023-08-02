@@ -21,14 +21,13 @@ const PrimaryButton = ({ children, ...rest }: IPrimaryButton) => {
 export default PrimaryButton
 
 const StyledPrimaryButton = styled(TouchableOpacity)`
-    background-color: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(12px);
+    background-color: rgba(255, 255, 255, 1);
     display: flex;
     align-items: center;
     justify-content: center;
-    border: none;
     border-radius: 18px; 
     pointer-events: auto;
     height: 48px;
     width: 48px;
+    border: solid 1px #DDE2ED;
 `

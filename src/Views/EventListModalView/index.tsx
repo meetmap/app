@@ -10,6 +10,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { RootStackParamList } from '../../types/NavigationProps'
 import { H1 } from '../../shared/Text'
 import { useTranslation } from 'react-i18next'
+import useAxios from '../../hooks/useAxios'
 
 
 export interface IEventsListModalViewProps {
@@ -18,37 +19,25 @@ export interface IEventsListModalViewProps {
 
 
 const EventsListModalView = ({ route }: IEventsListModalViewProps) => {
-    const [eventsListData, setEventsListData] = useState<IEvent[] | null>(null)
-    const [eventsListDataLoading, setEventsListDataLoading] = useState<boolean>(false)
-
-    const getEventsByIds = async () => {
-        setEventsListDataLoading(true)
-        const eventsData = await getEventsListByIds(route.params.eventIds)
-        setEventsListData(eventsData)
-        setEventsListDataLoading(false)
-    }
-    useEffect(() => {
-        getEventsByIds()
-    }, [])
-
+    const {data, loading, error} = useAxios<IEvent[]>(getEventsListByIds(route.params.eventIds))
     const { t } = useTranslation()
 
-    if (eventsListDataLoading) {
+    if (loading) {
         return (
             <LoaderContainer />
         )
     }
-    if (!eventsListData) {
+    if (error) {
         return (
             <TextStatus>{t("somethingWentWrong")}</TextStatus>
         )
     }
     return (
         <StyledEventsListModal>
-            <H1>{t("eventsInThisPlace")}</H1>
+            <H1 style={{ paddingTop: 16, paddingHorizontal: 16 }}>{t("eventsInThisPlace")}</H1>
             <FlatList
-                contentContainerStyle={{ paddingBottom: 25 }}
-                data={eventsListData}
+                contentContainerStyle={{ paddingBottom: 65, paddingHorizontal: 16 }}
+                data={data}
                 horizontal={false}
                 scrollEnabled
                 renderItem={({ item }) => <EventLg eventData={item} />}
@@ -63,7 +52,7 @@ export default EventsListModalView
 
 const StyledEventsListModal = styled(View)`
     flex-direction: column;
-    padding: 16px 16px 0 16px;
+    /* padding: 16px 16px 0 16px; */
     gap: 8px;
 `
 

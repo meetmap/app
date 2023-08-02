@@ -13,6 +13,7 @@ import MoreIcon from '../../shared/Icons/MoreIcon';
 import { useMap } from '../../hooks/MapProvider';
 import ProfileActions from '../../shared/Actions/Users/ProfileActions';
 import { useTranslation } from 'react-i18next';
+import useAxios from '../../hooks/useAxios';
 
 
 interface IPageProps {
@@ -20,18 +21,8 @@ interface IPageProps {
 }
 
 const ProfileView = (props: IPageProps) => {
-    const [userData, setUserData] = useState<IPartialUser | null>(null)
-    const [userDataLoading, setUserDataLoading] = useState<boolean>(false)
+    const {data: userData, loading: userDataLoading, setData: setUserData} = useAxios<IPartialUser>(getUserById(props.route.params.userId))
     const { flyTo } = useMap()
-    const getUserDataById = async () => {
-        setUserDataLoading(true)
-        const userResData = await getUserById(props.route.params.userId)
-        setUserData(userResData)
-        setUserDataLoading(false)
-    }
-    useEffect(() => {
-        getUserDataById()
-    }, [props.route.params.userId])
 
     const [refreshing, setRefreshing] = React.useState(false);
 

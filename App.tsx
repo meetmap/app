@@ -20,6 +20,7 @@ import { getFromSecureStore, setToSecureStore } from './src/api/secure-store';
 import { SecureStoreKeys } from './src/constants';
 import { getLocales } from 'react-native-localize';
 import { useTranslation } from 'react-i18next';
+import ErrorPopup from './src/shared/ErrorPopup';
 
 const App: () => JSX.Element = () => {
   const { i18n } = useTranslation()
@@ -44,6 +45,7 @@ const App: () => JSX.Element = () => {
         <ThemeProvider theme={mainTheme}>
           <NavigationContainer>
             <Navigator />
+            <ErrorPopup />
           </NavigationContainer>
         </ThemeProvider>
       </MapProvider>

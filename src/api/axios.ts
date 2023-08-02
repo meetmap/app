@@ -1,11 +1,14 @@
-import axios, {AxiosError} from 'axios';
-import {EVENTS_URL, AUTH_URL, MAIN_APP_URL, API_BASE_URL} from './baseUrl';
+import axios, { AxiosError } from 'axios';
+import { EVENTS_URL, AUTH_URL, MAIN_APP_URL, API_BASE_URL } from './baseUrl';
 import jwtDecode from 'jwt-decode';
-import {refreshAccessToken} from './refreshAccessToken';
-import {SecureStoreKeys} from '../constants/secure-store';
-import {getFromSecureStore, setToSecureStore} from './secure-store';
-import {store} from '../store/store';
-import {setUserdata} from '../store/slices/userSlice';
+import { refreshAccessToken } from './refreshAccessToken';
+import { SecureStoreKeys } from '../constants/secure-store';
+import { getFromSecureStore, setToSecureStore } from './secure-store';
+import { store } from '../store/store';
+import { setUserdata } from '../store/slices/userSlice';
+import { showErrorModal } from '../store/slices/globalErrorSlice';
+import AppError from '../utils/AppError';
+import { t } from 'i18next';
 
 type MicroserviceNames = 'auth' | 'users' | 'events' | 'location' | 'assets';
 
@@ -56,6 +59,26 @@ export const getAxios = (
       return config;
     });
   }
+
+  _axios.interceptors.response.use(
+    (response) => response,
+    (error) => {
+      if (error.response) {
+        const customError = new AppError(error.response.data.message || error.message, error.response.status);
+        store.dispatch(showErrorModal(customError.message))
+        throw customError;
+      }
+      if (error.request) {
+        const customError = new AppError(t("failedGetResMessage"));
+        store.dispatch(showErrorModal(customError.message))
+        throw customError;
+      }
+      const customError = new AppError(t("unknownErrorMessage"));
+      store.dispatch(showErrorModal(customError.message))
+      throw customError;
+    }
+  );
+
   return _axios;
 };
 
@@ -63,7 +86,7 @@ const isInvalidAccessToken = (token: string | null): boolean => {
   if (!token) {
     return true;
   }
-  const decoded = jwtDecode<{iat: number; exp: number; sub: string}>(token);
+  const decoded = jwtDecode<{ iat: number; exp: number; sub: string }>(token);
   const isExpired = decoded.exp - Date.now() / 1000 <= 0;
   return isExpired;
 };

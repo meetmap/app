@@ -54,7 +54,6 @@ export const updateUserLocationThunk = createAsyncThunk<
     }
     return data;
   } catch (error) {
-    console.log(error)
     return payload
   }
 });

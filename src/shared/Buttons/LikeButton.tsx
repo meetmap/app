@@ -40,7 +40,7 @@ export default LikeButton
 const StyledLikeButton = styled(TouchableOpacity) <{ active: boolean }>`
     position: absolute;
     right: 16px;
-    bottom: 16px;
+    bottom: 12px;
     background: ${props => props.active ? "rgba(211, 64, 30, 0.665)" : "rgba(184, 199, 229, 0.25)"};
     /* background-color: #a17f7f55; */
     transition: background 0.4s ease;

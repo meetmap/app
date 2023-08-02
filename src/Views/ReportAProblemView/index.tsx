@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Alert, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { Alert, Keyboard, KeyboardAvoidingView, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
 import { H1, H6, P } from '../../shared/Text'
 import { useTranslation } from 'react-i18next'
 import PrimaryFormInput from '../../shared/Input/PrimaryFormInput'
@@ -33,45 +33,47 @@ const ReportAProblemView = ({ navigation }: IReportAProblemViewProps) => {
     }
 
     return (
-        <TouchableOpacity
-            activeOpacity={1}
-            onPress={() => navigation.goBack()}
-            style={{ flex: 1, paddingHorizontal: 16, alignItems: 'stretch', justifyContent: 'center', backgroundColor: "#00000067" }}
-        >
-            <ReportAProblemContainer>
-                <ReportAProblemTitle>
-                    <H1>{t("reportAProblem")}</H1>
-                    <P>{t("reportAProblemDescription")}</P>
-                </ReportAProblemTitle>
-                <Line />
-                <StyledReportForm>
-                    <PrimaryPickProblemButton
-                        onPress={() => ReportAProblemActions(setReportFormData, reportFormData)}
-                    >
-                        <Text>{reportFormData.choosedProblem || t("problemInputTitle")}</Text>
-                    </PrimaryPickProblemButton>
-                    <PrimaryFormInput
-                        onChangeText={(text) => setReportFormData({ ...reportFormData, problemDescription: text })}
-                        label={t("problemInputDescription")}
-                        multiline={true}
-                        style={{ minHeight: 90 }}
-                        numberOfLines={4}
-                        inputStyle="Primary"
-                    />
-                </StyledReportForm>
-                <PrimaryButton title={t("submit")} onPress={handleReport}/>
-            </ReportAProblemContainer>
-        </TouchableOpacity>
+        <KeyboardAvoidingView behavior='padding' style={{flex: 1}}>
+            <TouchableOpacity
+                activeOpacity={1}
+                onPress={() => navigation.goBack()}
+                style={{ flex: 1, paddingHorizontal: 16, alignItems: 'stretch', justifyContent: 'center', backgroundColor: "#00000067" }}
+            >
+                <ReportAProblemContainer onPress={Keyboard.dismiss} activeOpacity={1}>
+                    <ReportAProblemTitle>
+                        <H1>{t("reportAProblem")}</H1>
+                        <P>{t("reportAProblemDescription")}</P>
+                    </ReportAProblemTitle>
+                    <Line />
+                    <StyledReportForm  behavior='padding'>
+                        <PrimaryPickProblemButton
+                            onPress={() => ReportAProblemActions(setReportFormData, reportFormData)}
+                        >
+                            <Text>{reportFormData.choosedProblem || t("problemInputTitle")}</Text>
+                        </PrimaryPickProblemButton>
+                        <PrimaryFormInput
+                            onChangeText={(text) => setReportFormData({ ...reportFormData, problemDescription: text })}
+                            label={t("problemInputDescription")}
+                            multiline={true}
+                            style={{ minHeight: 90 }}
+                            numberOfLines={4}
+                            inputStyle="Primary"
+                        />
+                    </StyledReportForm>
+                    <PrimaryButton title={t("submit")} onPress={handleReport} />
+                </ReportAProblemContainer>
+            </TouchableOpacity>
+        </KeyboardAvoidingView>
     )
 }
 
 export default ReportAProblemView
 
 
-const StyledReportForm = styled.View`
+const StyledReportForm = styled.KeyboardAvoidingView`
     gap: 16px;
 `
-const ReportAProblemContainer = styled.View`
+const ReportAProblemContainer = styled(TouchableOpacity)`
     background-color: white;
     padding: 16px;
     border-radius: 12px;
@@ -83,7 +85,7 @@ const ReportAProblemTitle = styled.View`
 
 const PrimaryPickProblemButton = styled.TouchableOpacity`
     width: 100%;
-    padding: 18px 50px 18px 24px;
+    padding: 18px 24px;
     border: none;
 
     background: ${props => props.theme.colors.INPUT.Primary.BGColor};

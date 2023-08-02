@@ -16,6 +16,7 @@ import PrimaryButton from '../../shared/Buttons/PrimaryButton';
 import SelfProfileInfo from '../../shared/Profile/SelfProfile';
 import Settings from './Settings';
 import { useTranslation } from 'react-i18next';
+import PrimaryMediumButton from '../../shared/Buttons/PrimaryMediumButton';
 
 export interface ISettingsViewProps {
   navigation: NativeStackNavigationProp<RootStackParamList, 'SettingsView'>;
@@ -29,15 +30,21 @@ const SettingsView = ({ }: ISettingsViewProps) => {
 
   const [image, setImage] = useState<IUploadedImage | undefined>()
   const [isEditing, setIsEditing] = useState(false)
+  const [editingError, setEditingError] = useState(undefined)
   const dispatch = useAppDispatch()
 
   const editFunc = async () => {
     if (editMode) {
       if (image) {
         setIsEditing(true)
-        await changeUserProfilePicture(image)
-        const user = await getUserSelf()
-        dispatch(setUserdata(user))
+        try {
+          await changeUserProfilePicture(image)
+          const user = await getUserSelf()
+          dispatch(setUserdata(user))
+        } catch (error: any) {
+          console.log(error)
+          setEditingError(error)
+        }
         setIsEditing(false)
         setEditMode(false)
         setImage(undefined)
@@ -83,14 +90,19 @@ const SettingsView = ({ }: ISettingsViewProps) => {
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
         style={{ flex: 1, backgroundColor: "white" }}
       >
-        <View style={{ paddingHorizontal: 16 }}>
-          <SelfProfileInfo userData={userData} />
-          <Settings />
-          <StyledButtonsList>
-            <PrimaryButton onPress={() => navigation.navigate("ReportAProblemView")} btnType='Secondary' title={t("reportAProblem")} />
-            <PrimaryButton onPress={() => dispatch(LogOutThunk())} btnType='Error' title={t("logout")} />
-          </StyledButtonsList>
-        </View>
+        <SafeAreaView style={{ flex: 1 }}>
+          <View style={{ flex: 1, justifyContent: "space-between", paddingHorizontal: 16, gap: 16 }}>
+            <View>
+              <SelfProfileInfo userData={userData} />
+              <Settings />
+            </View>
+            <StyledButtonsList>
+              <PrimaryButton btnType='Secondary' title={t("questions")} />
+              <PrimaryButton onPress={() => navigation.navigate("ReportAProblemView")} btnType='Secondary' title={t("reportAProblem")} />
+              <PrimaryButton onPress={() => dispatch(LogOutThunk())} btnType='Error' title={t("logout")} />
+            </StyledButtonsList>
+          </View>
+        </SafeAreaView>
       </ScrollView>
     )
   }

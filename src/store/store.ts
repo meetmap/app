@@ -5,10 +5,7 @@ import userSlice from "./slices/userSlice";
 import friendsSlice from "./slices/friendsSlice";
 import locationSlice from "./slices/locationSlice";
 import mapSlice from "./slices/mapSlice";
-import eventModalSlice from "./slices/eventModalSlice";
-import searchModalSlice from "./slices/searchModalSlice";
-import eventListModalSlice from "./slices/eventListModalSlice";
-import usersListModalSlice from "./slices/usersListModalSlice";
+import globalErrorSlice from "./slices/globalErrorSlice";
 
 export const store = configureStore({
   reducer: {
@@ -18,10 +15,7 @@ export const store = configureStore({
     friendsSlice,
     locationSlice,
     mapSlice,
-    eventModalSlice,
-    searchModalSlice,
-    eventListModalSlice,
-    usersListModalSlice
+    globalErrorSlice
   },
 });
 

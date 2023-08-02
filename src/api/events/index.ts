@@ -9,7 +9,7 @@ export const getEventById = async (eventId: string) => {
   return res.data;
 };
 export const getEventsListByIds = async (eventIds: string[]) => {
-  const res = await getAxios("events", true).get(`/events/batch`, {
+  const res = await getAxios("events", true).get<IEvent[]>(`/events/batch`, {
     params: {
       ids: eventIds
     }

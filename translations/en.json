@@ -5,13 +5,12 @@
     "inviteFriend": "Invite friend",
     "seeWhoGoes": "See who goes",
     "iWillGo": "I will go",
+    "similarEvents": "Similar events",
     "searchPlaceholder": "Search...",
     "eventsNotFound": "Events not found",
     "userNotFound": "User not found",
-
     "welcomeTitle1": "Meetmap is...",
     "welcomeTitle2": "interactive map to find events... and friends",
-
     "hey": "Hey!",
     "greetings": "Glad you're back",
     "forgotPassword": "Forgot password",
@@ -19,7 +18,6 @@
     "username": "Username",
     "password": "Password",
     "repeatPassword": "Repeat password",
-
     "inviteToAnEvent": "Invite to an event",
     "createEvent": "Create event",
     "events": "Events",
@@ -27,27 +25,32 @@
     "youDontHaveLikedEvents": "You don't have liked events",
     "searchUsers": "Search users",
     "lists": "Lists",
-    "cancel": "Cancel", 
+    "cancel": "Cancel",
     "outcomingRequests": "Outcoming requests",
     "incomingRequests": "Incoming requests",
     "friends": "Friends",
     "edit": "Edit",
     "logout": "Logout",
-
+    "questions": "FAQ",
+    "changePassword": "Change password",
     "reportAProblem": "Report a problem",
     "reportAProblemDescription": "We value your participation and aim to ensure optimal interaction with our service. Your feedback is valuable to us, and we are ready to take all necessary measures to improve our service.",
     "problemInputTitle": "Choose a problem",
     "problemInputDescription": "Write more about your problem",
-    "problemsList": ["Cancel", "Problems with profile", "Problems with map", "Problem with creating event",  "Other problem"],
+    "problemsList": [
+        "Cancel",
+        "Problems with profile",
+        "Problems with map",
+        "Problem with creating event",
+        "Other problem"
+    ],
     "reportGratitudeTitle": "Thank You for Your Feedback!",
     "reportGratitudeDescription": "Our team is already analyzing the provided information and will strive to resolve the issue as quickly as possible.",
-
-
-
     "editProfileImage": "Edit profile image",
     "aboutYou": "About you",
     "yourName": "Your name",
     "language": "Language",
+    "confidentiality": "Confidentiality",
     "settings": "Settings",
     "shareProfile": "Share profile",
     "seeOnMap": "See on map",
@@ -56,18 +59,16 @@
     "disableGeolocation": "Disable geolocation",
     "enableGeolocation": "Enable geolocation",
     "chooseLanguage": "Choose language",
-
     "friendCount_one": "{{count}} friend",
     "friendCount_other": "{{count}} friends",
-    
     "metersAway_one": "{{count}} meter away",
     "metersAway_other": "{{count}} meters away",
     "kilometersAway_one": "{{count}} kilometer away",
     "kilometersAway_other": "{{count}} kilometers away",
     "fromYou": "from you",
-
     "userFriendsLabel": "{{username}}'s friends",
-
     "signUp": "Sign up",
-    "signIn": "Sign in"
+    "signIn": "Sign in",
+    "failedGetResMessage": "Failed to get a response from the server",
+    "unknownErrorMessage": "An unknown error has occurred"
 }

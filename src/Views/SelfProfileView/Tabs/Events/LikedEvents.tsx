@@ -50,7 +50,7 @@ const LikedEvents = () => {
         <StyledLikedEventsContainer>
             <FlatList
                 refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-                contentContainerStyle={{ paddingBottom: 25, backgroundColor: "white" }}
+                contentContainerStyle={{ paddingBottom: 25}}
                 data={likedEvents}
                 renderItem={({ item }) => <EventLg eventData={item} />}
                 keyExtractor={item => item.id}

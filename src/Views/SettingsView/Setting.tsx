@@ -1,18 +1,17 @@
 import React from 'react'
 import styled from 'styled-components/native'
-import { P } from '../../shared/Text'
+import { H5, H6, P } from '../../shared/Text'
 import { View } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import RightArrowIcon from '../../shared/Icons/RightArrowIcon'
 import { NavigationProps } from '../../types/NavigationProps'
 
-const Setting = ({ title, value, navigateTo }: { title: string, value: string, navigateTo: any }) => {
-    const navigation = useNavigation<NavigationProps>()
+const Setting = ({ title, value, onPress }: { title: string, value?: string, onPress: any }) => {
     return (
-        <StyledSetting onPress={() => navigation.navigate(navigateTo)}>
-            <P>{title}</P>
+        <StyledSetting onPress={onPress}>
+            <H6>{title}</H6>
             <View style={{ flexDirection: "row", gap: 6, alignItems: "center" }}>
-                <P textcolor='Primary'>{value}</P>
+                {value && <H6 textcolor='Primary'>{value}</H6>}
                 <RightArrowIcon />
             </View>
         </StyledSetting>
