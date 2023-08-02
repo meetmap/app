@@ -53,10 +53,12 @@ const MainView = ({ navigation }: IMainViewProps) => {
     /// 2. ready the plugin.
     BackgroundGeolocation.ready({
       // Geolocation Config
-      desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_MEDIUM,
+      desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
       distanceFilter: 100,
       // Activity Recognition
       stopTimeout: 5,
+      // useSignificantChangesOnly: true,
+      showsBackgroundLocationIndicator: false,
       // Application config
       // debug: true, // <-- enable this hear sounds for background-geolocation life-cycle.
       logLevel: BackgroundGeolocation.LOG_LEVEL_VERBOSE,
