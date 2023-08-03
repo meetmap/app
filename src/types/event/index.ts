@@ -4,7 +4,8 @@ export interface IEvent {
   id: string;
   link: string;
   title: string;
-  picture: string;
+  assets: string[];
+  thumbnail: string
   description?: string;
   /**
    *  timestamp
@@ -27,7 +28,7 @@ export interface IEvent {
 export interface IEventByLocation {
   id: string,
   coordinates: number[],
-  picture: string
+  thumbnail: string
 }
 
 export interface IEventUserStats {

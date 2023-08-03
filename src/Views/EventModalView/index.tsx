@@ -68,7 +68,7 @@ const EventModalView = (props: IEventModalViewProps) => {
         <ScrollView>
             <StyledEventModalContent>
                 <StyledEventImgContainer>
-                    <EventCarousel eventsImagesList={[eventData.picture, eventData.picture, eventData.picture]} />
+                    <EventCarousel eventsImagesList={eventData.assets} />
                     <LikeButton eventId={eventData.id} isLiked={eventData.userStats.isUserLike} />
                 </StyledEventImgContainer>
                 <EventInfoContainer>
@@ -105,7 +105,7 @@ const EventModalView = (props: IEventModalViewProps) => {
                     </StyledEventFooterActions>
                 </StyledEventFooter>
             </StyledEventModalContent>
-            <StyledSimilarEventsContainer>
+            {/* <StyledSimilarEventsContainer>
                 <H3 style={{paddingLeft: 16}}>{t("similarEvents")}</H3>
                 <StyledSimilarEvents
                     contentContainerStyle={{ paddingBottom: 25, paddingHorizontal: 16, gap: 8 }}
@@ -115,7 +115,7 @@ const EventModalView = (props: IEventModalViewProps) => {
                     renderItem={({ item }) => <EventSm eventData={item as IEvent} />}
                     keyExtractor={item => item.id}
                 />
-            </StyledSimilarEventsContainer>
+            </StyledSimilarEventsContainer> */}
         </ScrollView>
     )
 }

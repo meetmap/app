@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { useNavigation } from '@react-navigation/native';
 import { H5, H6, Title } from '../../shared/Text';
 import EditView from './EditView';
-import { IUploadedImage, changeUserProfilePicture, getUserSelf } from '../../api/users';
+import { IUploadedImage, changeUserProfilePicture, checkAssetsUploadStatus, getUserSelf } from '../../api/users';
 import LoaderContainer from '../../shared/LoaderContainer';
 import { InitializeUserThunk, LogOutThunk, setUserdata } from '../../store/slices/userSlice';
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
@@ -38,12 +38,31 @@ const SettingsView = ({ }: ISettingsViewProps) => {
       if (image) {
         setIsEditing(true)
         try {
-          await changeUserProfilePicture(image)
+          const { uploadId, status } = await changeUserProfilePicture(image)
+          if (status == "failed") {
+            throw Error("Upload failed");
+          }
+          await new Promise((resolve, reject) => {
+            const interval = setInterval(async () => {
+              try {
+                const { status: checkStatus } = await checkAssetsUploadStatus(uploadId)
+                if (checkStatus === "succeed") {
+                  clearInterval(interval)
+                  resolve(status)
+                }
+                if (checkStatus == "failed") {
+                  reject("Upload failed")
+                }
+              } catch (error) {
+                clearInterval(interval)
+              }
+            }, 500)
+          })
           const user = await getUserSelf()
           dispatch(setUserdata(user))
         } catch (error: any) {
-          console.log(error)
-          setEditingError(error)
+          console.log(error.message)
+          setEditingError(error.message)
         }
         setIsEditing(false)
         setEditMode(false)

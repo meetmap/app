@@ -17,7 +17,7 @@ const EventPin = ({ eventData }: { eventData: IEventByLocation }) => {
         <StyledEventPinContent
             onPress={checkEvent}
         >
-            <StyledEventImage height={40} width={40} source={{ uri: eventData.picture || "" }} />
+            <StyledEventImage height={40} width={40} source={{ uri: eventData.thumbnail || "" }} />
         </StyledEventPinContent>
     )
 }

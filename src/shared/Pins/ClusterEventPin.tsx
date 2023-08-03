@@ -33,7 +33,7 @@ const ClusterEventPin = ({ eventData, count, coordinates, ids }: {
             onPress={handlePressOnEventCluster}
         >
             <StyledEventImage
-                source={{ uri: eventData.picture }}
+                source={{ uri: eventData.thumbnail }}
             />
             <StyledEventsCount>
                 <StyledEventsCountSpan>

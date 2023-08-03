@@ -40,7 +40,7 @@ const EventLg = ({ eventData }: { eventData: IEvent }) => {
         <StyledEventLgContainer onPress={() => navigation.navigate("EventModalView", { eventId: eventData.id })}>
             <StyledEventLgImageContainer>
                 <LoadableImage source={{
-                    uri: eventData.picture
+                    uri: eventData.thumbnail
                 }} />
                 <LikeButton eventId={eventData.id} isLiked={eventData.userStats.isUserLike} />
             </StyledEventLgImageContainer>

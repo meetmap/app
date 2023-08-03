@@ -14,6 +14,7 @@ import { NavigationProps } from "../../types/NavigationProps";
 import RNDateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import PrimaryDatePicker from "../../shared/Input/PrimaryDatePicker";
 import { useTranslation } from "react-i18next";
+import Animated, { useAnimatedStyle, withSpring } from "react-native-reanimated";
 
 interface ILoginFormData {
     name: string,
@@ -31,6 +32,7 @@ interface IErrors {
     password?: string;
     repeatPassword?: string;
 }
+
 
 const RegisterView = () => {
 
@@ -126,6 +128,41 @@ const RegisterView = () => {
 
     const { t } = useTranslation()
 
+
+    const [currentStage, setCurrentStage] = useState(1)
+
+    const useAnimatedInputStyles = (stage: number) => {
+
+        return useAnimatedStyle(() => {
+            if (currentStage > stage) {
+                const scale = withSpring(-1 / (stage - currentStage - 0.1));
+                const translateY = withSpring((stage - currentStage) * 100);
+                const opacity = 0.7;
+                return {
+                    transform: [{ translateY }, { scale }],
+                    opacity,
+                };
+            }
+            if (currentStage < stage) {
+                const scale = withSpring(1 / (stage - currentStage + 0.1));
+                const translateY = withSpring((stage - currentStage) * 100);
+                const opacity = 0.7;
+                return {
+                    transform: [{ translateY }, { scale }],
+                    opacity,
+                };
+            }
+            const translateY = withSpring(0);
+            const scale = withSpring(1);
+            const opacity = 1
+            return {
+                transform: [{ translateY }, { scale }],
+                opacity,
+            };
+
+        });
+    };
+
     return (
         <StyledLoginViewContainer>
             <StyledInputsContent>
@@ -137,20 +174,29 @@ const RegisterView = () => {
                     <Title textcolor='Black'>What’s your name?</Title>
                 </StyledAuthHeadContent>
                 <StyledFormContent>
-                    <PrimaryFormInput label='Your name' name='name' isError={errors.name} value={values.name} onChangeText={(text) => handleChange("name", text)} placeholder='Name' />
-                    <PrimaryFormInput label='Your username' name='username' isError={errors.username} value={values.username} onChangeText={(text) => handleChange("username", text)} placeholder={t("username")}/>
-                    <PrimaryFormInput label='Your e-mail' name='email' isError={errors.email} value={values.email} onChangeText={(text) => handleChange("username", text)} placeholder='E-mail' />
-                    <PrimaryDatePicker
+                    <StyledAnimatedInputContainer style={[useAnimatedInputStyles(1)]}>
+                        <PrimaryFormInput label='Your name' name='name' isError={errors.name} value={values.name} onChangeText={(text) => handleChange("name", text)} placeholder='Name' />
+                    </StyledAnimatedInputContainer>
+                    <StyledAnimatedInputContainer style={[useAnimatedInputStyles(2)]}>
+                        <PrimaryFormInput label='Your username' name='username' isError={errors.username} value={values.username} onChangeText={(text) => handleChange("username", text)} placeholder={t("username")} />
+                    </StyledAnimatedInputContainer>
+                    <StyledAnimatedInputContainer style={[useAnimatedInputStyles(3)]}>
+                        <PrimaryFormInput label='Your e-mail' name='email' isError={errors.email} value={values.email} onChangeText={(text) => handleChange("username", text)} placeholder='E-mail' />
+                    </StyledAnimatedInputContainer>
+                    {/* <PrimaryDatePicker
                         label="Your birth date"
                         value={new Date(values.birthDate)}
                         onChange={handleDateChange}
                     />
-                    <SercuredFormInput label='Password' name='password' isError={errors.password} value={values.password} onChangeText={(text) => handleChange("password", text)} placeholder={t("password")} />
-                    <SercuredFormInput label='Repeat password' name='repeatPassword' isError={errors.repeatPassword} value={values.repeatPassword} onChangeText={(text) => handleChange("repeatPassword", text)} placeholder={t("repeatPassword")} />
+                    <StyledAnimatedInputContainer>
+                        <SercuredFormInput label='Password' name='password' isError={errors.password} value={values.password} onChangeText={(text) => handleChange("password", text)} placeholder={t("password")} />
+                        <SercuredFormInput label='Repeat password' name='repeatPassword' isError={errors.repeatPassword} value={values.repeatPassword} onChangeText={(text) => handleChange("repeatPassword", text)} placeholder={t("repeatPassword")} />
+                    </StyledAnimatedInputContainer> */}
                 </StyledFormContent>
             </StyledInputsContent>
             <StyledButtonContent>
-                <PrimaryButton onPress={handleSubmit} btnType='Primary' title={t("submit")}/>
+                <PrimaryButton onPress={() => setCurrentStage(stage => stage - 1)} btnType='Primary' title={t("submit")} />
+                <PrimaryButton onPress={() => setCurrentStage(stage => stage + 1)} btnType='Primary' title={t("submit")} />
             </StyledButtonContent>
         </StyledLoginViewContainer>
     )
@@ -188,4 +234,11 @@ const StyledButtonContent = styled(View)`
   flex-direction: column;
   gap: 8px;
   padding: 0 16px;
+`
+const StyledAnimatedInputContainer = styled(Animated.View)`
+    position: absolute;
+    top: 100px;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
 `

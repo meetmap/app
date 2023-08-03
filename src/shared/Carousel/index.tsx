@@ -24,11 +24,13 @@ const EventCarousel = ({ eventsImagesList }: { eventsImagesList: string[] }) => 
                     <Image height={250} width={width} source={{ uri: value.item }} />
                 )}
             />
-            <StyledCarouselListMarkers>
-                {eventsImagesList.map((image, index) => (
-                    <StyledCarouselListMarker key={index} active={activeIndex === index} />
-                ))}
-            </StyledCarouselListMarkers>
+            {eventsImagesList.length > 1 &&
+                <StyledCarouselListMarkers>
+                    {eventsImagesList.map((image, index) => (
+                        <StyledCarouselListMarker key={index} active={activeIndex === index} />
+                    ))}
+                </StyledCarouselListMarkers>
+            }
         </View>
     )
 }

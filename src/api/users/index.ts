@@ -1,8 +1,8 @@
 // import axios from "axios"
 // import { UsersUrl } from "../baseUrl"
 
-import {IPartialUser, IUserSelf} from '../../types/users';
-import {getAxios} from '../axios';
+import { IPartialUser, IUserSelf } from '../../types/users';
+import { getAxios } from '../axios';
 
 export interface ILoginWithUsername {
   username: string;
@@ -21,7 +21,7 @@ export const loginWithUsername = async ({
   password,
 }: ILoginWithUsername): Promise<ILoginWithUsernameResponse> => {
   try {
-    const {data} = await getAxios(
+    const { data } = await getAxios(
       'auth',
       false,
     ).post<ILoginWithUsernameResponse>('/auth/login', {
@@ -32,7 +32,7 @@ export const loginWithUsername = async ({
   } catch (error) {
     console.log(error);
   }
-  const {data} = await getAxios('auth', false).post<ILoginWithUsernameResponse>(
+  const { data } = await getAxios('auth', false).post<ILoginWithUsernameResponse>(
     '/auth/login',
     {
       username,
@@ -64,7 +64,7 @@ export const createUser = async ({
   email,
   birthDate,
 }: ICreateUser): Promise<ICreateUserResponse> => {
-  const {data} = await getAxios('auth', false).post<ICreateUserResponse>(
+  const { data } = await getAxios('auth', false).post<ICreateUserResponse>(
     '/auth/signup',
     {
       name,
@@ -79,14 +79,14 @@ export const createUser = async ({
 };
 
 export const getUserSelf = async (): Promise<IUserSelf> => {
-  const {data} = await getAxios('users', true).get<IUserSelf>('/users/me');
+  const { data } = await getAxios('users', true).get<IUserSelf>('/users/me');
   return data;
 };
 
 export const searchUsersByQuery = async (
   query: string,
 ): Promise<IPartialUser[]> => {
-  const {data} = await getAxios('users', true).get<IPartialUser[]>(
+  const { data } = await getAxios('users', true).get<IPartialUser[]>(
     '/users/find',
     {
       params: {
@@ -99,7 +99,7 @@ export const searchUsersByQuery = async (
 };
 
 export const getUserById = async (id: string): Promise<IPartialUser> => {
-  const {data} = await getAxios('users', true).get<IPartialUser>(
+  const { data } = await getAxios('users', true).get<IPartialUser>(
     `/users/get/${id}`,
   );
 
@@ -112,12 +112,27 @@ export interface IUploadedImage {
   name: string;
 }
 
+export interface IChangeProfilePictureResponce {
+  uploadId: string,
+  status: "pending" | "failed" | "succeed"
+  assets: [
+    {
+      xs: string,
+      s: string,
+      m: string,
+      l: string,
+      xl: string,
+      exact: string
+    }
+  ]
+}
+
 export const changeUserProfilePicture = async (
   picture: IUploadedImage,
-): Promise<IUserSelf> => {
+): Promise<IChangeProfilePictureResponce> => {
   const formData = new FormData();
   formData.append('photo', picture);
-  const {data} = await getAxios('assets', true).post<IUserSelf>(
+  const { data } = await getAxios('assets', true).post<IChangeProfilePictureResponce>(
     `/upload/avatar`,
     formData,
     {
@@ -126,6 +141,14 @@ export const changeUserProfilePicture = async (
       },
     },
   );
+
+  return data;
+};
+
+export const checkAssetsUploadStatus = async (
+  uploadId: string,
+): Promise<IChangeProfilePictureResponce> => {
+  const { data } = await getAxios('assets', true).get<IChangeProfilePictureResponce>(`/upload/status/${uploadId}`);
 
   return data;
 };
