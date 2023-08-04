@@ -3,12 +3,17 @@ import { useAppSelector } from '../../../store/hooks'
 import { useMap } from '../../../hooks/MapProvider'
 import { useNavigation } from '@react-navigation/native'
 import { NavigationProps } from '../../../types/NavigationProps'
-import Animated, { runOnJS, useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated'
+import Animated, { runOnJS, useAnimatedReaction, useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated'
 import { Gesture, GestureDetector, TouchableOpacity } from 'react-native-gesture-handler'
 import styled from 'styled-components'
 import LoadableProfileImage from '../../../shared/LoadableImage/LoadableProfileImage'
-import { View } from 'react-native'
+import { Text, View } from 'react-native'
 import { trigger } from 'react-native-haptic-feedback'
+import SettingsIcon from '../../../shared/Icons/SettingsIcon'
+import PlusSmIcon from '../../../shared/Icons/PlusSmIcon'
+import DragArrowIcon from '../../../shared/Icons/DragArrowIcon'
+import PlusIcon from '../../../shared/Icons/PlusIcon'
+import CompassIcon from '../../../shared/Icons/CompassIcon'
 
 const DraggableAction = () => {
     const profilePic = useAppSelector(state => state.userSlice.user?.profilePicture)
@@ -16,17 +21,21 @@ const DraggableAction = () => {
     const { userCoordinates } = useAppSelector(state => state.locationSlice)
     const navigation = useNavigation<NavigationProps>()
 
-    const handleCheckUser = async () => {
+    const handleGoToProfile = async () => {
+        navigation.navigate('SelfProfileView')
+    }
+    const handleGoToSettings = async () => {
+        navigation.navigate('SettingsView')
+    }
+    const handleCreateEvent = async () => {
+        navigation.navigate('CreateEventView')
+    }
+
+    const flyToUser = () => {
         if (!userCoordinates) {
-            navigation.navigate('SelfProfileView')
             return
         }
-        const isInView = await areCoordinatesInVisibleRegion({ lat: userCoordinates.lat, lng: userCoordinates.lng })
-        if (isInView) {
-            navigation.navigate('SelfProfileView')
-            return
-        }
-        flyTo({ lat: userCoordinates.lat, lng: userCoordinates.lng }, 2000)
+        flyTo({ lat: userCoordinates.lat, lng: userCoordinates.lng }, false)
     }
 
 
@@ -54,18 +63,25 @@ const DraggableAction = () => {
         };
     });
     const hiddenButtonSpringOptions = {
-        damping: 15, // Значение меньше делает пружину более "жесткой" (по умолчанию 10)
-        mass: 1, // Масса объекта (по умолчанию 1)
-        stiffness: 100, // Значение больше делает пружину более "мягкой" (по умолчанию 100)
+        damping: 15,
+        mass: 1,
+        stiffness: 100,
         overshootClamping: false,
     }
+    const DragArrowIconAnimatedStyles = useAnimatedStyle(() => {
+        return {
+            transform: [
+                { translateY: withSpring(isPressed.value ? 0 : -30, hiddenButtonSpringOptions) },
+            ],
+        };
+    });
     const hiddenButtonAnimatedStyles = useAnimatedStyle(() => {
         return {
             transform: [
                 { scale: withSpring(isPressed.value ? 1 : 0, hiddenButtonSpringOptions) },
                 { translateY: withSpring(isPressed.value ? -80 : 0, hiddenButtonSpringOptions) },
             ],
-            backgroundColor: topBtnInRange.value ? "#E6EAF2" : "white"
+            backgroundColor: topBtnInRange.value ? "#464646" : "#302F2F"
         };
     });
     const hiddenButtonRAnimatedStyles = useAnimatedStyle(() => {
@@ -95,12 +111,24 @@ const DraggableAction = () => {
     const triggerHaptic = () => {
         trigger("impactLight")
     }
+    const gestureStartTime = useSharedValue(0);
+
+    useAnimatedReaction(() => leftBtnInRange.value || rightBtnInRange.value || topBtnInRange.value,
+        (newValue, _oldValue) => {
+            if (newValue) {
+                runOnJS(triggerHaptic)();
+            }
+        },
+        [leftBtnInRange, rightBtnInRange, topBtnInRange]
+    )
+
     const gesture = Gesture
         .Pan()
         .onBegin(() => {
             isPressed.value = true;
             rotation.value = withSpring(15);
             runOnJS(triggerHaptic)();
+            gestureStartTime.value = Date.now();
         })
         .onUpdate((e) => {
             const newX = e.translationX + start.value.x;
@@ -133,29 +161,41 @@ const DraggableAction = () => {
                 x: 0,
                 y: 0,
             };
-            if (leftBtnInRange.value) runOnJS(handleCheckUser)();
+            if (leftBtnInRange.value) runOnJS(flyToUser)();
+            if (rightBtnInRange.value) runOnJS(handleGoToSettings)();
+            if (topBtnInRange.value) runOnJS(handleCreateEvent)();
             leftBtnInRange.value = false
             rightBtnInRange.value = false
             topBtnInRange.value = false
+
+            const elapsedTime = Date.now() - gestureStartTime.value;
+            const fastPressThreshold = 100; // Пороговое значение для быстрого нажатия (в миллисекундах)
+            if (elapsedTime <= fastPressThreshold) {
+                runOnJS(handleGoToProfile)()
+            }
         });
+
+
 
     return (
         <>
-            <StyledHiddenButton style={[hiddenButtonAnimatedStyles]}>
-
+            <StyledHiddenButton style={[{ backgroundColor: "#302F2F" }, hiddenButtonAnimatedStyles]}>
+                {/* <PlusSmIcon /> */}
+                <PlusIcon />
             </StyledHiddenButton>
             <StyledHiddenButton style={[hiddenButtonRAnimatedStyles]}>
-
+                <SettingsIcon fill='black' />
             </StyledHiddenButton>
             <StyledHiddenButton style={[hiddenButtonLAnimatedStyles]}>
-
+                <CompassIcon />
             </StyledHiddenButton>
+            <Animated.View style={[{ position: "absolute" }, DragArrowIconAnimatedStyles]}>
+                <DragArrowIcon />
+            </Animated.View>
             <GestureDetector gesture={gesture}>
-                <TouchableOpacity activeOpacity={1} onPress={handleCheckUser}>
-                    <StyledProfileButton style={[animatedStyles]} >
-                        <LoadableProfileImage containerSize={56} containerBorderRadius={18} profilePicture={profilePic} />
-                    </StyledProfileButton>
-                </TouchableOpacity>
+                <StyledProfileButton style={[animatedStyles]} >
+                    <LoadableProfileImage containerSize={56} containerBorderRadius={18} profilePicture={profilePic} />
+                </StyledProfileButton>
             </GestureDetector>
         </>
     )
@@ -173,10 +213,11 @@ const StyledProfileButton = styled(Animated.View)`
 `
 
 const StyledHiddenButton = styled(Animated.View)`
-    background-color: red;
     width: 48px;
     height: 48px;
     border-radius: 18px;
     position: absolute;
     border: solid 1px #DDE2ED;
+    align-items: center;
+    justify-content: center;
 `

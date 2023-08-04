@@ -26,13 +26,13 @@ export const useMap = () => {
     });
   };
 
-  const flyTo = async (coordinates: ICoordinates, altitude?: number) => {
+  const flyTo = async (coordinates: ICoordinates, pitch?: boolean, altitude?: number) => {
     await mapViewRef?.current?.getCamera().then((cam: Camera) => {
       if (cam.altitude) {
         mapViewRef?.current?.animateCamera({
           ...cam,
-          pitch: 32,
-          altitude: altitude || 300,
+          pitch: pitch ? 32 : cam.pitch,
+          altitude: altitude || cam.altitude,
           center: {
             latitude: coordinates.lat,
             longitude: coordinates.lng,

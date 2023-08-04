@@ -31,6 +31,8 @@ export type RootStackParamList = {
     FilterModalView: undefined;
 
     SelfProfileView: undefined;
+
+    CreateEventView: undefined;
 };
 
 

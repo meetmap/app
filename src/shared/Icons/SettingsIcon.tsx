@@ -1,7 +1,7 @@
 import * as React from "react"
 import Svg, { G, Path, Defs, ClipPath } from "react-native-svg"
 
-const SettingsIcon = () => {
+const SettingsIcon = ({ fill = "grey" }: { fill?: "black" | "grey" }) => {
   return (
     <Svg
       width={24}
@@ -11,7 +11,7 @@ const SettingsIcon = () => {
     >
       <G
         clipPath="url(#clip0_246_845)"
-        stroke="#7A7B84"
+        stroke={fill === "black" ? "black" : "#7A7B84"}
         strokeWidth={2}
         strokeLinecap="round"
         strokeLinejoin="round"

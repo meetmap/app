@@ -22,6 +22,7 @@ import RegisterView from './Views/RegisterView';
 import ChooseLanguageView from './Views/ChooseLanguageView';
 import { useTranslation } from 'react-i18next';
 import ReportAProblemView from './Views/ReportAProblemView';
+import CreateEventView from './Views/CreateEventView';
 const Stack = createNativeStackNavigator();
 
 const Navigator = () => {
@@ -76,6 +77,7 @@ const Navigator = () => {
                             name="SelfProfileView"
                             component={SelfProfileView}
                         />
+                        <Stack.Screen options={{ title: t("createEvent") }} name={"CreateEventView"} component={CreateEventView} />
                         <Stack.Screen options={{ title: t("settings") }} name={"SettingsView"} component={SettingsView} />
                         <Stack.Screen
                             options={{
