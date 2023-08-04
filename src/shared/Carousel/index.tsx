@@ -13,6 +13,7 @@ const EventCarousel = ({ eventsImagesList }: { eventsImagesList: string[] }) => 
                 style={{ height: 250 }}
                 vertical={false}
                 width={width}
+                enabled={eventsImagesList.length > 1}
                 height={width / 2}
                 data={eventsImagesList}
                 scrollAnimationDuration={1000}

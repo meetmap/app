@@ -23,14 +23,11 @@ import ChooseLanguageView from './Views/ChooseLanguageView';
 import { useTranslation } from 'react-i18next';
 import ReportAProblemView from './Views/ReportAProblemView';
 import CreateEventView from './Views/CreateEventView';
+import InviteFriendsModalView from './Views/InviteFriendsModalView';
 const Stack = createNativeStackNavigator();
 
 const Navigator = () => {
     const { user, isLoading } = useAppSelector((state) => state.userSlice);
-    const dispatch = useAppDispatch()
-    useEffect(() => {
-        dispatch(InitializeUserThunk());
-    }, []);
     const { t } = useTranslation()
     return (
         <Stack.Navigator
@@ -49,6 +46,7 @@ const Navigator = () => {
                         <Stack.Screen options={{ presentation: "modal", headerShown: false }} name='EventModalView' component={EventModalView} />
                         <Stack.Screen options={{ presentation: "modal", headerShown: false }} name='EventsListModalView' component={EventsListModalView} />
                         <Stack.Screen options={{ presentation: "modal", headerShown: false }} name='UsersListModalView' component={UsersListModalView} />
+                        <Stack.Screen options={{ presentation: "modal", headerShown: false }} name='InviteFriendsModalView' component={InviteFriendsModalView} />
                         <Stack.Screen options={{ presentation: "modal", headerShown: false }} name='FilterModalView' component={FilterModalView} />
                         <Stack.Screen
                             name="ProfileView"

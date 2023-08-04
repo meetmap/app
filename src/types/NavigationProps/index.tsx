@@ -17,7 +17,9 @@ export type RootStackParamList = {
 
     UsersListModalView: { userCId: string, username: string }
 
-    MyBottomSheet: undefined
+    InviteFriendsModalView: { eventId: string }
+
+    MyBottomSheet: { eventId: string }
 
     ProfileView: { userId: string, username: string }; // a screen that we are 
     // navigating to, in the current screen,

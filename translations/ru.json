@@ -19,6 +19,8 @@
     "repeatPassword": "Повторите пароль",
     "submit": "Отправить",
     "inviteToAnEvent": "Пригласить на событие",
+    "invite": "Пригласить",
+    "invited": "Приглашен",
     "createEvent": "Создать событие",
     "events": "События",
     "users": "Пользователи",

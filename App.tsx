@@ -21,6 +21,9 @@ import { SecureStoreKeys } from './src/constants';
 import { getLocales } from 'react-native-localize';
 import { useTranslation } from 'react-i18next';
 import ErrorPopup from './src/shared/ErrorPopup';
+import RNBootSplash from "react-native-bootsplash";
+import { useAppDispatch } from './src/store/hooks';
+import { InitializeUserThunk } from './src/store/slices/userSlice';
 
 const App: () => JSX.Element = () => {
   const { i18n } = useTranslation()
@@ -33,12 +36,19 @@ const App: () => JSX.Element = () => {
     const systemLang = getLocales()[0].languageCode
     i18n.changeLanguage(systemLang)
     await setToSecureStore(SecureStoreKeys.LANGUAGE, systemLang);
-
   }
-
   useEffect(() => {
-    detectLocale()
+    const init = async () => {
+      await detectLocale()
+      await store.dispatch(InitializeUserThunk());
+      // …do multiple sync or async tasks
+    };
+    init().finally(async () => {
+      await RNBootSplash.hide({ fade: true, duration: 500 });
+      console.log("BootSplash has been hidden successfully");
+    });
   }, []);
+
   return (
     <Provider store={store}>
       <MapProvider>

@@ -140,7 +140,7 @@ const DraggableAction = () => {
             };
             leftBtnInRange.value = offset.value.y <= minY + 35 && offset.value.x <= minX + 30;
             rightBtnInRange.value = offset.value.y <= minY + 35 && offset.value.x >= maxX - 30;
-            topBtnInRange.value = offset.value.y <= minY + 30 && offset.value.x >= minX + 30 && offset.value.x <= maxX - 30;
+            topBtnInRange.value = offset.value.y <= minY + 10 && offset.value.x >= minX + 30 && offset.value.x <= maxX - 30;
         })
         .onEnd(() => {
             start.value = {

@@ -17,6 +17,7 @@ import { useTranslation } from 'react-i18next'
 
 export interface IEventsListModalViewProps {
     navigation: NativeStackNavigationProp<RootStackParamList, 'EventsListModalView'>;
+    route: any
 }
 
 

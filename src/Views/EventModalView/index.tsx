@@ -99,7 +99,7 @@ const EventModalView = (props: IEventModalViewProps) => {
                 <StyledEventFooter>
                     <PrimaryMediumButton onPress={handleBuyTicketOpenLink} btnType='Primary' title={t("buyTickets")}><TicketIcon /></PrimaryMediumButton>
                     <StyledEventFooterActions>
-                        <PrimaryMediumButton style={{ flex: 1 }} btnType='Secondary' title={t("inviteFriend")} />
+                        <PrimaryMediumButton onPress={() => props.navigation.navigate("InviteFriendsModalView", { eventId: eventData.id })} style={{ flex: 1 }} btnType='Secondary' title={t("inviteFriend")} />
                         <PrimaryMediumButton style={{ flex: 1 }} btnType='Secondary' title={t("seeWhoGoes")} />
                         <PrimaryMediumButton style={{ flex: 1 }} btnType='Secondary' title={t("iWillGo")} />
                     </StyledEventFooterActions>

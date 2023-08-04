@@ -19,6 +19,8 @@
     "password": "Password",
     "repeatPassword": "Repeat password",
     "inviteToAnEvent": "Invite to an event",
+    "invite": "Invite",
+    "invited": "Invited",
     "createEvent": "Create event",
     "events": "Events",
     "users": "Users",
