@@ -26,7 +26,6 @@ const Tab = createMaterialTopTabNavigator();
 
 const SelfProfileView = ({ navigation }: ISelfProfileViewProps) => {
     const selfUserData = useAppSelector(state => state.userSlice.user)
-    const { mapViewRef } = useMap()
     const { t } = useTranslation()
     if (!selfUserData) {
         return null

@@ -1,24 +1,33 @@
-import React, {useEffect} from 'react';
-import {useAppDispatch, useAppSelector} from '../../../store/hooks';
-import {Marker} from 'react-native-maps';
-import {getUpdatedFriendsLocationThunk} from '../../../store/slices/locationSlice';
+import React, { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '../../../store/hooks';
+import { Marker } from 'react-native-maps';
+import { getUpdatedFriendsLocationThunk } from '../../../store/slices/locationSlice';
 import FriendPin from '../../../shared/Pins/FriendPin';
-import Animated, {FadeIn, FadeOut} from 'react-native-reanimated';
+import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 import FriendMarker from './FriendMarker';
+import { useNetInfo } from '@react-native-community/netinfo';
+import AppError from '../../../utils/AppError';
 
 // const AnimatedMarker = Animated.createAnimatedComponent(Marker);
 
 const FriendsClusters = () => {
   const dispatch = useAppDispatch();
+  const netInfo = useNetInfo();
   useEffect(() => {
-    dispatch(getUpdatedFriendsLocationThunk());
-    const intervalId = setInterval(() => {
+    if (netInfo.isConnected) {
       dispatch(getUpdatedFriendsLocationThunk());
+    }
+    
+    const intervalId = setInterval(() => {
+      if (netInfo.isConnected) {
+        dispatch(getUpdatedFriendsLocationThunk());
+      }
     }, 3000);
+
     return () => clearInterval(intervalId);
   }, []);
 
-  const {friendsCoordinates} = useAppSelector(state => state.locationSlice);
+  const { friendsCoordinates } = useAppSelector(state => state.locationSlice);
   const mapFiler = useAppSelector(state => state.mapSlice.mapFilters);
   if (mapFiler === 'Friends' || mapFiler === 'All') {
     return (

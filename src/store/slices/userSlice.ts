@@ -8,6 +8,7 @@ import {
   loginWithUsername,
 } from '../../api/users';
 import { getFromSecureStore, removeFromSecureStore, setToSecureStore } from '../../api/secure-store';
+import NetInfo from "@react-native-community/netinfo";
 
 interface InitialState {
   user: IUserSelf | null;
@@ -65,11 +66,20 @@ const userSlice = createSlice({
 export const InitializeUserThunk = createAsyncThunk<IUserSelf>(
   'users/init',
   async () => {
+    const netInfo = await NetInfo.fetch()
+    if (!netInfo.isConnected || !netInfo.isInternetReachable) {
+      const userData = await getFromSecureStore(SecureStoreKeys.USER)
+      if (!userData) {
+        throw new Error('Login first');
+      }
+      return JSON.parse(userData)
+    }
     const user = await getUserSelf();
     if (!user) {
       throw new Error('Login first');
     }
     return user;
+
   },
 );
 
@@ -99,7 +109,7 @@ export const LoginUserThunk = createAsyncThunk<
 
 export const RegisterUserThunk = createAsyncThunk<IUserSelf, ICreateUser>(
   'users/create',
-  async ({name, username, email, birthDate, password }) => {
+  async ({ name, username, email, birthDate, password }) => {
     const data = await createUser({ name, username, email, birthDate, password });
     await setToSecureStore(SecureStoreKeys.ACCESS_TOKEN, data.tokens.at);
     await setToSecureStore(SecureStoreKeys.REFRESH_TOKEN, data.tokens.rt);

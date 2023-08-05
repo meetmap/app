@@ -25,6 +25,8 @@
     "events": "События",
     "users": "Пользователи",
     "youDontHaveLikedEvents": "У вас нет понравившихся событий",
+    "youDontHaveFriends": "У вас нет друзей",
+    "listEmpty": "Список пуст",
     "searchUsers": "Поиск пользователей",
     "lists": "Списки",
     "cancel": "Отмена",
@@ -77,5 +79,6 @@
     "signUp": "Создать аккаут",
     "signIn": "Войти",
     "failedGetResMessage": "Не удалось получить ответ от сервера",
+    "networkErrorMessage": "Отсутствует подключение к сети",
     "unknownErrorMessage": "Произошла неизвестная ошибка"
 }

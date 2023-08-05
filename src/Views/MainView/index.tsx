@@ -23,11 +23,9 @@ const MainView = ({ navigation }: IMainViewProps) => {
   // const [location, setLocation] = React.useState('');
   const dispatch = useAppDispatch()
   const userData = useAppSelector(state => state.userSlice.user)
-
   React.useEffect(() => {
     /// 1.  Subscribe to events.
     const onLocation: Subscription = BackgroundGeolocation.onLocation((location) => {
-      console.log('[onLocation]', location);
       if (location) {
         dispatch(
           updateUserLocationThunk({

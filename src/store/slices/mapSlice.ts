@@ -5,14 +5,12 @@ interface InitialState {
     // viewState: ViewState | null
     addressState: Address | undefined
     addressStateFetching: boolean,
-    addressStateError: any,
     mapFilters: string
 }
 
 const initialState: InitialState = {
     addressState: undefined,
     addressStateFetching: false,
-    addressStateError: undefined,
     mapFilters: "All"
 };
 
@@ -38,7 +36,6 @@ const appSlice = createSlice({
             })
             .addCase(getAddressThunk.rejected, (state, action) => {
                 state.addressStateFetching = false
-                state.addressStateError = "Error occurred.";
             })
     }
 });
@@ -55,12 +52,8 @@ export const getAddressThunk = createAsyncThunk<
     }
 >('address/get',
     async ({ mapView, latitude, longitude }, { rejectWithValue }) => {
-        try {
-            const address = await mapView.addressForCoordinate({ latitude, longitude })
-            return address
-        } catch (error) {
-            return rejectWithValue({ error });
-        }
+        const address = await mapView.addressForCoordinate({ latitude, longitude })
+        return address
     }
 )
 

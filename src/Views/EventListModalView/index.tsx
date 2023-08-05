@@ -19,7 +19,7 @@ export interface IEventsListModalViewProps {
 
 
 const EventsListModalView = ({ route }: IEventsListModalViewProps) => {
-    const {data, loading, error} = useAxios<IEvent[]>(getEventsListByIds(route.params.eventIds))
+    const { data, loading, error } = useAxios<IEvent[]>(getEventsListByIds(route.params.eventIds))
     const { t } = useTranslation()
 
     if (loading) {
@@ -29,7 +29,12 @@ const EventsListModalView = ({ route }: IEventsListModalViewProps) => {
     }
     if (error) {
         return (
-            <TextStatus>{t("somethingWentWrong")}</TextStatus>
+            <TextStatus>{error.message}</TextStatus>
+        )
+    }
+    if (!data?.length) {
+        return (
+            <TextStatus>{t("listEmpty")}</TextStatus>
         )
     }
     return (

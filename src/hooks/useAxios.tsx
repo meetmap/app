@@ -1,11 +1,13 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
 import axios, { AxiosResponse, AxiosError } from 'axios';
 
 type UseAxiosResult<T> = {
     data: T | null;
     loading: boolean;
     error: AxiosError | null;
-    setData: Dispatch<SetStateAction<T | null>>
+    refreshing: boolean
+    // setData: Dispatch<SetStateAction<T | null>>
+    onRefresh: () => Promise<void>
 };
 
 const useAxios = <T extends unknown>(
@@ -14,6 +16,7 @@ const useAxios = <T extends unknown>(
     const [data, setData] = useState<T | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<AxiosError | null>(null);
+    const [refreshing, setRefreshing] = useState(false);
     const fetchData = async () => {
         try {
             const response = await axiosPromise;
@@ -26,12 +29,17 @@ const useAxios = <T extends unknown>(
         }
     };
 
+    const onRefresh = useCallback(async () => {
+        setRefreshing(true)
+        await fetchData()
+        setRefreshing(false)
+    }, []);
 
     useEffect(() => {
         fetchData();
     }, []);
 
-    return { data, loading, error, setData };
+    return { data, loading, error, refreshing, onRefresh };
 };
 
 export default useAxios;

@@ -21,22 +21,21 @@ interface IPageProps {
 }
 
 const ProfileView = (props: IPageProps) => {
-    const {data: userData, loading: userDataLoading, setData: setUserData} = useAxios<IPartialUser>(getUserById(props.route.params.userId))
+    const {data: userData, loading: userDataLoading, onRefresh, refreshing, error} = useAxios<IPartialUser>(getUserById(props.route.params.userId))
     const { flyTo } = useMap()
 
-    const [refreshing, setRefreshing] = React.useState(false);
-
-    const onRefresh = React.useCallback(async () => {
-        const userResData = await getUserById(props.route.params.userId)
-        setUserData(userResData)
-        setRefreshing(false)
-    }, []);
 
     const { t } = useTranslation()
 
-    // console.log(userData?.friends)
     if (userDataLoading) {
         return <LoaderContainer />
+    }
+    if (error) {
+        return (
+            <TextStatus>
+                {error.message}
+            </TextStatus>
+        )
     }
     if (userData) {
         return (

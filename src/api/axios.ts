@@ -9,6 +9,7 @@ import { setUserdata } from '../store/slices/userSlice';
 import { showErrorModal } from '../store/slices/globalErrorSlice';
 import AppError from '../utils/AppError';
 import { t } from 'i18next';
+import NetInfo from '@react-native-community/netinfo';
 
 type MicroserviceNames = 'auth' | 'users' | 'events' | 'location' | 'assets';
 
@@ -20,6 +21,10 @@ export const getAxios = (
     baseURL: `${API_BASE_URL}/${microserviceName}`,
     // withCredentials: true,
   });
+  const isNetworkConnected = async () => {
+    const netInfoState = await NetInfo.fetch();
+    return netInfoState.isConnected && netInfoState.isInternetReachable;
+  };
   if (auth) {
     _axios.interceptors.request.use(async config => {
       const accessToken = await getFromSecureStore(
@@ -62,16 +67,27 @@ export const getAxios = (
 
   _axios.interceptors.response.use(
     (response) => response,
-    (error) => {
+    async (error) => {
+      console.error(error)
       if (error.response) {
-        const customError = new AppError(error.response.data.message || error.message, error.response.status);
-        store.dispatch(showErrorModal(customError.message))
+        const customError = new AppError(
+          error.response.data.message || error.message,
+          error.response.status
+        );
+        store.dispatch(showErrorModal(customError.message));
         throw customError;
       }
       if (error.request) {
-        const customError = new AppError(t("failedGetResMessage"));
-        store.dispatch(showErrorModal(customError.message))
-        throw customError;
+        const connected = await isNetworkConnected();
+        if (connected) {
+          const customError = new AppError(t('failedGetResMessage'));
+          store.dispatch(showErrorModal(customError.message));
+          throw customError;
+        } else {
+          const networkError = new AppError(t('networkErrorMessage'));
+          store.dispatch(showErrorModal(networkError.message));
+          throw networkError;
+        }
       }
       const customError = new AppError(t("unknownErrorMessage"));
       store.dispatch(showErrorModal(customError.message))

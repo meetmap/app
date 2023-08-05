@@ -7,35 +7,25 @@ import EventLg from "../../../../shared/EventInList/EventLg"
 import styled from "styled-components/native"
 import { FlatList, ListRenderItem, RefreshControl, SafeAreaView, ScrollView, Text, View } from "react-native"
 import { useTranslation } from "react-i18next"
+import useAxios from "../../../../hooks/useAxios"
 
 const LikedEvents = () => {
-
-    const [likedEvents, setlikedEvents] = useState<IEvent[] | null>(null)
-    const [isLoading, setIsLoading] = useState(false)
-
-    const fetchLikedEvents = async () => {
-        setIsLoading(true)
-        const likedEventsData = await getLikedEvents()
-        setIsLoading(false)
-        setlikedEvents(likedEventsData)
-    }
-    useEffect(() => {
-        fetchLikedEvents()
-    }, [])
-
-    const [refreshing, setRefreshing] = useState(false);
-
-    const onRefresh = useCallback(async () => {
-        const likedEventsData = await getLikedEvents()
-        setlikedEvents(likedEventsData)
-        setRefreshing(false)
-    }, []);
+    const { data: likedEvents, loading, error, refreshing, onRefresh } = useAxios<IEvent[]>(getLikedEvents())
     const { t } = useTranslation()
-    
-    if (isLoading) {
+
+
+    if (loading) {
         return (
             <StyledLikedEventsContainer>
                 <LoaderContainer />
+            </StyledLikedEventsContainer>
+        )
+    }
+
+    if (error) {
+        return (
+            <StyledLikedEventsContainer>
+                <TextStatus>{error.message}</TextStatus>
             </StyledLikedEventsContainer>
         )
     }
@@ -50,7 +40,7 @@ const LikedEvents = () => {
         <StyledLikedEventsContainer>
             <FlatList
                 refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-                contentContainerStyle={{ paddingBottom: 25}}
+                contentContainerStyle={{ paddingBottom: 25 }}
                 data={likedEvents}
                 renderItem={({ item }) => <EventLg eventData={item} />}
                 keyExtractor={item => item.id}

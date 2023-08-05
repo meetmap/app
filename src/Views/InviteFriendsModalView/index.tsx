@@ -35,9 +35,9 @@ const InviteFriendsModalView = ({ route }: IInviteFriendsModalViewProps) => {
       <TextStatus>{error.message}</TextStatus>
     )
   }
-  if (!data) {
+  if (!data?.length) {
     return (
-      <TextStatus>{t("somethingWentWrong")}</TextStatus>
+      <TextStatus>{t("youDontHaveFriends")}</TextStatus>
     )
   }
   return (

@@ -1,7 +1,6 @@
 import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { debounce } from "lodash";
 import { GetFriendsLocationResponse, getUpdatedFriendsLocation, updateUserLocation } from "../../api/location";
-
 const debouncedUpdateUserLocation = debounce(updateUserLocation, 500);
 
 interface LocationState {

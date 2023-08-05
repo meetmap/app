@@ -24,6 +24,7 @@ import ErrorPopup from './src/shared/ErrorPopup';
 import RNBootSplash from "react-native-bootsplash";
 import { useAppDispatch } from './src/store/hooks';
 import { InitializeUserThunk } from './src/store/slices/userSlice';
+import NetInfo from "@react-native-community/netinfo";
 
 const App: () => JSX.Element = () => {
   const { i18n } = useTranslation()
@@ -41,7 +42,6 @@ const App: () => JSX.Element = () => {
     const init = async () => {
       await detectLocale()
       await store.dispatch(InitializeUserThunk());
-      // …do multiple sync or async tasks
     };
     init().finally(async () => {
       await RNBootSplash.hide({ fade: true, duration: 500 });

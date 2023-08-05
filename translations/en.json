@@ -25,6 +25,8 @@
     "events": "Events",
     "users": "Users",
     "youDontHaveLikedEvents": "You don't have liked events",
+    "youDontHaveFriends": "You don't have friends",
+    "listEmpty": "List is empty",
     "searchUsers": "Search users",
     "lists": "Lists",
     "cancel": "Cancel",
@@ -72,5 +74,6 @@
     "signUp": "Sign up",
     "signIn": "Sign in",
     "failedGetResMessage": "Failed to get a response from the server",
+    "networkErrorMessage": "No network connection",
     "unknownErrorMessage": "An unknown error has occurred"
 }

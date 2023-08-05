@@ -13,6 +13,7 @@ import { searchEvents } from "../../api/events"
 import { NativeStackNavigationProp } from "@react-navigation/native-stack"
 import { RootStackParamList } from "../../types/NavigationProps"
 import { useTranslation } from "react-i18next"
+import useAxios from "../../hooks/useAxios"
 
 export interface IMainViewProps {
     navigation: NativeStackNavigationProp<RootStackParamList, 'FilterModalView'>;
