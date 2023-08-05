@@ -9,18 +9,35 @@ const HeaderStatus = () => {
     const { addressState } = useAppSelector(state => state.mapSlice)
     const mapFiler = useAppSelector(state => state.mapSlice.mapFilters)
     const [filterShows, setFilterShows] = useState(false)
+    const {errorMessage} = useAppSelector(state => state.globalErrorSlice)
     useEffect(() => {
         const showCurrentFilter = () => {
             setFilterShows(true)
             setTimeout(() => {
                 setFilterShows(false)
-            }, 1000)
+            }, 1500)
         }
         showCurrentFilter()
         return (showCurrentFilter)
     }, [mapFiler])
 
+    useEffect(() => {
+        console.log(errorMessage)
+    }, [errorMessage])
+    
 
+    if (errorMessage) {
+        return (
+            <Animated.View
+                entering={FadeIn}
+                exiting={FadeOut}
+            >
+                <Title style={{ textAlign: 'center' }}>
+                    {errorMessage}
+                </Title>
+            </Animated.View>
+        )
+    }
     if (filterShows) {
         return (
             <Animated.View

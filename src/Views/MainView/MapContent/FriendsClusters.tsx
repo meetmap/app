@@ -14,18 +14,16 @@ const FriendsClusters = () => {
   const dispatch = useAppDispatch();
   const netInfo = useNetInfo();
   useEffect(() => {
-    if (netInfo.isConnected) {
-      dispatch(getUpdatedFriendsLocationThunk());
+    if (!netInfo.isConnected || !!netInfo.isInternetReachable) {
+      return;
     }
-    
+    dispatch(getUpdatedFriendsLocationThunk());
     const intervalId = setInterval(() => {
-      if (netInfo.isConnected) {
-        dispatch(getUpdatedFriendsLocationThunk());
-      }
+      dispatch(getUpdatedFriendsLocationThunk());
     }, 3000);
 
     return () => clearInterval(intervalId);
-  }, []);
+  }, [netInfo.isConnected]);
 
   const { friendsCoordinates } = useAppSelector(state => state.locationSlice);
   const mapFiler = useAppSelector(state => state.mapSlice.mapFilters);

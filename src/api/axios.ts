@@ -68,7 +68,6 @@ export const getAxios = (
   _axios.interceptors.response.use(
     (response) => response,
     async (error) => {
-      console.error(error)
       if (error.response) {
         const customError = new AppError(
           error.response.data.message || error.message,

@@ -5,8 +5,8 @@
  * @format
  */
 
-import { NavigationContainer } from '@react-navigation/native';
-import React, { useEffect } from 'react';
+import { NavigationContainer, NavigationContainerRef } from '@react-navigation/native';
+import React, { useEffect, useRef } from 'react';
 import { ThemeProvider } from 'styled-components';
 import { mainTheme } from './src/shared/Theme';
 import { Provider } from 'react-redux';
@@ -25,6 +25,7 @@ import RNBootSplash from "react-native-bootsplash";
 import { useAppDispatch } from './src/store/hooks';
 import { InitializeUserThunk } from './src/store/slices/userSlice';
 import NetInfo from "@react-native-community/netinfo";
+import { NavigationProps } from './src/types/NavigationProps';
 
 const App: () => JSX.Element = () => {
   const { i18n } = useTranslation()
@@ -49,13 +50,14 @@ const App: () => JSX.Element = () => {
     });
   }, []);
 
+  const navigationRef = useRef<NavigationContainerRef<NavigationProps>>(null)
   return (
     <Provider store={store}>
       <MapProvider>
         <ThemeProvider theme={mainTheme}>
-          <NavigationContainer>
+          <NavigationContainer ref={navigationRef}>
             <Navigator />
-            <ErrorPopup />
+            <ErrorPopup navigationRef={navigationRef}/>
           </NavigationContainer>
         </ThemeProvider>
       </MapProvider>

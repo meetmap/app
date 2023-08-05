@@ -24,6 +24,7 @@ import { useTranslation } from 'react-i18next';
 import ReportAProblemView from './Views/ReportAProblemView';
 import CreateEventView from './Views/CreateEventView';
 import InviteFriendsModalView from './Views/InviteFriendsModalView';
+import ErrorPopup from './shared/ErrorPopup';
 const Stack = createNativeStackNavigator();
 
 const Navigator = () => {

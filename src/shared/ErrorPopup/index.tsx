@@ -1,25 +1,34 @@
-import React, { useEffect } from 'react'
+import React, { RefObject, useEffect, useState } from 'react'
 import styled from 'styled-components/native'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 import { H6, P } from '../Text'
 import { hideErrorModal } from '../../store/slices/globalErrorSlice'
 import { Button, TouchableOpacity } from 'react-native'
 import Animated, { FadeInDown, FadeInUp } from 'react-native-reanimated'
+import { NavigationContainerRef, useRoute } from '@react-navigation/native'
+import { NavigationProps } from '../../types/NavigationProps'
 
-const ErrorPopup = () => {
+const ErrorPopup = ({navigationRef}: {navigationRef: RefObject<NavigationContainerRef<NavigationProps>>}) => {
     const { errorMessage } = useAppSelector(state => state.globalErrorSlice)
     const dispatch = useAppDispatch()
+    const [routeName, setRouteName] = useState<string | undefined>(undefined)
+
+    
 
     useEffect(() => {
+        setRouteName(navigationRef.current?.getCurrentRoute()?.name)
         if (errorMessage) {
             const timer = setTimeout(() => {
                 dispatch(hideErrorModal());
-            }, 1500);
+            }, 2500);
 
             return () => clearTimeout(timer);
         }
     }, [errorMessage, dispatch]);
 
+    if(routeName === "MainView"){
+        return null
+    }
     if (errorMessage) {
         return (
             <StyledErrorPopup
