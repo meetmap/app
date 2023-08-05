@@ -4,12 +4,14 @@ import { useAppSelector } from '../../../store/hooks'
 import styled from 'styled-components/native'
 import { View } from 'react-native'
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated'
+import { useMap } from '../../../hooks/MapProvider'
 
 const HeaderStatus = () => {
     const { addressState } = useAppSelector(state => state.mapSlice)
     const mapFiler = useAppSelector(state => state.mapSlice.mapFilters)
     const [filterShows, setFilterShows] = useState(false)
-    const {errorMessage} = useAppSelector(state => state.globalErrorSlice)
+    const { errorMessage } = useAppSelector(state => state.globalErrorSlice)
+    const { mapViewRef } = useMap()
     useEffect(() => {
         const showCurrentFilter = () => {
             setFilterShows(true)
@@ -22,9 +24,13 @@ const HeaderStatus = () => {
     }, [mapFiler])
 
     useEffect(() => {
-        console.log(errorMessage)
-    }, [errorMessage])
-    
+        async () => {
+            const camera = await mapViewRef.current?.getCamera()
+            console.log(camera)
+        }
+    }, [addressState])
+
+
 
     if (errorMessage) {
         return (

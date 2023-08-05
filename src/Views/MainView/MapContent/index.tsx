@@ -7,6 +7,7 @@ import { debounce } from 'lodash';
 import EventsClusters from './EventsClusters';
 import FriendsClusters from './FriendsClusters';
 import useEventsOnMap from '../../../hooks/useEventsOnMap';
+import { useEffect } from 'react';
 
 const MapContent = () => {
   const { mapViewRef } = useMap();
@@ -15,6 +16,17 @@ const MapContent = () => {
   const dispatch = useAppDispatch();
 
   const { clusters, getEventsByCoordinates, clusterizeEvents, changeZoomLevel } = useEventsOnMap()
+
+  useEffect(() => {
+    if (mapViewRef.current && userCoordinates) {
+      dispatch(getAddressThunk({
+        mapView: mapViewRef.current,
+        latitude: userCoordinates.lat,
+        longitude: userCoordinates.lng,
+      }))
+    }
+  }, [!!userCoordinates])
+  
 
   const handleRegionChangeComplete = async (
     region: Region,
