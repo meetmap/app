@@ -8,6 +8,7 @@ import styled from "styled-components/native"
 import { FlatList, ListRenderItem, RefreshControl, SafeAreaView, ScrollView, Text, View } from "react-native"
 import { useTranslation } from "react-i18next"
 import useAxios from "../../../../hooks/useAxios"
+import { H3 } from "../../../../shared/Text"
 
 const LikedEvents = () => {
     const { data: likedEvents, loading, error, refreshing, onRefresh } = useAxios<IEvent[]>(getLikedEvents())
@@ -39,7 +40,8 @@ const LikedEvents = () => {
     return (
         <StyledLikedEventsContainer>
             <FlatList
-                refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+                // refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+                scrollEnabled={false}
                 contentContainerStyle={{ paddingBottom: 25 }}
                 data={likedEvents}
                 renderItem={({ item }) => <EventLg eventData={item} />}
@@ -55,5 +57,4 @@ export default LikedEvents
 const StyledLikedEventsContainer = styled(View)`
     background-color: white;
     flex: 1;
-    padding: 0 16px;
 `

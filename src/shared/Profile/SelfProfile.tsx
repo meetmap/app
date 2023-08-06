@@ -33,7 +33,6 @@ const StyledUserInfoHead = styled(View)`
   justify-content: center;
   align-items: center;
   gap: 10px;
-  padding: 0 16px;
   padding-bottom: 16px;
 `;
 const StyledUserTextInfo = styled(View)`

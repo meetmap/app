@@ -24,6 +24,7 @@
     "createEvent": "Create event",
     "events": "Events",
     "users": "Users",
+    "likedEvents": "Liked events",
     "youDontHaveLikedEvents": "You don't have liked events",
     "youDontHaveFriends": "You don't have friends",
     "listEmpty": "List is empty",

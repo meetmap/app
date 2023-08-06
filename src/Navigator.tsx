@@ -35,9 +35,11 @@ const Navigator = () => {
             screenOptions={({ navigation }) => ({
                 headerShadowVisible: false,
                 cardStyle: { backgroundColor: '#fff' },
+                // headerTransparent: true,
                 contentStyle: {
                     backgroundColor: '#FFFFFF'
-                }
+                },
+                headerTintColor: "#7A7B84"
             })}
         >
             {!isLoading ?
@@ -63,7 +65,7 @@ const Navigator = () => {
                         <Stack.Screen
                             options={({ navigation }) => ({
                                 title: "",
-                                headerShown: false,
+                                // headerShown: false,
                                 headerRight: (data) => (
                                     <TouchableOpacity
                                         onPress={() => navigation.navigate('SettingsView')}

@@ -24,6 +24,7 @@
     "createEvent": "Создать событие",
     "events": "События",
     "users": "Пользователи",
+    "likedEvents": "Понравившиеся мероприятия",
     "youDontHaveLikedEvents": "У вас нет понравившихся событий",
     "youDontHaveFriends": "У вас нет друзей",
     "listEmpty": "Список пуст",
