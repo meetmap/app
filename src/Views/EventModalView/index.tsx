@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { FlatList, Linking, ScrollView, View } from 'react-native'
+import { FlatList, Linking, ScrollView, TouchableOpacity, View } from 'react-native'
 import styled from 'styled-components/native'
 import LikeButton from '../../shared/Buttons/LikeButton'
 import { IEvent } from '../../types/event'
@@ -19,7 +19,8 @@ import { useAppSelector } from '../../store/hooks'
 import { Line } from '../../shared/Line'
 import EventCarousel from '../../shared/Carousel'
 import useAxios from '../../hooks/useAxios'
-import EventSm from '../../shared/EventInList/EventSm'
+import EventTag from '../../shared/Tags/EventTag'
+import InfoIcon from '../../shared/Icons/InfoIcon'
 
 
 export interface IEventModalViewProps {
@@ -65,7 +66,7 @@ const EventModalView = (props: IEventModalViewProps) => {
         )
     }
     return (
-        <ScrollView>
+        <ScrollView contentContainerStyle={{paddingBottom: 24}}>
             <StyledEventModalContent>
                 <StyledEventImgContainer>
                     <EventCarousel eventsImagesList={eventData.assets} />
@@ -91,10 +92,24 @@ const EventModalView = (props: IEventModalViewProps) => {
                             </Span>
                         </StyledAgeLimit>
                     </StyledAdditionEventInfo>
-                    <Line />
+                    {/* <Line /> */}
                     <P>
                         {eventData?.description}
                     </P>
+                    <Line />
+                    <StyledTagsView>
+                        <View style={{ flexDirection: "row" }}>
+                            <H3>{t("tags")}</H3>
+                            {/* <TouchableOpacity>
+                                <InfoIcon />
+                            </TouchableOpacity> */}
+                        </View>
+                        <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
+                            {eventData.tags.map(tag => (
+                                <EventTag key={tag.cid} tag={tag} />
+                            ))}
+                        </View>
+                    </StyledTagsView>
                 </EventInfoContainer>
                 <StyledEventFooter>
                     <PrimaryMediumButton onPress={handleBuyTicketOpenLink} btnType='Primary' title={t("buyTickets")}><TicketIcon /></PrimaryMediumButton>
@@ -139,7 +154,7 @@ const EventInfoContainer = styled(View)`
     flex-direction: column;
     align-items: stretch;
     padding: 0 16px;
-    gap: 8px;
+    gap: 16px;
 `
 
 const StyledEventInfoHead = styled(View)`
@@ -157,7 +172,7 @@ const StyledAgeLimit = styled(View)`
 const StyledEventFooter = styled(View)`
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 12px;
     padding: 0 16px;
     a{
         flex: 1;
@@ -168,12 +183,15 @@ const StyledEventFooter = styled(View)`
 `
 const StyledEventFooterActions = styled(View)`
     flex-direction: row;
-    gap: 6px;
+    gap: 12px;
 `
 const StyledAdditionEventInfo = styled(View)`
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    gap: 6px;
+`
+const StyledTagsView = styled(View)`
     gap: 6px;
 `
 const StyledSimilarEventsContainer = styled(View)`

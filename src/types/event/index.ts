@@ -23,6 +23,7 @@ export interface IEvent {
 
   stats: IEventStats
   userStats: IEventUserStats
+  tags: ITag[]
 }
 
 export interface IEventByLocation {
@@ -61,4 +62,8 @@ export interface ITicket {
   price: number
   amount: number
   description: string
+}
+export interface ITag {
+  cid: string
+  label: string
 }

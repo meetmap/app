@@ -7,6 +7,7 @@ type UseAxiosResult<T> = {
     error: AxiosError | null;
     refreshing: boolean
     // setData: Dispatch<SetStateAction<T | null>>
+    fetchData: () => Promise<void>
     onRefresh: () => Promise<void>
 };
 
@@ -39,7 +40,7 @@ const useAxios = <T extends unknown>(
         fetchData();
     }, []);
 
-    return { data, loading, error, refreshing, onRefresh };
+    return { data, loading, error, refreshing, onRefresh, fetchData };
 };
 
 export default useAxios;

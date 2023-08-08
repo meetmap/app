@@ -14,6 +14,8 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack"
 import { RootStackParamList } from "../../types/NavigationProps"
 import { useTranslation } from "react-i18next"
 import useAxios from "../../hooks/useAxios"
+import SearchEventsDataList from "./SearchEventsDataList"
+import { AxiosError } from "axios"
 
 export interface IMainViewProps {
     navigation: NativeStackNavigationProp<RootStackParamList, 'FilterModalView'>;
@@ -23,29 +25,26 @@ const FilterModalView = ({ }: IMainViewProps) => {
     const [searchEventsData, setSearchEventsData] = useState<IEvent[] | null>(null)
     const [isSearchLoading, setIsSearchLoading] = useState(false)
     const [searchInputData, setSearchInputData] = useState<string | null>(null)
+    const [searchError, setSearchError] = useState<AxiosError | null>(null);
 
     const searchEventsDataFunc = async (text: string) => {
         setIsSearchLoading(true)
         if (text.length > 0) {
             setSearchInputData(text)
-            const events = await searchEvents(text)
-            setSearchEventsData(events)
+            try {
+                const events = await searchEvents(text)
+                setSearchEventsData(events)
+            } catch (error) {
+                setSearchError(error as AxiosError)
+            }
         } else {
             setSearchInputData(null)
             setSearchEventsData(null)
         }
         setIsSearchLoading(false)
     }
-    const [refreshing, setRefreshing] = useState(false);
 
-    const onRefresh = useCallback(async () => {
-        if (searchInputData) {
-            const events = await searchEvents(searchInputData)
-            setSearchEventsData(events)
-        }
-        setRefreshing(false)
-    }, []);
-    
+
     const { t } = useTranslation()
 
     return (
@@ -56,27 +55,13 @@ const FilterModalView = ({ }: IMainViewProps) => {
                     onChangeText={searchEventsDataFunc}
                 />
             </StyledSearchInputContainer>
-            {searchEventsData?.length ?
-                isSearchLoading ?
-                    <LoaderContainer />
-                    :
-                    <FlatList
-                        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-                        contentContainerStyle={{ paddingBottom: 25 }}
-                        data={searchEventsData}
-                        horizontal={false}
-                        scrollEnabled
-                        renderItem={({ item }) => <EventLg eventData={item} />}
-                        keyExtractor={item => item.id}
-                    />
-                :
-                <ScrollView
-                    style={{flex: 1}}
-                    refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-                >
-                    <TextStatus>{t("eventsNotFound")}</TextStatus>
-                </ScrollView>
-            }
+            <SearchEventsDataList
+                searchEventsData={searchEventsData}
+                isSearchLoading={isSearchLoading}
+                searchError={searchError}
+                setSearchEventsData={setSearchEventsData}
+                searchInputData={searchInputData}
+            />
         </StyledSearchModal>
     )
 }
