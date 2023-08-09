@@ -1,20 +1,15 @@
 import React from 'react'
 import { SafeAreaView, ScrollView, Text, View, useWindowDimensions } from 'react-native'
-import { SceneMap, TabView } from 'react-native-tab-view'
-import Users from './Tabs/Users';
-import LikedEvents from './Tabs/Events/LikedEvents';
+import LikedEvents from './Events/LikedEvents';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../types/NavigationProps';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import Friends from './Tabs/Users/Friends';
 import { useAppSelector } from '../../store/hooks';
 import PrimaryMediumButton from '../../shared/Buttons/PrimaryMediumButton';
 import { styled } from 'styled-components/native';
 import MoreIcon from '../../shared/Icons/MoreIcon';
-import { useMap } from '../../hooks/MapProvider';
 import SelfProfileActions from '../../shared/Actions/Users/SelfProfileActions';
 import SelfProfileInfo from '../../shared/Profile/SelfProfile';
-import CustomHeader from '../../shared/CustomHeader';
 import { useTranslation } from 'react-i18next';
 import { H3 } from '../../shared/Text';
 
@@ -22,8 +17,6 @@ import { H3 } from '../../shared/Text';
 export interface ISelfProfileViewProps {
     navigation: NativeStackNavigationProp<RootStackParamList, 'SelfProfileView'>;
 }
-
-const Tab = createMaterialTopTabNavigator();
 
 const SelfProfileView = ({ navigation }: ISelfProfileViewProps) => {
     const selfUserData = useAppSelector(state => state.userSlice.user)

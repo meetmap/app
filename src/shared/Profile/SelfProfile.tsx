@@ -1,12 +1,15 @@
 import styled from "styled-components/native";
 import { IPartialUser, IUserSelf } from "../../types/users";
-import { Image, View } from "react-native";
+import { Image, TouchableOpacity, View } from "react-native";
 import { H1, P } from "../Text";
 import LoadableProfileImage from "../LoadableImage/LoadableProfileImage";
 import { useTranslation } from "react-i18next";
+import { useNavigation } from "@react-navigation/native";
+import { NavigationProps } from "../../types/NavigationProps";
 
 const SelfProfileInfo = ({ userData }: { userData: IUserSelf }) => {
   const { t } = useTranslation()
+  const navigation = useNavigation<NavigationProps>()
   return (
     <StyledUserInfoHead>
       <LoadableProfileImage profilePicture={userData.profilePicture} />
@@ -16,7 +19,9 @@ const SelfProfileInfo = ({ userData }: { userData: IUserSelf }) => {
           <StyledUserProfileInfo>
             <P textcolor="Primary">{`@${userData.username}`}</P>
             <P textcolor="Grey">•</P>
-            <P textcolor="Grey">{t('friendCount', { count: userData.friends.length })}</P>
+            <TouchableOpacity onPress={() => navigation.navigate("FriendsModalView")}>
+              <P textcolor="Grey">{t('friendCount', { count: userData.friends.length })}</P>
+            </TouchableOpacity>
           </StyledUserProfileInfo>
         </StyledUserTextGeneralInfo>
         {userData.description && <P textcolor="Grey" style={{ textAlign: "center", paddingHorizontal: 18 }}>{userData.description}</P>}

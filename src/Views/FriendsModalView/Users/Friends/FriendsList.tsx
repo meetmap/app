@@ -1,11 +1,11 @@
 import { Dispatch, SetStateAction, useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../../../../store/hooks";
-import { GetInitialFriendsThunk } from "../../../../../store/slices/friendsSlice";
-import LoaderContainer from "../../../../../shared/LoaderContainer";
-import TextStatus from "../../../../../shared/TextStatus";
-import UserDataInList from "../../../../../shared/Profile/UserDataInList";
 import styled from "styled-components/native";
 import { FlatList, ScrollView } from "react-native";
+import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
+import { GetInitialFriendsThunk } from "../../../../store/slices/friendsSlice";
+import LoaderContainer from "../../../../shared/LoaderContainer";
+import TextStatus from "../../../../shared/TextStatus";
+import UserDataInList from "../../../../shared/Profile/UserDataInList";
 
 const FriendsList = ({ friendListType, setFriendListType }: { friendListType: string, setFriendListType: Dispatch<SetStateAction<string>> }) => {
 

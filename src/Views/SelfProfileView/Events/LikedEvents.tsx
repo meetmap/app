@@ -1,14 +1,14 @@
 import { useCallback, useEffect, useState } from "react"
-import { IEvent } from "../../../../types/event"
-import { getLikedEvents } from "../../../../api/events"
-import LoaderContainer from "../../../../shared/LoaderContainer"
-import TextStatus from "../../../../shared/TextStatus"
-import EventLg from "../../../../shared/EventInList/EventLg"
+import { IEvent } from "../../../types/event"
+import { getLikedEvents } from "../../../api/events"
+import LoaderContainer from "../../../shared/LoaderContainer"
+import TextStatus from "../../../shared/TextStatus"
+import EventLg from "../../../shared/EventInList/EventLg"
 import styled from "styled-components/native"
 import { FlatList, ListRenderItem, RefreshControl, SafeAreaView, ScrollView, Text, View } from "react-native"
 import { useTranslation } from "react-i18next"
-import useAxios from "../../../../hooks/useAxios"
-import { H3 } from "../../../../shared/Text"
+import useAxios from "../../../hooks/useAxios"
+import { H3 } from "../../../shared/Text"
 
 const LikedEvents = () => {
     const { data: likedEvents, loading, error, refreshing, onRefresh } = useAxios<IEvent[]>(getLikedEvents())

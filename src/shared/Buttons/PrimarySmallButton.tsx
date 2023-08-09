@@ -32,7 +32,7 @@ const StyledPrimarySmallButton = styled(TouchableOpacity) <{ btnType: ButtonType
 
 const StyledPrimaryButtonText = styled(Text) <{ btnType: ButtonType, textColor?: TextcolorsType }>`
     color: ${props => props.textColor ? props.theme.colors.TEXT[props.textColor] : props.theme.colors.BUTTON[props.btnType].TextDefault};
-    font-size: 12;
+    font-size: 12px;
     font-style: normal;
     font-weight: 500;
 `

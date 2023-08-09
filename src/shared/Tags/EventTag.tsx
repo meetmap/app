@@ -9,7 +9,7 @@ import { TouchableOpacity } from 'react-native'
 const EventTag = ({tag}: {tag: ITag}) => {
     const navigation = useNavigation<NavigationProps>()
     return (
-        <StyledEventTag onPress={() => navigation.navigate("FilterModalView")}>
+        <StyledEventTag onPress={() => navigation.navigate("SearchModalView")}>
             <P>{tag.label}</P>
         </StyledEventTag>
     )

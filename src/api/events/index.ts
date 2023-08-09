@@ -1,5 +1,5 @@
 
-import { ICreateEvent, IEvent, IEventByLocation } from "../../types/event";
+import { ICreateEvent, IEvent, IEventByLocation, ITag } from "../../types/event";
 import { getAxios } from "../axios";
 import { EVENTS_URL } from "../baseUrl";
 import FormData from "form-data";
@@ -40,6 +40,10 @@ export const likeEvent = async (eventId: string) => {
 };
 export const removeLikeOnEvent = async (eventId: string) => {
   const res = await getAxios("events", true).delete<IEvent[]>(`/events/like/${eventId}`);
+  return res.data
+};
+export const getTags = async () => {
+  const res = await getAxios("events", true).get<ITag[]>(`/events/tags`);
   return res.data
 };
 

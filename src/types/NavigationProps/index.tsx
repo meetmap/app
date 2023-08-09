@@ -21,9 +21,8 @@ export type RootStackParamList = {
 
     MyBottomSheet: { eventId: string }
 
-    ProfileView: { userId: string, username: string }; // a screen that we are 
-    // navigating to, in the current screen,
-    // that we should pass a prop named `slug` to it
+    ProfileView: { userId: string, username: string }
+
     SettingsView: undefined
 
     ReportAProblemView: undefined
@@ -32,8 +31,12 @@ export type RootStackParamList = {
 
     FilterModalView: undefined;
 
+    SearchModalView: undefined;
+
     SelfProfileView: undefined;
 
+    FriendsModalView: undefined;
+    
     CreateEventView: undefined;
 };
 

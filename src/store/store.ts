@@ -6,6 +6,7 @@ import friendsSlice from "./slices/friendsSlice";
 import locationSlice from "./slices/locationSlice";
 import mapSlice from "./slices/mapSlice";
 import globalErrorSlice from "./slices/globalErrorSlice";
+import filtersSlice from "./slices/filtersSlice";
 
 export const store = configureStore({
   reducer: {
@@ -15,7 +16,8 @@ export const store = configureStore({
     friendsSlice,
     locationSlice,
     mapSlice,
-    globalErrorSlice
+    globalErrorSlice,
+    filtersSlice
   },
 });
 

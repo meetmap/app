@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import { useAppSelector } from '../../../store/hooks'
+import { useAppDispatch, useAppSelector } from '../../../store/hooks'
 import { useMap } from '../../../hooks/MapProvider'
 import { useNavigation } from '@react-navigation/native'
 import { NavigationProps } from '../../../types/NavigationProps'
@@ -9,23 +9,50 @@ import styled from 'styled-components'
 import LoadableProfileImage from '../../../shared/LoadableImage/LoadableProfileImage'
 import { Text, View } from 'react-native'
 import { trigger } from 'react-native-haptic-feedback'
-import SettingsIcon from '../../../shared/Icons/SettingsIcon'
-import PlusSmIcon from '../../../shared/Icons/PlusSmIcon'
 import DragArrowIcon from '../../../shared/Icons/DragArrowIcon'
 import PlusIcon from '../../../shared/Icons/PlusIcon'
 import CompassIcon from '../../../shared/Icons/CompassIcon'
+import UsersIcon from '../../../shared/Icons/UsersIcon'
+import TicketIcon from '../../../shared/Icons/TicketIcon'
+import FiltersIcon from '../../../shared/Icons/FiltersIcon'
+import { setMapFiltersState } from '../../../store/slices/mapSlice'
 
 const DraggableAction = () => {
     const profilePic = useAppSelector(state => state.userSlice.user?.profilePicture)
-    const { areCoordinatesInVisibleRegion, flyTo } = useMap()
+    const { flyTo } = useMap()
     const { userCoordinates } = useAppSelector(state => state.locationSlice)
     const navigation = useNavigation<NavigationProps>()
+
+    const mapFilters = [
+        {
+            name: "Friends",
+            icon: <UsersIcon />
+        },
+        {
+            name: "Events",
+            icon: <TicketIcon fill='black' />
+        },
+        {
+            name: "All",
+            icon: <FiltersIcon />
+        }
+    ]
+    const mapFiler = useAppSelector(state => state.mapSlice.mapFilters)
+    const dispatch = useAppDispatch()
+    const filterIndex = mapFilters.findIndex(filter => filter.name === mapFiler)
+    const changeMapFilters = () => {
+        if (filterIndex < mapFilters.length - 1) {
+            dispatch(setMapFiltersState(mapFilters[filterIndex + 1].name))
+        } else {
+            dispatch(setMapFiltersState(mapFilters[0].name))
+        }
+    }
 
     const handleGoToProfile = async () => {
         navigation.navigate('SelfProfileView')
     }
-    const handleGoToSettings = async () => {
-        navigation.navigate('SettingsView')
+    const handleGoToFriends = async () => {
+        navigation.navigate('FriendsModalView')
     }
     const handleCreateEvent = async () => {
         navigation.navigate('CreateEventView')
@@ -162,14 +189,14 @@ const DraggableAction = () => {
                 y: 0,
             };
             if (leftBtnInRange.value) runOnJS(flyToUser)();
-            if (rightBtnInRange.value) runOnJS(handleGoToSettings)();
+            if (rightBtnInRange.value) runOnJS(changeMapFilters)();
             if (topBtnInRange.value) runOnJS(handleCreateEvent)();
             leftBtnInRange.value = false
             rightBtnInRange.value = false
             topBtnInRange.value = false
 
             const elapsedTime = Date.now() - gestureStartTime.value;
-            const fastPressThreshold = 100; // Пороговое значение для быстрого нажатия (в миллисекундах)
+            const fastPressThreshold = 150; // Пороговое значение для быстрого нажатия (в миллисекундах)
             if (elapsedTime <= fastPressThreshold) {
                 runOnJS(handleGoToProfile)()
             }
@@ -180,11 +207,10 @@ const DraggableAction = () => {
     return (
         <>
             <StyledHiddenButton style={[{ backgroundColor: "#302F2F" }, hiddenButtonAnimatedStyles]}>
-                {/* <PlusSmIcon /> */}
                 <PlusIcon />
             </StyledHiddenButton>
             <StyledHiddenButton style={[hiddenButtonRAnimatedStyles]}>
-                <SettingsIcon fill='black' />
+                {mapFilters[filterIndex].icon}
             </StyledHiddenButton>
             <StyledHiddenButton style={[hiddenButtonLAnimatedStyles]}>
                 <CompassIcon />

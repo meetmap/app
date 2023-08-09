@@ -57,7 +57,6 @@ const StyledInputStatus = styled(View)`
 const StyledInputIcon = styled(StyledInputStatus)``
 
 const StyledPrimaryInput = styled(TextInput) <{ inputStyle: "Primary" | "White" }>`
-    width: 100%;
     padding: 18px 50px 18px 24px;
     border: none;
 

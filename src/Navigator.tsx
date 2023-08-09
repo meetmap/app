@@ -25,6 +25,8 @@ import ReportAProblemView from './Views/ReportAProblemView';
 import CreateEventView from './Views/CreateEventView';
 import InviteFriendsModalView from './Views/InviteFriendsModalView';
 import ErrorPopup from './shared/ErrorPopup';
+import FriendsModalView from './Views/FriendsModalView';
+import SearchModalView from './Views/SearchModalView';
 const Stack = createNativeStackNavigator();
 
 const Navigator = () => {
@@ -48,8 +50,10 @@ const Navigator = () => {
                         <Stack.Screen name="MainView" component={MainView} options={{ headerShown: false }} />
                         <Stack.Screen options={{ presentation: "modal", headerShown: false }} name='EventModalView' component={EventModalView} />
                         <Stack.Screen options={{ presentation: "modal", headerShown: false }} name='EventsListModalView' component={EventsListModalView} />
+                        <Stack.Screen options={{ presentation: "modal", headerShown: false }} name='FriendsModalView' component={FriendsModalView} />
                         <Stack.Screen options={{ presentation: "modal", headerShown: false }} name='UsersListModalView' component={UsersListModalView} />
                         <Stack.Screen options={{ presentation: "modal", headerShown: false }} name='InviteFriendsModalView' component={InviteFriendsModalView} />
+                        <Stack.Screen options={{ presentation: "modal", headerShown: false }} name='SearchModalView' component={SearchModalView} />
                         <Stack.Screen options={{ presentation: "modal", headerShown: false }} name='FilterModalView' component={FilterModalView} />
                         <Stack.Screen
                             name="ProfileView"

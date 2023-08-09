@@ -12,14 +12,17 @@ import { useMap } from "../../../hooks/MapProvider";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
 import DraggableAction from "./DraggableAction";
+import UsersIcon from "../../../shared/Icons/UsersIcon";
 
 const BottomControlls = ({ navigation }: IMainViewProps) => {
 
     return (
         <StyledBottomControlls>
-            <CubeButton onPress={() => navigation.navigate('FilterModalView')}><SearchIcon /></CubeButton>
+            <CubeButton onPress={() => navigation.navigate('SearchModalView')}><SearchIcon /></CubeButton>
             <DraggableAction />
-            <ChangeFiltersButton />
+            <CubeButton onPress={() => navigation.navigate("FriendsModalView")}>
+                <UsersIcon/>
+            </CubeButton>
         </StyledBottomControlls>
     )
 }

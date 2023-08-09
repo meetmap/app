@@ -1,11 +1,11 @@
 import React from "react"
-import LoaderContainer from "../../../../../shared/LoaderContainer"
-import TextStatus from "../../../../../shared/TextStatus"
-import { IPartialUser } from "../../../../../types/users"
-import UserDataInList from "../../../../../shared/Profile/UserDataInList"
 import { FlatList, ScrollView, View } from "react-native"
 import styled from "styled-components/native"
 import { useTranslation } from "react-i18next"
+import LoaderContainer from "../../../../shared/LoaderContainer"
+import { IPartialUser } from "../../../../types/users"
+import TextStatus from "../../../../shared/TextStatus"
+import UserDataInList from "../../../../shared/Profile/UserDataInList"
 
 const UsersSearchList = ({ searchUsersData, searchUsersLoading }: { searchUsersData: IPartialUser[] | null, searchUsersLoading: boolean }) => {
     const { t } = useTranslation()
