@@ -11,7 +11,7 @@ const EventPin = ({ eventData }: { eventData: IEventByLocation }) => {
     const { mapViewRef, flyTo } = useMap();
     const checkEvent = () => {
         // flyTo({lat: eventData.coordinates[1], lng: eventData.coordinates[0]})
-        navigation.navigate("EventModalView", { eventId: eventData.id })
+        navigation.navigate("EventModalView", { eventCid: eventData.cid })
     }
     return (
         <StyledEventPinContent

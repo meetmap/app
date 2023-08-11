@@ -3,7 +3,6 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { IEvent } from "../../types/event";
 import { useState } from "react";
 import LikeButton from "../Buttons/LikeButton";
-import { getEventByIdThunk } from "../../store/slices/eventModalSlice";
 import { H6, Span } from "../Text";
 import MoreIcon from "../Icons/MoreIcon";
 import OpenEventActions from "../Actions/Events/OpenEventActions";
@@ -37,12 +36,12 @@ const EventLg = ({ eventData }: { eventData: IEvent }) => {
     const { flyTo } = useMap()
 
     return (
-        <StyledEventLgContainer onPress={() => navigation.navigate("EventModalView", { eventId: eventData.id })}>
+        <StyledEventLgContainer onPress={() => navigation.navigate("EventModalView", { eventCid: eventData.cid })}>
             <StyledEventLgImageContainer>
                 <LoadableImage source={{
                     uri: eventData.thumbnail
                 }} />
-                <LikeButton eventId={eventData.id} isLiked={eventData.userStats.isUserLike} />
+                <LikeButton eventCid={eventData.cid} isLiked={eventData.userStats.isUserLike} />
             </StyledEventLgImageContainer>
             <StyledAboutEventContainer>
                 <StyledAboutEventTextInfo>

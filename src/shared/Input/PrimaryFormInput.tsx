@@ -17,7 +17,9 @@ interface IPrimaryFormInput extends TextInputProps {
 const PrimaryFormInput = ({ name, label, isSuccess, inputStyle = "White", isError, icon, ...rest }: IPrimaryFormInput) => {
     return (
         <StyledInputContent>
-            <Span>{label}</Span>
+            {label &&
+                <Span>{label}</Span>
+            }
             <StyledInputWrapper>
                 <StyledPrimaryInput inputStyle={inputStyle} {...rest} id={name} autoCapitalize="none" />
                 <StyledInputStatus>

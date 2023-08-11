@@ -1,24 +1,37 @@
 
 import { ICreateEvent, IEvent, IEventByLocation, ITag } from "../../types/event";
+import { IPaginateRespose } from "../../types/response";
 import { getAxios } from "../axios";
 import { EVENTS_URL } from "../baseUrl";
 import FormData from "form-data";
 
-export const getEventById = async (eventId: string) => {
-  const res = await getAxios("events", true).get(`/events/${eventId}`);
+export const getEventByCid = async (eventCid: string) => {
+  const res = await getAxios("events", true).get(`/events/${eventCid}`);
   return res.data;
 };
-export const getEventsListByIds = async (eventIds: string[]) => {
+export const getEventsListByCids = async (eventCids: string[]) => {
   const res = await getAxios("events", true).get<IEvent[]>(`/events/batch`, {
     params: {
-      ids: eventIds
+      ids: eventCids
     }
   });
   return res.data;
 };
 
-export const searchEvents = async (eventData: string) => {
-  const res = await getAxios("events", true).get(`/events/?q=${eventData}`);
+export interface ISearchEventsParams {
+  q: string,
+  tags: string[],
+  page?: number
+  minPrice: number | null
+  maxPrice: number | null
+  startDate: Date | null
+  endDate: Date | null
+}
+
+export const searchEvents = async (params: ISearchEventsParams) => {
+  const res = await getAxios("events", true).get<IPaginateRespose<IEvent>>(`/events`, {
+    params
+  });
   return res.data;
 };
 
@@ -31,19 +44,19 @@ export const getAllNearEvents = async ({ lat, lng, radius }: { lat: number; lng:
   return res.data
 };
 export const getLikedEvents = async () => {
-  const res = await getAxios("events", true).get<IEvent[]>(`/users/events/liked`);
+  const res = await getAxios("events", true).get<IPaginateRespose<IEvent>>(`/users/events/liked`);
   return res.data
 };
-export const likeEvent = async (eventId: string) => {
-  const res = await getAxios("events", true).patch<IEvent[]>(`/events/like/${eventId}`);
+export const likeEvent = async (eventCid: string) => {
+  const res = await getAxios("events", true).patch<IEvent[]>(`/events/like/${eventCid}`);
   return res.data
 };
-export const removeLikeOnEvent = async (eventId: string) => {
-  const res = await getAxios("events", true).delete<IEvent[]>(`/events/like/${eventId}`);
+export const removeLikeOnEvent = async (eventCid: string) => {
+  const res = await getAxios("events", true).delete<IEvent[]>(`/events/like/${eventCid}`);
   return res.data
 };
 export const getTags = async () => {
-  const res = await getAxios("events", true).get<ITag[]>(`/events/tags`);
+  const res = await getAxios("events", true).get<IPaginateRespose<ITag>>(`/events/tags`);
   return res.data
 };
 

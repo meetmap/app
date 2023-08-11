@@ -6,15 +6,15 @@ import { useAppDispatch } from '../../store/hooks'
 import { likeEvent, removeLikeOnEvent } from '../../api/events'
 import HeartIcon from '../Icons/HeartIcon'
 
-const LikeButton = ({ eventId, isLiked }: { eventId: string, isLiked: boolean }) => {
+const LikeButton = ({ eventCid, isLiked }: { eventCid: string, isLiked: boolean }) => {
     const [isLikedState, setIsLikedState] = useState(isLiked)
     const LikeEvent = async () => {
         setIsLikedState(true)
-        await likeEvent(eventId)
+        await likeEvent(eventCid)
     }
     const RemoveLikeOnEvent = async () => {
         setIsLikedState(false)
-        await removeLikeOnEvent(eventId)
+        await removeLikeOnEvent(eventCid)
     }
     const HandleLikeEvent = async () => {
         if (isLikedState) {

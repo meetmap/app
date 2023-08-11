@@ -3,7 +3,6 @@ import { FlatList, Linking, ScrollView, TouchableOpacity, View } from 'react-nat
 import styled from 'styled-components/native'
 import LikeButton from '../../shared/Buttons/LikeButton'
 import { IEvent } from '../../types/event'
-import { getEventById } from '../../api/events'
 import { H1, H3, P, Span } from '../../shared/Text'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { RootStackParamList } from '../../types/NavigationProps'
@@ -21,6 +20,7 @@ import EventCarousel from '../../shared/Carousel'
 import useAxios from '../../hooks/useAxios'
 import EventTag from '../../shared/Tags/EventTag'
 import InfoIcon from '../../shared/Icons/InfoIcon'
+import { getEventByCid } from '../../api/events'
 
 
 export interface IEventModalViewProps {
@@ -28,7 +28,7 @@ export interface IEventModalViewProps {
 }
 
 const EventModalView = (props: IEventModalViewProps) => {
-    const { data: eventData, loading: eventDataLoading, error } = useAxios<IEvent>(getEventById(props.route.params.eventId))
+    const { data: eventData, loading: eventDataLoading, error } = useAxios<IEvent>(getEventByCid(props.route.params.eventCid))
     const userCoordinates = useAppSelector(state => state.locationSlice.userCoordinates)
 
     const { t, i18n } = useTranslation()
@@ -70,7 +70,7 @@ const EventModalView = (props: IEventModalViewProps) => {
             <StyledEventModalContent>
                 <StyledEventImgContainer>
                     <EventCarousel eventsImagesList={eventData.assets} />
-                    <LikeButton eventId={eventData.id} isLiked={eventData.userStats.isUserLike} />
+                    <LikeButton eventCid={eventData.cid} isLiked={eventData.userStats.isUserLike} />
                 </StyledEventImgContainer>
                 <EventInfoContainer>
                     <StyledEventInfoHead>
@@ -114,7 +114,7 @@ const EventModalView = (props: IEventModalViewProps) => {
                 <StyledEventFooter>
                     <PrimaryMediumButton onPress={handleBuyTicketOpenLink} btnType='Primary' title={t("buyTickets")}><TicketIcon /></PrimaryMediumButton>
                     <StyledEventFooterActions>
-                        <PrimaryMediumButton onPress={() => props.navigation.navigate("InviteFriendsModalView", { eventId: eventData.id })} style={{ flex: 1 }} btnType='Secondary' title={t("inviteFriend")} />
+                        <PrimaryMediumButton onPress={() => props.navigation.navigate("InviteFriendsModalView", { eventCid: eventData.cid })} style={{ flex: 1 }} btnType='Secondary' title={t("inviteFriend")} />
                         <PrimaryMediumButton style={{ flex: 1 }} btnType='Secondary' title={t("seeWhoGoes")} />
                         <PrimaryMediumButton style={{ flex: 1 }} btnType='Secondary' title={t("iWillGo")} />
                     </StyledEventFooterActions>

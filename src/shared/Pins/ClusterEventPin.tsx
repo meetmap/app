@@ -7,11 +7,11 @@ import { Camera } from "react-native-maps"
 import { useNavigation } from "@react-navigation/native"
 import { NavigationProps } from "../../types/NavigationProps"
 
-const ClusterEventPin = ({ eventData, count, coordinates, ids }: {
+const ClusterEventPin = ({ eventData, count, coordinates, cids }: {
     eventData: IEventByLocation,
     count: number,
     coordinates: number[],
-    ids: string[]
+    cids: string[]
 }) => {
     // const { getCamera, onZoomInPress } = useMap()
 
@@ -25,7 +25,7 @@ const ClusterEventPin = ({ eventData, count, coordinates, ids }: {
         //     onZoomInPress({ lat: coordinates[1], lng: coordinates[0] })
         //     return
         // }
-        navigation.navigate("EventsListModalView", { eventIds: ids })
+        navigation.navigate("EventsListModalView", { eventCids: cids })
 
     }
     return (

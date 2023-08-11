@@ -11,7 +11,7 @@ const SearchInput = ({ ...rest }: ISearchInput) => {
         <StyledInputContent>
             <StyledInputWrapper>
                 <StyledInputIcon>
-                    <SearchIcon/>
+                    <SearchIcon strokeColor='Grey'/>
                 </StyledInputIcon>
                 <StyledPrimaryInput {...rest} autoCapitalize="none" />
             </StyledInputWrapper>

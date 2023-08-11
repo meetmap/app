@@ -11,15 +11,13 @@ export type RootStackParamList = {
 
     MainView: undefined;
 
-    EventModalView: { eventId: string }
+    EventModalView: { eventCid: string }
 
-    EventsListModalView: { eventIds: string[] }
+    EventsListModalView: { eventCids: string[] }
 
     UsersListModalView: { userCId: string, username: string }
 
-    InviteFriendsModalView: { eventId: string }
-
-    MyBottomSheet: { eventId: string }
+    InviteFriendsModalView: { eventCid: string }
 
     ProfileView: { userId: string, username: string }
 

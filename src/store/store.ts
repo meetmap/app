@@ -9,6 +9,17 @@ import globalErrorSlice from "./slices/globalErrorSlice";
 import filtersSlice from "./slices/filtersSlice";
 
 export const store = configureStore({
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        // Ignore these action types
+        ignoredActions: ['filtersSlice/setFiltersState'],
+        // Ignore these field paths in all actions
+        // ignoredActionPaths: ['filtersSlice.filters.startDate'],
+        // Ignore these paths in the state
+        ignoredPaths: ['filtersSlice.filters', 'payload.startDate'],
+      },
+    }),
   reducer: {
     appSlice,
     eventsSlice,

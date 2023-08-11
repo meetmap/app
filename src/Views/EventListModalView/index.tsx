@@ -5,12 +5,12 @@ import { IEvent } from '../../types/event'
 import EventLg from '../../shared/EventInList/EventLg'
 import TextStatus from '../../shared/TextStatus'
 import LoaderContainer from '../../shared/LoaderContainer'
-import { getEventsListByIds } from '../../api/events'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { RootStackParamList } from '../../types/NavigationProps'
 import { H1 } from '../../shared/Text'
 import { useTranslation } from 'react-i18next'
 import useAxios from '../../hooks/useAxios'
+import { getEventsListByCids } from '../../api/events'
 
 
 export interface IEventsListModalViewProps {
@@ -19,7 +19,7 @@ export interface IEventsListModalViewProps {
 
 
 const EventsListModalView = ({ route }: IEventsListModalViewProps) => {
-    const { data, loading, error } = useAxios<IEvent[]>(getEventsListByIds(route.params.eventIds))
+    const { data, loading, error } = useAxios<IEvent[]>(getEventsListByCids(route.params.eventCids))
     const { t } = useTranslation()
 
     if (loading) {

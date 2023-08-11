@@ -1,22 +1,29 @@
 import { useNavigation } from '@react-navigation/native'
-import React, { useState } from 'react'
+import React, { Dispatch, SetStateAction, useState } from 'react'
 import styled from 'styled-components/native'
 import { NavigationProps } from '../../types/NavigationProps'
 import { P } from '../Text'
 import { ITag } from '../../types/event'
 import { TouchableOpacity } from 'react-native'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
-import { setTagFiltersState } from '../../store/slices/filtersSlice'
+import { IFilters } from '../../store/slices/filtersSlice'
 
-const FilterTag = ({ tag }: { tag: ITag }) => {
-    const activeTag = useAppSelector(state => state.filtersSlice.tags).includes(tag.label)
-    const dispatch = useAppDispatch()
+const FilterTag = ({ tag, choosedFilters, setChoosedFilters }: { tag: ITag, choosedFilters: IFilters, setChoosedFilters: Dispatch<SetStateAction<IFilters>> }) => {
+    const tagsState = choosedFilters.tags
+    const activeTag = tagsState.includes(tag.cid)
     const handleChooseTag = () => {
-        dispatch(setTagFiltersState(tag.label))
+        const tagIndex = tagsState.indexOf(tag.cid)
+        const newTags = choosedFilters.tags
+        if(activeTag){
+            newTags.splice(tagIndex, 1)
+        } else {
+            newTags.push(tag.cid)
+        }
+        setChoosedFilters({...choosedFilters, tags: newTags})
     }
     return (
-        <StyledFilterTag active={activeTag} onPress={handleChooseTag}>
-            <P textcolor={activeTag ? "White" : "Black"}>{tag.label}</P>
+        <StyledFilterTag active={!!activeTag} onPress={handleChooseTag}>
+            <P textcolor={activeTag ? "White" : "Black"}>{tag.label} ({tag.count})</P>
         </StyledFilterTag>
     )
 }

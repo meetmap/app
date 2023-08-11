@@ -11,16 +11,25 @@ interface IPrimaryDatePicker extends DatePickerOptions {
     isSuccess?: boolean
     isError?: boolean | string
     icon?: ReactNode
+    inputStyle?: "White" | "Primary"
+    placeholder?: string
 }
 
-const PrimaryDatePicker = ({ name, label, ...rest }: IPrimaryDatePicker) => {
+const PrimaryDatePicker = ({ inputStyle = "Primary", placeholder = "Pick date", name, label, ...rest }: IPrimaryDatePicker) => {
     const [opened, setOpened] = useState(false)
+
     return (
         <>
             <StyledInputContent>
-                <Span>{label}</Span>
-                <StyledPrimaryDatePikerButton onPress={() => setOpened(data => !data)}>
-                    <StyledPrimaryDatePikerButtonText>{rest.value.toDateString()}</StyledPrimaryDatePikerButtonText>
+                {label &&
+                    <Span>{label}</Span>
+                }
+                <StyledPrimaryDatePikerButton inputStyle={inputStyle} onPress={() => setOpened(data => !data)}>
+                    <StyledPrimaryDatePikerButtonText>
+                        {rest.value.toString() == Date().toString() ?
+                            placeholder : rest.value.toDateString()
+                        }
+                    </StyledPrimaryDatePikerButtonText>
                 </StyledPrimaryDatePikerButton>
             </StyledInputContent>
             <Modal
@@ -29,7 +38,7 @@ const PrimaryDatePicker = ({ name, label, ...rest }: IPrimaryDatePicker) => {
                 onRequestClose={() => setOpened(false)}
                 transparent={true}
             >
-                <StyledModalBackground onPress={() => setOpened(false)}>
+                <StyledModalBackground activeOpacity={1} onPress={() => setOpened(false)}>
                     <StyledPickDateModal>
                         <RNDateTimePicker
                             testID="dateTimePicker"
@@ -54,11 +63,11 @@ const StyledInputContent = styled(View)`
     width: 100%;
 `
 
-const StyledPrimaryDatePikerButton = styled(TouchableOpacity)`
+const StyledPrimaryDatePikerButton = styled(TouchableOpacity) <{ inputStyle: "Primary" | "White" }>`
     width: 100%;
     padding: 18px 24px;
     border: none;
-    background: #FFFFFF;
+    background: ${props => props.theme.colors.INPUT[props.inputStyle].BGColor};
     border-radius: 20px;
 `
 
@@ -67,13 +76,11 @@ const StyledPrimaryDatePikerButtonText = styled(Text)`
     font-weight: 400;
     font-size: 16px;
     color: black;
-    ::placeholder{
-        color: #898F99;
-    }
 `
 
 const StyledModalBackground = styled(TouchableOpacity)`
     flex: 1;
+    background-color: #00000067;
 `
 const StyledPickDateModal = styled(View)`
     position: absolute;

@@ -1,6 +1,7 @@
 import { ICoordinates, ILocation } from "../location";
 
 export interface IEvent {
+  cid: string
   id: string;
   link: string;
   title: string;
@@ -66,4 +67,5 @@ export interface ITicket {
 export interface ITag {
   cid: string
   label: string
+  count: number
 }

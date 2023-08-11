@@ -9,9 +9,10 @@ import { FlatList, ListRenderItem, RefreshControl, SafeAreaView, ScrollView, Tex
 import { useTranslation } from "react-i18next"
 import useAxios from "../../../hooks/useAxios"
 import { H3 } from "../../../shared/Text"
+import { IPaginateRespose } from "../../../types/response"
 
 const LikedEvents = () => {
-    const { data: likedEvents, loading, error, refreshing, onRefresh } = useAxios<IEvent[]>(getLikedEvents())
+    const { data: likedEvents, loading, error, refreshing, onRefresh } = useAxios<IPaginateRespose<IEvent>>(getLikedEvents())
     const { t } = useTranslation()
 
 
@@ -30,7 +31,7 @@ const LikedEvents = () => {
             </StyledLikedEventsContainer>
         )
     }
-    if (!likedEvents?.length) {
+    if (!likedEvents?.totalCount) {
         return (
             <StyledLikedEventsContainer>
                 <TextStatus>{t("youDontHaveLikedEvents")}</TextStatus>
@@ -43,7 +44,7 @@ const LikedEvents = () => {
                 // refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
                 scrollEnabled={false}
                 contentContainerStyle={{ paddingBottom: 25 }}
-                data={likedEvents}
+                data={likedEvents.paginatedResults}
                 renderItem={({ item }) => <EventLg eventData={item} />}
                 keyExtractor={item => item.id}
             />

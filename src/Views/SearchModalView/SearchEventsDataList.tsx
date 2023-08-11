@@ -7,14 +7,20 @@ import { useTranslation } from 'react-i18next'
 import EventLg from '../../shared/EventInList/EventLg'
 import LoaderContainer from '../../shared/LoaderContainer'
 import { searchEvents } from '../../api/events'
+import { IPaginateRespose } from '../../types/response'
+import { useAppSelector } from '../../store/hooks'
 
-const SearchEventsDataList = ({ searchEventsData, isSearchLoading, searchError, setSearchEventsData, searchInputData }: { searchEventsData: IEvent[] | null, isSearchLoading: boolean, searchError: AxiosError | null, setSearchEventsData: Dispatch<SetStateAction<IEvent[] | null>>, searchInputData: string | null }) => {
+const SearchEventsDataList = ({ searchEventsData, isSearchLoading, searchError, setSearchEventsData, searchInputData }: { searchEventsData: IPaginateRespose<IEvent> | null, isSearchLoading: boolean, searchError: AxiosError | null, setSearchEventsData: Dispatch<SetStateAction<IPaginateRespose<IEvent> | null>>, searchInputData: string | null }) => {
     const { t } = useTranslation()
     const [refreshing, setRefreshing] = useState(false);
-
+    const filters = useAppSelector(state => state.filtersSlice.filters)
+    
     const onRefresh = useCallback(async () => {
         if (searchInputData) {
-            const events = await searchEvents(searchInputData)
+            const events = await searchEvents({
+                q: searchInputData,
+                ...filters
+            })
             setSearchEventsData(events)
         }
         setRefreshing(false)
@@ -31,12 +37,12 @@ const SearchEventsDataList = ({ searchEventsData, isSearchLoading, searchError, 
             </TextStatus>
         )
     }
-    if (searchEventsData && searchEventsData.length > 0) {
+    if (searchEventsData && searchEventsData.totalCount > 0) {
         return (
             <FlatList
                 refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
                 contentContainerStyle={{ paddingBottom: 25 }}
-                data={searchEventsData}
+                data={searchEventsData.paginatedResults}
                 horizontal={false}
                 scrollEnabled
                 renderItem={({ item }) => <EventLg eventData={item} />}

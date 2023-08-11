@@ -1,31 +1,39 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import MapView, { Address } from "react-native-maps";
+import { ITag } from "../../types/event";
+
+export interface IFilters {
+    tags: string[]
+    minPrice: number | null
+    maxPrice: number | null
+    startDate: Date | null
+    endDate: Date | null
+}
 
 interface InitialState {
-    tags: string[]
+    filters: IFilters
 }
 
 const initialState: InitialState = {
-    tags: []
+    filters: {
+        tags: [],
+        minPrice: null,
+        maxPrice: null,
+        startDate: null,
+        endDate: null
+    }
 };
 
 const filtersSlice = createSlice({
     name: "filtersSlice",
     initialState,
     reducers: {
-        setTagFiltersState: (state, action) => {
-            if (state.tags.includes(action.payload)) {
-                const index = state.tags.indexOf(action.payload);
-                if (index > -1) {
-                    state.tags.splice(index, 1);
-                }
-            } else {
-                state.tags.push(action.payload)
-            }
+        setFiltersState: (state, action: {payload: IFilters}) => {
+            state.filters = action.payload
         }
     }
 });
 
-export const { setTagFiltersState } = filtersSlice.actions;
+export const { setFiltersState } = filtersSlice.actions;
 
 export default filtersSlice.reducer;

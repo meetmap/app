@@ -13,11 +13,13 @@ interface ITopControlls {
 }
 
 const MapHeader = () => {
-    const tags = useAppSelector(state => state.filtersSlice.tags)
+    const tags = useAppSelector(state => state.filtersSlice.filters?.tags)
     return (
         <StyledLinearGradient start={{ x: 0, y: 0 }} end={{ x: 0, y: 1 }} colors={['#00b3ff', "rgba(148, 216, 255, 0.00)"]}>
             <StyledMapHeader>
-                <H5 style={{paddingHorizontal: 16}} numberOfLines={1}>{tags.join(' / ')}</H5>
+                {tags &&
+                    <H5 style={{ paddingHorizontal: 16 }} numberOfLines={1}>{tags.join(' / ')}</H5>
+                }
                 <HeaderStatus />
             </StyledMapHeader>
         </StyledLinearGradient>

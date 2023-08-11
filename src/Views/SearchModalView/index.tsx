@@ -9,23 +9,32 @@ import { useTranslation } from "react-i18next"
 import SearchEventsDataList from "./SearchEventsDataList"
 import { AxiosError } from "axios"
 import SearchEventsInput from "../../shared/Input/SearchEventsInput"
+import { IPaginateRespose } from "../../types/response"
+import { useAppSelector } from "../../store/hooks"
+import { getFromSecureStore } from "../../api/secure-store"
+import { SecureStoreKeys } from "../../constants"
 
 export interface ISearchModalViewProps {
     navigation: NativeStackNavigationProp<RootStackParamList, 'SearchModalView'>;
 }
 
 const SearchModalView = ({ }: ISearchModalViewProps) => {
-    const [searchEventsData, setSearchEventsData] = useState<IEvent[] | null>(null)
+    const [searchEventsData, setSearchEventsData] = useState<IPaginateRespose<IEvent> | null>(null)
     const [isSearchLoading, setIsSearchLoading] = useState(false)
     const [searchInputData, setSearchInputData] = useState<string | null>(null)
     const [searchError, setSearchError] = useState<AxiosError | null>(null);
+
+    const filters = useAppSelector(state => state.filtersSlice.filters)
 
     const searchEventsDataFunc = async (text: string) => {
         setIsSearchLoading(true)
         if (text.length > 0) {
             setSearchInputData(text)
             try {
-                const events = await searchEvents(text)
+                const events = await searchEvents({
+                    q: text,
+                    ...filters
+                })
                 setSearchEventsData(events)
             } catch (error) {
                 setSearchError(error as AxiosError)
@@ -39,6 +48,7 @@ const SearchModalView = ({ }: ISearchModalViewProps) => {
 
 
     const { t } = useTranslation()
+
 
     return (
         <StyledSearchModal>

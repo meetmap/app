@@ -22,7 +22,7 @@ const EventInListActions = (eventData: IEvent, flyTo: (coordinates: ICoordinates
         navigation.navigate("MainView")
         flyTo({lat: eventData.location.coordinates.coordinates[1], lng: eventData.location.coordinates.coordinates[0]})
       } else if (buttonIndex === 3) {
-        navigation.navigate("InviteFriendsModalView", {eventId: eventData.id})
+        navigation.navigate("InviteFriendsModalView", {eventCid: eventData.cid})
       }
     },
   );
