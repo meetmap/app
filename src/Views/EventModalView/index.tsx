@@ -60,6 +60,11 @@ const EventModalView = (props: IEventModalViewProps) => {
             <LoaderContainer />
         )
     }
+    if (error) {
+        return (
+            <TextStatus>{error.message}</TextStatus>
+        )
+    }
     if (!eventData) {
         return (
             <TextStatus>{t("somethingWentWrong")}</TextStatus>

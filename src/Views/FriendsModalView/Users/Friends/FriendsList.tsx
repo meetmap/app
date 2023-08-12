@@ -6,9 +6,10 @@ import { GetInitialFriendsThunk } from "../../../../store/slices/friendsSlice";
 import LoaderContainer from "../../../../shared/LoaderContainer";
 import TextStatus from "../../../../shared/TextStatus";
 import UserDataInList from "../../../../shared/Profile/UserDataInList";
+import { useTranslation } from "react-i18next";
 
 const FriendsList = ({ friendListType, setFriendListType }: { friendListType: string, setFriendListType: Dispatch<SetStateAction<string>> }) => {
-
+    const { t } = useTranslation()
     const {
         friends,
         incomingRequests,
@@ -22,7 +23,7 @@ const FriendsList = ({ friendListType, setFriendListType }: { friendListType: st
     }, []);
 
     useEffect(() => {
-        if (incomingRequests.length > 0) {
+        if (incomingRequests.totalCount > 0) {
             setFriendListType("incomingRequests")
         }
     }, [incomingRequests])
@@ -42,15 +43,15 @@ const FriendsList = ({ friendListType, setFriendListType }: { friendListType: st
     if (isLoading) {
         return <LoaderContainer />
     }
-    if (choosedFriendsData().length === 0) {
+    if (choosedFriendsData().totalCount === 0) {
         return (
-            <TextStatus>The list is empty</TextStatus>
+            <TextStatus>{t("listEmpty")}</TextStatus>
         )
     }
     return (
         <FlatList
             contentContainerStyle={{ paddingBottom: 25, flex: 1, gap: 12 }}
-            data={choosedFriendsData()}
+            data={choosedFriendsData().paginatedResults}
             horizontal={false}
             scrollEnabled
             renderItem={({ item }) => <UserDataInList userData={item} />}

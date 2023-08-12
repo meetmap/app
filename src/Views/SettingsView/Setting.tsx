@@ -2,9 +2,7 @@ import React from 'react'
 import styled from 'styled-components/native'
 import { H5, H6, P } from '../../shared/Text'
 import { View } from 'react-native'
-import { useNavigation } from '@react-navigation/native'
 import RightArrowIcon from '../../shared/Icons/RightArrowIcon'
-import { NavigationProps } from '../../types/NavigationProps'
 
 const Setting = ({ title, value, onPress }: { title: string, value?: string, onPress: any }) => {
     return (

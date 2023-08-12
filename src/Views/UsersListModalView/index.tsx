@@ -5,7 +5,6 @@ import { IEvent } from '../../types/event'
 import EventLg from '../../shared/EventInList/EventLg'
 import TextStatus from '../../shared/TextStatus'
 import LoaderContainer from '../../shared/LoaderContainer'
-import { getEventsListByIds } from '../../api/events'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { RootStackParamList } from '../../types/NavigationProps'
 import { H1 } from '../../shared/Text'
@@ -13,6 +12,7 @@ import { getFriendsListByCId } from '../../api/friends'
 import { IPartialUser } from '../../types/users'
 import UserDataInList from '../../shared/Profile/UserDataInList'
 import { useTranslation } from 'react-i18next'
+import { IPaginateRespose } from '../../types/response'
 
 
 export interface IEventsListModalViewProps {
@@ -23,7 +23,7 @@ export interface IEventsListModalViewProps {
 
 const UsersListModalView = ({ route }: IEventsListModalViewProps) => {
     const { t } = useTranslation()
-    const [usersListData, setUsersListData] = useState<IPartialUser[] | null>(null)
+    const [usersListData, setUsersListData] = useState<IPaginateRespose<IPartialUser> | null>(null)
     const [usersListDataLoading, setUsersListDataLoading] = useState<boolean>(false)
 
     const getUsersByIds = async () => {
@@ -52,7 +52,7 @@ const UsersListModalView = ({ route }: IEventsListModalViewProps) => {
             <H1>{t("userFriendsLabel", {username: route.params.username})}</H1>
             <FlatList
                 contentContainerStyle={{ paddingBottom: 25, gap: 8 }}
-                data={usersListData}
+                data={usersListData.paginatedResults}
                 horizontal={false}
                 scrollEnabled
                 renderItem={({ item }) => <UserDataInList userData={item} />}

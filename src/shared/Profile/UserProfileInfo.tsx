@@ -18,7 +18,7 @@ const UserProfileInfo = ({ userData }: { userData: IPartialUser }) => {
         <StyledUserTextGeneralInfo>
           {userData.name && <H1>{userData.name}</H1>}
           <TouchableOpacity onPress={() => navigation.navigate("UsersListModalView", { userCId: userData.cid, username: userData.username })}>
-            {userData.friends && <P textcolor="Grey">{t('friendCount', { count: userData.friends.length })}</P>}
+            {userData.friends && <P textcolor="Grey">{t('friendCount', { count: userData.friends.totalCount })}</P>}
           </TouchableOpacity>
         </StyledUserTextGeneralInfo>
         {userData.description && <P textcolor="Grey" style={{ textAlign: "center", paddingHorizontal: 18 }}>{userData.description}</P>}

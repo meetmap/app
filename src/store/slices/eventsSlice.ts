@@ -10,7 +10,7 @@ interface InitialState {
     properties: {
       cluster: boolean;
       data: IEventByLocation;
-      ids: string[]
+      cids: string[]
     };
     geometry: {
       type: "Point";
@@ -58,7 +58,7 @@ const eventsSlice = createSlice({
           properties: {
             cluster: false,
             data: feature,
-            ids: [feature.id]
+            cids: [feature.cid]
           },
           geometry: {
             type: 'Point',

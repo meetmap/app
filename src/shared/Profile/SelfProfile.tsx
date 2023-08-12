@@ -20,7 +20,7 @@ const SelfProfileInfo = ({ userData }: { userData: IUserSelf }) => {
             <P textcolor="Primary">{`@${userData.username}`}</P>
             <P textcolor="Grey">•</P>
             <TouchableOpacity onPress={() => navigation.navigate("FriendsModalView")}>
-              <P textcolor="Grey">{t('friendCount', { count: userData.friends.length })}</P>
+              <P textcolor="Grey">{t('friendCount', { count: userData.friends.totalCount })}</P>
             </TouchableOpacity>
           </StyledUserProfileInfo>
         </StyledUserTextGeneralInfo>

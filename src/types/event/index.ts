@@ -29,6 +29,7 @@ export interface IEvent {
 
 export interface IEventByLocation {
   id: string,
+  cid: string
   coordinates: number[],
   thumbnail: string
 }

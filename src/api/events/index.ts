@@ -10,9 +10,9 @@ export const getEventByCid = async (eventCid: string) => {
   return res.data;
 };
 export const getEventsListByCids = async (eventCids: string[]) => {
-  const res = await getAxios("events", true).get<IEvent[]>(`/events/batch`, {
+  const res = await getAxios("events", true).get<IPaginateRespose<IEvent>>(`/events/batch`, {
     params: {
-      ids: eventCids
+      cids: eventCids
     }
   });
   return res.data;
@@ -43,8 +43,12 @@ export const getAllNearEvents = async ({ lat, lng, radius }: { lat: number; lng:
   });
   return res.data
 };
-export const getLikedEvents = async () => {
-  const res = await getAxios("events", true).get<IPaginateRespose<IEvent>>(`/users/events/liked`);
+export const getLikedEvents = async (page?: number) => {
+  const res = await getAxios("events", true).get<IPaginateRespose<IEvent>>(`/users/events/liked`, {
+    params: {
+      page
+    }
+  });
   return res.data
 };
 export const likeEvent = async (eventCid: string) => {

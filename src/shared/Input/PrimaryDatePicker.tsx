@@ -13,11 +13,11 @@ interface IPrimaryDatePicker extends DatePickerOptions {
     icon?: ReactNode
     inputStyle?: "White" | "Primary"
     placeholder?: string
+    initialValue?: Date
 }
 
-const PrimaryDatePicker = ({ inputStyle = "Primary", placeholder = "Pick date", name, label, ...rest }: IPrimaryDatePicker) => {
+const PrimaryDatePicker = ({ inputStyle = "Primary", initialValue, placeholder = "Pick date", name, label, ...rest }: IPrimaryDatePicker) => {
     const [opened, setOpened] = useState(false)
-
     return (
         <>
             <StyledInputContent>
@@ -26,7 +26,7 @@ const PrimaryDatePicker = ({ inputStyle = "Primary", placeholder = "Pick date", 
                 }
                 <StyledPrimaryDatePikerButton inputStyle={inputStyle} onPress={() => setOpened(data => !data)}>
                     <StyledPrimaryDatePikerButtonText>
-                        {rest.value.toString() == Date().toString() ?
+                        {rest.value.toDateString() == initialValue?.toDateString() ?
                             placeholder : rest.value.toDateString()
                         }
                     </StyledPrimaryDatePikerButtonText>

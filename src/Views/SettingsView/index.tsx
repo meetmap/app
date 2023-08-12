@@ -1,22 +1,19 @@
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useCallback, useEffect, useState } from 'react'
-import { ActivityIndicator, Button, RefreshControl, SafeAreaView, ScrollView, Text, TouchableOpacity, View } from 'react-native'
+import { ActivityIndicator, RefreshControl, SafeAreaView, ScrollView, TouchableOpacity, View } from 'react-native'
 import { styled } from 'styled-components/native'
 import { NavigationProps, RootStackParamList } from '../../types/NavigationProps';
-import UserProfileInfo from '../../shared/Profile/UserProfileInfo';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { useNavigation } from '@react-navigation/native';
-import { H5, H6, Title } from '../../shared/Text';
+import { H5 } from '../../shared/Text';
 import EditView from './EditView';
-import { IUploadedImage, changeUserProfilePicture, checkAssetsUploadStatus, getUserSelf } from '../../api/users';
-import LoaderContainer from '../../shared/LoaderContainer';
-import { InitializeUserThunk, LogOutThunk, setUserdata } from '../../store/slices/userSlice';
-import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
+import { IEditUserData, IUploadedImage, changeUserProfilePicture, checkAssetsUploadStatus, getUserSelf, updateUser } from '../../api/users';
+import { LogOutThunk, setUserdata } from '../../store/slices/userSlice';
 import PrimaryButton from '../../shared/Buttons/PrimaryButton';
 import SelfProfileInfo from '../../shared/Profile/SelfProfile';
 import Settings from './Settings';
 import { useTranslation } from 'react-i18next';
-import PrimaryMediumButton from '../../shared/Buttons/PrimaryMediumButton';
+
 
 export interface ISettingsViewProps {
   navigation: NativeStackNavigationProp<RootStackParamList, 'SettingsView'>;
@@ -31,6 +28,10 @@ const SettingsView = ({ }: ISettingsViewProps) => {
   const [image, setImage] = useState<IUploadedImage | undefined>()
   const [isEditing, setIsEditing] = useState(false)
   const [editingError, setEditingError] = useState(undefined)
+  const [editUserData, setEditUserData] = useState<IEditUserData>({
+    name: userData?.name,
+    description: userData?.description
+  })
   const dispatch = useAppDispatch()
 
   const editFunc = async () => {
@@ -64,10 +65,21 @@ const SettingsView = ({ }: ISettingsViewProps) => {
           console.log(error.message)
           setEditingError(error.message)
         }
-        setIsEditing(false)
-        setEditMode(false)
+        // setEditMode(false)
         setImage(undefined)
       }
+      if (editUserData.description !== userData?.description || editUserData.name !== userData?.name) {
+        setIsEditing(true)
+        try {
+          await updateUser(editUserData)
+          const user = await getUserSelf()
+          dispatch(setUserdata(user))
+        } catch (error: any) {
+          console.log(error.message)
+          setEditingError(error.message)
+        }
+      }
+      setIsEditing(false)
       setEditMode(false)
       return
     }
@@ -87,7 +99,7 @@ const SettingsView = ({ }: ISettingsViewProps) => {
         )
       },
     });
-  }, [editMode, image, isEditing]);
+  }, [editMode, image, isEditing, editUserData]);
 
   const [refreshing, setRefreshing] = useState(false);
 
@@ -101,7 +113,7 @@ const SettingsView = ({ }: ISettingsViewProps) => {
   if (userData) {
     if (editMode) {
       return (
-        <EditView userData={userData} setImage={setImage} image={image} />
+        <EditView setEditUserData={setEditUserData} editUserData={editUserData} userData={userData} setImage={setImage} image={image} />
       )
     }
     return (

@@ -18,7 +18,7 @@ const EventsClusters = ({ clusters }: { clusters: ClusterPoint[] }) => {
                         return (
                             <AnimatedMarker
                                 entering={FadeIn}
-                                key={`cluster${cluster.properties.data.id}`}
+                                key={`cluster${cluster.properties.data.cid}`}
                                 coordinate={{
                                     latitude: lat,
                                     longitude: lng
@@ -28,7 +28,7 @@ const EventsClusters = ({ clusters }: { clusters: ClusterPoint[] }) => {
                                     eventData={cluster.properties.data}
                                     count={cluster.properties.point_count}
                                     coordinates={[lng, lat]}
-                                    ids={cluster.properties.ids}
+                                    cids={cluster.properties.cids}
                                 />
                             </AnimatedMarker>
                         )
@@ -36,7 +36,7 @@ const EventsClusters = ({ clusters }: { clusters: ClusterPoint[] }) => {
                     return (
                         <AnimatedMarker
                             entering={FadeIn}
-                            key={`pin${cluster.properties.data.id}`}
+                            key={`pin${cluster.properties.data.cid}`}
                             coordinate={{
                                 latitude: lat,
                                 longitude: lng

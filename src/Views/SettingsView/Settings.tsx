@@ -7,7 +7,6 @@ import { useNavigation } from '@react-navigation/native'
 import Setting from './Setting'
 import { useTranslation } from 'react-i18next'
 import ChooseLanguage from '../../shared/Actions/ChooseLanguage'
-import RNPickerSelect from 'react-native-picker-select';
 
 const Settings = () => {
     const { i18n, t } = useTranslation()

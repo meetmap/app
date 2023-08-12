@@ -10,11 +10,11 @@ import { useTranslation } from "react-i18next"
 import useAxios from "../../../hooks/useAxios"
 import { H3 } from "../../../shared/Text"
 import { IPaginateRespose } from "../../../types/response"
+import useAxiosPaginated from "../../../hooks/useAxiosPaginated"
 
 const LikedEvents = () => {
-    const { data: likedEvents, loading, error, refreshing, onRefresh } = useAxios<IPaginateRespose<IEvent>>(getLikedEvents())
+    const { data: likedEvents, loading, error, refreshing, onRefresh, paginate} = useAxiosPaginated<IEvent>(getLikedEvents)
     const { t } = useTranslation()
-
 
     if (loading) {
         return (
@@ -41,6 +41,7 @@ const LikedEvents = () => {
     return (
         <StyledLikedEventsContainer>
             <FlatList
+                onEndReached={paginate}
                 // refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
                 scrollEnabled={false}
                 contentContainerStyle={{ paddingBottom: 25 }}

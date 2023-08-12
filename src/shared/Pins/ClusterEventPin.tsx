@@ -18,15 +18,7 @@ const ClusterEventPin = ({ eventData, count, coordinates, cids }: {
     const navigation = useNavigation<NavigationProps>();
 
     const handlePressOnEventCluster = async () => {
-        // const camera = await getCamera()
-        // if (!camera?.altitude || !camera) return
-
-        // if (camera.altitude > 400) {
-        //     onZoomInPress({ lat: coordinates[1], lng: coordinates[0] })
-        //     return
-        // }
         navigation.navigate("EventsListModalView", { eventCids: cids })
-
     }
     return (
         <StyledEventPinContent

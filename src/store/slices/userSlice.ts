@@ -67,8 +67,9 @@ export const InitializeUserThunk = createAsyncThunk<IUserSelf>(
   'users/init',
   async () => {
     const netInfo = await NetInfo.fetch()
-    if (!netInfo.isConnected || !netInfo.isInternetReachable) {
+    if (!netInfo.isConnected) {
       const userData = await getFromSecureStore(SecureStoreKeys.USER)
+      console.warn("storageData", userData)
       if (!userData) {
         throw new Error('Login first');
       }

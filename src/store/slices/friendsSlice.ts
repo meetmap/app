@@ -9,19 +9,32 @@ import {
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { IPartialUser } from "../../types/users";
 import { RootState } from "../store";
+import { IPaginateRespose } from "../../types/response";
 
 
 interface InitialState {
-  friends: IPartialUser[];
-  incomingRequests: IPartialUser[];
-  outcomingRequests: IPartialUser[];
+  friends: IPaginateRespose<IPartialUser>;
+  incomingRequests: IPaginateRespose<IPartialUser>;
+  outcomingRequests: IPaginateRespose<IPartialUser>;
   isLoading: boolean;
 }
 
 const initialState: InitialState = {
-  friends: [],
-  incomingRequests: [],
-  outcomingRequests: [],
+  friends: {
+    paginatedResults: [],
+    totalCount: 0,
+    nextPage: 0
+  },
+  incomingRequests: {
+    paginatedResults: [],
+    totalCount: 0,
+    nextPage: 0
+  },
+  outcomingRequests: {
+    paginatedResults: [],
+    totalCount: 0,
+    nextPage: 0
+  },
   isLoading: false,
 };
 
@@ -41,16 +54,19 @@ const friendsSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(GetInitialFriendsThunk.rejected, (state, action) => {
-        state.friends = [];
+        state.friends = {
+          paginatedResults: [],
+          totalCount: 0,
+          nextPage: 0
+        };
         state.isLoading = false;
       });
 
     builder
       .addCase(RejectFriendshipThunk.fulfilled, (state, action) => {
-        console.log(state.outcomingRequests.filter((friend) => friend.id !== action.payload.id));
-        state.friends = state.friends.filter((friend) => friend.id !== action.payload.id);
-        state.incomingRequests = state.incomingRequests.filter((friend) => friend.id !== action.payload.id);
-        state.outcomingRequests = state.outcomingRequests.filter((friend) => friend.id !== action.payload.id);
+        state.friends.paginatedResults = state.friends.paginatedResults.filter((friend) => friend.id !== action.payload.id);
+        state.incomingRequests.paginatedResults = state.incomingRequests.paginatedResults.filter((friend) => friend.id !== action.payload.id);
+        state.outcomingRequests.paginatedResults = state.outcomingRequests.paginatedResults.filter((friend) => friend.id !== action.payload.id);
       })
       .addCase(RejectFriendshipThunk.pending, (state, action) => {
         state.isLoading = true;
@@ -61,7 +77,7 @@ const friendsSlice = createSlice({
 
     builder
       .addCase(ReuqestFriendshipThunk.fulfilled, (state, action) => {
-        state.outcomingRequests.push(action.payload);
+        state.outcomingRequests.paginatedResults.push(action.payload);
       })
       .addCase(ReuqestFriendshipThunk.pending, (state, action) => {
         state.isLoading = true;
@@ -72,8 +88,8 @@ const friendsSlice = createSlice({
 
     builder
       .addCase(AcceptFriendshipThunk.fulfilled, (state, action) => {
-        state.incomingRequests = state.incomingRequests.filter((incoming) => incoming.id !== action.payload.id);
-        state.friends.push(action.payload);
+        state.incomingRequests.paginatedResults = state.incomingRequests.paginatedResults.filter((incoming) => incoming.id !== action.payload.id);
+        state.friends.paginatedResults.push(action.payload);
       })
       .addCase(AcceptFriendshipThunk.pending, (state, action) => {
         state.isLoading = true;
@@ -85,9 +101,9 @@ const friendsSlice = createSlice({
 });
 
 export const GetInitialFriendsThunk = createAsyncThunk<{
-  friends: IPartialUser[];
-  incomingRequests: IPartialUser[];
-  outcomingRequests: IPartialUser[];
+  friends: IPaginateRespose<IPartialUser>;
+  incomingRequests: IPaginateRespose<IPartialUser>;
+  outcomingRequests: IPaginateRespose<IPartialUser>;
 }>("friends/get-self", async (_, thunkApi) => {
   const state = (await thunkApi.getState()) as RootState;
   if (!state.userSlice.user) {

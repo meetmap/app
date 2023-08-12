@@ -1,16 +1,21 @@
-import React, { Dispatch, SetStateAction, useState } from 'react'
-import { Button, Image, TextInput, TouchableOpacity, View } from 'react-native'
+import React, { Dispatch, SetStateAction } from 'react'
+import { Button, TextInput, View } from 'react-native'
 import { styled } from 'styled-components/native'
 import LoadableProfileImage from '../../shared/LoadableImage/LoadableProfileImage'
 import { IUserSelf } from '../../types/users'
-import PrimaryFormInput from '../../shared/Input/PrimaryFormInput'
-import { H6 } from '../../shared/Text'
-import { ImagePickerResponse, launchImageLibrary } from 'react-native-image-picker'
+import { launchImageLibrary } from 'react-native-image-picker'
 import { IUploadedImage } from '../../api/events'
 import { useTranslation } from 'react-i18next'
+import { IEditUserData } from '../../api/users'
 
 
-const EditView = ({ userData, setImage, image }: { userData: IUserSelf, setImage: Dispatch<SetStateAction<IUploadedImage | undefined>>, image: IUploadedImage | undefined }) => {
+const EditView = ({ userData, setImage, image, setEditUserData, editUserData }: {
+    userData: IUserSelf,
+    setImage: Dispatch<SetStateAction<IUploadedImage | undefined>>,
+    image: IUploadedImage | undefined,
+    setEditUserData: Dispatch<SetStateAction<IEditUserData>>,
+    editUserData: IEditUserData
+}) => {
     const pickImage = async () => {
         const result = await launchImageLibrary({ mediaType: "photo", includeBase64: true, selectionLimit: 1, quality: 0.1 });
         const assets = result.assets
@@ -23,6 +28,14 @@ const EditView = ({ userData, setImage, image }: { userData: IUserSelf, setImage
         }
     }
     const { t } = useTranslation()
+
+    const handleEditUserData = (valueName: string, value: string) => {
+        if(!value.length){
+            setEditUserData({...editUserData, [valueName]: undefined})
+            return
+        }
+        setEditUserData({...editUserData, [valueName]: value})
+    }
     return (
         <StyledEditView>
             <StyledEditImageContainer>
@@ -30,8 +43,8 @@ const EditView = ({ userData, setImage, image }: { userData: IUserSelf, setImage
                 <Button onPress={pickImage} title={t("editProfileImage")} />
             </StyledEditImageContainer>
             <StyledEditInputsContent>
-                <StyledInput placeholder={t("yourName")} placeholderTextColor={"#898F99"} value={userData.name} />
-                <StyledInput placeholder={t("aboutYou")} placeholderTextColor={"#898F99"} value={userData.description} />
+                <StyledInput onChangeText={(value) => handleEditUserData("name", value)} placeholder={t("yourName")} placeholderTextColor={"#898F99"} value={editUserData.name} />
+                <StyledInput onChangeText={(value) => handleEditUserData("description", value)} placeholder={t("aboutYou")} placeholderTextColor={"#898F99"} value={editUserData.description} />
             </StyledEditInputsContent>
         </StyledEditView>
     )

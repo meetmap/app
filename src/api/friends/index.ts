@@ -1,10 +1,12 @@
+import { IPaginateRespose } from "../../types/response";
 import { IPartialUser } from "../../types/users";
 import { getAxios } from "../axios";
 
 
-export interface GetSelfFriendsResponse extends IPartialUser {}
-export const getUserFriends = async (userСId: string): Promise<GetSelfFriendsResponse[]> => {
-  const { data } = await getAxios("users", true).get<GetSelfFriendsResponse[]>("/friends/get/".concat(userСId));
+export interface GetSelfFriendsResponse extends IPartialUser { }
+
+export const getUserFriends = async (userСId: string): Promise<IPaginateRespose<IPartialUser>> => {
+  const { data } = await getAxios("users", true).get<IPaginateRespose<IPartialUser>>("/friends/get/".concat(userСId));
   return data;
 };
 
@@ -29,16 +31,16 @@ export const requestFriendship = async (friendCId: string): Promise<IPartialUser
   return data;
 };
 
-export const getIncomingFrienshipRequests = async (): Promise<GetSelfFriendsResponse[]> => {
-  const { data } = await getAxios("users", true).get<GetSelfFriendsResponse[]>("/friends/incoming");
+export const getIncomingFrienshipRequests = async (): Promise<IPaginateRespose<IPartialUser>> => {
+  const { data } = await getAxios("users", true).get<IPaginateRespose<IPartialUser>>("/friends/incoming");
   return data;
 };
 
-export const getOutcomingFrienshipRequests = async (): Promise<GetSelfFriendsResponse[]> => {
-  const { data } = await getAxios("users", true).get<GetSelfFriendsResponse[]>("/friends/outcoming");
+export const getOutcomingFrienshipRequests = async (): Promise<IPaginateRespose<IPartialUser>> => {
+  const { data } = await getAxios("users", true).get<IPaginateRespose<IPartialUser>>("/friends/outcoming");
   return data;
 };
-export const getFriendsListByCId = async (userCId: string): Promise<GetSelfFriendsResponse[]> => {
-  const { data } = await getAxios("users", true).get<GetSelfFriendsResponse[]>(`/friends/get/${userCId}`);
+export const getFriendsListByCId = async (userCId: string): Promise<IPaginateRespose<IPartialUser>> => {
+  const { data } = await getAxios("users", true).get<IPaginateRespose<IPartialUser>>(`/friends/get/${userCId}`);
   return data;
 };

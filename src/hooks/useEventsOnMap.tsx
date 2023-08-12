@@ -64,7 +64,7 @@ const useEventsOnMap = () => {
                 maxZoom: 40,
                 minZoom: 2,
                 reduce: (accumulated, props) => {
-                    accumulated.ids = [...accumulated.ids, ...props.ids];
+                    accumulated.cids = [...accumulated.cids, ...props.cids];
                 },
             },
         });

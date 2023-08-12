@@ -127,6 +127,15 @@ export interface IChangeProfilePictureResponce {
   ]
 }
 
+
+export interface IEditUserData { name: string | undefined, description: string | undefined }
+
+export const updateUser = async ({ name, description }: IEditUserData): Promise<IPartialUser> => {
+  const { data } = await getAxios('users', true).patch<IPartialUser>('/users/update', { name, description });
+
+  return data;
+};
+
 export const changeUserProfilePicture = async (
   picture: IUploadedImage,
 ): Promise<IChangeProfilePictureResponce> => {

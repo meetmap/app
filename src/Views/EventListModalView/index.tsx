@@ -11,6 +11,7 @@ import { H1 } from '../../shared/Text'
 import { useTranslation } from 'react-i18next'
 import useAxios from '../../hooks/useAxios'
 import { getEventsListByCids } from '../../api/events'
+import { IPaginateRespose } from '../../types/response'
 
 
 export interface IEventsListModalViewProps {
@@ -19,7 +20,7 @@ export interface IEventsListModalViewProps {
 
 
 const EventsListModalView = ({ route }: IEventsListModalViewProps) => {
-    const { data, loading, error } = useAxios<IEvent[]>(getEventsListByCids(route.params.eventCids))
+    const { data, loading, error } = useAxios<IPaginateRespose<IEvent>>(getEventsListByCids(route.params.eventCids))
     const { t } = useTranslation()
 
     if (loading) {
@@ -32,7 +33,7 @@ const EventsListModalView = ({ route }: IEventsListModalViewProps) => {
             <TextStatus>{error.message}</TextStatus>
         )
     }
-    if (!data?.length) {
+    if (!data?.totalCount) {
         return (
             <TextStatus>{t("listEmpty")}</TextStatus>
         )
@@ -42,7 +43,7 @@ const EventsListModalView = ({ route }: IEventsListModalViewProps) => {
             <H1 style={{ paddingTop: 16, paddingHorizontal: 16 }}>{t("eventsInThisPlace")}</H1>
             <FlatList
                 contentContainerStyle={{ paddingBottom: 65, paddingHorizontal: 16 }}
-                data={data}
+                data={data.paginatedResults}
                 horizontal={false}
                 scrollEnabled
                 renderItem={({ item }) => <EventLg eventData={item} />}

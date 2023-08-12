@@ -1,3 +1,5 @@
+import { IPaginateRespose } from "../response";
+
 export interface IUserWithoutFriends {
   description: string;
   birthDate: string; // Should be in ISO 8601 format (e.g., "2003-04-01T21:00:00.000Z")
@@ -21,7 +23,7 @@ export interface IUserSelf {
   name?: string;
   profilePicture?: string;
   fbId?: string;
-  friends: string[]; // Array of friend IDs
+  friends: IPaginateRespose<string>; // Array of friend IDs
   cid: string;
 }
 
@@ -29,7 +31,7 @@ export type FriendshipStatusType = "add-friend" | "requested" | "pending" | "rej
 
 export interface IPartialUser {
   friendshipStatus: FriendshipStatusType;
-  friends: IUserWithoutFriends[]
+  friends: IPaginateRespose<string>
   id: string;
   email: string; // Email address
   phone?: string; // Phone number

@@ -15,7 +15,7 @@ export interface ClusterPoint {
 }
 interface IEventClusterProperties extends ClusterProperties {
   data: IEventByLocation
-  ids: string[]
+  cids: string[]
 }
 
 interface Options {
