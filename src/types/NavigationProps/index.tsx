@@ -36,6 +36,10 @@ export type RootStackParamList = {
     FriendsModalView: undefined;
     
     CreateEventView: undefined;
+
+    WhoWillGoModalView: {eventCid: string}
+
+    EventLikesModalView: {eventCid: string}
 };
 
 

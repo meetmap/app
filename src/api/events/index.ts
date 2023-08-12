@@ -1,5 +1,6 @@
 import {ICreateEvent, IEvent, IEventByLocation, ITag} from '../../types/event';
 import {IPaginateRespose} from '../../types/response';
+import { IPartialUser } from '../../types/users';
 import {getAxios} from '../axios';
 import {EVENTS_URL} from '../baseUrl';
 import FormData from 'form-data';
@@ -63,6 +64,19 @@ export const getAllNearEvents = async ({
   );
   return res.data;
 };
+
+export const getEventLikes = async (eventCid: string, page?: number) => {
+  const res = await getAxios('events', true).get<IPaginateRespose<IPartialUser>>(
+    `/events/likes/${eventCid}`,
+    {
+      params: {
+        page,
+      },
+    },
+  );
+  return res.data;
+};
+
 export const getLikedEvents = async (page?: number) => {
   const res = await getAxios('events', true).get<IPaginateRespose<IEvent>>(
     `/users/events/liked`,

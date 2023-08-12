@@ -56,7 +56,7 @@ const LikedEvents = () => {
   return (
     <StyledLikedEventsContainer>
       <FlatList
-        onEndReached={paginate}
+        // onEndReached={paginate}
         // refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
         scrollEnabled={false}
         contentContainerStyle={{paddingBottom: 25}}

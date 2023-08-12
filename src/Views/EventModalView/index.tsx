@@ -3,7 +3,7 @@ import { FlatList, Linking, ScrollView, TouchableOpacity, View } from 'react-nat
 import styled from 'styled-components/native'
 import LikeButton from '../../shared/Buttons/LikeButton'
 import { IEvent } from '../../types/event'
-import { H1, H3, P, Span } from '../../shared/Text'
+import { H1, H3, H6, P, Span } from '../../shared/Text'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { RootStackParamList } from '../../types/NavigationProps'
 import TicketIcon from '../../shared/Icons/TicketIcon'
@@ -71,50 +71,77 @@ const EventModalView = (props: IEventModalViewProps) => {
         )
     }
     return (
-        <ScrollView contentContainerStyle={{paddingBottom: 24}}>
+        <ScrollView contentContainerStyle={{ paddingBottom: 24 }}>
             <StyledEventModalContent>
                 <StyledEventImgContainer>
                     <EventCarousel eventsImagesList={eventData.assets} />
-                    <LikeButton eventCid={eventData.cid} isLiked={eventData.userStats.isUserLike} />
+                    <LikeButton likeCount={eventData.stats.likes} eventCid={eventData.cid} isLiked={eventData.userStats.isUserLike} />
                 </StyledEventImgContainer>
                 <EventInfoContainer>
-                    <StyledEventInfoHead>
-                        <H1>
-                            {eventData.title}
-                        </H1>
-                    </StyledEventInfoHead>
-                    <Line />
-                    <StyledAdditionEventInfo>
-                        <View style={{ gap: 6 }}>
-                            {distance &&
-                                <P>{distance} {t("fromYou")}</P>
-                            }
-                            <P>{formattedStartTime}</P>
-                        </View>
-                        <StyledAgeLimit>
-                            <Span textcolor='Grey'>
-                                {eventData.ageLimit}+
-                            </Span>
-                        </StyledAgeLimit>
-                    </StyledAdditionEventInfo>
-                    {/* <Line /> */}
-                    <P>
-                        {eventData?.description}
-                    </P>
-                    <Line />
-                    <StyledTagsView>
-                        <View style={{ flexDirection: "row" }}>
-                            <H3>{t("tags")}</H3>
-                            {/* <TouchableOpacity>
+                    <View style={{ paddingHorizontal: 16, gap: 16 }}>
+                        <StyledEventInfoHead>
+                            <H1>
+                                {eventData.title}
+                            </H1>
+                        </StyledEventInfoHead>
+                        <Line />
+                        <StyledAdditionEventInfo>
+                            <View style={{ gap: 6 }}>
+                                <P> {eventData.location.city}, {eventData.location.country}, {distance} {t("fromYou")}</P>
+                                <P>{formattedStartTime}</P>
+                            </View>
+                            <StyledAgeLimit>
+                                <Span textcolor='Grey'>
+                                    {eventData.ageLimit}+
+                                </Span>
+                            </StyledAgeLimit>
+                        </StyledAdditionEventInfo>
+                        <P>
+                            {eventData?.description}
+                        </P>
+                        {eventData.tickets.length > 0 &&
+                            <Line />
+                        }
+                    </View>
+                    {eventData.tickets.length > 0 &&
+                        <StyledTicketsView>
+                            <H3 style={{ paddingHorizontal: 16 }}>{t("tickets")}</H3>
+                            <FlatList
+                                contentContainerStyle={{ gap: 8, marginLeft: 16 }}
+                                data={eventData.tickets}
+                                horizontal={true}
+                                scrollEnabled
+                                renderItem={({ item }) => (
+                                    <StyledTicket>
+                                        <StyledTicketHeader>
+                                            <H6>{item.name}</H6>
+                                            <P>{item.amount !== -1 && item.amount}</P>
+                                        </StyledTicketHeader>
+                                        {/* {item.description &&
+                                        <P>{item.description}</P>
+                                    } */}
+                                    </StyledTicket>
+                                )}
+                                keyExtractor={item => item.name}
+                            />
+                        </StyledTicketsView>
+                    }
+                    <View style={{ paddingHorizontal: 16, gap: 16 }}>
+                        <Line />
+                        <StyledTagsView>
+                            <View style={{ flexDirection: "row" }}>
+                                <H3>{t("tags")}</H3>
+                                {/* <TouchableOpacity>
                                 <InfoIcon />
                             </TouchableOpacity> */}
-                        </View>
-                        <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
-                            {eventData.tags.map(tag => (
-                                <EventTag key={tag.cid} tag={tag} />
-                            ))}
-                        </View>
-                    </StyledTagsView>
+                            </View>
+                            <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
+                                {eventData.tags.map(tag => (
+                                    <EventTag key={tag.cid} tag={tag} />
+                                ))}
+                            </View>
+                        </StyledTagsView>
+                    </View>
                 </EventInfoContainer>
                 <StyledEventFooter>
                     <PrimaryMediumButton onPress={handleBuyTicketOpenLink} btnType='Primary' title={t("buyTickets")}><TicketIcon /></PrimaryMediumButton>
@@ -158,7 +185,6 @@ const EventInfoContainer = styled(View)`
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    padding: 0 16px;
     gap: 16px;
 `
 
@@ -166,7 +192,6 @@ const StyledEventInfoHead = styled(View)`
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-
 `
 
 const StyledAgeLimit = styled(View)`
@@ -179,12 +204,6 @@ const StyledEventFooter = styled(View)`
     flex-direction: column;
     gap: 12px;
     padding: 0 16px;
-    a{
-        flex: 1;
-        button{
-            width: 100%;
-        }
-    }
 `
 const StyledEventFooterActions = styled(View)`
     flex-direction: row;
@@ -195,6 +214,21 @@ const StyledAdditionEventInfo = styled(View)`
     justify-content: space-between;
     align-items: center;
     gap: 6px;
+`
+const StyledTicketsView = styled(View)`
+    gap: 12px;
+    /* padding: 0 -16px; */
+`
+const StyledTicket = styled(View)`
+    width: 200px;
+    gap: 6px;
+    padding: 8px;
+    border-radius: 8px;
+    border: solid 1px ${props => props.theme.colors.BUTTON.Secondary.BorderDefault};
+`
+const StyledTicketHeader = styled(View)`
+    justify-content: space-between;
+    flex-direction: row;
 `
 const StyledTagsView = styled(View)`
     gap: 6px;

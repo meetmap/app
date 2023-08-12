@@ -8,6 +8,7 @@ export interface IEvent {
   assets: string[];
   thumbnail: string
   description?: string;
+  tickets: ITicket[],
   /**
    *  timestamp
    */
