@@ -25,19 +25,16 @@ const SearchEventsDataList = ({ searchEventsData, isSearchLoading, searchError, 
         }
         setRefreshing(false)
     }, []);
-    // const paginate = async () => {
-    //     console.log(searchEventsData)
-    //     if (searchInputData && searchEventsData && searchEventsData.nextPage) {
-    //         const events = await searchEvents({
-    //             q: searchInputData,
-    //             page: searchEventsData?.nextPage,
-    //             ...filters
-    //         })
-    //         // console.log(events.paginatedResults)
-    //         console.log(events)
-    //         setSearchEventsData(events)
-    //     }
-    // }
+    const paginate = async () => {
+        if (searchInputData && searchEventsData && searchEventsData.nextPage) {
+            const events = await searchEvents({
+                q: searchInputData,
+                page: searchEventsData?.nextPage,
+                ...filters
+            })
+            setSearchEventsData(events)
+        }
+    }
     if (isSearchLoading) {
         return (
             <LoaderContainer />
@@ -53,7 +50,7 @@ const SearchEventsDataList = ({ searchEventsData, isSearchLoading, searchError, 
     if (searchEventsData && searchEventsData.totalCount > 0) {
         return (
             <FlatList
-                // onEndReached={paginate}
+                onEndReached={paginate}
                 // ListFooterComponent={<LoaderContainer />}
                 refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
                 contentContainerStyle={{ paddingBottom: 25 }}

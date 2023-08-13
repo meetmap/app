@@ -12,6 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { H1 } from '../../shared/Text';
 import styled from 'styled-components';
 import UserDataInInviteList from '../../shared/Profile/UserDataInInviteList';
+import useAxiosPaginated from '../../hooks/useAxiosPaginated';
 
 
 export interface IEventWhoWillGoModalViewProps {
@@ -23,7 +24,7 @@ export interface IEventWhoWillGoModalViewProps {
 const EventWhoWillGoModalView = ({ route }: IEventWhoWillGoModalViewProps) => {
     const { t } = useTranslation()
     const userData = useAppSelector(state => state.userSlice.user)!
-    const { data, loading, error } = useAxios<IPartialUser[]>(getUserFriends(userData.cid))
+    const { data, loading, error } = useAxiosPaginated<IPartialUser>(() => getUserFriends(userData.cid))
 
     if (loading) {
         return (
@@ -35,7 +36,7 @@ const EventWhoWillGoModalView = ({ route }: IEventWhoWillGoModalViewProps) => {
             <TextStatus>{error.message}</TextStatus>
         )
     }
-    if (!data?.length) {
+    if (!data?.totalCount) {
         return (
             <TextStatus>{t("youDontHaveFriends")}</TextStatus>
         )
@@ -45,7 +46,7 @@ const EventWhoWillGoModalView = ({ route }: IEventWhoWillGoModalViewProps) => {
             <H1>{t("userFriendsLabel", { username: route.params.username })}</H1>
             <FlatList
                 contentContainerStyle={{ paddingBottom: 25, gap: 8 }}
-                data={data}
+                data={data.paginatedResults}
                 horizontal={false}
                 scrollEnabled
                 renderItem={({ item }) => <UserDataInInviteList userData={item} />}

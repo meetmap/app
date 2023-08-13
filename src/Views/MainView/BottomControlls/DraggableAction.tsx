@@ -62,7 +62,7 @@ const DraggableAction = () => {
         if (!userCoordinates) {
             return
         }
-        flyTo({ lat: userCoordinates.lat, lng: userCoordinates.lng }, false)
+        flyTo({ lat: userCoordinates.lat, lng: userCoordinates.lng }, false, 2800)
     }
 
 

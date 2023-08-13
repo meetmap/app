@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { FlatList, Linking, ScrollView, TouchableOpacity, View } from 'react-native'
+import React from 'react'
+import { FlatList, Linking, ScrollView, View } from 'react-native'
 import styled from 'styled-components/native'
 import LikeButton from '../../shared/Buttons/LikeButton'
 import { IEvent } from '../../types/event'
@@ -7,7 +7,6 @@ import { H1, H3, H6, P, Span } from '../../shared/Text'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import { RootStackParamList } from '../../types/NavigationProps'
 import TicketIcon from '../../shared/Icons/TicketIcon'
-import PrimarySmallButton from '../../shared/Buttons/PrimarySmallButton'
 import LoaderContainer from '../../shared/LoaderContainer'
 import PrimaryMediumButton from '../../shared/Buttons/PrimaryMediumButton'
 import { useTranslation } from 'react-i18next'
@@ -19,16 +18,20 @@ import { Line } from '../../shared/Line'
 import EventCarousel from '../../shared/Carousel'
 import useAxios from '../../hooks/useAxios'
 import EventTag from '../../shared/Tags/EventTag'
-import InfoIcon from '../../shared/Icons/InfoIcon'
 import { getEventByCid } from '../../api/events'
 
 
 export interface IEventModalViewProps {
     navigation: NativeStackNavigationProp<RootStackParamList, 'EventModalView'>;
+    route: {
+        params: {
+            eventCid: string
+        }
+    }
 }
 
-const EventModalView = (props: IEventModalViewProps) => {
-    const { data: eventData, loading: eventDataLoading, error } = useAxios<IEvent>(getEventByCid(props.route.params.eventCid))
+const EventModalView = ({route, navigation}: IEventModalViewProps) => {
+    const { data: eventData, loading: eventDataLoading, error } = useAxios<IEvent>(getEventByCid(route.params.eventCid))
     const userCoordinates = useAppSelector(state => state.locationSlice.userCoordinates)
 
     const { t, i18n } = useTranslation()
@@ -107,8 +110,9 @@ const EventModalView = (props: IEventModalViewProps) => {
                         <StyledTicketsView>
                             <H3 style={{ paddingHorizontal: 16 }}>{t("tickets")}</H3>
                             <FlatList
-                                contentContainerStyle={{ gap: 8, marginLeft: 16 }}
+                                contentContainerStyle={{ gap: 8, paddingHorizontal: 16 }}
                                 data={eventData.tickets}
+                                showsHorizontalScrollIndicator={false}
                                 horizontal={true}
                                 scrollEnabled
                                 renderItem={({ item }) => (
@@ -146,7 +150,7 @@ const EventModalView = (props: IEventModalViewProps) => {
                 <StyledEventFooter>
                     <PrimaryMediumButton onPress={handleBuyTicketOpenLink} btnType='Primary' title={t("buyTickets")}><TicketIcon /></PrimaryMediumButton>
                     <StyledEventFooterActions>
-                        <PrimaryMediumButton onPress={() => props.navigation.navigate("InviteFriendsModalView", { eventCid: eventData.cid })} style={{ flex: 1 }} btnType='Secondary' title={t("inviteFriend")} />
+                        <PrimaryMediumButton onPress={() => navigation.navigate("InviteFriendsModalView", { eventCid: eventData.cid })} style={{ flex: 1 }} btnType='Secondary' title={t("inviteFriend")} />
                         <PrimaryMediumButton style={{ flex: 1 }} btnType='Secondary' title={t("seeWhoGoes")} />
                         <PrimaryMediumButton style={{ flex: 1 }} btnType='Secondary' title={t("iWillGo")} />
                     </StyledEventFooterActions>

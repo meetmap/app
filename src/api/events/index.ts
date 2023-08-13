@@ -27,8 +27,8 @@ export const getEventsListByCids = async (
 
 export interface ISearchEventsParams {
   q: string;
-  tags: string[];
   page?: number;
+  tags: string[];
   minPrice: number | null;
   maxPrice: number | null;
   startDate: Date | null;
@@ -65,7 +65,7 @@ export const getAllNearEvents = async ({
   return res.data;
 };
 
-export const getEventLikes = async (eventCid: string, page?: number) => {
+export const getEventLikes = async (eventCid: string, page: number = 1) => {
   const res = await getAxios('events', true).get<IPaginateRespose<IPartialUser>>(
     `/events/likes/${eventCid}`,
     {
@@ -77,7 +77,7 @@ export const getEventLikes = async (eventCid: string, page?: number) => {
   return res.data;
 };
 
-export const getLikedEvents = async (page?: number) => {
+export const getLikedEvents = async (page: number = 1) => {
   const res = await getAxios('events', true).get<IPaginateRespose<IEvent>>(
     `/users/events/liked`,
     {

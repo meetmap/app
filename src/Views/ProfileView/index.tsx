@@ -18,10 +18,11 @@ import useAxios from '../../hooks/useAxios';
 
 interface IPageProps {
     navigation: NativeStackNavigationProp<RootStackParamList, 'ProfileView'>;
+    route: { params: { userId: string } }
 }
 
-const ProfileView = (props: IPageProps) => {
-    const {data: userData, loading: userDataLoading, onRefresh, refreshing, error} = useAxios<IPartialUser>(getUserById(props.route.params.userId))
+const ProfileView = ({ route, navigation }: IPageProps) => {
+    const { data: userData, loading: userDataLoading, onRefresh, refreshing, error } = useAxios<IPartialUser>(getUserById(route.params.userId))
     const { flyTo } = useMap()
 
 
@@ -46,7 +47,7 @@ const ProfileView = (props: IPageProps) => {
                 <UserProfileInfo userData={userData} />
                 <StyledProfileActions>
                     <PrimaryMediumButton style={{ flex: 1 }} btnType='Secondary' title={t("inviteToAnEvent")} />
-                    <PrimaryMediumButton btnType='Secondary' onPress={() => ProfileActions(userData, flyTo, props.navigation)}>
+                    <PrimaryMediumButton btnType='Secondary' onPress={() => ProfileActions(userData, flyTo, navigation)}>
                         <MoreIcon />
                     </PrimaryMediumButton>
                 </StyledProfileActions>

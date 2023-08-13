@@ -12,6 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { H1 } from '../../shared/Text';
 import styled from 'styled-components';
 import UserDataInInviteList from '../../shared/Profile/UserDataInInviteList';
+import useAxiosPaginated from '../../hooks/useAxiosPaginated';
 
 
 export interface IInviteFriendsModalViewProps {
@@ -23,7 +24,7 @@ export interface IInviteFriendsModalViewProps {
 const InviteFriendsModalView = ({ route }: IInviteFriendsModalViewProps) => {
   const { t } = useTranslation()
   const userData = useAppSelector(state => state.userSlice.user)!
-  const { data, loading, error } = useAxios<IPartialUser[]>(getUserFriends(userData.cid))
+  const { data, loading, error, paginate } = useAxiosPaginated<IPartialUser>(() => getUserFriends(userData.cid))
 
   if (loading) {
     return (
@@ -35,7 +36,7 @@ const InviteFriendsModalView = ({ route }: IInviteFriendsModalViewProps) => {
       <TextStatus>{error.message}</TextStatus>
     )
   }
-  if (!data?.length) {
+  if (!data?.totalCount) {
     return (
       <TextStatus>{t("youDontHaveFriends")}</TextStatus>
     )
@@ -44,12 +45,14 @@ const InviteFriendsModalView = ({ route }: IInviteFriendsModalViewProps) => {
     <StyledEventsListModal>
       <H1>{t("userFriendsLabel", { username: route.params.username })}</H1>
       <FlatList
+        onEndReached={data.nextPage ? paginate : null}
+        ListFooterComponent={data.nextPage ? <LoaderContainer /> : null}
         contentContainerStyle={{ paddingBottom: 25, gap: 8 }}
-        data={data}
+        data={data.paginatedResults}
         horizontal={false}
         scrollEnabled
         renderItem={({ item }) => <UserDataInInviteList userData={item} />}
-        keyExtractor={item => item.id}
+        keyExtractor={item => item.cid}
       />
     </StyledEventsListModal>
   )

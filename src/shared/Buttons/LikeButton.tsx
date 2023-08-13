@@ -15,16 +15,13 @@ const LikeButton = ({ eventCid, isLiked, likeCount }: { eventCid: string, isLike
     const navigation = useNavigation<NavigationProps>()
     const LikeEvent = async () => {
         setIsLikedState(true)
-        if (likeCountState) {
-            setLikeCountState(likeCountState + 1)
-        }
+        setLikeCountState(state => state != undefined ? state + 1 : undefined)
+
         await likeEvent(eventCid)
     }
     const RemoveLikeOnEvent = async () => {
         setIsLikedState(false)
-        if (likeCountState) {
-            setLikeCountState(likeCountState + 1)
-        }
+        setLikeCountState(state => state != undefined ? state - 1 : undefined)
         await removeLikeOnEvent(eventCid)
     }
     const HandleLikeEvent = async () => {
@@ -44,7 +41,7 @@ const LikeButton = ({ eventCid, isLiked, likeCount }: { eventCid: string, isLike
             >
                 <HeartIcon />
             </StyledLikeButton>
-            {likeCountState && likeCountState > 0 &&
+            {!!likeCountState && likeCountState > 0 &&
                 <TouchableOpacity
                     onPress={() => navigation.navigate("EventLikesModalView", { eventCid })}
                 >

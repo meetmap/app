@@ -24,7 +24,7 @@ export interface IEventLikesModalViewProps {
 
 const EventLikesModalView = ({ route }: IEventLikesModalViewProps) => {
     const { t } = useTranslation()
-    const { data, loading, error } = useAxiosPaginated<IPartialUser>(() => getEventLikes(route.params.eventCid))
+    const { data, loading, error, paginate } = useAxiosPaginated<IPartialUser>(() => getEventLikes(route.params.eventCid))
 
     if (loading) {
         return (
@@ -45,12 +45,14 @@ const EventLikesModalView = ({ route }: IEventLikesModalViewProps) => {
         <StyledEventsListModal>
             <H1>{t("eventLikes")}</H1>
             <FlatList
+                onEndReached={data.nextPage ? paginate : null}
+                ListFooterComponent={data.nextPage ? <LoaderContainer /> : null}
                 contentContainerStyle={{ paddingBottom: 25, gap: 8 }}
                 data={data.paginatedResults}
                 horizontal={false}
                 scrollEnabled
                 renderItem={({ item }) => <UserDataInInviteList userData={item} />}
-                keyExtractor={item => item.id}
+                keyExtractor={item => item.cid}
             />
         </StyledEventsListModal>
     )
