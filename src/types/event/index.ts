@@ -1,4 +1,5 @@
 import { ICoordinates, ILocation } from "../location";
+import { IPaginateRespose } from "../response";
 
 export interface IEvent {
   cid: string
@@ -26,6 +27,7 @@ export interface IEvent {
   stats: IEventStats
   userStats: IEventUserStats
   tags: ITag[]
+  hits: IPaginateRespose<IEvent>
 }
 
 export interface IEventByLocation {

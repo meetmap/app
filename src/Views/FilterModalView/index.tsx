@@ -12,32 +12,39 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks"
 import { IFilters, setFiltersState } from "../../store/slices/filtersSlice"
 import PrimaryDatePicker from "../../shared/Input/PrimaryDatePicker"
 import { useNavigation } from "@react-navigation/native"
+import Slider from "@react-native-community/slider"
+import { useTranslation } from "react-i18next"
 
 export interface IMainViewProps {
     navigation: NativeStackNavigationProp<RootStackParamList, 'FilterModalView'>;
 }
 
 const FilterModalView = ({ }: IMainViewProps) => {
-    const { tags, minPrice, maxPrice, startDate } = useAppSelector(state => state.filtersSlice.filters)
+    const { tags, minPrice, maxPrice, startDate, radius } = useAppSelector(state => state.filtersSlice.filters)
+    const { t } = useTranslation()
     const [choosedFilters, setChoosedFilters] = useState<IFilters>({
         tags: [...tags],
         minPrice,
         maxPrice,
         startDate,
+        radius,
         endDate: null
     })
     const navigation = useNavigation<NavigationProps>()
     const dispatch = useAppDispatch()
-    const submitFilters = () => {
+    const submitFilters = async () => {
         dispatch(setFiltersState(choosedFilters))
         navigation.goBack()
     }
     const setFiltersStringValues = (name: string, value: string) => {
         setChoosedFilters({ ...choosedFilters, [name]: value.replace(/[^0-9]/g, '') })
     }
+    const setFiltersNumberValues = (name: string, value: number, infinityValue: number) => {
+        setChoosedFilters({ ...choosedFilters, [name]: value === infinityValue ? null : value })
+    }
     const setFiltersDateValues = (name: string, value: number | undefined) => {
-        if(value)
-        setChoosedFilters({ ...choosedFilters, [name]: new Date(value)})
+        if (value)
+            setChoosedFilters({ ...choosedFilters, [name]: new Date(value) })
     }
     const clearFilters = () => {
         setChoosedFilters({
@@ -45,14 +52,16 @@ const FilterModalView = ({ }: IMainViewProps) => {
             minPrice: null,
             maxPrice: null,
             startDate: null,
-            endDate: null
+            endDate: null,
+            radius: null
         })
         dispatch(setFiltersState({
             tags: [],
             minPrice: null,
             maxPrice: null,
             startDate: null,
-            endDate: null
+            endDate: null,
+            radius: null
         }))
     }
     return (
@@ -66,7 +75,7 @@ const FilterModalView = ({ }: IMainViewProps) => {
                         <H3>Price</H3>
                         <StyledInputsRangeContainer>
                             <View style={{ flex: 0.5 }}>
-                                <PrimaryFormInput keyboardType='numeric' inputStyle="Primary"  value={choosedFilters.minPrice?.toString()} onChangeText={(value) => setFiltersStringValues("minPrice", value)} placeholder="Min" />
+                                <PrimaryFormInput keyboardType='numeric' inputStyle="Primary" value={choosedFilters.minPrice?.toString()} onChangeText={(value) => setFiltersStringValues("minPrice", value)} placeholder="Min" />
                             </View>
                             <View style={{ flex: 0.5 }}>
                                 <PrimaryFormInput keyboardType='numeric' inputStyle="Primary" value={choosedFilters.maxPrice?.toString()} onChangeText={(value) => setFiltersStringValues("maxPrice", value)} placeholder="Max" />
@@ -78,10 +87,34 @@ const FilterModalView = ({ }: IMainViewProps) => {
                         <H3>Date</H3>
                         <StyledInputsRangeContainer>
                             <View style={{ flex: 0.5 }}>
-                                <PrimaryDatePicker onChange={(value) => setFiltersDateValues("startDate", value.nativeEvent.timestamp)} placeholder="Min date" minimumDate={new Date} value={choosedFilters.startDate || new Date}  initialValue={new Date} />
+                                <PrimaryDatePicker onChange={(value) => setFiltersDateValues("startDate", value.nativeEvent.timestamp)} placeholder="Min date" minimumDate={new Date} value={choosedFilters.startDate || new Date} initialValue={new Date} />
                             </View>
                             <View style={{ flex: 0.5 }}>
-                            <PrimaryDatePicker onChange={(value) => setFiltersDateValues("endDate", value.nativeEvent.timestamp)} placeholder="Max date" minimumDate={new Date} value={choosedFilters.startDate || new Date}  initialValue={new Date} />
+                                <PrimaryDatePicker onChange={(value) => setFiltersDateValues("endDate", value.nativeEvent.timestamp)} placeholder="Max date" minimumDate={new Date} value={choosedFilters.startDate || new Date} initialValue={new Date} />
+                            </View>
+                        </StyledInputsRangeContainer>
+                    </StyledFiltersSection>
+                    <Line />
+                    <StyledFiltersSection>
+                        <H3>Distance</H3>
+                        <StyledInputsRangeContainer>
+                            <Slider
+                                style={{ flex: 1 }}
+                                step={1}
+                                value={choosedFilters.radius ? choosedFilters.radius : 51}
+                                minimumValue={1}
+                                maximumValue={51}
+                                tapToSeek
+                                onValueChange={(value) => setFiltersNumberValues("radius", value, 51)}
+                                minimumTrackTintColor="#2671FF"
+                                maximumTrackTintColor="#F2F5FA"
+                            />
+                            <View style={{ width: 120, alignItems: "center", justifyContent: "center" }}>
+                                {!choosedFilters.radius ?
+                                    <H6>Never mind</H6>
+                                    :
+                                    <H6>{t("kilometersAway", { count: choosedFilters.radius })}</H6>
+                                }
                             </View>
                         </StyledInputsRangeContainer>
                     </StyledFiltersSection>

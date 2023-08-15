@@ -14,7 +14,7 @@ const FriendsClusters = () => {
   const dispatch = useAppDispatch();
   const netInfo = useNetInfo();
   useEffect(() => {
-    if (!netInfo.isConnected || !!netInfo.isInternetReachable) {
+    if (!netInfo.isConnected) {
       return;
     }
     dispatch(getUpdatedFriendsLocationThunk());

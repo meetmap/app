@@ -19,6 +19,7 @@ import EventCarousel from '../../shared/Carousel'
 import useAxios from '../../hooks/useAxios'
 import EventTag from '../../shared/Tags/EventTag'
 import { getEventByCid } from '../../api/events'
+import EventSm from '../../shared/EventInList/EventSm'
 
 
 export interface IEventModalViewProps {
@@ -30,7 +31,7 @@ export interface IEventModalViewProps {
     }
 }
 
-const EventModalView = ({route, navigation}: IEventModalViewProps) => {
+const EventModalView = ({ route, navigation }: IEventModalViewProps) => {
     const { data: eventData, loading: eventDataLoading, error } = useAxios<IEvent>(getEventByCid(route.params.eventCid))
     const userCoordinates = useAppSelector(state => state.locationSlice.userCoordinates)
 
@@ -121,9 +122,6 @@ const EventModalView = ({route, navigation}: IEventModalViewProps) => {
                                             <H6>{item.name}</H6>
                                             <P>{item.amount !== -1 && item.amount}</P>
                                         </StyledTicketHeader>
-                                        {/* {item.description &&
-                                        <P>{item.description}</P>
-                                    } */}
                                     </StyledTicket>
                                 )}
                                 keyExtractor={item => item.name}
@@ -156,17 +154,19 @@ const EventModalView = ({route, navigation}: IEventModalViewProps) => {
                     </StyledEventFooterActions>
                 </StyledEventFooter>
             </StyledEventModalContent>
-            {/* <StyledSimilarEventsContainer>
-                <H3 style={{paddingLeft: 16}}>{t("similarEvents")}</H3>
-                <StyledSimilarEvents
-                    contentContainerStyle={{ paddingBottom: 25, paddingHorizontal: 16, gap: 8 }}
-                    data={[eventData, eventData, eventData, eventData] as IEvent[]}
-                    horizontal={true}
-                    scrollEnabled
-                    renderItem={({ item }) => <EventSm eventData={item as IEvent} />}
-                    keyExtractor={item => item.id}
-                />
-            </StyledSimilarEventsContainer> */}
+            {eventData.hits.totalCount > 0 &&
+                <StyledSimilarEventsContainer>
+                    <H3 style={{ paddingLeft: 16 }}>{t("similarEvents")}</H3>
+                    <FlatList
+                        contentContainerStyle={{ paddingBottom: 25, paddingHorizontal: 16, gap: 8 }}
+                        data={eventData.hits.paginatedResults}
+                        horizontal={true}
+                        scrollEnabled
+                        renderItem={({ item }) => <EventSm eventData={item} />}
+                        keyExtractor={item => item.id}
+                    />
+                </StyledSimilarEventsContainer>
+            }
         </ScrollView>
     )
 }
@@ -233,6 +233,7 @@ const StyledTicket = styled(View)`
 const StyledTicketHeader = styled(View)`
     justify-content: space-between;
     flex-direction: row;
+    gap: 6px;
 `
 const StyledTagsView = styled(View)`
     gap: 6px;
@@ -240,8 +241,4 @@ const StyledTagsView = styled(View)`
 const StyledSimilarEventsContainer = styled(View)`
     gap: 6px;
     padding-top: 24px;
-`
-const StyledSimilarEvents = styled(FlatList)`
-    flex-direction: row;
-    gap: 6px;
 `

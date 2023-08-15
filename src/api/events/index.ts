@@ -1,8 +1,10 @@
-import {ICreateEvent, IEvent, IEventByLocation, ITag} from '../../types/event';
-import {IPaginateRespose} from '../../types/response';
+import { Axios, AxiosError } from 'axios';
+import { store } from '../../store/store';
+import { ICreateEvent, IEvent, IEventByLocation, ITag } from '../../types/event';
+import { IPaginateRespose } from '../../types/response';
 import { IPartialUser } from '../../types/users';
-import {getAxios} from '../axios';
-import {EVENTS_URL} from '../baseUrl';
+import { getAxios } from '../axios';
+import { EVENTS_URL } from '../baseUrl';
 import FormData from 'form-data';
 
 export const getEventByCid = async (eventCid: string) => {
@@ -28,18 +30,29 @@ export const getEventsListByCids = async (
 export interface ISearchEventsParams {
   q: string;
   page?: number;
-  tags: string[];
-  minPrice: number | null;
-  maxPrice: number | null;
-  startDate: Date | null;
-  endDate: Date | null;
+  tags: string[]
+  minPrice: number | null
+  maxPrice: number | null
+  startDate: Date | null
+  endDate: Date | null
+  radius: number | null
+  lat: number
+  lng: number
 }
 
 export const searchEvents = async (params: ISearchEventsParams) => {
+  const { userCoordinates } = store.getState().locationSlice
+  if (params.radius && userCoordinates) {
+    params.lat = userCoordinates.lat
+    params.lng = userCoordinates.lng
+  } 
   const res = await getAxios('events', true).get<IPaginateRespose<IEvent>>(
     `/events`,
     {
-      params,
+      params: {
+        ...params,
+        radius: params.radius
+      },
     },
   );
   return res.data;

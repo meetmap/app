@@ -8,6 +8,7 @@ export interface IFilters {
     maxPrice: number | null
     startDate: Date | null
     endDate: Date | null
+    radius: number | null
 }
 
 interface InitialState {
@@ -20,7 +21,8 @@ const initialState: InitialState = {
         minPrice: null,
         maxPrice: null,
         startDate: null,
-        endDate: null
+        endDate: null,
+        radius: null
     }
 };
 

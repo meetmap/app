@@ -23,15 +23,11 @@ export interface IEventsListModalViewProps {
 }
 
 const EventsListModalView = ({ route }: IEventsListModalViewProps) => {
-    //   const {data, loading, error} = useAxios<IPaginateRespose<IEvent>>(
-    //     getEventsListByCids(route.params.eventCids),
-    //   );
     const { data, loading, error, refreshing, onRefresh, paginate } =
         useAxiosPaginated<IEvent>(page =>
             getEventsListByCids(route.params.eventCids, page)
         );
     const { t } = useTranslation();
-
     if (loading) {
         return <LoaderContainer />;
     }
