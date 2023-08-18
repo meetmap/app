@@ -20,6 +20,8 @@ import useAxios from '../../hooks/useAxios'
 import EventTag from '../../shared/Tags/EventTag'
 import { getEventByCid } from '../../api/events'
 import EventSm from '../../shared/EventInList/EventSm'
+import EventLg from '../../shared/EventInList/EventLg'
+import LoadableImage from '../../shared/LoadableImage/LoadableImage'
 
 
 export interface IEventModalViewProps {
@@ -75,10 +77,10 @@ const EventModalView = ({ route, navigation }: IEventModalViewProps) => {
         )
     }
     return (
-        <ScrollView contentContainerStyle={{ paddingBottom: 24 }}>
+        <ScrollView bounces={false} contentContainerStyle={{ paddingBottom: 24 }}>
             <StyledEventModalContent>
                 <StyledEventImgContainer>
-                    <EventCarousel eventsImagesList={eventData.assets} />
+                    <LoadableImage source={{uri: eventData.assets[0]}}/>
                     <LikeButton likeCount={eventData.stats.likes} eventCid={eventData.cid} isLiked={eventData.userStats.isUserLike} />
                 </StyledEventImgContainer>
                 <EventInfoContainer>
@@ -157,12 +159,22 @@ const EventModalView = ({ route, navigation }: IEventModalViewProps) => {
             {eventData.hits.totalCount > 0 &&
                 <StyledSimilarEventsContainer>
                     <H3 style={{ paddingLeft: 16 }}>{t("similarEvents")}</H3>
-                    <FlatList
+                    {/* <FlatList
                         contentContainerStyle={{ paddingBottom: 25, paddingHorizontal: 16, gap: 8 }}
                         data={eventData.hits.paginatedResults}
                         horizontal={true}
                         scrollEnabled
                         renderItem={({ item }) => <EventSm eventData={item} />}
+                        keyExtractor={item => item.id}
+                    /> */}
+                    <FlatList
+                        // onEndReached={data.nextPage ? paginate : null}
+                        // ListFooterComponent={data.nextPage ? <LoaderContainer /> : null}
+                        contentContainerStyle={{ paddingBottom: 24, paddingHorizontal: 16 }}
+                        data={eventData.hits.paginatedResults}
+                        horizontal={false}
+                        scrollEnabled={false}
+                        renderItem={({ item }) => <EventLg eventData={item} />}
                         keyExtractor={item => item.id}
                     />
                 </StyledSimilarEventsContainer>

@@ -10,31 +10,11 @@ import { searchEvents } from '../../api/events'
 import { IPaginateRespose } from '../../types/response'
 import { useAppSelector } from '../../store/hooks'
 
-const SearchEventsDataList = ({ searchEventsData, isSearchLoading, searchError, setSearchEventsData, searchInputData }: { searchEventsData: IPaginateRespose<IEvent> | null, isSearchLoading: boolean, searchError: AxiosError | null, setSearchEventsData: Dispatch<SetStateAction<IPaginateRespose<IEvent> | null>>, searchInputData: string | null }) => {
+const SearchEventsDataList = ({ searchEventsData, isSearchLoading, searchError, paginate }: { searchEventsData: IPaginateRespose<IEvent> | null, isSearchLoading: boolean, searchError: AxiosError | null, paginate: () => Promise<void> }) => {
     const { t } = useTranslation()
-    const [refreshing, setRefreshing] = useState(false);
-    const filters = useAppSelector(state => state.filtersSlice.filters)
+    // const [refreshing, setRefreshing] = useState(false);
+    // const filters = useAppSelector(state => state.filtersSlice.filters)
 
-    const onRefresh = useCallback(async () => {
-        if (searchInputData) {
-            const events = await searchEvents({
-                q: searchInputData,
-                ...filters
-            })
-            setSearchEventsData(events)
-        }
-        setRefreshing(false)
-    }, []);
-    const paginate = async () => {
-        if (searchInputData && searchEventsData && searchEventsData.nextPage) {
-            const events = await searchEvents({
-                q: searchInputData,
-                page: searchEventsData?.nextPage,
-                ...filters
-            })
-            setSearchEventsData(events)
-        }
-    }
     if (isSearchLoading) {
         return (
             <LoaderContainer />
@@ -52,7 +32,7 @@ const SearchEventsDataList = ({ searchEventsData, isSearchLoading, searchError, 
             <FlatList
                 onEndReached={paginate}
                 // ListFooterComponent={<LoaderContainer />}
-                refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+                // refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
                 contentContainerStyle={{ paddingBottom: 25 }}
                 data={searchEventsData.paginatedResults}
                 horizontal={false}

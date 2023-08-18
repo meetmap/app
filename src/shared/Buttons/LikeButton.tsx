@@ -11,17 +11,17 @@ import { NavigationProps } from '../../types/NavigationProps';
 
 const LikeButton = ({ eventCid, isLiked, likeCount }: { eventCid: string, isLiked: boolean, likeCount?: number }) => {
     const [isLikedState, setIsLikedState] = useState(isLiked)
-    const [likeCountState, setLikeCountState] = useState(likeCount)
+    // const [likeCountState, setLikeCountState] = useState(likeCount)
     const navigation = useNavigation<NavigationProps>()
     const LikeEvent = async () => {
         setIsLikedState(true)
-        setLikeCountState(state => state != undefined ? state + 1 : undefined)
+        // setLikeCountState(state => state != undefined ? state + 1 : undefined)
 
         await likeEvent(eventCid)
     }
     const RemoveLikeOnEvent = async () => {
         setIsLikedState(false)
-        setLikeCountState(state => state != undefined ? state - 1 : undefined)
+        // setLikeCountState(state => state != undefined ? state - 1 : undefined)
         await removeLikeOnEvent(eventCid)
     }
     const HandleLikeEvent = async () => {
@@ -41,13 +41,13 @@ const LikeButton = ({ eventCid, isLiked, likeCount }: { eventCid: string, isLike
             >
                 <HeartIcon />
             </StyledLikeButton>
-            {!!likeCountState && likeCountState > 0 &&
+            {/* {!!likeCountState && likeCountState > 0 &&
                 <TouchableOpacity
                     onPress={() => navigation.navigate("EventLikesModalView", { eventCid })}
                 >
                     <P textcolor='White'>{likeCountState}</P>
                 </TouchableOpacity>
-            }
+            } */}
         </StyledLikeContainer>
     )
 }

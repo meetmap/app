@@ -49,8 +49,8 @@ const Navigator = () => {
                 user ?
                     <Stack.Group >
                         <Stack.Screen name="MainView" component={MainView} options={{ headerShown: false }} />
-                        <Stack.Screen options={{ presentation: "modal", headerShown: false }} name='EventModalView' component={EventModalView} />
-                        <Stack.Screen options={{ presentation: "modal", headerShown: false }} name='EventsListModalView' component={EventsListModalView} />
+                        <Stack.Screen options={{ title: ""}} name='EventModalView' component={EventModalView} />
+                        <Stack.Screen options={{ title: "" }} name='EventsListModalView' component={EventsListModalView} />
                         <Stack.Screen options={{ presentation: "modal", headerShown: false }} name='FriendsModalView' component={FriendsModalView} />
                         <Stack.Screen options={{ presentation: "modal", headerShown: false }} name='UsersListModalView' component={UsersListModalView} />
                         <Stack.Screen options={{ presentation: "modal", headerShown: false }} name='InviteFriendsModalView' component={InviteFriendsModalView} />
@@ -71,7 +71,6 @@ const Navigator = () => {
                         <Stack.Screen
                             options={({ navigation }) => ({
                                 title: "",
-                                // headerShown: false,
                                 headerRight: (data) => (
                                     <TouchableOpacity
                                         onPress={() => navigation.navigate('SettingsView')}

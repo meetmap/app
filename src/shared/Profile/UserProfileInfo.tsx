@@ -7,16 +7,19 @@ import LoadableProfileImage from "../LoadableImage/LoadableProfileImage";
 import { useNavigation } from "@react-navigation/native";
 import { NavigationProps } from "../../types/NavigationProps";
 import { useTranslation } from "react-i18next";
-// import AppIcon from '../../assets/appIcon.png'
+import { getTimeDifference } from "../../hooks/getTimeDifference";
+
 const UserProfileInfo = ({ userData }: { userData: IPartialUser }) => {
   const navigation = useNavigation<NavigationProps>()
   const { t } = useTranslation()
+  const onlineTime = getTimeDifference(userData.lastTimeOnline)
   return (
     <StyledUserInfoHead>
       <LoadableProfileImage profilePicture={userData.profilePicture} />
       <StyledUserTextInfo>
         <StyledUserTextGeneralInfo>
           {userData.name && <H1>{userData.name}</H1>}
+          <P textcolor={onlineTime ? "Grey" : "Primary"} style={{ textAlign: "center", paddingHorizontal: 18 }}>{t("online")} {onlineTime}</P>
           <TouchableOpacity onPress={() => navigation.navigate("UsersListModalView", { userCId: userData.cid, username: userData.username })}>
             {userData.friends && <P textcolor="Grey">{t('friendCount', { count: userData.friends.totalCount })}</P>}
           </TouchableOpacity>

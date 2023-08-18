@@ -40,18 +40,18 @@ export interface ISearchEventsParams {
   lng: number
 }
 
-export const searchEvents = async (params: ISearchEventsParams) => {
+export const searchEvents = async (params?: ISearchEventsParams) => {
   const { userCoordinates } = store.getState().locationSlice
-  if (params.radius && userCoordinates) {
+  if (params?.radius && userCoordinates) {
     params.lat = userCoordinates.lat
     params.lng = userCoordinates.lng
-  } 
+  }
   const res = await getAxios('events', true).get<IPaginateRespose<IEvent>>(
     `/events`,
     {
       params: {
         ...params,
-        radius: params.radius
+        radius: params?.radius
       },
     },
   );
@@ -113,9 +113,16 @@ export const removeLikeOnEvent = async (eventCid: string) => {
   );
   return res.data;
 };
-export const getTags = async () => {
+
+export interface ISearchTagsParams {
+  q?: string;
+  page?: number;
+}
+
+export const getTags = async (params?: ISearchTagsParams) => {
   const res = await getAxios('events', true).get<IPaginateRespose<ITag>>(
     `/events/tags`,
+    { params },
   );
   return res.data;
 };

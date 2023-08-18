@@ -4,12 +4,12 @@ import styled from 'styled-components/native'
 import { NavigationProps } from '../../types/NavigationProps'
 import { P } from '../Text'
 import { ITag } from '../../types/event'
-import { TouchableOpacity } from 'react-native'
+import { TouchableOpacity, View } from 'react-native'
 
 const EventTag = ({tag}: {tag: ITag}) => {
-    const navigation = useNavigation<NavigationProps>()
+    // const navigation = useNavigation<NavigationProps>()
     return (
-        <StyledEventTag onPress={() => navigation.navigate("SearchModalView")}>
+        <StyledEventTag>
             <P>{tag.label}</P>
         </StyledEventTag>
     )
@@ -17,7 +17,7 @@ const EventTag = ({tag}: {tag: ITag}) => {
 
 export default EventTag
 
-const StyledEventTag = styled(TouchableOpacity)`
+const StyledEventTag = styled(View)`
     padding: 6px 8px;
     border-radius: 12px;
     border: 1px solid #E6EAF2;

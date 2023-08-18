@@ -17,12 +17,12 @@ const ClusterEventPin = ({ eventData, count, coordinates, cids }: {
 
     const navigation = useNavigation<NavigationProps>();
 
-    const handlePressOnEventCluster = async () => {
-        navigation.navigate("EventsListModalView", { eventCids: cids })
-    }
+    // const handlePressOnEventCluster = async () => {
+    //     navigation.navigate("EventsListModalView", { eventCids: cids })
+    // }
     return (
         <StyledEventPinContent
-            onPress={handlePressOnEventCluster}
+            // onPress={handlePressOnEventCluster}
         >
             <StyledEventImage
                 source={{ uri: eventData.thumbnail }}
@@ -44,7 +44,7 @@ export default ClusterEventPin
 
 
 
-const StyledEventPinContent = styled(TouchableOpacity)`
+const StyledEventPinContent = styled(View)`
     background-color: white;
     position: relative;
     border-radius: 18px;

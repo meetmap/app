@@ -79,5 +79,7 @@
     "signIn": "Sign in",
     "failedGetResMessage": "Failed to get a response from the server",
     "networkErrorMessage": "No network connection",
-    "unknownErrorMessage": "An unknown error has occurred"
+    "unknownErrorMessage": "An unknown error has occurred",
+    "now":  "Now",
+    "online": "Online"
 }

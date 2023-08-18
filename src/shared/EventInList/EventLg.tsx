@@ -36,12 +36,15 @@ const EventLg = ({ eventData }: { eventData: IEvent }) => {
     const { flyTo } = useMap()
 
     return (
-        <StyledEventLgContainer onPress={() => navigation.navigate("EventModalView", { eventCid: eventData.cid })}>
+        <StyledEventLgContainer onPress={() => {
+            navigation.popToTop();
+            navigation.push("EventModalView", { eventCid: eventData.cid })
+        }}>
             <StyledEventLgImageContainer>
                 <LoadableImage source={{
                     uri: eventData.thumbnail
                 }} />
-                <LikeButton eventCid={eventData.cid} isLiked={eventData.userStats.isUserLike}/>
+                <LikeButton eventCid={eventData.cid} isLiked={eventData.userStats.isUserLike} />
             </StyledEventLgImageContainer>
             <StyledAboutEventContainer>
                 <StyledAboutEventTextInfo>

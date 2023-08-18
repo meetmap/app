@@ -1,5 +1,5 @@
-import { useState } from "react"
-import { IEvent } from "../../types/event"
+import { useEffect, useState } from "react"
+import { IEvent, ITag } from "../../types/event"
 import styled from "styled-components/native"
 import { View } from "react-native"
 import { searchEvents } from "../../api/events"
@@ -13,38 +13,31 @@ import { IPaginateRespose } from "../../types/response"
 import { useAppSelector } from "../../store/hooks"
 import { getFromSecureStore } from "../../api/secure-store"
 import { SecureStoreKeys } from "../../constants"
+import useAxiosSearch from "../../hooks/useAxiosSearch"
 
 export interface ISearchModalViewProps {
     navigation: NativeStackNavigationProp<RootStackParamList, 'SearchModalView'>;
 }
 
 const SearchModalView = ({ }: ISearchModalViewProps) => {
-    const [searchEventsData, setSearchEventsData] = useState<IPaginateRespose<IEvent> | null>(null)
-    const [isSearchLoading, setIsSearchLoading] = useState(false)
-    const [searchInputData, setSearchInputData] = useState<string | null>(null)
-    const [searchError, setSearchError] = useState<AxiosError | null>(null);
 
     const filters = useAppSelector(state => state.filtersSlice.filters)
-
+    const { data: searchEventsData, error: searchError, loading: isSearchLoading, paginate, fetchData } = useAxiosSearch<IEvent>(searchEvents)
+    const [searchText, setSearchText] = useState("")
     const searchEventsDataFunc = async (text: string) => {
-        setIsSearchLoading(true)
-        if (text.length > 0) {
-            setSearchInputData(text)
-            try {
-                const events = await searchEvents({
-                    q: text,
-                    ...filters
-                })
-                setSearchEventsData(events)
-            } catch (error) {
-                setSearchError(error as AxiosError)
-            }
-        } else {
-            setSearchInputData(null)
-            setSearchEventsData(null)
-        }
-        setIsSearchLoading(false)
+        setSearchText(text)
     }
+    const fetchEvents = async () => {
+        await fetchData({
+            q: searchText,
+            ...filters
+        })
+    }
+    
+    useEffect(() => {
+        fetchEvents()
+    }, [filters, searchText])
+    
 
 
     const { t } = useTranslation()
@@ -62,8 +55,7 @@ const SearchModalView = ({ }: ISearchModalViewProps) => {
                 searchEventsData={searchEventsData}
                 isSearchLoading={isSearchLoading}
                 searchError={searchError}
-                setSearchEventsData={setSearchEventsData}
-                searchInputData={searchInputData}
+                paginate={paginate}
             />
         </StyledSearchModal>
     )

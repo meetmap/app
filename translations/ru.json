@@ -84,5 +84,7 @@
     "signIn": "Войти",
     "failedGetResMessage": "Не удалось получить ответ от сервера",
     "networkErrorMessage": "Отсутствует подключение к сети",
-    "unknownErrorMessage": "Произошла неизвестная ошибка"
+    "unknownErrorMessage": "Произошла неизвестная ошибка",
+    "now": "Сейчас",
+    "online": "В сети"
 }

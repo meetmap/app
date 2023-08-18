@@ -25,7 +25,6 @@ const ProfileView = ({ route, navigation }: IPageProps) => {
     const { data: userData, loading: userDataLoading, onRefresh, refreshing, error } = useAxios<IPartialUser>(getUserById(route.params.userId))
     const { flyTo } = useMap()
 
-
     const { t } = useTranslation()
 
     if (userDataLoading) {

@@ -8,8 +8,6 @@ import FriendMarker from './FriendMarker';
 import { useNetInfo } from '@react-native-community/netinfo';
 import AppError from '../../../utils/AppError';
 
-// const AnimatedMarker = Animated.createAnimatedComponent(Marker);
-
 const FriendsClusters = () => {
   const dispatch = useAppDispatch();
   const netInfo = useNetInfo();
@@ -26,7 +24,9 @@ const FriendsClusters = () => {
   }, [netInfo.isConnected]);
 
   const { friendsCoordinates } = useAppSelector(state => state.locationSlice);
+
   const mapFiler = useAppSelector(state => state.mapSlice.mapFilters);
+
   if (mapFiler === 'Friends' || mapFiler === 'All') {
     return (
       <>

@@ -9,13 +9,13 @@ import { useNavigation } from "@react-navigation/native";
 const EventPin = ({ eventData }: { eventData: IEventByLocation }) => {
     const navigation = useNavigation<NavigationProps>();
     const { mapViewRef, flyTo } = useMap();
-    const checkEvent = () => {
-        // flyTo({lat: eventData.coordinates[1], lng: eventData.coordinates[0]})
-        navigation.navigate("EventModalView", { eventCid: eventData.cid })
-    }
+    // const checkEvent = () => {
+    //     // flyTo({lat: eventData.coordinates[1], lng: eventData.coordinates[0]})
+    //     navigation.navigate("EventModalView", { eventCid: eventData.cid })
+    // }
     return (
         <StyledEventPinContent
-            onPress={checkEvent}
+            // onPress={checkEvent}
         >
             <StyledEventImage height={40} width={40} source={{ uri: eventData.thumbnail || "" }} />
         </StyledEventPinContent>
@@ -25,7 +25,7 @@ const EventPin = ({ eventData }: { eventData: IEventByLocation }) => {
 export default EventPin
 
 
-const StyledEventPinContent = styled(TouchableOpacity)`
+const StyledEventPinContent = styled(View)`
     background-color: white;
     border-radius: 18px;
     padding: 2px;

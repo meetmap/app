@@ -8,19 +8,25 @@ import {
 import axios, { AxiosResponse, AxiosError } from 'axios';
 import { IPaginateRespose } from '../types/response';
 
+
+type SearchParams = {
+    q?: string
+    page?: number
+}
+
 type UseAxiosResult<T> = {
     data: T | null;
     loading: boolean;
     error: AxiosError | null;
     refreshing: boolean;
     // setData: Dispatch<SetStateAction<T | null>>
-    fetchData: () => Promise<void>;
+    fetchData: (params?: SearchParams) => Promise<void>;
     onRefresh: () => Promise<void>;
     paginate: () => Promise<void>;
 };
 
-const useAxiosPaginated = <T extends unknown>(
-    axiosPromise: (page?: number) => Promise<IPaginateRespose<T>>
+const useAxiosSearch = <T extends unknown>(
+    axiosPromise: (params?: SearchParams) => Promise<IPaginateRespose<T>>
 ): UseAxiosResult<IPaginateRespose<T>> => {
     const [data, setData] = useState<IPaginateRespose<T> | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
@@ -28,17 +34,16 @@ const useAxiosPaginated = <T extends unknown>(
     const [error, setError] = useState<AxiosError | null>(null);
     const [refreshing, setRefreshing] = useState(false);
 
-    const fetchData = async () => {
-        setLoading(true)
+    const fetchData = async (params?: SearchParams) => { // Обновление с параметром
+        setLoading(true);
         try {
-            const response = await axiosPromise();
-            console.log(response)
+            const response = await axiosPromise(params); // Используйте параметры при вызове axiosPromise
             setData(response);
             setLoading(false);
         } catch (error) {
             setData(null);
             if (error instanceof AxiosError) {
-                setError(error as AxiosError);
+                setError(error);
             }
             setLoading(false);
         }
@@ -50,13 +55,13 @@ const useAxiosPaginated = <T extends unknown>(
         setRefreshing(false);
     }, []);
 
-    const paginate = async () => {
+    const paginate = async (params?: SearchParams) => {
         if (loading || paginateLoading || !data?.nextPage) {
             return;
         }
         try {
             setPaginateLoading(true)
-            const response = await axiosPromise(data.nextPage);
+            const response = await axiosPromise({page: data.nextPage, q: params?.q});
             setData(state => ({
                 ...response,
                 paginatedResults: (state ? [...state.paginatedResults] : []).concat(
@@ -79,4 +84,4 @@ const useAxiosPaginated = <T extends unknown>(
     return { data, loading, error, refreshing, onRefresh, fetchData, paginate };
 };
 
-export default useAxiosPaginated;
+export default useAxiosSearch;
