@@ -4,6 +4,8 @@ import React, { ReactNode, useState } from 'react'
 import { TextInput, TextInputProps, View, Text, Modal, Button, TouchableOpacity } from "react-native";
 import { H1, Span } from "../Text";
 import RNDateTimePicker, { DatePickerOptions } from "@react-native-community/datetimepicker";
+import { useTranslation } from "react-i18next";
+import moment from "moment";
 
 interface IPrimaryDatePicker extends DatePickerOptions {
     name?: string
@@ -13,11 +15,19 @@ interface IPrimaryDatePicker extends DatePickerOptions {
     icon?: ReactNode
     inputStyle?: "White" | "Primary"
     placeholder?: string
-    initialValue?: Date
+    initialValue?: Date,
+    locale?: string | undefined
+    mode?: "countdown"| "date" | "datetime" | "time"
 }
 
-const PrimaryDatePicker = ({ inputStyle = "Primary", initialValue, placeholder = "Pick date", name, label, ...rest }: IPrimaryDatePicker) => {
+const PrimaryDatePicker = ({ inputStyle = "Primary", initialValue, placeholder = "Pick date", mode = "date", name, label, ...rest }: IPrimaryDatePicker) => {
     const [opened, setOpened] = useState(false)
+    const { i18n, t } = useTranslation()
+    const momentLocaleFormat = {
+        en: "MMM D - h A",
+        ru: "D MMM - H:M"
+    }
+    const formattedStartTime = moment(rest.value).locale(i18n.language).format(momentLocaleFormat[i18n.language as keyof typeof momentLocaleFormat]);
     return (
         <>
             <StyledInputContent>
@@ -26,15 +36,15 @@ const PrimaryDatePicker = ({ inputStyle = "Primary", initialValue, placeholder =
                 }
                 <StyledPrimaryDatePikerButton inputStyle={inputStyle} onPress={() => setOpened(data => !data)}>
                     <StyledPrimaryDatePikerButtonText>
-                        {rest.value.toDateString() == initialValue?.toDateString() ?
-                            placeholder : rest.value.toDateString()
+                        {rest.value.toString() == initialValue?.toString() ?
+                            placeholder : formattedStartTime
                         }
                     </StyledPrimaryDatePikerButtonText>
                 </StyledPrimaryDatePikerButton>
             </StyledInputContent>
             <Modal
                 visible={opened}
-                animationType="slide"
+                animationType="fade"
                 onRequestClose={() => setOpened(false)}
                 transparent={true}
             >
@@ -42,11 +52,11 @@ const PrimaryDatePicker = ({ inputStyle = "Primary", initialValue, placeholder =
                     <StyledPickDateModal>
                         <RNDateTimePicker
                             testID="dateTimePicker"
-                            mode={"date"}
-                            display="spinner"
+                            locale={i18n.language}
                             {...rest}
+                            mode={mode}
                         />
-                        <Button title="Submit" onPress={() => setOpened(false)} />
+                        <Button title={t("submit")} onPress={() => setOpened(false)} />
                     </StyledPickDateModal>
                 </StyledModalBackground>
             </Modal>

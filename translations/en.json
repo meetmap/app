@@ -81,5 +81,11 @@
     "networkErrorMessage": "No network connection",
     "unknownErrorMessage": "An unknown error has occurred",
     "now":  "Now",
-    "online": "Online"
+    "online": "Online",
+    "public": "Public",
+    "private": "Private",
+    "ageLimit": "Age limit",
+    "allAges": "All ages",
+    "startTime": "Start time",
+    "endTime": "End time"
 }

@@ -20,7 +20,7 @@
     "username": "Имя пользователя",
     "password": "Пароль",
     "repeatPassword": "Повторите пароль",
-    "submit": "Отправить",
+    "submit": "Подтвердить",
     "inviteToAnEvent": "Пригласить на событие",
     "invite": "Пригласить",
     "invited": "Приглашен",
@@ -86,5 +86,11 @@
     "networkErrorMessage": "Отсутствует подключение к сети",
     "unknownErrorMessage": "Произошла неизвестная ошибка",
     "now": "Сейчас",
-    "online": "В сети"
+    "online": "В сети",
+    "public": "Публичный",
+    "private": "Приватный",
+    "ageLimit": "Ограничениe по возрасту",
+    "allAges": "Все возраста",
+    "startTime": "Начало",
+    "endTime": "Конец"
 }

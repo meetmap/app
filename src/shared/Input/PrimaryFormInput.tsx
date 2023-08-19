@@ -45,7 +45,7 @@ export default PrimaryFormInput
 const StyledInputContent = styled(View)`
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 6px;
     width: 100%;
 `
 const StyledInputWrapper = styled(View)`

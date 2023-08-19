@@ -36,8 +36,8 @@ const FilterModalView = ({ }: IMainViewProps) => {
         dispatch(setFiltersState(choosedFilters))
         navigation.goBack()
     }
-    const setFiltersStringValues = (name: string, value: string) => {
-        setChoosedFilters({ ...choosedFilters, [name]: value.replace(/[^0-9]/g, '') })
+    const setFiltersStringValues = (key: keyof IFilters, value: string) => {
+        setChoosedFilters((state) => ({ ...state, [key]: value.replace(/[^0-9]/g, '') }))
     }
     const setFiltersNumberValues = (name: string, value: number, infinityValue: number) => {
         setChoosedFilters({ ...choosedFilters, [name]: value === infinityValue ? null : value })
@@ -110,10 +110,10 @@ const FilterModalView = ({ }: IMainViewProps) => {
                                 maximumTrackTintColor="#F2F5FA"
                             />
                             <View style={{ width: 120, alignItems: "center", justifyContent: "center" }}>
-                                {!choosedFilters.radius ?
-                                    <H6>Never mind</H6>
-                                    :
+                                {choosedFilters.radius ?
                                     <H6>{t("kilometersAway", { count: choosedFilters.radius })}</H6>
+                                    :
+                                    <H6>Never mind</H6>
                                 }
                             </View>
                         </StyledInputsRangeContainer>
