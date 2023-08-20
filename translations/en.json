@@ -82,10 +82,15 @@
     "unknownErrorMessage": "An unknown error has occurred",
     "now":  "Now",
     "online": "Online",
+    "eventName": "Event name",
+    "eventDescription": "Event description",
+    "accessibility": "Accessibility",
     "public": "Public",
     "private": "Private",
     "ageLimit": "Age limit",
     "allAges": "All ages",
     "startTime": "Start time",
-    "endTime": "End time"
+    "endTime": "End time",
+    "search": "Search",
+    "chooseEventLocation": "Choose event location"
 }

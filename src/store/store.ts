@@ -7,6 +7,7 @@ import locationSlice from "./slices/locationSlice";
 import mapSlice from "./slices/mapSlice";
 import globalErrorSlice from "./slices/globalErrorSlice";
 import filtersSlice from "./slices/filtersSlice";
+import createEventFormSlice from "./slices/createEventFormSlice";
 
 export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
@@ -28,7 +29,8 @@ export const store = configureStore({
     locationSlice,
     mapSlice,
     globalErrorSlice,
-    filtersSlice
+    filtersSlice,
+    createEventFormSlice
   },
 });
 

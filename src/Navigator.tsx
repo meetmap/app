@@ -28,6 +28,8 @@ import ErrorPopup from './shared/ErrorPopup';
 import FriendsModalView from './Views/FriendsModalView';
 import SearchModalView from './Views/SearchModalView';
 import EventLikesModalView from './Views/EventLikesModalView';
+import ChooseLocationView from './Views/ChooseLocationView';
+import CreateTicketModal from './Views/CreateTicketModal';
 const Stack = createNativeStackNavigator();
 
 const Navigator = () => {
@@ -49,7 +51,7 @@ const Navigator = () => {
                 user ?
                     <Stack.Group >
                         <Stack.Screen name="MainView" component={MainView} options={{ headerShown: false }} />
-                        <Stack.Screen options={{ title: ""}} name='EventModalView' component={EventModalView} />
+                        <Stack.Screen options={{ title: "" }} name='EventModalView' component={EventModalView} />
                         <Stack.Screen options={{ title: "" }} name='EventsListModalView' component={EventsListModalView} />
                         <Stack.Screen options={{ presentation: "modal", headerShown: false }} name='FriendsModalView' component={FriendsModalView} />
                         <Stack.Screen options={{ presentation: "modal", headerShown: false }} name='UsersListModalView' component={UsersListModalView} />
@@ -83,7 +85,19 @@ const Navigator = () => {
                             name="SelfProfileView"
                             component={SelfProfileView}
                         />
+
                         <Stack.Screen options={{ title: t("createEvent") }} name={"CreateEventView"} component={CreateEventView} />
+                        <Stack.Screen options={{ presentation: "modal", title: t("chooseEventLocation") }} name={"ChooseLocationView"} component={ChooseLocationView} />
+                        <Stack.Screen options={{
+                            presentation: "transparentModal",
+                            headerShown: false,
+                            contentStyle: {
+                                backgroundColor: 'transparent'
+                            },
+                            animation: "fade",
+                            title: t("chooseEventLocation")
+                        }} name={"CreateTicketModal"} component={CreateTicketModal} />
+
                         <Stack.Screen options={{ title: t("settings") }} name={"SettingsView"} component={SettingsView} />
                         <Stack.Screen
                             options={{

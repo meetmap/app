@@ -1,5 +1,6 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { StackNavigationProp } from "@react-navigation/stack";
+import { ITicket } from "../event";
 
 export type RootStackParamList = {
 
@@ -36,6 +37,10 @@ export type RootStackParamList = {
     FriendsModalView: undefined;
     
     CreateEventView: undefined;
+
+    ChooseLocationView: undefined;
+
+    CreateTicketModal: {ticket?: ITicket};
 
     WhoWillGoModalView: {eventCid: string}
 

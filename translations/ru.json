@@ -87,10 +87,15 @@
     "unknownErrorMessage": "Произошла неизвестная ошибка",
     "now": "Сейчас",
     "online": "В сети",
+    "eventName": "Названия события",
+    "eventDescription": "Описание события",
+    "accessibility": "Доступность",
     "public": "Публичный",
     "private": "Приватный",
     "ageLimit": "Ограничениe по возрасту",
     "allAges": "Все возраста",
     "startTime": "Начало",
-    "endTime": "Конец"
+    "endTime": "Конец",
+    "search": "Поиск",
+    "chooseEventLocation": "Укажите локацию мероприятия"
 }
