@@ -40,7 +40,6 @@ const EventModalView = ({ route, navigation }: IEventModalViewProps) => {
     const { data: eventData, loading: eventDataLoading, error } = useAxios<IEvent>(getEventByCid(route.params.eventCid))
     const {data: similarEventsData, loading: similarEventsLoading, paginate } = useAxiosPaginated<IEvent>((page) => getSimilarEventsByCid(route.params.eventCid, page))
     const userCoordinates = useAppSelector(state => state.locationSlice.userCoordinates)
-    console.log(eventData?.location)
     const { width } = Dimensions.get("screen")
     const { t, i18n } = useTranslation()
 

@@ -10,7 +10,7 @@ import styled from "styled-components/native";
 import { Image, ImageBackground, TouchableOpacity, View } from "react-native";
 import { useCalculateDistance } from "../../hooks/useCalculateDistance";
 import LoadableImage from "../LoadableImage/LoadableImage";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { IMainViewProps } from "../../Views/WelcomeView";
 import { NavigationProps } from "../../types/NavigationProps";
 import { useMap } from "../../hooks/MapProvider";
@@ -33,11 +33,15 @@ const EventLg = ({ eventData }: { eventData: IEvent }) => {
     }
     const formattedStartTime = moment(eventData.startTime).locale(i18n.language).format(momentLocaleFormat[i18n.language as keyof typeof momentLocaleFormat]);
     const navigation = useNavigation<NavigationProps>();
+    const route = useRoute();
     const { flyTo } = useMap()
 
     return (
         <StyledEventLgContainer onPress={() => {
-            navigation.popToTop();
+            // console.log(state.routeNames)
+            if(route.name.toLowerCase().includes("modal")){
+                navigation.popToTop();
+            }
             navigation.push("EventModalView", { eventCid: eventData.cid })
         }}>
             <StyledEventLgImageContainer>
