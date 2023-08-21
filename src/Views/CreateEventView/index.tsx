@@ -187,7 +187,7 @@ const CreateEventView = () => {
           <Span>Pick start/end time</Span>
           <View style={{ flexDirection: "row", gap: 8 }}>
             <View style={{ flex: 0.5 }}>
-              <PrimaryDatePicker mode="spinner" display='calendar' placeholder={t("startTime")} minimumDate={new Date} initialValue={new Date} value={eventFormValues.startTime || new Date} onChange={(value) => setFiltersDateValues("startTime", value.nativeEvent.timestamp)} />
+              <PrimaryDatePicker display="spinner" placeholder={t("startTime")} minimumDate={new Date} initialValue={new Date} value={eventFormValues.startTime || new Date} onChange={(value) => setFiltersDateValues("startTime", value.nativeEvent.timestamp)} />
             </View>
             <View style={{ flex: 0.5 }}>
               <PrimaryDatePicker display='spinner' placeholder={t("endTime")} minimumDate={new Date} initialValue={new Date} value={eventFormValues.endTime || new Date} onChange={(value) => setFiltersDateValues("endTime", value.nativeEvent.timestamp)} />
