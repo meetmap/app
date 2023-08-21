@@ -1,26 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import MapView, { Address } from "react-native-maps";
-import { ITag } from "../../types/event";
+import { ITag, ITicket } from "../../types/event";
 import { ICoordinates } from "./locationSlice";
+import { IEventFormValues } from "../../Views/CreateEventView";
 
-export interface IEventFormValues {
-    title: string
-    description: string
-    accessibility: "public" | "private"
-    startTime: Date | null
-    endTime: Date | null
-    ageLimit: number
-    location: ICoordinates | null
-    tickets: ITicket[]
-    tagsCids: string[]
-}
-
-export interface ITicket {
-    name: string
-    price: number
-    amount: number
-    description: string
-}
 
 interface InitialState {
     eventFormValues: IEventFormValues
@@ -37,7 +20,7 @@ const initialState: InitialState = {
         location: null,
         tickets: [],
         tagsCids: []
-      }
+    }
 };
 
 const createEventFormSlice = createSlice({
@@ -46,10 +29,16 @@ const createEventFormSlice = createSlice({
     reducers: {
         setEventFormValuesState: (state, action: { payload: IEventFormValues }) => {
             state.eventFormValues = action.payload
+        },
+        setTicketsState: (state, action: { payload: ITicket[] }) => {
+            state.eventFormValues.tickets = action.payload
+        },
+        setTagsState: (state, action: { payload: string[] }) => {
+            state.eventFormValues.tagsCids = action.payload
         }
     }
 });
 
-export const { setEventFormValuesState } = createEventFormSlice.actions;
+export const { setEventFormValuesState, setTicketsState, setTagsState } = createEventFormSlice.actions;
 
 export default createEventFormSlice.reducer;

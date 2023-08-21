@@ -1,14 +1,23 @@
 import { Axios, AxiosError } from 'axios';
 import { store } from '../../store/store';
-import { ICreateEvent, IEvent, IEventByLocation, ITag } from '../../types/event';
+import { ICreateEventFormValues, IEvent, IEventByLocation, ITag } from '../../types/event';
 import { IPaginateRespose } from '../../types/response';
 import { IPartialUser } from '../../types/users';
 import { getAxios } from '../axios';
 import { EVENTS_URL } from '../baseUrl';
 import FormData from 'form-data';
+import { IUploadImageResponce } from '../users';
 
 export const getEventByCid = async (eventCid: string) => {
-  const res = await getAxios('events', true).get(`/events/${eventCid}`);
+  const res = await getAxios('events', true).get<IEvent>(`/events/${eventCid}`);
+  return res.data;
+};
+export const getSimilarEventsByCid = async (eventCid: string, page?: number) => {
+  const res = await getAxios('events', true).get<IPaginateRespose<IEvent>>(`/events/${eventCid}/similar`, {
+    params: {
+      page
+    }
+  });
   return res.data;
 };
 export const getEventsListByCids = async (
@@ -134,15 +143,28 @@ export interface IUploadedImage {
 }
 
 export const createEvent = async (
-  rawEvent: ICreateEvent,
-  img: IUploadedImage,
+  eventData: ICreateEventFormValues,
 ) => {
+  const res = await getAxios('events', true).post<IEvent>('/events/create', eventData);
+  return res.data
+};
+export const uploadEventImages = async (
+  eventCid: string,
+  pictures: IUploadedImage[]
+): Promise<IUploadImageResponce> => {
   const formData = new FormData();
-  formData.append('photo', img);
-  formData.append('rawEvent', JSON.stringify(rawEvent));
-  return await getAxios('events', true).post('/events/create', formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
+  formData.append("eventId", eventCid)
+  pictures.forEach(picture => {
+    formData.append("photo", picture);
   });
+  const { data } = await getAxios('assets', true).post<IUploadImageResponce>(
+    `/upload/event-photos`,
+    formData,
+    {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    },
+  );
+  return data
 };

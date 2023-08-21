@@ -45,7 +45,7 @@ const EventLikesModalView = ({ route }: IEventLikesModalViewProps) => {
         <StyledEventsListModal>
             <H1>{t("eventLikes")}</H1>
             <FlatList
-                onEndReached={data.nextPage ? paginate : null}
+                onEndReached={data.nextPage ? () => paginate() : null}
                 ListFooterComponent={data.nextPage ? <LoaderContainer /> : null}
                 contentContainerStyle={{ paddingBottom: 25, gap: 8 }}
                 data={data.paginatedResults}

@@ -119,7 +119,7 @@ const FilterModalView = ({ }: IMainViewProps) => {
                         </StyledInputsRangeContainer>
                     </StyledFiltersSection>
                     <Line />
-                    <TagsContent choosedFilters={choosedFilters} setChoosedFilters={setChoosedFilters} />
+                    <TagsContent  choosedFilters={choosedFilters} setChoosedFilters={setChoosedFilters} />
                 </StyledFiltersContent>
             </ScrollView>
             <SafeAreaView>

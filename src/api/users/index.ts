@@ -112,7 +112,7 @@ export interface IUploadedImage {
   name: string;
 }
 
-export interface IChangeProfilePictureResponce {
+export interface IUploadImageResponce {
   uploadId: string,
   status: "pending" | "failed" | "succeed"
   assets: [
@@ -138,10 +138,10 @@ export const updateUser = async ({ name, description }: IEditUserData): Promise<
 
 export const changeUserProfilePicture = async (
   picture: IUploadedImage,
-): Promise<IChangeProfilePictureResponce> => {
+): Promise<IUploadImageResponce> => {
   const formData = new FormData();
   formData.append('photo', picture);
-  const { data } = await getAxios('assets', true).post<IChangeProfilePictureResponce>(
+  const { data } = await getAxios('assets', true).post<IUploadImageResponce>(
     `/upload/avatar`,
     formData,
     {
@@ -156,8 +156,8 @@ export const changeUserProfilePicture = async (
 
 export const checkAssetsUploadStatus = async (
   uploadId: string,
-): Promise<IChangeProfilePictureResponce> => {
-  const { data } = await getAxios('assets', true).get<IChangeProfilePictureResponce>(`/upload/status/${uploadId}`);
+): Promise<IUploadImageResponce> => {
+  const { data } = await getAxios('assets', true).get<IUploadImageResponce>(`/upload/status/${uploadId}`);
 
   return data;
 };

@@ -1,5 +1,5 @@
 import React from 'react'
-import { FlatList, Linking, ScrollView, View } from 'react-native'
+import { Dimensions, FlatList, Linking, NativeScrollEvent, ScrollView, View } from 'react-native'
 import styled from 'styled-components/native'
 import LikeButton from '../../shared/Buttons/LikeButton'
 import { IEvent } from '../../types/event'
@@ -18,10 +18,13 @@ import { Line } from '../../shared/Line'
 import EventCarousel from '../../shared/Carousel'
 import useAxios from '../../hooks/useAxios'
 import EventTag from '../../shared/Tags/EventTag'
-import { getEventByCid } from '../../api/events'
+import { getEventByCid, getSimilarEventsByCid } from '../../api/events'
 import EventSm from '../../shared/EventInList/EventSm'
 import EventLg from '../../shared/EventInList/EventLg'
 import LoadableImage from '../../shared/LoadableImage/LoadableImage'
+import useAxiosPaginated from '../../hooks/useAxiosPaginated'
+import useAxiosSearch from '../../hooks/useAxiosSearch'
+import PrimaryCarousel from '../../shared/Carousel/PrimaryCarousel'
 
 
 export interface IEventModalViewProps {
@@ -35,8 +38,10 @@ export interface IEventModalViewProps {
 
 const EventModalView = ({ route, navigation }: IEventModalViewProps) => {
     const { data: eventData, loading: eventDataLoading, error } = useAxios<IEvent>(getEventByCid(route.params.eventCid))
+    const {data: similarEventsData, loading: similarEventsLoading, paginate } = useAxiosPaginated<IEvent>((page) => getSimilarEventsByCid(route.params.eventCid, page))
     const userCoordinates = useAppSelector(state => state.locationSlice.userCoordinates)
-
+    console.log(eventData?.location)
+    const { width } = Dimensions.get("screen")
     const { t, i18n } = useTranslation()
 
     const handleBuyTicketOpenLink = () => {
@@ -61,6 +66,12 @@ const EventModalView = ({ route, navigation }: IEventModalViewProps) => {
         ru: "D MMM - h A"
     }
     const formattedStartTime = moment(eventData?.startTime).locale(i18n.language).format(momentLocaleFormat[i18n.language as keyof typeof momentLocaleFormat]);
+
+    const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }: NativeScrollEvent) => {
+        const paddingToBottom = 20;
+        return layoutMeasurement.height + contentOffset.y >=
+            contentSize.height - paddingToBottom;
+    };
     if (eventDataLoading) {
         return (
             <LoaderContainer />
@@ -77,10 +88,19 @@ const EventModalView = ({ route, navigation }: IEventModalViewProps) => {
         )
     }
     return (
-        <ScrollView bounces={false} contentContainerStyle={{ paddingBottom: 24 }}>
+        <ScrollView
+            bounces={false}
+            contentContainerStyle={{ paddingBottom: 24 }}
+            onScroll={({ nativeEvent }) => {
+                if (isCloseToBottom(nativeEvent)) {
+                    paginate()
+                }
+            }}
+            scrollEventThrottle={16}
+        >
             <StyledEventModalContent>
                 <StyledEventImgContainer>
-                    <LoadableImage source={{uri: eventData.assets[0]}}/>
+                    <PrimaryCarousel data={eventData.assets} width={width} height={250}/>
                     <LikeButton likeCount={eventData.stats.likes} eventCid={eventData.cid} isLiked={eventData.userStats.isUserLike} />
                 </StyledEventImgContainer>
                 <EventInfoContainer>
@@ -93,7 +113,7 @@ const EventModalView = ({ route, navigation }: IEventModalViewProps) => {
                         <Line />
                         <StyledAdditionEventInfo>
                             <View style={{ gap: 6 }}>
-                                <P> {eventData.location.city}, {eventData.location.country}, {distance} {t("fromYou")}</P>
+                                <P>{eventData.location.localityName && `${eventData.location.localityName}, `}{eventData.location.countryName  && `${eventData.location.countryName}, `}{distance} {t("fromYou")}</P>
                                 <P>{formattedStartTime}</P>
                             </View>
                             <StyledAgeLimit>
@@ -156,22 +176,14 @@ const EventModalView = ({ route, navigation }: IEventModalViewProps) => {
                     </StyledEventFooterActions>
                 </StyledEventFooter>
             </StyledEventModalContent>
-            {eventData.hits.totalCount > 0 &&
+            {similarEventsData && similarEventsData.totalCount > 0 &&
                 <StyledSimilarEventsContainer>
                     <H3 style={{ paddingLeft: 16 }}>{t("similarEvents")}</H3>
-                    {/* <FlatList
-                        contentContainerStyle={{ paddingBottom: 25, paddingHorizontal: 16, gap: 8 }}
-                        data={eventData.hits.paginatedResults}
-                        horizontal={true}
-                        scrollEnabled
-                        renderItem={({ item }) => <EventSm eventData={item} />}
-                        keyExtractor={item => item.id}
-                    /> */}
                     <FlatList
-                        // onEndReached={data.nextPage ? paginate : null}
-                        // ListFooterComponent={data.nextPage ? <LoaderContainer /> : null}
+                        // onEndReached={similarEventsData.nextPage ? paginate : null}
+                        ListFooterComponent={similarEventsData.nextPage ? <LoaderContainer /> : null}
                         contentContainerStyle={{ paddingBottom: 24, paddingHorizontal: 16 }}
-                        data={eventData.hits.paginatedResults}
+                        data={similarEventsData.paginatedResults}
                         horizontal={false}
                         scrollEnabled={false}
                         renderItem={({ item }) => <EventLg eventData={item} />}

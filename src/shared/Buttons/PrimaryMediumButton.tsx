@@ -28,7 +28,7 @@ const StyledPrimaryButton = styled(TouchableOpacity) <{ btnType: ButtonType }>`
 
     background: ${props => props.theme.colors.BUTTON[props.btnType].BGDefault};
     border: solid 1px ${props => props.theme.colors.BUTTON[props.btnType].BorderDefault};
-    border-radius: 8px;
+    border-radius: 14px;
 `
 
 const StyledPrimaryButtonText = styled(Text) <{ btnType: ButtonType, textColor?: TextcolorsType }>`

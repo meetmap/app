@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { ActionSheetIOS, FlatList, Image, Modal, SafeAreaView, ScrollView, Switch, TouchableOpacity, View } from 'react-native'
+import { ActionSheetIOS, Dimensions, FlatList, Image, Modal, SafeAreaView, ScrollView, Switch, TouchableOpacity, View } from 'react-native'
 import { ICoordinates } from '../../types/location'
 import PrimaryFormInput from '../../shared/Input/PrimaryFormInput'
 import PrimaryDatePicker from '../../shared/Input/PrimaryDatePicker'
-import { H6, P, Span } from '../../shared/Text'
+import { H2, H5, H6, P, Span, Title } from '../../shared/Text'
 import { trigger } from 'react-native-haptic-feedback'
 import { t } from 'i18next'
 import Slider from '@react-native-community/slider'
@@ -14,9 +14,17 @@ import { useNavigation } from '@react-navigation/native'
 import { NavigationProps } from '../../types/NavigationProps'
 import { setEventFormValuesState } from '../../store/slices/createEventFormSlice'
 import { launchImageLibrary } from 'react-native-image-picker'
-import { IUploadedImage } from '../../api/users'
+import { IUploadedImage, checkAssetsUploadStatus } from '../../api/users'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import PrimaryButton from '../../shared/Buttons/PrimaryButton'
+import EventCarousel from '../../shared/Carousel'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import PrimaryCarousel from '../../shared/Carousel/PrimaryCarousel'
+import ChooseTagsComponent from './ChooseTagsComponent'
+import { IFilters } from '../../store/slices/filtersSlice'
+import { createEvent, uploadEventImages } from '../../api/events'
+import LoaderContainer from '../../shared/LoaderContainer'
+import { useMap } from '../../hooks/MapProvider'
 
 export interface IEventFormValues {
   title: string
@@ -43,7 +51,7 @@ const CreateEventView = () => {
   const coords = useAppSelector(state => state.locationSlice.userCoordinates)
   const { eventFormValues } = useAppSelector(state => state.createEventFormSlice)
   const dispatch = useAppDispatch()
-  const [image, setImage] = useState<IUploadedImage[] | null>()
+  const [image, setImage] = useState<IUploadedImage[]>([])
 
   const handleChangeFormValue = (valueKey: keyof IEventFormValues, value: string | Date | undefined | number) => {
     if (!value) return
@@ -108,25 +116,78 @@ const CreateEventView = () => {
 
   const { bottom } = useSafeAreaInsets();
 
+  const { width } = Dimensions.get("screen")
 
+  const [creationStatus, setCreationStatus] = useState<string | null>(null)
 
+  const {flyTo} = useMap()
+  const handleCreateEvent = async () => {
+    console.log(eventFormValues)
+    let coordinates
+    try {
+      setCreationStatus("creatingEventStatus")
+      const data = await createEvent(eventFormValues)
+      coordinates = data.location.coordinates
+      console.log(data)
+      setCreationStatus("uploadingEventImagesStatus")
+      const { uploadId, status } = await uploadEventImages(data.cid, image)
+      if (status == "failed") {
+        throw Error("Upload failed");
+      }
+      await new Promise((resolve, reject) => {
+        const interval = setInterval(async () => {
+          try {
+            const { status: checkStatus } = await checkAssetsUploadStatus(uploadId)
+            if (checkStatus === "succeed") {
+              clearInterval(interval)
+              resolve(status)
+            }
+            if (checkStatus == "failed") {
+              reject("Upload failed")
+            }
+          } catch (error) {
+            clearInterval(interval)
+          }
+        }, 500)
+      })
+    } catch (error) {
+      console.error(error)
+    }
+    setCreationStatus(null)
+    navigation.navigate("MainView")
+    if (coordinates?.coordinates) flyTo({lat: coordinates.coordinates[1], lng: coordinates.coordinates[0]}, true);
+  }
+  if (creationStatus) {
+    return (
+      <View style={{ alignItems: 'center', flex: 1 }}>
+        <Title style={{ marginTop: 100 }}>{t(creationStatus)}</Title>
+        <LoaderContainer />
+      </View>
+    )
+  }
   return (
     <ScrollView>
       <View style={{ paddingHorizontal: 16, gap: 12, paddingBottom: bottom }}>
-        <StyledEventImagePicker onPress={pickImage}>
-          {image ?
-            <Image style={{ flex: 1, width: "100%" }} source={{ uri: image[0].uri }} />
-            :
-            <P>+ Add images</P>
-          }
-        </StyledEventImagePicker>
+        {image.length ?
+          <View style={{ gap: 6 }}>
+            <PrimaryCarousel squared data={[...image.map(image => image.uri)]} width={width - 32} height={150} />
+            <TouchableOpacity onPress={pickImage}>
+              <H6 textcolor='Primary'>Change images</H6>
+            </TouchableOpacity>
+          </View>
+          :
+          <StyledEventImagePicker onPress={pickImage}>
+            <H5>+ Add images</H5>
+          </StyledEventImagePicker>
+        }
+
         <PrimaryFormInput label={t("eventName")} placeholder='Cool event' inputStyle='Primary' onChangeText={(value) => handleChangeFormValue("title", value)} />
         <PrimaryFormInput label={t("eventDescription")} style={{ minHeight: 90 }} multiline={true} placeholder='Descritpion' inputStyle='Primary' onChangeText={(value) => handleChangeFormValue("description", value)} />
         <View style={{ gap: 6 }}>
           <Span>Pick start/end time</Span>
           <View style={{ flexDirection: "row", gap: 8 }}>
             <View style={{ flex: 0.5 }}>
-              <PrimaryDatePicker mode="datetime" display='calendar' placeholder={t("startTime")} minimumDate={new Date} initialValue={new Date} value={eventFormValues.startTime || new Date} onChange={(value) => setFiltersDateValues("startTime", value.nativeEvent.timestamp)} />
+              <PrimaryDatePicker mode="spinner" display='calendar' placeholder={t("startTime")} minimumDate={new Date} initialValue={new Date} value={eventFormValues.startTime || new Date} onChange={(value) => setFiltersDateValues("startTime", value.nativeEvent.timestamp)} />
             </View>
             <View style={{ flex: 0.5 }}>
               <PrimaryDatePicker display='spinner' placeholder={t("endTime")} minimumDate={new Date} initialValue={new Date} value={eventFormValues.endTime || new Date} onChange={(value) => setFiltersDateValues("endTime", value.nativeEvent.timestamp)} />
@@ -160,27 +221,27 @@ const CreateEventView = () => {
           <FlatList
             data={eventFormValues.tickets}
             horizontal
-            style={{ gap: 6 }}
+            contentContainerStyle={{ gap: 6 }}
             ListHeaderComponent={
-              <TouchableOpacity onPress={() => navigation.navigate("CreateTicketModal", {ticket: undefined})}>
-                <StyledTicket style={{ alignItems: "center", justifyContent: "center" }}>
-                  <P textcolor='Primary'>+ Create ticket</P>
-                </StyledTicket>
-              </TouchableOpacity>
+              <StyledTicket onPress={() => navigation.navigate("CreateTicketModal", { ticketIndex: undefined })} style={{ alignItems: "center", justifyContent: "center" }}>
+                <P textcolor='Primary'>+ Create ticket</P>
+              </StyledTicket>
             }
-            renderItem={({ item }) => (
-              <StyledTicket>
-                <H6>{item.name}</H6>
-                <P textcolor='Grey'>{item.description}</P>
+            renderItem={({ item, index }) => (
+              <StyledTicket onPress={() => navigation.navigate("CreateTicketModal", { ticketIndex: index })}>
+                <View>
+                  <H5 >{item.name}</H5>
+                  <P numberOfLines={3} textcolor='Grey'>{item.description}</P>
+                </View>
                 <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                  <P>{item.amount}</P>
-                  <P>{item.price}</P>
+                  <P>Amount: {item.amount}</P>
+                  <P>Price: ${item.price}</P>
                 </View>
               </StyledTicket>
             )}
           />
-          
         </View>
+        <ChooseTagsComponent />
         <View style={{ gap: 8 }}>
           <Span>Choose location</Span>
           <TouchableOpacity
@@ -206,7 +267,7 @@ const CreateEventView = () => {
             }
           </TouchableOpacity>
         </View>
-        <PrimaryButton title={t("submit")} />
+        <PrimaryButton onPress={handleCreateEvent} title={t("submit")} />
       </View>
     </ScrollView>
   )
@@ -242,11 +303,12 @@ const StyledPickAction = styled(View)`
   /* background-color: #f8fbff47; */
 `
 
-const StyledTicket = styled(View)`
+const StyledTicket = styled(TouchableOpacity)`
   border: solid 1px ${props => props.theme.colors.BUTTON.Secondary.BorderDefault};
   width: 200px;
-  height: 120px;
+  height: 150px;
   gap: 6px;
-  padding: 8px;
+  padding: 16px;
+  justify-content: space-between;
   border-radius: 16px;
 `

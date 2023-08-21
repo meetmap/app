@@ -1,6 +1,6 @@
 export interface ILocation {
-  country: string;
-  city: string;
+  countryName?: string
+  localityName?: string
   coordinates: IPoint;
 }
 

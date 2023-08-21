@@ -14,11 +14,11 @@ export const store = configureStore({
     getDefaultMiddleware({
       serializableCheck: {
         // Ignore these action types
-        ignoredActions: ['filtersSlice/setFiltersState'],
+        ignoredActions: ['filtersSlice/setFiltersState', 'createEventFormSlice/setEventFormValuesState'],
         // Ignore these field paths in all actions
         // ignoredActionPaths: ['filtersSlice.filters.startDate'],
         // Ignore these paths in the state
-        ignoredPaths: ['filtersSlice.filters', 'payload.startDate'],
+        ignoredPaths: ['filtersSlice.filters', 'payload.startDate', 'createEventFormSlice.eventFormValues'],
       },
     }),
   reducer: {

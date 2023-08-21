@@ -3,39 +3,36 @@ import { Dimensions, Image, Text, View } from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
 import LoadableImage from '../LoadableImage/LoadableImage';
 import { styled } from 'styled-components';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const EventCarousel = ({ eventsImagesList }: { eventsImagesList: string[] }) => {
     const width = Dimensions.get('window').width;
     const [activeIndex, setActiveIndex] = useState(0)
     return (
         <View style={{ alignItems: "center" }}>
-            <GestureHandlerRootView>
-                <Carousel
-                    // style={{ height: 250 }}
-                    // vertical={false}
-                    width={width}
-                    // enabled={eventsImagesList.length > 1}
-                    // height={width / 2}
-                    data={eventsImagesList}
-                    // scrollAnimationDuration={1000}
-                    onSnapToItem={(index) => setActiveIndex(index)}
-                    // panGestureHandlerProps={{
-                    //     activeOffsetX: [-10, 10],
-                    // }}
-                    loop={false}
-                    renderItem={(value) => (
-                        <Image height={250} width={width} source={{ uri: value.item }} />
-                    )}
-                />
-                {eventsImagesList.length > 1 &&
-                    <StyledCarouselListMarkers>
-                        {eventsImagesList.map((image, index) => (
-                            <StyledCarouselListMarker key={index} active={activeIndex === index} />
-                        ))}
-                    </StyledCarouselListMarkers>
-                }
-            </GestureHandlerRootView>
+            <Carousel
+                // style={{ height: 250 }}
+                // vertical={false}
+                width={width}
+                // enabled={eventsImagesList.length > 1}
+                // height={width / 2}
+                data={eventsImagesList}
+                // scrollAnimationDuration={1000}
+                onSnapToItem={(index) => setActiveIndex(index)}
+                // panGestureHandlerProps={{
+                //     activeOffsetX: [-10, 10],
+                // }}
+                loop={false}
+                renderItem={(value) => (
+                    <Image height={250} width={width} source={{ uri: value.item }} />
+                )}
+            />
+            {eventsImagesList.length > 1 &&
+                <StyledCarouselListMarkers>
+                    {eventsImagesList.map((image, index) => (
+                        <StyledCarouselListMarker key={index} active={activeIndex === index} />
+                    ))}
+                </StyledCarouselListMarkers>
+            }
         </View>
     )
 }

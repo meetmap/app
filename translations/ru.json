@@ -97,5 +97,7 @@
     "startTime": "Начало",
     "endTime": "Конец",
     "search": "Поиск",
-    "chooseEventLocation": "Укажите локацию мероприятия"
+    "chooseEventLocation": "Укажите локацию мероприятия",
+    "creatingEventStatus": "Создание мероприятия",
+    "uploadingEventImagesStatus": "Загрузка изображений"
 }

@@ -27,7 +27,7 @@ export interface IEvent {
   stats: IEventStats
   userStats: IEventUserStats
   tags: ITag[]
-  hits: IPaginateRespose<IEvent>
+  // hits: IPaginateRespose<IEvent>
 }
 
 export interface IEventByLocation {
@@ -49,18 +49,6 @@ export interface IEventStats {
   willGo: number
 }
 
-export interface ICreateEvent {
-  title: string
-  description: string
-  // slug: string
-  eventType: string
-  startTime: string
-  endTime: string
-  ageLimit: number
-  location: ICoordinates
-  tickets: ITicket[]
-}
-
 
 export interface ITicket {
   name: string
@@ -72,4 +60,16 @@ export interface ITag {
   cid: string
   label: string
   count: number
+}
+
+export interface ICreateEventFormValues {
+  title: string
+  description: string
+  accessibility: "public" | "private"
+  startTime: Date | null
+  endTime: Date | null
+  ageLimit: number
+  location: ICoordinates | null
+  tickets: ITicket[]
+  tagsCids: string[]
 }

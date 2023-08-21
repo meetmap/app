@@ -2,25 +2,21 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
 import { H3, H6, P, Span } from '../../shared/Text'
 import styled from 'styled-components'
 import { TouchableOpacity, View } from 'react-native'
-import { StyledFiltersSection } from '.'
-import useAxios from '../../hooks/useAxios'
 import { ITag } from '../../types/event'
 import { getTags } from '../../api/events'
 import FilterTag from '../../shared/Tags/FilterTag'
-import TextStatus from '../../shared/TextStatus'
-import LoaderContainer from '../../shared/LoaderContainer'
 import SearchInput from '../../shared/Input/SearchInput'
 import { IFilters } from '../../store/slices/filtersSlice'
-import useAxiosPaginated from '../../hooks/useAxiosPaginated'
 import useAxiosSearch from '../../hooks/useAxiosSearch'
+import CreateEventTag from '../../shared/Tags/CreateEventTag'
 
-const TagsContent = ({ choosedFilters, setChoosedFilters }: { choosedFilters: IFilters, setChoosedFilters: Dispatch<SetStateAction<IFilters>> }) => {
+const ChooseTagsComponent = () => {
     const { data: tags, error, loading, paginate, fetchData } = useAxiosSearch<ITag>(getTags)
     const handleSearchFilters = async (text: string) => {
         fetchData({ q: text })
     }
     return (
-        <StyledFiltersSection>
+        <View style={{gap: 8}}>
             <StyledTagHeader>
                 <H3>Tags</H3>
                 <TouchableOpacity style={{ flexDirection: "row", gap: 6, alignItems: "center" }}>
@@ -32,18 +28,18 @@ const TagsContent = ({ choosedFilters, setChoosedFilters }: { choosedFilters: IF
 
             <StyledTagsContainer>
                 {tags?.paginatedResults.map(tag => (
-                    <FilterTag key={tag.cid} tag={tag} choosedFilters={choosedFilters} setChoosedFilters={setChoosedFilters} />
+                    <CreateEventTag key={tag.cid} tag={tag}/>
                 ))}
             </StyledTagsContainer>
             {tags?.nextPage &&
                 <TouchableOpacity onPress={() => paginate()} style={{ flex: 1, alignItems: "center" }}><H6 textcolor='Grey'>Show more</H6></TouchableOpacity>
             }
-        </StyledFiltersSection>
+        </View>
     )
 
 }
 
-export default TagsContent
+export default ChooseTagsComponent
 
 const StyledTagsContainer = styled(View)`
     flex-direction: row;

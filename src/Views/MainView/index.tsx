@@ -12,7 +12,6 @@ import MapHeader from './MapHeader';
 import BackgroundGeolocation, { Subscription } from 'react-native-background-geolocation';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { updateUserLocationThunk } from '../../store/slices/locationSlice';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export interface IMainViewProps {
   navigation: NativeStackNavigationProp<RootStackParamList, 'MainView'>;
@@ -96,13 +95,11 @@ const MainView = ({ navigation }: IMainViewProps) => {
 
 
   return (
-    <GestureHandlerRootView>
-      <StyledMainPageContainer>
-        <MapContent />
-        <MapHeader />
-        <BottomControlls navigation={navigation} />
-      </StyledMainPageContainer>
-    </GestureHandlerRootView>
+    <StyledMainPageContainer>
+      <MapContent />
+      <MapHeader />
+      <BottomControlls navigation={navigation} />
+    </StyledMainPageContainer>
   );
 };
 

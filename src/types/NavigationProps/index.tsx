@@ -40,7 +40,7 @@ export type RootStackParamList = {
 
     ChooseLocationView: undefined;
 
-    CreateTicketModal: {ticket?: ITicket};
+    CreateTicketModal: {ticketIndex?: number};
 
     WhoWillGoModalView: {eventCid: string}
 

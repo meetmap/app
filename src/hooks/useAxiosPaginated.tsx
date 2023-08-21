@@ -32,7 +32,6 @@ const useAxiosPaginated = <T extends unknown>(
         setLoading(true)
         try {
             const response = await axiosPromise();
-            console.log(response)
             setData(response);
             setLoading(false);
         } catch (error) {

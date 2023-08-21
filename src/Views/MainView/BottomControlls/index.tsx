@@ -5,11 +5,7 @@ import { Image, TouchableOpacity, View } from "react-native";
 import styled from "styled-components/native";
 import { IMainViewProps } from "..";
 import { SafeAreaView } from "react-native-safe-area-context";
-import LoadableProfileImage from "../../../shared/LoadableImage/LoadableProfileImage";
-import { setMapFiltersState } from "../../../store/slices/mapSlice";
-import ChangeFiltersButton from "./ChangeFiltersButton";
-import { useMap } from "../../../hooks/MapProvider";
-import { Gesture, GestureDetector } from "react-native-gesture-handler";
+import { Gesture, GestureDetector, GestureHandlerRootView } from "react-native-gesture-handler";
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
 import DraggableAction from "./DraggableAction";
 import UsersIcon from "../../../shared/Icons/UsersIcon";
@@ -17,13 +13,15 @@ import UsersIcon from "../../../shared/Icons/UsersIcon";
 const BottomControlls = ({ navigation }: IMainViewProps) => {
 
     return (
-        <StyledBottomControlls>
-            <CubeButton onPress={() => navigation.navigate('SearchModalView')}><SearchIcon /></CubeButton>
-            <DraggableAction />
-            <CubeButton onPress={() => navigation.navigate("FriendsModalView")}>
-                <UsersIcon/>
-            </CubeButton>
-        </StyledBottomControlls>
+        <GestureHandlerRootView>
+            <StyledBottomControlls>
+                <CubeButton onPress={() => navigation.navigate('SearchModalView')}><SearchIcon /></CubeButton>
+                <DraggableAction />
+                <CubeButton onPress={() => navigation.navigate("FriendsModalView")}>
+                    <UsersIcon />
+                </CubeButton>
+            </StyledBottomControlls>
+        </GestureHandlerRootView>
     )
 }
 
