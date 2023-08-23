@@ -1,7 +1,7 @@
 import styled from "styled-components/native";
 
 import React, { ReactNode, useState } from 'react'
-import { TextInput, TextInputProps, View, Text, Modal, Button, TouchableOpacity } from "react-native";
+import { TextInput, TextInputProps, View, Text, Modal, Button, TouchableOpacity, StyleProp } from "react-native";
 import { H1, Span } from "../Text";
 import RNDateTimePicker, { DatePickerOptions } from "@react-native-community/datetimepicker";
 import { useTranslation } from "react-i18next";
@@ -17,17 +17,22 @@ interface IPrimaryDatePicker extends DatePickerOptions {
     placeholder?: string
     initialValue?: Date,
     locale?: string | undefined
-    mode?: "countdown"| "date" | "datetime" | "time"
+    mode?: "countdown" | "date" | "datetime" | "time"
+    momentLocaleFormat?: {
+        en: string
+        ru: string
+    }
+}
+const initialMomentLocaleFormat = {
+    en: "MMM D",
+    ru: "D MMM"
 }
 
-const PrimaryDatePicker = ({ inputStyle = "Primary", initialValue, placeholder = "Pick date", mode = "date", name, label, ...rest }: IPrimaryDatePicker) => {
+const PrimaryDatePicker = ({ inputStyle = "Primary", initialValue, placeholder = "Pick date", mode = "date", name, label, momentLocaleFormat = initialMomentLocaleFormat, ...rest }: IPrimaryDatePicker) => {
     const [opened, setOpened] = useState(false)
     const { i18n, t } = useTranslation()
-    const momentLocaleFormat = {
-        en: "MMM D - h A",
-        ru: "D MMM - H:M"
-    }
     const formattedStartTime = moment(rest.value).locale(i18n.language).format(momentLocaleFormat[i18n.language as keyof typeof momentLocaleFormat]);
+    console.log(initialValue, rest.value)
     return (
         <>
             <StyledInputContent>
@@ -85,7 +90,7 @@ const StyledPrimaryDatePikerButtonText = styled(Text)`
     font-style: normal;
     font-weight: 400;
     font-size: 16px;
-    color: black;
+    color: #898F99;
 `
 
 const StyledModalBackground = styled(TouchableOpacity)`

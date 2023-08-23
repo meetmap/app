@@ -21,7 +21,7 @@ const PrimaryFormInput = ({ name, label, isSuccess, inputStyle = "White", isErro
                 <Span>{label}</Span>
             }
             <StyledInputWrapper>
-                <StyledPrimaryInput inputStyle={inputStyle} {...rest} id={name} autoCapitalize="none" />
+                <StyledPrimaryInput placeholderTextColor={"#898F99"} inputStyle={inputStyle} {...rest} id={name} autoCapitalize="none" />
                 <StyledInputStatus>
                     {/* <AnimatePresence>
                         {isSuccess && <SuccessIcon />}

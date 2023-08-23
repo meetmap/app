@@ -45,6 +45,8 @@ export type RootStackParamList = {
     WhoWillGoModalView: {eventCid: string}
 
     EventLikesModalView: {eventCid: string}
+
+    MyBottomSheet: undefined
 };
 
 

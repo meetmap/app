@@ -17,6 +17,7 @@ import { useMap } from "../../hooks/MapProvider";
 import EventInListActions from "../Actions/Events/EventInListActions";
 import { useTranslation } from "react-i18next";
 import 'moment/locale/ru'
+import FastImage from "react-native-fast-image";
 
 const EventLg = ({ eventData }: { eventData: IEvent }) => {
     const { userCoordinates } = useAppSelector(state => state.locationSlice)
@@ -36,17 +37,22 @@ const EventLg = ({ eventData }: { eventData: IEvent }) => {
     const route = useRoute();
     const { flyTo } = useMap()
 
+    // const fullscreen = route.name.toLowerCase().includes('modal')
     return (
         <StyledEventLgContainer onPress={() => {
             // console.log(state.routeNames)
-            if(route.name.toLowerCase().includes("modal")){
-                navigation.popToTop();
-            }
+            // if(route.name.toLowerCase().includes("modal")){
+            //     // navigation.navigate();
+            // }
+            // setTimeout(() => {
+            // }, 0);
+            // navigation.pop()
+            // navigation.navigate("EventModalView", { eventCid: eventData.cid })
             navigation.push("EventModalView", { eventCid: eventData.cid })
         }}>
             <StyledEventLgImageContainer>
                 <LoadableImage source={{
-                    uri: eventData.thumbnail
+                    uri: eventData.thumbnail,
                 }} />
                 <LikeButton eventCid={eventData.cid} isLiked={eventData.userStats.isUserLike} />
             </StyledEventLgImageContainer>

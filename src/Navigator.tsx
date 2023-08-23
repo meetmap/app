@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from './store/hooks';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NativeStackNavigationOptions, createNativeStackNavigator } from '@react-navigation/native-stack';
 import WelcomeView from './Views/WelcomeView';
 import LoginView from './Views/LoginView';
 import MainView from './Views/MainView';
@@ -12,7 +12,6 @@ import EventModalView from './Views/EventModalView';
 import WelcomeLoaderView from './Views/WelcomeLoaderView';
 import MyBottomSheet from './Views/MyBottomSheet';
 import { Alert, Button, TouchableOpacity } from 'react-native';
-import LoadableProfileImage from './shared/LoadableImage/LoadableProfileImage';
 import SettingsIcon from './shared/Icons/SettingsIcon';
 import GoBackArrowIcon from './shared/Icons/GoBackArrowIcon';
 import SettingsView from './Views/SettingsView';
@@ -31,7 +30,14 @@ import EventLikesModalView from './Views/EventLikesModalView';
 import ChooseLocationView from './Views/ChooseLocationView';
 import CreateTicketModal from './Views/CreateTicketModal';
 const Stack = createNativeStackNavigator();
-
+const AppBottomSheetOptions: NativeStackNavigationOptions = {
+    contentStyle: {
+        backgroundColor: 'transparent'
+    },
+    headerShown: false,
+    animation: "fade",
+    presentation: "containedTransparentModal",
+}
 const Navigator = () => {
     const { user, isLoading } = useAppSelector((state) => state.userSlice);
     const { t } = useTranslation()
@@ -51,14 +57,18 @@ const Navigator = () => {
                 user ?
                     <Stack.Group >
                         <Stack.Screen name="MainView" component={MainView} options={{ headerShown: false }} />
-                        <Stack.Screen options={{ title: "" }} name='EventModalView' component={EventModalView} />
+                        <Stack.Screen
+                            options={AppBottomSheetOptions}
+                            name='EventModalView'
+                            component={EventModalView}
+                        />
                         <Stack.Screen options={{ title: "" }} name='EventsListModalView' component={EventsListModalView} />
-                        <Stack.Screen options={{ presentation: "modal", headerShown: false }} name='FriendsModalView' component={FriendsModalView} />
+                        <Stack.Screen options={AppBottomSheetOptions} name='FriendsModalView' component={FriendsModalView} />
                         <Stack.Screen options={{ presentation: "modal", headerShown: false }} name='UsersListModalView' component={UsersListModalView} />
                         <Stack.Screen options={{ presentation: "modal", headerShown: false }} name='InviteFriendsModalView' component={InviteFriendsModalView} />
                         <Stack.Screen options={{ presentation: "modal", headerShown: false }} name='EventLikesModalView' component={EventLikesModalView} />
-                        <Stack.Screen options={{ presentation: "modal", headerShown: false }} name='SearchModalView' component={SearchModalView} />
-                        <Stack.Screen options={{ presentation: "modal", headerShown: false }} name='FilterModalView' component={FilterModalView} />
+                        <Stack.Screen options={{ title: "Search events" }} name='SearchModalView' component={SearchModalView} />
+                        <Stack.Screen options={AppBottomSheetOptions} name='FilterModalView' component={FilterModalView} />
                         <Stack.Screen
                             name="ProfileView"
                             component={ProfileView}
@@ -114,6 +124,9 @@ const Navigator = () => {
                             name={"MyBottomSheet"}
                             component={MyBottomSheet}
                             options={{
+                                contentStyle: {
+                                    backgroundColor: 'transparent'
+                                },
                                 headerShown: false,
                                 presentation: "transparentModal",
                             }}

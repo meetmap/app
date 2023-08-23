@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { ActivityIndicator, Image, View } from 'react-native'
 import { ImageProps } from 'react-native'
+import FastImage from 'react-native-fast-image'
 import { ViewProps } from 'react-native-svg/lib/typescript/fabric/utils'
 import { styled } from 'styled-components/native'
 
@@ -19,7 +20,11 @@ const LoadableProfileImage = ({ profilePicture, containerSize = 100, containerBo
         >
             <StyledImage onLoadEnd={() => setIsImageLoading(false)}
                 source={profilePicture ?
-                    { uri: profilePicture } :
+                    {
+                        uri: profilePicture,
+                        priority: FastImage.priority.high,
+                        cache: FastImage.cacheControl.immutable,
+                    } :
                     require("../../assets/appIcon.png")
                 }
             />
@@ -43,7 +48,7 @@ const StyledImageView = styled(View) <{
     background-color: ${props => props.theme.colors.BUTTON.Secondary.BorderDefault};
     position: relative;
 `
-const StyledImage = styled(Image)`
+const StyledImage = styled(FastImage)`
     height: 100%;
     width: 100%;
     object-fit: cover;

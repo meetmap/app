@@ -21,6 +21,7 @@
     "username": "Username",
     "password": "Password",
     "repeatPassword": "Repeat password",
+    "goNext": "Go next",
     "inviteToAnEvent": "Invite to an event",
     "invite": "Invite",
     "invited": "Invited",

@@ -17,6 +17,7 @@ import { useMap } from "../../hooks/MapProvider";
 import EventInListActions from "../Actions/Events/EventInListActions";
 import { useTranslation } from "react-i18next";
 import 'moment/locale/ru'
+import FastImage from "react-native-fast-image";
 
 const EventSm = ({ eventData }: { eventData: IEvent }) => {
     const { userCoordinates } = useAppSelector(state => state.locationSlice)
@@ -39,7 +40,8 @@ const EventSm = ({ eventData }: { eventData: IEvent }) => {
         <StyledEventSmContainer onPress={() => navigation.navigate("EventModalView", { eventCid: eventData.cid })}>
             <StyledEventSmImageContainer>
                 <LoadableImage style={{borderRadius: 20}} source={{
-                    uri: eventData.thumbnail
+                    uri: eventData.thumbnail,
+                    priority: FastImage.priority.normal,
                 }} />
             </StyledEventSmImageContainer>
             <StyledAboutEventContainer>

@@ -20,6 +20,7 @@
     "username": "Имя пользователя",
     "password": "Пароль",
     "repeatPassword": "Повторите пароль",
+    "goNext": "Далее",
     "submit": "Подтвердить",
     "inviteToAnEvent": "Пригласить на событие",
     "invite": "Пригласить",

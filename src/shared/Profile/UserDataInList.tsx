@@ -17,8 +17,8 @@ const UserDataInList = ({ userData, profile = false }: { userData: IPartialUser,
     return (
         <StyledUserDataInList>
             <StyledUserDataInfo onPress={() => {
-                navigation.popToTop();
-                navigation.navigate("ProfileView", { userId: userData.cid, username: userData.username })
+                navigation.goBack();
+                navigation.push("ProfileView", { userId: userData.cid, username: userData.username })
             }}>
                 <LoadableProfileImage profilePicture={userData.profilePicture} containerSize={56} />
                 <StyledUserInfo>

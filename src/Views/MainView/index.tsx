@@ -52,7 +52,8 @@ const MainView = ({ navigation }: IMainViewProps) => {
     BackgroundGeolocation.ready({
       // Geolocation Config
       desiredAccuracy: BackgroundGeolocation.DESIRED_ACCURACY_HIGH,
-      distanceFilter: 100,
+      distanceFilter: 30,
+      elasticityMultiplier: 3,
       // Activity Recognition
       stopTimeout: 5,
       // useSignificantChangesOnly: true,

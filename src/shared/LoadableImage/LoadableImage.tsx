@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { ActivityIndicator, Image, View } from 'react-native'
 import { ImageProps } from 'react-native'
+import FastImage, { FastImageProps } from 'react-native-fast-image'
 import { styled } from 'styled-components/native'
 
-export interface ILoadableImage extends ImageProps {
+export interface ILoadableImage extends FastImageProps {
     containerBorderRadius?: number
 }
 
@@ -30,7 +31,7 @@ const StyledImageView = styled(View)<{containerBorderRadius: number}>`
     border-radius: ${props => props.containerBorderRadius}px;
     overflow: hidden;
 `
-const StyledImage = styled(Image)`
+const StyledImage = styled(FastImage)`
     flex: 1;
 `
 const StyledActivityIndicator = styled(ActivityIndicator)`

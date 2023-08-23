@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { Dimensions, Image, Text, View } from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
-import LoadableImage from '../LoadableImage/LoadableImage';
 import { styled } from 'styled-components';
 
 const EventCarousel = ({ eventsImagesList }: { eventsImagesList: string[] }) => {

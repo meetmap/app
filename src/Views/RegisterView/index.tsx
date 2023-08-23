@@ -14,13 +14,13 @@ import { NavigationProps } from "../../types/NavigationProps";
 import RNDateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import PrimaryDatePicker from "../../shared/Input/PrimaryDatePicker";
 import { useTranslation } from "react-i18next";
-import Animated, { useAnimatedStyle, withSpring } from "react-native-reanimated";
+import Animated, { Layout, useAnimatedStyle, withSpring } from "react-native-reanimated";
 
 interface ILoginFormData {
     name: string,
     username: string,
     email: string,
-    birthDate: number,
+    birthDate: Date | null,
     password: string,
     repeatPassword: string
 }
@@ -35,7 +35,6 @@ interface IErrors {
 
 
 const RegisterView = () => {
-
     const dispatch = useAppDispatch()
     const navigation = useNavigation<NavigationProps>()
 
@@ -44,13 +43,110 @@ const RegisterView = () => {
         name: '',
         username: '',
         email: '',
-        birthDate: Date.now(),
+        birthDate: null,
         password: '',
         repeatPassword: ''
     })
 
-    const [errors, setErrors] = useState<IErrors>({})
-    const [isSubmitting, setIsSubmitting] = useState(false)
+    const headerValues = [
+        {
+            valueKey: "name",
+            headerTitle:
+                <>
+                    <Title textcolor='Black'>Hey!</Title>
+                    <Title textcolor='Black'>What’s your name?</Title>
+                </>,
+        },
+        {
+            valueKey: "username",
+            headerTitle: <Title style={{ textAlign: "center" }} textcolor='Black'>Сome up with a username</Title>
+        },
+        {
+            valueKey: "email",
+            headerTitle: <Title style={{ textAlign: "center" }} textcolor='Black'>Enter your email</Title>
+        },
+        {
+            valueKey: "birthDate",
+            headerTitle: <Title style={{ textAlign: "center" }} textcolor='Black'>Enter your birth date</Title>
+        },
+        {
+            valueKey: "password",
+            headerTitle: <Title textcolor='Black'>Create a password</Title>
+        },
+        {
+            valueKey: "repeatPassword",
+            headerTitle: <Title textcolor='Black'>Repeat password</Title>
+        }
+    ]
+
+    const [errors, setErrors] = useState<Record<keyof ILoginFormData, string | null>>({
+        name: null,
+        username: null,
+        email: null,
+        birthDate: null,
+        password: null,
+        repeatPassword: null,
+    });
+
+
+    const validate = (valueKey: keyof ILoginFormData) => {
+        const value = values[valueKey];
+
+        switch (valueKey) {
+            case "name":
+                if (value?.length < 3) {
+                    setErrors(prevErrors => ({
+                        ...prevErrors,
+                        name: "Name must be at least 3 characters long",
+                    }));
+                    return true
+                } else {
+                    setErrors(prevErrors => ({
+                        ...prevErrors,
+                        name: null,
+                    }));
+                }
+                break
+            case "username":
+                // Ваша валидация для username
+                break
+            case "email":
+                if (!/^\S+@\S+\.\S+$/.test(value as string)) {
+                    setErrors(prevErrors => ({
+                        ...prevErrors,
+                        email: "Invalid email format",
+                    }));
+                    return true
+                } else {
+                    setErrors(prevErrors => ({
+                        ...prevErrors,
+                        email: null,
+                    }));
+                }
+                break
+            case "birthDate":
+                // Ваша валидация для birthDate
+                break;
+            case "password":
+                // Ваша валидация для password
+                break;
+            case "repeatPassword":
+                if (value === values.password) {
+                    setErrors(prevErrors => ({
+                        ...prevErrors,
+                        repeatPassword: null,
+                    }));
+                } else {
+                    setErrors(prevErrors => ({
+                        ...prevErrors,
+                        repeatPassword: "Passwords do not match",
+                    }));
+                    return true
+                }
+                break;
+        }
+    };
+
 
     const handleChange = (name: string, data: string) => {
         setValues({
@@ -63,68 +159,19 @@ const RegisterView = () => {
         if (date.nativeEvent.timestamp)
             setValues({
                 ...values,
-                birthDate: date.nativeEvent.timestamp
+                birthDate: new Date(date.nativeEvent.timestamp)
             })
     }
 
-    const validate = (values: ILoginFormData) => {
-        const errors: IErrors = {}
-
-        if (!values.name?.trim()) {
-            errors.username = 'Name is required'
-        }
-
-        if (!values.username?.trim()) {
-            errors.username = 'Username is required'
-        }
-
-        // Email Errors
-        if (!values.email) {
-            errors.email = 'Email is required'
-        } else if (!/\S+@\S+\.\S+/.test(values.email)) {
-            errors.email = 'Email is invalid'
-        }
-
-        if (!values.birthDate) {
-            errors.birthDate = 'Date is required'
-        }
-
-        // Password Errors
-        if (!values.password) {
-            errors.password = 'Password is required'
-        } else if (values.password.length < 6) {
-            errors.password = 'Password needs to be 6 characters or more'
-        }
-
-        if (!values.repeatPassword) {
-            errors.repeatPassword = 'Please repeat your password'
-        } else if (values.repeatPassword !== values.password) {
-            errors.repeatPassword = 'Passwords do not match'
-        }
-
-        return errors
-    }
-
-    const handleSubmit = () => {
-        setErrors(validate(values))
-        setIsSubmitting(true)
-    }
-
     const RegisterFunc = async () => {
-        await dispatch(RegisterUserThunk({
-            name: values.name,
-            username: values.username,
-            email: values.email,
-            birthDate: new Date(values.birthDate),
-            password: values.password,
-        }))
+        // await dispatch(RegisterUserThunk({
+        //     name: values.name,
+        //     username: values.username,
+        //     email: values.email,
+        //     birthDate: values.birthDate,
+        //     password: values.password,
+        // }))
     }
-
-    useEffect(() => {
-        if (Object.keys(errors).length === 0 && isSubmitting) {
-            RegisterFunc()
-        }
-    }, [errors])
 
     const { t } = useTranslation()
 
@@ -132,71 +179,95 @@ const RegisterView = () => {
     const [currentStage, setCurrentStage] = useState(1)
 
     const useAnimatedInputStyles = (stage: number) => {
-
         return useAnimatedStyle(() => {
-            if (currentStage > stage) {
-                const scale = withSpring(-1 / (stage - currentStage - 0.1));
-                const translateY = withSpring((stage - currentStage) * 100);
-                const opacity = 0.7;
-                return {
-                    transform: [{ translateY }, { scale }],
-                    opacity,
-                };
-            }
-            if (currentStage < stage) {
-                const scale = withSpring(1 / (stage - currentStage + 0.1));
-                const translateY = withSpring((stage - currentStage) * 100);
-                const opacity = 0.7;
-                return {
-                    transform: [{ translateY }, { scale }],
-                    opacity,
-                };
-            }
-            const translateY = withSpring(0);
-            const scale = withSpring(1);
-            const opacity = 1
+            const stageDiff = stage - currentStage;
+            const isPastStage = stageDiff < 0;
+            const isCloseToStage = Math.abs(stageDiff) < 2;
+            const config = {
+                damping: 10, // Уменьшите этот параметр для более плавной анимации
+                stiffness: 50, // Уменьшите этот параметр для более плавной анимации
+            };
+            const scale = withSpring(1 - stageDiff / (isPastStage ? -10 : 10), config);
+            const translateY = withSpring(stageDiff * 120, config);
+            const opacity = isCloseToStage
+                ? withSpring(1 - stageDiff / (isPastStage ? -10 : 10), config)
+                : withSpring(0);
+            const pointerEvents = stageDiff === 0 ? "auto" : "none"
             return {
                 transform: [{ translateY }, { scale }],
                 opacity,
+                pointerEvents
             };
-
         });
     };
+
+
+    const goBackForm = () => {
+        if (currentStage <= 1) {
+            return
+        }
+        setCurrentStage(stage => stage - 1)
+    }
+    const handleFillForm = () => {
+        if (currentStage >= 6) {
+            return
+        }
+        const error = validate(headerValues[currentStage - 1].valueKey as keyof ILoginFormData)
+        if (!error) {
+            setCurrentStage(stage => stage + 1)
+        }
+    }
 
     return (
         <StyledLoginViewContainer>
             <StyledInputsContent>
                 <StyledAuthHeadContent>
-                    <TouchableOpacity style={{ position: "absolute", left: 0, top: 0 }} onPress={() => navigation.goBack()}>
+                    <TouchableOpacity style={{ position: "absolute", left: 0, top: -24 }} onPress={() => navigation.goBack()}>
                         <GoBackArrowIcon />
                     </TouchableOpacity>
-                    <Title textcolor='Black'>Hey!</Title>
-                    <Title textcolor='Black'>What’s your name?</Title>
+                    {headerValues[currentStage - 1].headerTitle}
                 </StyledAuthHeadContent>
                 <StyledFormContent>
                     <StyledAnimatedInputContainer style={[useAnimatedInputStyles(1)]}>
-                        <PrimaryFormInput label='Your name' name='name' isError={errors.name} value={values.name} onChangeText={(text) => handleChange("name", text)} placeholder='Name' />
+                        <RegisterPrimaryFormInput label={errors.name || 'Your name'} name='name' isError={!!errors.name} value={values.name} onChangeText={(text) => handleChange("name", text)} placeholder={t("name")} />
                     </StyledAnimatedInputContainer>
                     <StyledAnimatedInputContainer style={[useAnimatedInputStyles(2)]}>
-                        <PrimaryFormInput label='Your username' name='username' isError={errors.username} value={values.username} onChangeText={(text) => handleChange("username", text)} placeholder={t("username")} />
+                        <RegisterPrimaryFormInput label='Your username' name='username' isError={!!errors.username} value={values.username} onChangeText={(text) => handleChange("username", text)} placeholder={t("username")} />
                     </StyledAnimatedInputContainer>
                     <StyledAnimatedInputContainer style={[useAnimatedInputStyles(3)]}>
-                        <PrimaryFormInput label='Your e-mail' name='email' isError={errors.email} value={values.email} onChangeText={(text) => handleChange("username", text)} placeholder='E-mail' />
+                        <RegisterPrimaryFormInput label={errors.email || 'Your e-mail'} name='email' isError={!!errors.email} value={values.email} onChangeText={(text) => handleChange("email", text)} placeholder='E-mail' />
                     </StyledAnimatedInputContainer>
-                    {/* <PrimaryDatePicker
-                        label="Your birth date"
-                        value={new Date(values.birthDate)}
-                        onChange={handleDateChange}
-                    />
-                    <StyledAnimatedInputContainer>
-                        <SercuredFormInput label='Password' name='password' isError={errors.password} value={values.password} onChangeText={(text) => handleChange("password", text)} placeholder={t("password")} />
-                        <SercuredFormInput label='Repeat password' name='repeatPassword' isError={errors.repeatPassword} value={values.repeatPassword} onChangeText={(text) => handleChange("repeatPassword", text)} placeholder={t("repeatPassword")} />
-                    </StyledAnimatedInputContainer> */}
+                    <StyledAnimatedInputContainer style={[useAnimatedInputStyles(4)]}>
+                        <PrimaryDatePicker
+                            inputStyle="White"
+                            label="Your birth date"
+                            value={values.birthDate || new Date}
+                            initialValue={new Date}
+                            placeholder={t("birthDate")}
+                            onChange={handleDateChange}
+                            maximumDate={new Date}
+                            display="spinner"
+                            momentLocaleFormat={{
+                                en: "y - MMMM D",
+                                ru: "D MMMM - y"
+                            }}
+                        />
+                    </StyledAnimatedInputContainer>
+                    <StyledAnimatedInputContainer style={[useAnimatedInputStyles(5)]}>
+                        <RegisterSercuredFormInput label='Password' name='password' isError={!!errors.password} value={values.password} onChangeText={(text) => handleChange("password", text)} placeholder={t("password")} />
+                    </StyledAnimatedInputContainer>
+                    <StyledAnimatedInputContainer style={[useAnimatedInputStyles(6)]}>
+                        <RegisterSercuredFormInput label='Repeat password' name='repeatPassword' isError={!!errors.repeatPassword} value={values.repeatPassword} onChangeText={(text) => handleChange("repeatPassword", text)} placeholder={t("repeatPassword")} />
+                    </StyledAnimatedInputContainer>
                 </StyledFormContent>
             </StyledInputsContent>
             <StyledButtonContent>
-                <PrimaryButton onPress={() => setCurrentStage(stage => stage - 1)} btnType='Primary' title={t("submit")} />
-                <PrimaryButton onPress={() => setCurrentStage(stage => stage + 1)} btnType='Primary' title={t("submit")} />
+                {currentStage > 1 &&
+                    <Animated.View>
+                        <PrimaryButton onPress={goBackForm} btnType='Secondary' title={"<"} />
+                    </Animated.View>
+                }
+                <PrimaryButton style={{ flex: 1 }} onPress={handleFillForm} btnType='Primary' title={t("goNext")} />
             </StyledButtonContent>
         </StyledLoginViewContainer>
     )
@@ -213,12 +284,14 @@ const StyledLoginViewContainer = styled(SafeAreaView)`
 const StyledAuthHeadContent = styled(View)`
     align-items: center;
     position: relative;
+    z-index: 1;
+    height: 100px;
 `
 const StyledInputsContent = styled(View)`
     display: flex;
     flex-direction: column;
     gap: 36px;
-    margin-top: 40px;
+    margin-top: 50px;
     padding: 0 16px;
     flex: 1;
 `
@@ -231,7 +304,7 @@ const StyledFormContent = styled(View)`
 `
 const StyledButtonContent = styled(View)`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 8px;
   padding: 0 16px;
 `
@@ -241,4 +314,17 @@ const StyledAnimatedInputContainer = styled(Animated.View)`
     align-items: center;
     justify-content: center;
     width: 100%;
+`
+
+const RegisterPrimaryFormInput = styled(PrimaryFormInput)`
+    padding: 24px;
+    border-radius: 20px;
+`
+const RegisterSercuredFormInput = styled(SercuredFormInput)`
+    padding: 24px;
+    border-radius: 20px;
+`
+const RegisterPrimaryDatePicker = styled(PrimaryDatePicker)`
+    padding: 24px;
+    border-radius: 20px;
 `

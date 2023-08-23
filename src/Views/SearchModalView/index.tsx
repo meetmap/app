@@ -14,6 +14,7 @@ import { useAppSelector } from "../../store/hooks"
 import { getFromSecureStore } from "../../api/secure-store"
 import { SecureStoreKeys } from "../../constants"
 import useAxiosSearch from "../../hooks/useAxiosSearch"
+import { useSafeAreaInsets } from "react-native-safe-area-context"
 
 export interface ISearchModalViewProps {
     navigation: NativeStackNavigationProp<RootStackParamList, 'SearchModalView'>;
@@ -41,6 +42,8 @@ const SearchModalView = ({ }: ISearchModalViewProps) => {
 
 
     const { t } = useTranslation()
+
+    // const {top, bottom} = useSafeAreaInsets()
 
 
     return (
@@ -72,7 +75,7 @@ const StyledSearchModal = styled(View)`
 
 const StyledSearchInputContainer = styled(View)`
     top: 0;
-    padding-top: 16px;
+    /* padding-top: 16px; */
     padding-bottom: 16px;
     z-index: 1;
     /* background: linear-gradient(180deg, #FFFFFF 90%, rgba(255, 255, 255, 0) 100%); */
