@@ -13,22 +13,24 @@ import SearchInput from '../../shared/Input/SearchInput'
 import { IFilters } from '../../store/slices/filtersSlice'
 import useAxiosPaginated from '../../hooks/useAxiosPaginated'
 import useAxiosSearch from '../../hooks/useAxiosSearch'
+import { useTranslation } from 'react-i18next'
 
 const TagsContent = ({ choosedFilters, setChoosedFilters }: { choosedFilters: IFilters, setChoosedFilters: Dispatch<SetStateAction<IFilters>> }) => {
     const { data: tags, error, loading, paginate, fetchData } = useAxiosSearch<ITag>(getTags)
     const handleSearchFilters = async (text: string) => {
         fetchData({ q: text })
     }
+    const { t } = useTranslation()
     return (
         <StyledFiltersSection>
             <StyledTagHeader>
-                <H3>Tags</H3>
+                <H3>{t("tags")}</H3>
                 <TouchableOpacity style={{ flexDirection: "row", gap: 6, alignItems: "center" }}>
-                    <P>Sort by:</P>
+                    <P>{t("sotrtBy")}</P>
                     <Span textcolor='Primary'>A - z</Span>
                 </TouchableOpacity>
             </StyledTagHeader>
-            <SearchInput placeholder='Tag name' onChangeText={handleSearchFilters} />
+            <SearchInput placeholder={t("tagName")} onChangeText={handleSearchFilters} />
 
             <StyledTagsContainer>
                 {tags?.paginatedResults.map(tag => (

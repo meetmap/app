@@ -58,7 +58,7 @@ const Navigator = () => {
                     <Stack.Group >
                         <Stack.Screen name="MainView" component={MainView} options={{ headerShown: false }} />
                         <Stack.Screen
-                            options={AppBottomSheetOptions}
+                            options={{ title: "", headerBackTitleVisible: false }} 
                             name='EventModalView'
                             component={EventModalView}
                         />
@@ -67,7 +67,7 @@ const Navigator = () => {
                         <Stack.Screen options={{ presentation: "modal", headerShown: false }} name='UsersListModalView' component={UsersListModalView} />
                         <Stack.Screen options={{ presentation: "modal", headerShown: false }} name='InviteFriendsModalView' component={InviteFriendsModalView} />
                         <Stack.Screen options={{ presentation: "modal", headerShown: false }} name='EventLikesModalView' component={EventLikesModalView} />
-                        <Stack.Screen options={{ title: "Search events" }} name='SearchModalView' component={SearchModalView} />
+                        <Stack.Screen options={{ title: t("events") }} name='SearchModalView' component={SearchModalView} />
                         <Stack.Screen options={AppBottomSheetOptions} name='FilterModalView' component={FilterModalView} />
                         <Stack.Screen
                             name="ProfileView"

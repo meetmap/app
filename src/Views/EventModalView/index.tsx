@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Dimensions, FlatList, Linking, NativeScrollEvent, ScrollView, View } from 'react-native'
 import styled from 'styled-components/native'
 import LikeButton from '../../shared/Buttons/LikeButton'
@@ -53,6 +53,13 @@ const EventModalView = ({ route, navigation }: IEventModalViewProps) => {
             });
         }
     };
+
+    useEffect(() => {
+        navigation.setOptions({
+            headerTitle: eventData?.title
+        });
+    }, [!!eventData])
+
     const distance = useCalculateDistance(
         eventData?.location.coordinates.coordinates[1],
         eventData?.location.coordinates.coordinates[0],
@@ -71,118 +78,133 @@ const EventModalView = ({ route, navigation }: IEventModalViewProps) => {
             contentSize.height - paddingToBottom;
     };
 
+    console.log(eventData)
+    if (eventDataLoading) {
+        return (
+            <LoaderContainer />
+        )
+    }
+    if (error) {
+        return (
+            <TextStatus>{error.message}</TextStatus>
+        )
+    }
+    if (!eventData) {
+        return (
+            <TextStatus>{t("somethingWentWrong")}</TextStatus>
+        )
+    }
 
     return (
-        <AppBottomSheet snapPoints={["40%", "100%"]}>
-            {eventDataLoading && <LoaderContainer />}
-            {error && <TextStatus>{error.message}</TextStatus>}
-            {!eventData && <TextStatus>{t("somethingWentWrong")}</TextStatus>}
-            {eventData &&
-                <ScrollView
-                    contentContainerStyle={{ paddingBottom: 24 }}
-                    onScroll={({ nativeEvent }) => {
-                        if (isCloseToBottom(nativeEvent)) {
-                            paginate()
-                        }
-                    }}
-                    scrollEventThrottle={16}
-                >
-                    <StyledEventModalContent>
-                        <StyledEventImgContainer>
-                            <PrimaryCarousel data={eventData.assets} width={width} height={250} />
-                            <LikeButton likeCount={eventData.stats.likes} eventCid={eventData.cid} isLiked={eventData.userStats.isUserLike} />
-                        </StyledEventImgContainer>
-                        <EventInfoContainer>
-                            <View style={{ paddingHorizontal: 16, gap: 16 }}>
-                                <StyledEventInfoHead>
-                                    <H1>
-                                        {eventData.title}
-                                    </H1>
-                                </StyledEventInfoHead>
-                                <Line />
-                                <StyledAdditionEventInfo>
-                                    <View style={{ gap: 6 }}>
-                                        <P>{eventData.location.localityName && `${eventData.location.localityName}, `}{eventData.location.countryName && `${eventData.location.countryName}, `}{distance} {t("fromYou")}</P>
-                                        <P>{formattedStartTime}</P>
-                                    </View>
-                                    <StyledAgeLimit>
-                                        <Span textcolor='Grey'>
-                                            {eventData.ageLimit}+
-                                        </Span>
-                                    </StyledAgeLimit>
-                                </StyledAdditionEventInfo>
-                                <P>
-                                    {eventData?.description}
-                                </P>
-                                {eventData.tickets.length > 0 &&
-                                    <Line />
-                                }
+        <ScrollView
+            contentContainerStyle={{ paddingBottom: 24 }}
+            onScroll={({ nativeEvent }) => {
+                if (isCloseToBottom(nativeEvent)) {
+                    paginate()
+                }
+            }}
+            scrollEventThrottle={16}
+        >
+            <StyledEventModalContent>
+                <StyledEventImgContainer>
+                    <PrimaryCarousel data={eventData.assets} width={width} height={250} />
+                    <LikeButton likeCount={eventData.stats.likes} eventCid={eventData.cid} isLiked={eventData.userStats.isUserLike} />
+                </StyledEventImgContainer>
+                <EventInfoContainer>
+                    <View style={{ paddingHorizontal: 16, gap: 16 }}>
+                        <StyledEventInfoHead>
+                            <H1>
+                                {eventData.title}
+                            </H1>
+                            {/* <View style={{flexDirection: "row", alignItems: 'center'}}>
+                                <P>By: </P>
+                                <H6 textcolor='Primary'> _d4v1dson</H6>
+                            </View> */}
+                        </StyledEventInfoHead>
+                        <Line />
+                        <StyledAdditionEventInfo>
+                            <View style={{ gap: 6 }}>
+                                <P>{eventData.location.localityName && `${eventData.location.localityName}, `}{eventData.location.countryName && `${eventData.location.countryName}, `}{distance} {t("fromYou")}</P>
+                                <P>{formattedStartTime}</P>
                             </View>
-                            {eventData.tickets.length > 0 &&
-                                <StyledTicketsView>
-                                    <H3 style={{ paddingHorizontal: 16 }}>{t("tickets")}</H3>
-                                    <FlatList
-                                        contentContainerStyle={{ gap: 8, paddingHorizontal: 16 }}
-                                        data={eventData.tickets}
-                                        showsHorizontalScrollIndicator={false}
-                                        horizontal={true}
-                                        scrollEnabled
-                                        renderItem={({ item }) => (
-                                            <StyledTicket>
-                                                <StyledTicketHeader>
-                                                    <H6>{item.name}</H6>
-                                                    <P>{item.amount !== -1 && item.amount}</P>
-                                                </StyledTicketHeader>
-                                            </StyledTicket>
-                                        )}
-                                        keyExtractor={item => item.name}
-                                    />
-                                </StyledTicketsView>
-                            }
-                            <View style={{ paddingHorizontal: 16, gap: 16 }}>
-                                <Line />
-                                <StyledTagsView>
-                                    <View style={{ flexDirection: "row" }}>
-                                        <H3>{t("tags")}</H3>
-                                        {/* <TouchableOpacity>
+                            <StyledAgeLimit>
+                                <Span textcolor='Grey'>
+                                    {eventData.ageLimit}+
+                                </Span>
+                            </StyledAgeLimit>
+                        </StyledAdditionEventInfo>
+                        {eventData.description &&
+                            <P>
+                                {eventData?.description}
+                            </P>
+                        }
+                        {eventData.tickets.length > 0 &&
+                            <Line />
+                        }
+                    </View>
+                    {eventData.tickets.length > 0 &&
+                        <StyledTicketsView>
+                            <H3 style={{ paddingHorizontal: 16 }}>{t("tickets")}</H3>
+                            <FlatList
+                                contentContainerStyle={{ gap: 8, paddingHorizontal: 16 }}
+                                data={eventData.tickets}
+                                showsHorizontalScrollIndicator={false}
+                                horizontal={true}
+                                scrollEnabled
+                                renderItem={({ item }) => (
+                                    <StyledTicket>
+                                        <StyledTicketHeader>
+                                            <H6>{item.name}</H6>
+                                            <P>{item.amount !== -1 && item.amount}</P>
+                                        </StyledTicketHeader>
+                                    </StyledTicket>
+                                )}
+                                keyExtractor={item => item.name}
+                            />
+                        </StyledTicketsView>
+                    }
+                    <View style={{ paddingHorizontal: 16, gap: 16 }}>
+                        <Line />
+                        <StyledTagsView>
+                            <View style={{ flexDirection: "row" }}>
+                                <H3>{t("tags")}</H3>
+                                {/* <TouchableOpacity>
                                 <InfoIcon />
                             </TouchableOpacity> */}
-                                    </View>
-                                    <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
-                                        {eventData.tags.map(tag => (
-                                            <EventTag key={tag.cid} tag={tag} />
-                                        ))}
-                                    </View>
-                                </StyledTagsView>
                             </View>
-                        </EventInfoContainer>
-                        <StyledEventFooter>
-                            <PrimaryMediumButton onPress={handleBuyTicketOpenLink} btnType='Primary' title={t("buyTickets")}><TicketIcon /></PrimaryMediumButton>
-                            <StyledEventFooterActions>
-                                <PrimaryMediumButton onPress={() => navigation.navigate("InviteFriendsModalView", { eventCid: eventData.cid })} style={{ flex: 1 }} btnType='Secondary' title={t("inviteFriend")} />
-                                <PrimaryMediumButton style={{ flex: 1 }} btnType='Secondary' title={t("seeWhoGoes")} />
-                                <PrimaryMediumButton style={{ flex: 1 }} btnType='Secondary' title={t("iWillGo")} />
-                            </StyledEventFooterActions>
-                        </StyledEventFooter>
-                    </StyledEventModalContent>
-                    {similarEventsData && similarEventsData.totalCount > 0 &&
-                        <StyledSimilarEventsContainer>
-                            <H3 style={{ paddingLeft: 16 }}>{t("similarEvents")}</H3>
-                            <FlatList
-                                // onEndReached={similarEventsData.nextPage ? paginate : null}
-                                ListFooterComponent={similarEventsData.nextPage ? <LoaderContainer /> : null}
-                                contentContainerStyle={{ paddingBottom: 24, paddingHorizontal: 16 }}
-                                data={similarEventsData.paginatedResults}
-                                horizontal={false}
-                                scrollEnabled={false}
-                                renderItem={({ item }) => <EventLg eventData={item} />}
-                                keyExtractor={item => item.id}
-                            />
-                        </StyledSimilarEventsContainer>
-                    }
-                </ScrollView>
+                            <View style={{ flexDirection: "row", flexWrap: "wrap", gap: 8 }}>
+                                {eventData.tags.map(tag => (
+                                    <EventTag key={tag.cid} tag={tag} />
+                                ))}
+                            </View>
+                        </StyledTagsView>
+                    </View>
+                </EventInfoContainer>
+                <StyledEventFooter>
+                    <PrimaryMediumButton onPress={handleBuyTicketOpenLink} btnType='Primary' title={t("buyTickets")}><TicketIcon /></PrimaryMediumButton>
+                    <StyledEventFooterActions>
+                        <PrimaryMediumButton onPress={() => navigation.navigate("InviteFriendsModalView", { eventCid: eventData.cid })} style={{ flex: 1 }} btnType='Secondary' title={t("inviteFriend")} />
+                        <PrimaryMediumButton style={{ flex: 1 }} btnType='Secondary' title={t("seeWhoGoes")} />
+                        <PrimaryMediumButton style={{ flex: 1 }} btnType='Secondary' title={t("iWillGo")} />
+                    </StyledEventFooterActions>
+                </StyledEventFooter>
+            </StyledEventModalContent>
+            {similarEventsData && similarEventsData.totalCount > 0 &&
+                <StyledSimilarEventsContainer>
+                    <H3 style={{ paddingLeft: 16 }}>{t("similarEvents")}</H3>
+                    <FlatList
+                        // onEndReached={similarEventsData.nextPage ? paginate : null}
+                        ListFooterComponent={similarEventsData.nextPage ? <LoaderContainer /> : null}
+                        contentContainerStyle={{ paddingBottom: 24, paddingHorizontal: 16 }}
+                        data={similarEventsData.paginatedResults}
+                        horizontal={false}
+                        scrollEnabled={false}
+                        renderItem={({ item }) => <EventLg eventData={item} />}
+                        keyExtractor={item => item.id}
+                    />
+                </StyledSimilarEventsContainer>
             }
-        </AppBottomSheet>
+        </ScrollView>
     )
 }
 
@@ -208,9 +230,10 @@ const EventInfoContainer = styled(View)`
 `
 
 const StyledEventInfoHead = styled(View)`
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
+gap: 6px;
+    /* flex-direction: ; */
+    /* justify-content: space-between; */
+    /* align-items: center; */
 `
 
 const StyledAgeLimit = styled(View)`

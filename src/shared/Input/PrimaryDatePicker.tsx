@@ -32,7 +32,6 @@ const PrimaryDatePicker = ({ inputStyle = "Primary", initialValue, placeholder =
     const [opened, setOpened] = useState(false)
     const { i18n, t } = useTranslation()
     const formattedStartTime = moment(rest.value).locale(i18n.language).format(momentLocaleFormat[i18n.language as keyof typeof momentLocaleFormat]);
-    console.log(initialValue, rest.value)
     return (
         <>
             <StyledInputContent>

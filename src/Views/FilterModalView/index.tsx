@@ -72,9 +72,9 @@ const FilterModalView = ({ }: IMainViewProps) => {
         (props: BottomSheetFooterProps) => (
             <StyledFilterModalFooter style={{paddingBottom: bottom}} {...props}>
                 <TouchableOpacity onPress={clearFilters}>
-                    <H6 textcolor="Grey">Clear all</H6>
+                    <H6 textcolor="Grey">{t("clear")}</H6>
                 </TouchableOpacity>
-                <PrimaryMediumButton onPress={submitFilters} title="Submit"></PrimaryMediumButton>
+                <PrimaryMediumButton onPress={submitFilters} title={t("submit")}></PrimaryMediumButton>
             </StyledFilterModalFooter>
         ),
         []
@@ -83,36 +83,36 @@ const FilterModalView = ({ }: IMainViewProps) => {
         <AppBottomSheet snapPoints={[ "90%"]} footerComponent={renderFooter}>
             <StyledSearchModal>
                 <StyledFilterModalHeader>
-                    <H1>Filters</H1>
+                    <H1>{t("filters")}</H1>
                 </StyledFilterModalHeader>
                 <BottomSheetScrollView>
                     <StyledFiltersContent style={{marginBottom: bottom + 80}}>
                         <StyledFiltersSection>
-                            <H3>Price</H3>
+                            <H3>{t("price")}</H3>
                             <StyledInputsRangeContainer>
                                 <View style={{ flex: 0.5 }}>
-                                    <PrimaryFormInput keyboardType='numeric' inputStyle="Primary" value={choosedFilters.minPrice?.toString()} onChangeText={(value) => setFiltersStringValues("minPrice", value)} placeholder="Min" />
+                                    <PrimaryFormInput keyboardType='numeric' inputStyle="Primary" value={choosedFilters.minPrice?.toString()} onChangeText={(value) => setFiltersStringValues("minPrice", value)} placeholder={t("min")} />
                                 </View>
                                 <View style={{ flex: 0.5 }}>
-                                    <PrimaryFormInput keyboardType='numeric' inputStyle="Primary" value={choosedFilters.maxPrice?.toString()} onChangeText={(value) => setFiltersStringValues("maxPrice", value)} placeholder="Max" />
+                                    <PrimaryFormInput keyboardType='numeric' inputStyle="Primary" value={choosedFilters.maxPrice?.toString()} onChangeText={(value) => setFiltersStringValues("maxPrice", value)} placeholder={t("max")} />
                                 </View>
                             </StyledInputsRangeContainer>
                         </StyledFiltersSection>
                         <Line />
                         <StyledFiltersSection>
-                            <H3>Date</H3>
+                            <H3>{t("date")}</H3>
                             <StyledInputsRangeContainer>
                                 <View style={{ flex: 0.5 }}>
-                                    <PrimaryDatePicker onChange={(value) => setFiltersDateValues("startDate", value.nativeEvent.timestamp)} placeholder="Min date" minimumDate={new Date} value={choosedFilters.startDate || new Date} initialValue={new Date} />
+                                    <PrimaryDatePicker onChange={(value) => setFiltersDateValues("startDate", value.nativeEvent.timestamp)} placeholder={t("minDate")} minimumDate={new Date} value={choosedFilters.startDate || new Date} initialValue={new Date} />
                                 </View>
                                 <View style={{ flex: 0.5 }}>
-                                    <PrimaryDatePicker onChange={(value) => setFiltersDateValues("endDate", value.nativeEvent.timestamp)} placeholder="Max date" minimumDate={new Date} value={choosedFilters.startDate || new Date} initialValue={new Date} />
+                                    <PrimaryDatePicker onChange={(value) => setFiltersDateValues("endDate", value.nativeEvent.timestamp)} placeholder={t("maxDate")} minimumDate={new Date} value={choosedFilters.startDate || new Date} initialValue={new Date} />
                                 </View>
                             </StyledInputsRangeContainer>
                         </StyledFiltersSection>
                         <Line />
                         <StyledFiltersSection>
-                            <H3>Distance</H3>
+                            <H3>{t("distance")}</H3>
                             <StyledInputsRangeContainer>
                                 <Slider
                                     style={{ flex: 1 }}
@@ -129,7 +129,7 @@ const FilterModalView = ({ }: IMainViewProps) => {
                                     {choosedFilters.radius ?
                                         <H6>{t("kilometersAway", { count: choosedFilters.radius })}</H6>
                                         :
-                                        <H6>Never mind</H6>
+                                        <H6>{t("any")}</H6>
                                     }
                                 </View>
                             </StyledInputsRangeContainer>

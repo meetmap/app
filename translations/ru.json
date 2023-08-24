@@ -100,5 +100,17 @@
     "search": "Поиск",
     "chooseEventLocation": "Укажите локацию мероприятия",
     "creatingEventStatus": "Создание мероприятия",
-    "uploadingEventImagesStatus": "Загрузка изображений"
+    "uploadingEventImagesStatus": "Загрузка изображений",
+    "filters": "Фильтры",
+    "price": "Цена",
+    "date": "Дата",
+    "distance": "Расстояние",
+    "max": "Максимум",
+    "min": "Минимум",
+    "sotrtBy": "Сортировать по:",
+    "maxDate": "Макc. дата",
+    "minDate": "Мин. дата",
+    "tagName": "Название тега",
+    "clear": "Сбросить",
+    "any": "Любое"
 }

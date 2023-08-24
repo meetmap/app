@@ -95,5 +95,17 @@
     "search": "Search",
     "chooseEventLocation": "Choose event location",
     "creatingEventStatus": "Creating event",
-    "uploadingEventImagesStatus": "Uploading images"
+    "uploadingEventImagesStatus": "Uploading images",
+    "filters": "Filters",
+    "price": "Price",
+    "date": "Date",
+    "distance": "Distance",
+    "max": "Max",
+    "min": "Min",
+    "sotrtBy": "Sort by:",
+    "maxDate": "Max date",
+    "minDate": "Min date",
+    "tagName": "Tag name",
+    "clear": "Clear all",
+    "any": "Any"
 }
