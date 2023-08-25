@@ -23,12 +23,11 @@ const HeaderStatus = () => {
         return (showCurrentFilter)
     }, [mapFiler])
 
-    useEffect(() => {
-        async () => {
-            const camera = await mapViewRef.current?.getCamera()
-            console.log(camera)
-        }
-    }, [addressState])
+    // useEffect(() => {
+    //     async () => {
+    //         const camera = await mapViewRef.current?.getCamera()
+    //     }
+    // }, [addressState])
 
 
 

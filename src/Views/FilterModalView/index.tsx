@@ -103,10 +103,10 @@ const FilterModalView = ({ }: IMainViewProps) => {
                             <H3>{t("date")}</H3>
                             <StyledInputsRangeContainer>
                                 <View style={{ flex: 0.5 }}>
-                                    <PrimaryDatePicker onChange={(value) => setFiltersDateValues("startDate", value.nativeEvent.timestamp)} placeholder={t("minDate")} minimumDate={new Date} value={choosedFilters.startDate || new Date} initialValue={new Date} />
+                                    <PrimaryDatePicker display="spinner" onChange={(value) => setFiltersDateValues("startDate", value.nativeEvent.timestamp)} placeholder={t("minDate")} minimumDate={new Date} maximumDate={choosedFilters.endDate || undefined} value={choosedFilters.startDate} />
                                 </View>
                                 <View style={{ flex: 0.5 }}>
-                                    <PrimaryDatePicker onChange={(value) => setFiltersDateValues("endDate", value.nativeEvent.timestamp)} placeholder={t("maxDate")} minimumDate={new Date} value={choosedFilters.startDate || new Date} initialValue={new Date} />
+                                    <PrimaryDatePicker display="spinner" onChange={(value) => setFiltersDateValues("endDate", value.nativeEvent.timestamp)} placeholder={t("maxDate")} minimumDate={choosedFilters.startDate || new Date} value={choosedFilters.endDate} />
                                 </View>
                             </StyledInputsRangeContainer>
                         </StyledFiltersSection>

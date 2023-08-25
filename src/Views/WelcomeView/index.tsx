@@ -76,7 +76,4 @@ const StyledBottomContent = styled(View)`
     align-items: stretch;
     padding: 0 16px;
     gap: 12px;
-    button{
-        width: 100%;
-    }
 `

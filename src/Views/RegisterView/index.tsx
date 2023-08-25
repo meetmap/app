@@ -15,8 +15,12 @@ import RNDateTimePicker, { DateTimePickerEvent } from "@react-native-community/d
 import PrimaryDatePicker from "../../shared/Input/PrimaryDatePicker";
 import { useTranslation } from "react-i18next";
 import Animated, { Layout, useAnimatedStyle, withSpring } from "react-native-reanimated";
+import { Formik, FormikErrors, FormikProps, useFormik, useFormikContext } from "formik";
+import * as yup from 'yup'
+import { z } from "zod";
+import { t } from "i18next";
 
-interface ILoginFormData {
+interface IRegisterFormData {
     name: string,
     username: string,
     email: string,
@@ -24,29 +28,33 @@ interface ILoginFormData {
     password: string,
     repeatPassword: string
 }
-interface IErrors {
-    name?: string;
-    username?: string;
-    email?: string;
-    birthDate?: string;
-    password?: string;
-    repeatPassword?: string;
+interface IRegisterFormDataErrors {
+    name: string | null,
+    username: string | null,
+    email: string | null,
+    birthDate: string | null,
+    password: string | null,
+    repeatPassword: string | null
 }
+const PASSWORD_REGEX = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])[A-Za-z0-9]{6,}$/;
+const userFormSchema = z.object({
+    name: z.string().nonempty({ message: t("registerNameError")}),
+    username: z.string().nonempty({ message: t("registerUsernameError") }),
+    email: z.string().email({ message: t("registerEmailError") }),
+    birthDate: z.nullable(z.date()),
+    password: z.string().refine(value => PASSWORD_REGEX.test(value), {
+        message: t("registerPasswordError")
+    }),
+    repeatPassword: z.string(),
+})
+// .refine(data => data.password === data.repeatPassword, {
+//     message: t("registerPasswordsNotMatchError")
+// });
 
 
 const RegisterView = () => {
-    const dispatch = useAppDispatch()
     const navigation = useNavigation<NavigationProps>()
 
-
-    const [values, setValues] = useState<ILoginFormData>({
-        name: '',
-        username: '',
-        email: '',
-        birthDate: null,
-        password: '',
-        repeatPassword: ''
-    })
 
     const headerValues = [
         {
@@ -79,99 +87,44 @@ const RegisterView = () => {
         }
     ]
 
-    const [errors, setErrors] = useState<Record<keyof ILoginFormData, string | null>>({
+    const [formValues, setFormValues] = useState<IRegisterFormData>({
+        name: '',
+        username: '',
+        email: '',
+        birthDate: null,
+        password: '',
+        repeatPassword: ''
+    })
+    const [formValuesErrors, setFormValuesErrors] = useState<IRegisterFormDataErrors>({
         name: null,
         username: null,
         email: null,
         birthDate: null,
         password: null,
-        repeatPassword: null,
-    });
+        repeatPassword: null
+    })
 
 
-    const validate = (valueKey: keyof ILoginFormData) => {
-        const value = values[valueKey];
-
-        switch (valueKey) {
-            case "name":
-                if (value?.length < 3) {
-                    setErrors(prevErrors => ({
-                        ...prevErrors,
-                        name: "Name must be at least 3 characters long",
-                    }));
-                    return true
-                } else {
-                    setErrors(prevErrors => ({
-                        ...prevErrors,
-                        name: null,
-                    }));
-                }
-                break
-            case "username":
-                // Ваша валидация для username
-                break
-            case "email":
-                if (!/^\S+@\S+\.\S+$/.test(value as string)) {
-                    setErrors(prevErrors => ({
-                        ...prevErrors,
-                        email: "Invalid email format",
-                    }));
-                    return true
-                } else {
-                    setErrors(prevErrors => ({
-                        ...prevErrors,
-                        email: null,
-                    }));
-                }
-                break
-            case "birthDate":
-                // Ваша валидация для birthDate
-                break;
-            case "password":
-                // Ваша валидация для password
-                break;
-            case "repeatPassword":
-                if (value === values.password) {
-                    setErrors(prevErrors => ({
-                        ...prevErrors,
-                        repeatPassword: null,
-                    }));
-                } else {
-                    setErrors(prevErrors => ({
-                        ...prevErrors,
-                        repeatPassword: "Passwords do not match",
-                    }));
-                    return true
-                }
-                break;
-        }
-    };
-
-
-    const handleChange = (name: string, data: string) => {
-        setValues({
-            ...values,
-            [name]: data
-        })
+    const handleChange = (name: keyof IRegisterFormData, data: string) => {
+        setFormValues((state) => ({ ...state, [name]: data }))
     }
 
     const handleDateChange = (date: DateTimePickerEvent) => {
-        if (date.nativeEvent.timestamp)
-            setValues({
-                ...values,
-                birthDate: new Date(date.nativeEvent.timestamp)
-            })
+        if (date.nativeEvent.timestamp) {
+            const birthDate = new Date(date.nativeEvent.timestamp)
+            setFormValues(state => ({ ...state, birthDate }))
+        }
     }
 
-    const RegisterFunc = async () => {
-        // await dispatch(RegisterUserThunk({
-        //     name: values.name,
-        //     username: values.username,
-        //     email: values.email,
-        //     birthDate: values.birthDate,
-        //     password: values.password,
-        // }))
-    }
+    // const RegisterFunc = async () => {
+    //     // await dispatch(RegisterUserThunk({
+    //     //     name: values.name,
+    //     //     username: values.username,
+    //     //     email: values.email,
+    //     //     birthDate: values.birthDate,
+    //     //     password: values.password,
+    //     // }))
+    // }
 
     const { t } = useTranslation()
 
@@ -201,48 +154,126 @@ const RegisterView = () => {
         });
     };
 
-
     const goBackForm = () => {
         if (currentStage <= 1) {
             return
         }
         setCurrentStage(stage => stage - 1)
     }
-    const handleFillForm = () => {
+
+    const handleFillForm = async () => {
         if (currentStage >= 6) {
             return
         }
-        const error = validate(headerValues[currentStage - 1].valueKey as keyof ILoginFormData)
-        if (!error) {
+        const key: keyof IRegisterFormData = headerValues[currentStage - 1].valueKey
+        try {
+            const fieldSchema = userFormSchema.shape[key];
+            await fieldSchema.parse(formValues[key]);
             setCurrentStage(stage => stage + 1)
+            if (formValuesErrors[key]) {
+                setFormValuesErrors((state => ({ ...state, [key]: null })))
+            }
+        } catch (error) {
+            console.log(JSON.parse(error.message))
+            setFormValuesErrors((state => ({ ...state, [key]: JSON.parse(error.message)[0].message })))
         }
     }
 
+
+    // const handleFillForm = (formikProps) => {
+    //     // Получаем массив имен полей из initialValues
+    //     const fieldNames = Object.keys(loginValidationSchema.fields);
+
+    //     // Проверяем валидность текущего поля
+    //     if (currentFieldIndex < fieldNames.length - 1) {
+    //         const currentFieldName = fieldNames[currentFieldIndex];
+    //         formikProps.validateField(currentFieldName).then((error) => {
+    //             if (!error) {
+    //                 setCurrentFieldIndex(currentFieldIndex + 1);
+    //             }
+    //         });
+    //     } else {
+    //         // Последний этап, отправляем форму
+    //         formikProps.handleSubmit();
+    //     }
+    // };
+    // const handleChangeValue = () => {
+    //     handleChange('name')
+    //     validateField('name')
+    // }
     return (
         <StyledLoginViewContainer>
+            {/* <SafeAreaView> */}
+            <StyledAuthHeadContent>
+                <TouchableOpacity style={{ position: "absolute", left: 0, top: -24 }} onPress={() => navigation.goBack()}>
+                    <GoBackArrowIcon />
+                </TouchableOpacity>
+                {headerValues[currentStage - 1].headerTitle}
+            </StyledAuthHeadContent>
+            {/* <Formik
+                initialValues={{
+                    name: '',
+                    username: '',
+                    email: '',
+                    birthDate: null,
+                    password: '',
+                    repeatPassword: ''
+                }}
+                validateOnChange={false}
+                validateOnBlur={false}
+                validationSchema={loginValidationSchema}
+                onSubmit={values => console.log(values)}
+            >
+                {({
+                    handleChange,
+                    handleBlur,
+                    handleSubmit,
+                    values,
+                    errors,
+                    isValid,
+                    validateField,
+                }) => (
+                    <> */}
+            {/* <Button onPress={handleSubmit} title="Submit" /> */}
             <StyledInputsContent>
-                <StyledAuthHeadContent>
-                    <TouchableOpacity style={{ position: "absolute", left: 0, top: -24 }} onPress={() => navigation.goBack()}>
-                        <GoBackArrowIcon />
-                    </TouchableOpacity>
-                    {headerValues[currentStage - 1].headerTitle}
-                </StyledAuthHeadContent>
                 <StyledFormContent>
                     <StyledAnimatedInputContainer style={[useAnimatedInputStyles(1)]}>
-                        <RegisterPrimaryFormInput label={errors.name || 'Your name'} name='name' isError={!!errors.name} value={values.name} onChangeText={(text) => handleChange("name", text)} placeholder={t("name")} />
+                        <RegisterPrimaryFormInput
+                            label={formValuesErrors.name || 'Your name'}
+                            name='name'
+                            isError={!!formValuesErrors.name}
+                            onChangeText={(value) => handleChange('name', value)}
+                            value={formValues.name}
+                            placeholder={t("name")}
+                        />
                     </StyledAnimatedInputContainer>
                     <StyledAnimatedInputContainer style={[useAnimatedInputStyles(2)]}>
-                        <RegisterPrimaryFormInput label='Your username' name='username' isError={!!errors.username} value={values.username} onChangeText={(text) => handleChange("username", text)} placeholder={t("username")} />
+                        <RegisterPrimaryFormInput
+                            label={formValuesErrors.username || 'Your username'}
+                            name='username'
+                            isError={!!formValuesErrors.username}
+                            onChangeText={(value) => handleChange('username', value)}
+                            value={formValues.username}
+                            placeholder={t("username")}
+                        />
                     </StyledAnimatedInputContainer>
                     <StyledAnimatedInputContainer style={[useAnimatedInputStyles(3)]}>
-                        <RegisterPrimaryFormInput label={errors.email || 'Your e-mail'} name='email' isError={!!errors.email} value={values.email} onChangeText={(text) => handleChange("email", text)} placeholder='E-mail' />
+                        <RegisterPrimaryFormInput
+                            label={formValuesErrors.email || 'Your email'}
+                            name='email'
+                            isError={!!formValuesErrors.email}
+                            onChangeText={(value) => handleChange('email', value)}
+                            value={formValues.email}
+                            placeholder={t("email")}
+                            keyboardType="email-address"
+                        />
                     </StyledAnimatedInputContainer>
                     <StyledAnimatedInputContainer style={[useAnimatedInputStyles(4)]}>
                         <PrimaryDatePicker
                             inputStyle="White"
                             label="Your birth date"
-                            value={values.birthDate || new Date}
-                            initialValue={new Date}
+                            value={formValues.birthDate}
+                            inputSize={"Lg"}
                             placeholder={t("birthDate")}
                             onChange={handleDateChange}
                             maximumDate={new Date}
@@ -254,10 +285,24 @@ const RegisterView = () => {
                         />
                     </StyledAnimatedInputContainer>
                     <StyledAnimatedInputContainer style={[useAnimatedInputStyles(5)]}>
-                        <RegisterSercuredFormInput label='Password' name='password' isError={!!errors.password} value={values.password} onChangeText={(text) => handleChange("password", text)} placeholder={t("password")} />
+                        <RegisterPrimaryFormInput
+                            label={formValuesErrors.password || 'Your password'}
+                            name='password'
+                            isError={!!formValuesErrors.password}
+                            onChangeText={(value) => handleChange('password', value)}
+                            value={formValues.password}
+                            placeholder={t("password")}
+                        />
                     </StyledAnimatedInputContainer>
                     <StyledAnimatedInputContainer style={[useAnimatedInputStyles(6)]}>
-                        <RegisterSercuredFormInput label='Repeat password' name='repeatPassword' isError={!!errors.repeatPassword} value={values.repeatPassword} onChangeText={(text) => handleChange("repeatPassword", text)} placeholder={t("repeatPassword")} />
+                        <RegisterPrimaryFormInput
+                            label={formValuesErrors.repeatPassword || 'Repeat password'}
+                            name='repeatPassword'
+                            isError={!!formValuesErrors.repeatPassword}
+                            onChangeText={(value) => handleChange('repeatPassword', value)}
+                            value={formValues.repeatPassword}
+                            placeholder={t("repeatPassword")}
+                        />
                     </StyledAnimatedInputContainer>
                 </StyledFormContent>
             </StyledInputsContent>
@@ -269,6 +314,9 @@ const RegisterView = () => {
                 }
                 <PrimaryButton style={{ flex: 1 }} onPress={handleFillForm} btnType='Primary' title={t("goNext")} />
             </StyledButtonContent>
+            {/* </>
+                )}
+            </Formik> */}
         </StyledLoginViewContainer>
     )
 }
@@ -286,12 +334,12 @@ const StyledAuthHeadContent = styled(View)`
     position: relative;
     z-index: 1;
     height: 100px;
+    margin-top: 36px;
 `
 const StyledInputsContent = styled(View)`
     display: flex;
     flex-direction: column;
     gap: 36px;
-    margin-top: 50px;
     padding: 0 16px;
     flex: 1;
 `

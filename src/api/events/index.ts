@@ -24,11 +24,12 @@ export const getEventsListByCids = async (
   eventCids: string[],
   page: number = 1,
 ) => {
-  const res = await getAxios('events', true).get<IPaginateRespose<IEvent>>(
+  const res = await getAxios('events', true).post<IPaginateRespose<IEvent>>(
     `/events/batch`,
     {
+      cids: [...eventCids],
       params: {
-        cids: eventCids,
+        // cids: eventCids,
         page,
       },
     },
