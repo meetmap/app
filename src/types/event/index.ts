@@ -9,7 +9,7 @@ export interface IEvent {
   assets: string[];
   thumbnail: string
   description?: string;
-  tickets: ITicket[],
+  tickets: ITicketResponse[],
   /**
    *  timestamp
    */
@@ -53,6 +53,15 @@ export interface IEventStats {
 export interface ITicket {
   name: string
   price: number
+  amount: number
+  description: string
+}
+export interface ITicketResponse {
+  name: string
+  price: {
+    currency: string
+    amount: number
+  }
   amount: number
   description: string
 }

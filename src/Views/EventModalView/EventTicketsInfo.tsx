@@ -1,12 +1,13 @@
 import React from 'react'
-import { ITicket } from '../../types/event'
+import { ITicket, ITicketResponse } from '../../types/event'
 import { H3, H6, P } from '../../shared/Text'
 import { FlatList, View } from 'react-native'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
+import PrimaryTicket from '../../shared/Ticket/PrimaryTicket'
 
 interface IEventTicketsInfo {
-    tickets: ITicket[]
+    tickets: ITicketResponse[]
 }
 const EventTicketsInfo = ({ tickets }: IEventTicketsInfo) => {
     const { t } = useTranslation()
@@ -21,12 +22,15 @@ const EventTicketsInfo = ({ tickets }: IEventTicketsInfo) => {
                     horizontal={true}
                     scrollEnabled
                     renderItem={({ item }) => (
-                        <StyledTicket>
-                            <StyledTicketHeader>
-                                <H6>{item.name}</H6>
-                                <P>{item.amount !== -1 && item.amount}</P>
-                            </StyledTicketHeader>
-                        </StyledTicket>
+                        <PrimaryTicket
+                            ticket={{
+                                amount: item.amount,
+                                price: item.price.amount,
+                                description: item.description,
+                                name: item.name
+                            }}
+                            style={{ height: 140}}
+                        />
                     )}
                     keyExtractor={item => item.name}
                 />

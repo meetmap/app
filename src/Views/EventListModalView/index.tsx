@@ -9,9 +9,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../types/NavigationProps';
 import { H1 } from '../../shared/Text';
 import { useTranslation } from 'react-i18next';
-import useAxios from '../../hooks/useAxios';
 import { getEventsListByCids } from '../../api/events';
-import { IPaginateRespose } from '../../types/response';
 import useAxiosPaginated from '../../hooks/useAxiosPaginated';
 
 export interface IEventsListModalViewProps {

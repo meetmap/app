@@ -9,6 +9,7 @@ import SearchInput from '../../shared/Input/SearchInput'
 import { IFilters } from '../../store/slices/filtersSlice'
 import useAxiosSearch from '../../hooks/useAxiosSearch'
 import CreateEventTag from '../../shared/Tags/CreateEventTag'
+import { StyledCreateEventFormContainer } from '.'
 
 const ChooseTagsComponent = () => {
     const { data: tags, error, loading, paginate, fetchData } = useAxiosSearch<ITag>(getTags)
@@ -16,7 +17,7 @@ const ChooseTagsComponent = () => {
         fetchData({ q: text })
     }
     return (
-        <View style={{gap: 8}}>
+        <StyledCreateEventFormContainer>
             <StyledTagHeader>
                 <H3>Tags</H3>
                 <TouchableOpacity style={{ flexDirection: "row", gap: 6, alignItems: "center" }}>
@@ -34,7 +35,7 @@ const ChooseTagsComponent = () => {
             {tags?.nextPage &&
                 <TouchableOpacity onPress={() => paginate()} style={{ flex: 1, alignItems: "center" }}><H6 textcolor='Grey'>Show more</H6></TouchableOpacity>
             }
-        </View>
+        </StyledCreateEventFormContainer>
     )
 
 }

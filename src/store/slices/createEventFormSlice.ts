@@ -3,10 +3,12 @@ import MapView, { Address } from "react-native-maps";
 import { ITag, ITicket } from "../../types/event";
 import { ICoordinates } from "./locationSlice";
 import { IEventFormValues } from "../../Views/CreateEventView";
+import { IUploadedImage } from "../../api/users";
 
 
 interface InitialState {
     eventFormValues: IEventFormValues
+    images: IUploadedImage[]
 }
 
 const initialState: InitialState = {
@@ -20,7 +22,8 @@ const initialState: InitialState = {
         location: null,
         tickets: [],
         tagsCids: []
-    }
+    },
+    images: []
 };
 
 const createEventFormSlice = createSlice({
@@ -35,10 +38,13 @@ const createEventFormSlice = createSlice({
         },
         setTagsState: (state, action: { payload: string[] }) => {
             state.eventFormValues.tagsCids = action.payload
+        },
+        setEventImages: (state, action: { payload: IUploadedImage[] }) => {
+            state.images = action.payload
         }
     }
 });
 
-export const { setEventFormValuesState, setTicketsState, setTagsState } = createEventFormSlice.actions;
+export const { setEventFormValuesState, setTicketsState, setTagsState, setEventImages} = createEventFormSlice.actions;
 
 export default createEventFormSlice.reducer;

@@ -18,7 +18,6 @@ import Animated, { Layout, useAnimatedStyle, withSpring } from "react-native-rea
 import { Formik, FormikErrors, FormikProps, useFormik, useFormikContext } from "formik";
 import * as yup from 'yup'
 import { z } from "zod";
-import { t } from "i18next";
 
 interface IRegisterFormData {
     name: string,
@@ -37,33 +36,29 @@ interface IRegisterFormDataErrors {
     repeatPassword: string | null
 }
 const PASSWORD_REGEX = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])[A-Za-z0-9]{6,}$/;
-const userFormSchema = z.object({
-    name: z.string().nonempty({ message: t("registerNameError")}),
-    username: z.string().nonempty({ message: t("registerUsernameError") }),
-    email: z.string().email({ message: t("registerEmailError") }),
-    birthDate: z.nullable(z.date()),
-    password: z.string().refine(value => PASSWORD_REGEX.test(value), {
-        message: t("registerPasswordError")
-    }),
-    repeatPassword: z.string(),
-})
-// .refine(data => data.password === data.repeatPassword, {
-//     message: t("registerPasswordsNotMatchError")
-// });
 
 
 const RegisterView = () => {
     const navigation = useNavigation<NavigationProps>()
-
+    const { t } = useTranslation()
+    const userFormSchema = z.object({
+        name: z.string().nonempty({ message: t("registerNameError") }),
+        username: z.string().nonempty({ message: t("registerUsernameError") }),
+        email: z.string().email({ message: t("registerEmailError") }),
+        birthDate: z.date().refine(value => {}, {
+            message: t("registerBirthDateError")
+        }),
+        password: z.string().min(6, t("registerPasswordLengthError")).refine(value => PASSWORD_REGEX.test(value), {
+            message: t("registerPasswordError")
+        }),
+        repeatPassword: z.string(),
+    })
+    const dispatch = useAppDispatch()
 
     const headerValues = [
         {
             valueKey: "name",
-            headerTitle:
-                <>
-                    <Title textcolor='Black'>Hey!</Title>
-                    <Title textcolor='Black'>What’s your name?</Title>
-                </>,
+            headerTitle: <Title textcolor='Black'>What’s your name?</Title>
         },
         {
             valueKey: "username",
@@ -115,20 +110,6 @@ const RegisterView = () => {
             setFormValues(state => ({ ...state, birthDate }))
         }
     }
-
-    // const RegisterFunc = async () => {
-    //     // await dispatch(RegisterUserThunk({
-    //     //     name: values.name,
-    //     //     username: values.username,
-    //     //     email: values.email,
-    //     //     birthDate: values.birthDate,
-    //     //     password: values.password,
-    //     // }))
-    // }
-
-    const { t } = useTranslation()
-
-
     const [currentStage, setCurrentStage] = useState(1)
 
     const useAnimatedInputStyles = (stage: number) => {
@@ -162,45 +143,39 @@ const RegisterView = () => {
     }
 
     const handleFillForm = async () => {
-        if (currentStage >= 6) {
-            return
-        }
         const key: keyof IRegisterFormData = headerValues[currentStage - 1].valueKey
-        try {
-            const fieldSchema = userFormSchema.shape[key];
-            await fieldSchema.parse(formValues[key]);
-            setCurrentStage(stage => stage + 1)
-            if (formValuesErrors[key]) {
-                setFormValuesErrors((state => ({ ...state, [key]: null })))
+        if (currentStage < 6) {
+            try {
+                const fieldSchema = userFormSchema.shape[key];
+                fieldSchema.parse(formValues[key]);
+                setCurrentStage(stage => stage + 1)
+                if (formValuesErrors[key]) {
+                    setFormValuesErrors((state => ({ ...state, [key]: null })))
+                }
+            } catch (error) {
+                console.log(JSON.parse(error.message))
+                setFormValuesErrors((state => ({ ...state, [key]: JSON.parse(error.message)[0].message })))
             }
-        } catch (error) {
-            console.log(JSON.parse(error.message))
-            setFormValuesErrors((state => ({ ...state, [key]: JSON.parse(error.message)[0].message })))
+        }
+        if (currentStage === 6) {
+            try {
+                userFormSchema.refine(data => data.password === data.repeatPassword, {
+                    message: t("registerPasswordsNotMatchError")
+                }).parse(formValues);
+                await dispatch(RegisterUserThunk({
+                    name: formValues.name,
+                    username: formValues.username,
+                    email: formValues.email,
+                    birthDate: formValues.birthDate!,
+                    password: formValues.password,
+                }))
+            } catch (error) {
+                console.log(JSON.parse(error.message))
+                setFormValuesErrors((state => ({ ...state, [key]: JSON.parse(error.message)[0].message })))
+            }
         }
     }
 
-
-    // const handleFillForm = (formikProps) => {
-    //     // Получаем массив имен полей из initialValues
-    //     const fieldNames = Object.keys(loginValidationSchema.fields);
-
-    //     // Проверяем валидность текущего поля
-    //     if (currentFieldIndex < fieldNames.length - 1) {
-    //         const currentFieldName = fieldNames[currentFieldIndex];
-    //         formikProps.validateField(currentFieldName).then((error) => {
-    //             if (!error) {
-    //                 setCurrentFieldIndex(currentFieldIndex + 1);
-    //             }
-    //         });
-    //     } else {
-    //         // Последний этап, отправляем форму
-    //         formikProps.handleSubmit();
-    //     }
-    // };
-    // const handleChangeValue = () => {
-    //     handleChange('name')
-    //     validateField('name')
-    // }
     return (
         <StyledLoginViewContainer>
             {/* <SafeAreaView> */}
@@ -210,36 +185,11 @@ const RegisterView = () => {
                 </TouchableOpacity>
                 {headerValues[currentStage - 1].headerTitle}
             </StyledAuthHeadContent>
-            {/* <Formik
-                initialValues={{
-                    name: '',
-                    username: '',
-                    email: '',
-                    birthDate: null,
-                    password: '',
-                    repeatPassword: ''
-                }}
-                validateOnChange={false}
-                validateOnBlur={false}
-                validationSchema={loginValidationSchema}
-                onSubmit={values => console.log(values)}
-            >
-                {({
-                    handleChange,
-                    handleBlur,
-                    handleSubmit,
-                    values,
-                    errors,
-                    isValid,
-                    validateField,
-                }) => (
-                    <> */}
-            {/* <Button onPress={handleSubmit} title="Submit" /> */}
             <StyledInputsContent>
                 <StyledFormContent>
                     <StyledAnimatedInputContainer style={[useAnimatedInputStyles(1)]}>
                         <RegisterPrimaryFormInput
-                            label={formValuesErrors.name || 'Your name'}
+                            label={formValuesErrors.name || t("registerNameLabel")}
                             name='name'
                             isError={!!formValuesErrors.name}
                             onChangeText={(value) => handleChange('name', value)}
@@ -249,7 +199,7 @@ const RegisterView = () => {
                     </StyledAnimatedInputContainer>
                     <StyledAnimatedInputContainer style={[useAnimatedInputStyles(2)]}>
                         <RegisterPrimaryFormInput
-                            label={formValuesErrors.username || 'Your username'}
+                            label={formValuesErrors.username || t("registerUsernameLabel")}
                             name='username'
                             isError={!!formValuesErrors.username}
                             onChangeText={(value) => handleChange('username', value)}
@@ -259,19 +209,19 @@ const RegisterView = () => {
                     </StyledAnimatedInputContainer>
                     <StyledAnimatedInputContainer style={[useAnimatedInputStyles(3)]}>
                         <RegisterPrimaryFormInput
-                            label={formValuesErrors.email || 'Your email'}
+                            label={formValuesErrors.email || t("registerEmailLabel")}
                             name='email'
                             isError={!!formValuesErrors.email}
                             onChangeText={(value) => handleChange('email', value)}
                             value={formValues.email}
-                            placeholder={t("email")}
+                            placeholder={"E-mail"}
                             keyboardType="email-address"
                         />
                     </StyledAnimatedInputContainer>
                     <StyledAnimatedInputContainer style={[useAnimatedInputStyles(4)]}>
                         <PrimaryDatePicker
                             inputStyle="White"
-                            label="Your birth date"
+                            label={formValuesErrors.birthDate || t("registerBirthDateLabel")}
                             value={formValues.birthDate}
                             inputSize={"Lg"}
                             placeholder={t("birthDate")}
@@ -285,8 +235,8 @@ const RegisterView = () => {
                         />
                     </StyledAnimatedInputContainer>
                     <StyledAnimatedInputContainer style={[useAnimatedInputStyles(5)]}>
-                        <RegisterPrimaryFormInput
-                            label={formValuesErrors.password || 'Your password'}
+                        <RegisterSercuredFormInput
+                            label={formValuesErrors.password || t("registerPasswordLabel")}
                             name='password'
                             isError={!!formValuesErrors.password}
                             onChangeText={(value) => handleChange('password', value)}
@@ -295,8 +245,8 @@ const RegisterView = () => {
                         />
                     </StyledAnimatedInputContainer>
                     <StyledAnimatedInputContainer style={[useAnimatedInputStyles(6)]}>
-                        <RegisterPrimaryFormInput
-                            label={formValuesErrors.repeatPassword || 'Repeat password'}
+                        <RegisterSercuredFormInput
+                            label={formValuesErrors.repeatPassword || t("registerRepeatPasswordLabel")}
                             name='repeatPassword'
                             isError={!!formValuesErrors.repeatPassword}
                             onChangeText={(value) => handleChange('repeatPassword', value)}

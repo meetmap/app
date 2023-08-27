@@ -2,9 +2,7 @@ import styled from "styled-components/native";
 import React, { ReactNode } from 'react'
 import { TextcolorsType } from "../Text";
 import { Text, TouchableOpacity, TouchableOpacityProps } from "react-native";
-import { IPrimaryButton } from "./PrimaryButton";
-
-export type ButtonType = "Primary" | "Secondary" | "White" | "Black"
+import { ButtonType, IPrimaryButton } from "./PrimaryButton";
 
 const PrimaryMediumButton = ({ children, btnType = "Primary", title, textColor, ...rest }: IPrimaryButton) => {
     return (

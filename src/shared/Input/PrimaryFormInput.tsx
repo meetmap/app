@@ -4,6 +4,8 @@ import React, { ReactNode } from 'react'
 import { TextInput, TextInputProps, View } from "react-native";
 import { Text } from "react-native-svg";
 import { H1, Span } from "../Text";
+import Animated, { ZoomIn, ZoomOut } from "react-native-reanimated";
+import ErrorIcon from "../Icons/ErrorIcon";
 
 interface IPrimaryFormInput extends TextInputProps {
     name?: string
@@ -23,12 +25,14 @@ const PrimaryFormInput = ({ name, label, isSuccess, inputStyle = "White", isErro
             <StyledInputWrapper>
                 <StyledPrimaryInput placeholderTextColor={"#898F99"} inputStyle={inputStyle} {...rest} id={name} autoCapitalize="none" />
                 <StyledInputStatus>
-                    {/* <AnimatePresence>
-                        {isSuccess && <SuccessIcon />}
-                    </AnimatePresence>
-                    <AnimatePresence>
-                        {isError && <ErrorIcon />}
-                    </AnimatePresence> */}
+                    {/* {isError &&
+                        <Animated.View
+                            entering={ZoomIn}
+                            exiting={ZoomOut}
+                        >
+                            <ErrorIcon />
+                        </Animated.View>
+                    } */}
                 </StyledInputStatus>
                 <StyledInputIcon>
                     {/* <AnimatePresence>
