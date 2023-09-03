@@ -2,6 +2,7 @@
     "eventsInThisPlace": "События в этом месте",
     "somethingWentWrong": "Что-то пошло не так",
     "buyTickets": "Купить билеты",
+    "organizer": "Организатор",
     "inviteFriend": "Пригласить",
     "seeWhoGoes": "Кто идет",
     "eventLikes": "Лайки мероприятия",
@@ -134,5 +135,6 @@
     "deleteTicket": "Удалить",
     "changeImage_one": "Изменить изображение",
     "changeImage_few": "Изменить изображения",
-    "changeImage_many": "Изменить изображения"
+    "changeImage_many": "Изменить изображения",
+    "save": "Сохранить"
 }

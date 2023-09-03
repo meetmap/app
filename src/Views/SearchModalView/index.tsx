@@ -9,12 +9,8 @@ import { useTranslation } from "react-i18next"
 import SearchEventsDataList from "./SearchEventsDataList"
 import { AxiosError } from "axios"
 import SearchEventsInput from "../../shared/Input/SearchEventsInput"
-import { IPaginateRespose } from "../../types/response"
 import { useAppSelector } from "../../store/hooks"
-import { getFromSecureStore } from "../../api/secure-store"
-import { SecureStoreKeys } from "../../constants"
 import useAxiosSearch from "../../hooks/useAxiosSearch"
-import { useSafeAreaInsets } from "react-native-safe-area-context"
 
 export interface ISearchModalViewProps {
     navigation: NativeStackNavigationProp<RootStackParamList, 'SearchModalView'>;
@@ -23,8 +19,8 @@ export interface ISearchModalViewProps {
 const SearchModalView = ({ }: ISearchModalViewProps) => {
 
     const filters = useAppSelector(state => state.filtersSlice.filters)
-    const { data: searchEventsData, error: searchError, loading: isSearchLoading, paginate, fetchData } = useAxiosSearch<IEvent>(searchEvents)
     const [searchText, setSearchText] = useState("")
+    const { data: searchEventsData, error: searchError, loading: isSearchLoading, paginate, fetchData } = useAxiosSearch<IEvent>(searchEvents)
     const searchEventsDataFunc = async (text: string) => {
         setSearchText(text)
     }
@@ -34,16 +30,12 @@ const SearchModalView = ({ }: ISearchModalViewProps) => {
             ...filters
         })
     }
-    
+
     useEffect(() => {
         fetchEvents()
     }, [filters, searchText])
-    
-
 
     const { t } = useTranslation()
-
-    // const {top, bottom} = useSafeAreaInsets()
 
 
     return (

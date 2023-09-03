@@ -20,7 +20,7 @@ const UserDataInInviteList = ({ userData }: { userData: IPartialUser }) => {
     }
     return (
         <StyledUserDataInList>
-            <StyledUserDataInfo onPress={() => navigation.navigate("ProfileView", { userId: userData.cid, username: userData.username })}>
+            <StyledUserDataInfo onPress={() => navigation.navigate("ProfileView", { userCid: userData.cid })}>
                 <LoadableProfileImage profilePicture={userData.profilePicture} containerSize={56} />
                 <StyledUserInfo>
                     {userData.name && <H6>{userData.name}</H6>}

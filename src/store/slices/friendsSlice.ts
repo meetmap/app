@@ -50,10 +50,10 @@ const friendsSlice = createSlice({
         state.outcomingRequests = action.payload.outcomingRequests;
         state.isLoading = false;
       })
-      .addCase(GetInitialFriendsThunk.pending, (state, action) => {
+      .addCase(GetInitialFriendsThunk.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(GetInitialFriendsThunk.rejected, (state, action) => {
+      .addCase(GetInitialFriendsThunk.rejected, (state) => {
         state.friends = {
           paginatedResults: [],
           totalCount: 0,
@@ -68,10 +68,10 @@ const friendsSlice = createSlice({
         state.incomingRequests.paginatedResults = state.incomingRequests.paginatedResults.filter((friend) => friend.id !== action.payload.id);
         state.outcomingRequests.paginatedResults = state.outcomingRequests.paginatedResults.filter((friend) => friend.id !== action.payload.id);
       })
-      .addCase(RejectFriendshipThunk.pending, (state, action) => {
+      .addCase(RejectFriendshipThunk.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(RejectFriendshipThunk.rejected, (state, action) => {
+      .addCase(RejectFriendshipThunk.rejected, (state) => {
         state.isLoading = false;
       });
 
@@ -79,10 +79,10 @@ const friendsSlice = createSlice({
       .addCase(ReuqestFriendshipThunk.fulfilled, (state, action) => {
         state.outcomingRequests.paginatedResults.push(action.payload);
       })
-      .addCase(ReuqestFriendshipThunk.pending, (state, action) => {
+      .addCase(ReuqestFriendshipThunk.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(ReuqestFriendshipThunk.rejected, (state, action) => {
+      .addCase(ReuqestFriendshipThunk.rejected, (state) => {
         state.isLoading = false;
       });
 
@@ -91,10 +91,10 @@ const friendsSlice = createSlice({
         state.incomingRequests.paginatedResults = state.incomingRequests.paginatedResults.filter((incoming) => incoming.id !== action.payload.id);
         state.friends.paginatedResults.push(action.payload);
       })
-      .addCase(AcceptFriendshipThunk.pending, (state, action) => {
+      .addCase(AcceptFriendshipThunk.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(AcceptFriendshipThunk.rejected, (state, action) => {
+      .addCase(AcceptFriendshipThunk.rejected, (state) => {
         state.isLoading = false;
       });
   },
@@ -118,21 +118,21 @@ export const GetInitialFriendsThunk = createAsyncThunk<{
 
 export const RejectFriendshipThunk = createAsyncThunk<IPartialUser, { friendId: string }>(
   "friends/reject",
-  async ({ friendId }, thunkApi) => {
+  async ({ friendId }) => {
     return await rejectFriendship(friendId);
   }
 );
 
 export const ReuqestFriendshipThunk = createAsyncThunk<IPartialUser, { userId: string }>(
   "friends/request",
-  async ({ userId }, thunkApi) => {
+  async ({ userId }) => {
     return await requestFriendship(userId);
   }
 );
 
 export const AcceptFriendshipThunk = createAsyncThunk<IPartialUser, { friendId: string }>(
   "friends/accept",
-  async ({ friendId }, thunkApi) => {
+  async ({ friendId }) => {
     return await acceptFriendship(friendId);
   }
 );

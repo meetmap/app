@@ -18,14 +18,20 @@ import useAxios from '../../hooks/useAxios';
 
 interface IPageProps {
     navigation: NativeStackNavigationProp<RootStackParamList, 'ProfileView'>;
-    route: { params: { userId: string } }
+    route: { params: { userCid: string } }
 }
 
 const ProfileView = ({ route, navigation }: IPageProps) => {
-    const { data: userData, loading: userDataLoading, onRefresh, refreshing, error } = useAxios<IPartialUser>(getUserById(route.params.userId))
+    const { data: userData, loading: userDataLoading, onRefresh, refreshing, error } = useAxios<IPartialUser>(getUserById(route.params.userCid))
     const { flyTo } = useMap()
 
     const { t } = useTranslation()
+
+    useEffect(() => {
+        navigation.setOptions({
+            headerTitle: userData?.username
+        });
+    }, [!!userData])
 
     if (userDataLoading) {
         return <LoaderContainer />

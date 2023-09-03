@@ -9,10 +9,7 @@ import axios, { AxiosResponse, AxiosError } from 'axios';
 import { IPaginateRespose } from '../types/response';
 
 
-type SearchParams = {
-    q?: string
-    page?: number
-}
+type SearchParams = any
 
 type UseAxiosResult<T> = {
     data: T | null;
@@ -34,10 +31,10 @@ const useAxiosSearch = <T extends unknown>(
     const [error, setError] = useState<AxiosError | null>(null);
     const [refreshing, setRefreshing] = useState(false);
 
-    const fetchData = async (params?: SearchParams) => { // Обновление с параметром
+    const fetchData = useCallback(async (params?: SearchParams) => {
         setLoading(true);
         try {
-            const response = await axiosPromise(params); // Используйте параметры при вызове axiosPromise
+            const response = await axiosPromise(params);
             setData(response);
             setLoading(false);
         } catch (error) {
@@ -47,21 +44,21 @@ const useAxiosSearch = <T extends unknown>(
             }
             setLoading(false);
         }
-    };
+    }, [axiosPromise]);
 
     const onRefresh = useCallback(async () => {
         setRefreshing(true);
         await fetchData();
         setRefreshing(false);
-    }, []);
+    }, [fetchData]);
 
-    const paginate = async (params?: SearchParams) => {
+    const paginate = useCallback(async (params?: SearchParams) => {
         if (loading || paginateLoading || !data?.nextPage) {
             return;
         }
         try {
-            setPaginateLoading(true)
-            const response = await axiosPromise({page: data.nextPage, q: params?.q});
+            setPaginateLoading(true);
+            const response = await axiosPromise({ page: data.nextPage, q: params?.q });
             setData(state => ({
                 ...response,
                 paginatedResults: (state ? [...state.paginatedResults] : []).concat(
@@ -74,8 +71,9 @@ const useAxiosSearch = <T extends unknown>(
                 setError(error);
             }
         }
-        setPaginateLoading(false)
-    };
+        setPaginateLoading(false);
+    }, [loading, paginateLoading, data, axiosPromise]);
+
 
     useEffect(() => {
         fetchData();

@@ -34,11 +34,11 @@ const userSlice = createSlice({
         state.user = action.payload;
         state.isLoading = false;
       })
-      .addCase(LoginUserThunk.pending, (state, action) => {
+      .addCase(LoginUserThunk.pending, (state) => {
         state.user = null;
         state.isLoading = true;
       })
-      .addCase(LoginUserThunk.rejected, (state, action) => {
+      .addCase(LoginUserThunk.rejected, (state) => {
         state.user = null;
         state.isLoading = false;
       });
@@ -48,16 +48,16 @@ const userSlice = createSlice({
         state.user = action.payload;
         state.isLoading = false;
       })
-      .addCase(InitializeUserThunk.pending, (state, action) => {
+      .addCase(InitializeUserThunk.pending, (state) => {
         state.user = null;
         state.isLoading = true;
       })
-      .addCase(InitializeUserThunk.rejected, (state, action) => {
+      .addCase(InitializeUserThunk.rejected, (state) => {
         state.user = null;
         state.isLoading = false;
       });
     builder
-      .addCase(LogOutThunk.fulfilled, (state, action) => {
+      .addCase(LogOutThunk.fulfilled, (state) => {
         state.user = null;
       })
   },

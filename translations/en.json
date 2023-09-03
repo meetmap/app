@@ -2,6 +2,7 @@
     "eventsInThisPlace": "Events in this place",
     "somethingWentWrong": "Something went wrong",
     "buyTickets": "Buy tickets",
+    "organizer": "Organizer",
     "inviteFriend": "Invite friend",
     "tags": "Tags",
     "tickets": "Tickets",
@@ -128,5 +129,6 @@
     "changeTicket": "Change ticket",
     "deleteTicket": "Delete ticket",
     "changeImage_one": "Change image",
-    "changeImage_other": "Change images"
+    "changeImage_other": "Change images",
+    "save": "Save"
 }

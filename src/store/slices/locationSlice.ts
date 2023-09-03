@@ -1,4 +1,4 @@
-import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { debounce } from "lodash";
 import { GetFriendsLocationResponse, getUpdatedFriendsLocation, updateUserLocation } from "../../api/location";
 const debouncedUpdateUserLocation = debounce(updateUserLocation, 500);
@@ -45,7 +45,7 @@ export const updateUserLocationThunk = createAsyncThunk<
     lat: number;
     lng: number;
   }
->("location/update-self", async (payload, { rejectWithValue }) => {
+>("location/update-self", async (payload) => {
   try {
     const data = await debouncedUpdateUserLocation(payload);
     if (!data) {
@@ -59,12 +59,13 @@ export const updateUserLocationThunk = createAsyncThunk<
 
 export const getUpdatedFriendsLocationThunk = createAsyncThunk<GetFriendsLocationResponse[]>(
   "location/friends",
-  async (payload) => {
+  async () => {
     const data = await getUpdatedFriendsLocation();
     return data;
   }
 );
 
+// eslint-disable-next-line no-empty-pattern
 export const { } = locationSlice.actions;
 
 export default locationSlice.reducer;

@@ -27,14 +27,14 @@ const appSlice = createSlice({
     },
     extraReducers(builder) {
         builder
-            .addCase(getAddressThunk.pending, (state, action) => {
+            .addCase(getAddressThunk.pending, (state) => {
                 state.addressStateFetching = true
             })
             .addCase(getAddressThunk.fulfilled, (state, action) => {
                 state.addressState = action.payload
                 state.addressStateFetching = false
             })
-            .addCase(getAddressThunk.rejected, (state, action) => {
+            .addCase(getAddressThunk.rejected, (state) => {
                 state.addressStateFetching = false
             })
     }
@@ -51,7 +51,7 @@ export const getAddressThunk = createAsyncThunk<
         rejectValue: { error: any };
     }
 >('address/get',
-    async ({ mapView, latitude, longitude }, { rejectWithValue }) => {
+    async ({ mapView, latitude, longitude }) => {
         const address = await mapView.addressForCoordinate({ latitude, longitude })
         return address
     }

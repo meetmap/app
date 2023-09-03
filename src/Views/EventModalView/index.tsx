@@ -29,6 +29,7 @@ import EventTags from './EventTags'
 import EventTicketsInfo from './EventTicketsInfo'
 import SimilarEventsData from './SimilarEventsData'
 import EventFooterActions from './EventFooterActions'
+import EventCreatorInfo from './EventCreatorInfo'
 
 
 export interface IEventModalViewProps {
@@ -75,6 +76,8 @@ const EventModalView = ({ route, navigation }: IEventModalViewProps) => {
         )
     }
 
+    console.log(eventData)
+
     return (
         <ScrollView
             contentContainerStyle={{ paddingBottom: 24 }}
@@ -94,6 +97,7 @@ const EventModalView = ({ route, navigation }: IEventModalViewProps) => {
                     <EventMainInfo eventData={eventData} />
                     <EventTicketsInfo tickets={eventData.tickets} />
                     <EventTags tags={eventData.tags} />
+                    <EventCreatorInfo creator={eventData.creator} />
                 </EventInfoContainer>
                 <EventFooterActions link={eventData.link} eventCid={eventData.cid} />
             </StyledEventModalContent>

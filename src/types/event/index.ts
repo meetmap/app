@@ -1,13 +1,14 @@
 import { ICoordinates, ILocation } from "../location";
-import { IPaginateRespose } from "../response";
 
 export interface IEvent {
   cid: string
   id: string;
   link: string;
   title: string;
+
   assets: string[];
   thumbnail: string
+
   description?: string;
   tickets: ITicketResponse[],
   /**
@@ -27,7 +28,13 @@ export interface IEvent {
   stats: IEventStats
   userStats: IEventUserStats
   tags: ITag[]
+  creator?: ICreator
   // hits: IPaginateRespose<IEvent>
+}
+
+export interface ICreator {
+  creatorCid: string
+  type: string
 }
 
 export interface IEventByLocation {

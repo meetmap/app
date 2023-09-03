@@ -8,13 +8,12 @@ import ConfirmAlert from "../../Alerts/ConfirmAlert"
 import CheckSmIcon from "../../Icons/CheckSmIcon"
 
 interface IFriendRequestButton extends TouchableOpacityProps {
-    friendshipStatus: FriendshipStatusType
     userData: IPartialUser
 }
 
-const FriendshipStatusButton = ({ friendshipStatus, userData, ...rest }: IFriendRequestButton) => {
+const FriendshipStatusButton = ({ userData, ...rest }: IFriendRequestButton) => {
 
-    const [localFriendshipStatus, setLocalfriendshipStatus] = useState<FriendshipStatusType>(friendshipStatus)
+    const [localFriendshipStatus, setLocalfriendshipStatus] = useState<FriendshipStatusType>(userData.friendshipStatus)
 
     const HandleAcceptRequest = async () => {
         setLocalfriendshipStatus("friends")
@@ -29,40 +28,33 @@ const FriendshipStatusButton = ({ friendshipStatus, userData, ...rest }: IFriend
         await requestFriendship(userData.cid)
     }
 
-    const [friendsAlertOpened, setfriendsAlertOpened] = useState(false)
-
     switch (localFriendshipStatus) {
         case "requested":
             return (
-                <PrimarySmallButton onPress={HandleRejectRequest} btnType="Secondary" textColor="Primary" {...rest}>
-                    Request sent
-                </PrimarySmallButton>
+                <PrimarySmallButton title="Request sent" onPress={HandleRejectRequest} btnType="Secondary" textColor="Primary" {...rest} />
             )
         case "pending":
             return (
-                <PrimarySmallButton onPress={HandleAcceptRequest} btnType="Secondary" textColor="Primary"  {...rest}>
-                    <PlusSmIcon /> Accept request
+                <PrimarySmallButton title="Accept request" onPress={HandleAcceptRequest} btnType="Secondary" textColor="Primary"  {...rest}>
+                    <PlusSmIcon />
                 </PrimarySmallButton>
             )
         case "rejected":
             return (
-                <PrimarySmallButton onPress={HandleRequestFriendship} btnType="Primary" textColor="White" {...rest}>
-                    <PlusSmIcon /> Add friend
+                <PrimarySmallButton title="Add friend" onPress={HandleRequestFriendship} btnType="Primary" textColor="White" {...rest}>
+                    <PlusSmIcon />
                 </PrimarySmallButton>
             )
         case "friends":
             return (
-                <>
-                    {/* <Alert isOpen={friendsAlertOpened} submitFunc={HandleRejectRequest} setIsOpen={setfriendsAlertOpened} alertHeader={"Do you really want to unfriend the person?"} /> */}
-                    <PrimarySmallButton onPress={() => ConfirmAlert(HandleRejectRequest, `Do you really want to unfriend ${userData.username}?`, undefined)} btnType="Primary" textColor="White" {...rest}>
-                        <CheckSmIcon /> Friends
-                    </PrimarySmallButton>
-                </>
+                <PrimarySmallButton title="Friends" onPress={() => ConfirmAlert(HandleRejectRequest, `Do you really want to unfriend ${userData.name || userData.username}?`, undefined)} btnType="Primary" textColor="White" {...rest}>
+                    <CheckSmIcon strokeColor="White" />
+                </PrimarySmallButton>
             )
         default:
             return (
-                <PrimarySmallButton onPress={HandleRequestFriendship} btnType="Primary" textColor="White" {...rest}>
-                    <PlusSmIcon /> Add friend
+                <PrimarySmallButton title="Add friend" onPress={HandleRequestFriendship} btnType="Primary" textColor="White" {...rest}>
+                    <PlusSmIcon strokeColor="White" />
                 </PrimarySmallButton>
             )
     }

@@ -1,6 +1,4 @@
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { ITicket } from "../event";
 
 export type RootStackParamList = {
 
@@ -20,9 +18,11 @@ export type RootStackParamList = {
 
     InviteFriendsModalView: { eventCid: string }
 
-    ProfileView: { userId: string, username: string }
+    ProfileView: { userCid: string  }
 
     SettingsView: undefined
+
+    FavoriteTagsView: undefined
 
     ReportAProblemView: undefined
 
@@ -47,6 +47,8 @@ export type RootStackParamList = {
     EventLikesModalView: {eventCid: string}
 
     MyBottomSheet: undefined
+
+    PublishMessageView: undefined
 };
 
 

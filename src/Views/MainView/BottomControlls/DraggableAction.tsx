@@ -41,11 +41,12 @@ const DraggableAction = () => {
     const dispatch = useAppDispatch()
     const filterIndex = mapFilters.findIndex(filter => filter.name === mapFiler)
     const changeMapFilters = () => {
-        if (filterIndex < mapFilters.length - 1) {
-            dispatch(setMapFiltersState(mapFilters[filterIndex + 1].name))
-        } else {
-            dispatch(setMapFiltersState(mapFilters[0].name))
-        }
+        // if (filterIndex < mapFilters.length - 1) {
+        //     dispatch(setMapFiltersState(mapFilters[filterIndex + 1].name))
+        // } else {
+        //     dispatch(setMapFiltersState(mapFilters[0].name))
+        // }
+        navigation.navigate("PublishMessageView")
     }
 
     const handleGoToProfile = async () => {

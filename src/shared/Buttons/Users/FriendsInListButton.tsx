@@ -12,7 +12,7 @@ const FriendsInListButton = ({ userData, localFriendshipStatus, handleChangeFrie
     handleChangeFriendshipStatus: () => Promise<void>
     localFriendshipStatus: FriendshipStatusType
 }) => {
-    const { mapViewRef, flyTo } = useMap();
+    const { flyTo } = useMap();
     const navigation = useNavigation<NavigationProps>();
 
     if (localFriendshipStatus === "friends") {

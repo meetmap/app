@@ -69,6 +69,7 @@ const SelfProfileView = ({ navigation }: ISelfProfileViewProps) => {
             <SelfProfileInfo userData={selfUserData} />
             <StyledProfileActions>
                 <PrimaryMediumButton style={{ flex: 1 }} onPress={() => navigation.navigate("CreateEventView")} btnType='Secondary' title={t("createEvent")} />
+                <PrimaryMediumButton style={{ flex: 1 }} onPress={() => navigation.navigate("FavoriteTagsView")} btnType='Secondary' title="Fav tags" />
                 <PrimaryMediumButton btnType='Secondary' onPress={() => SelfProfileActions(selfUserData)}>
                     <MoreIcon />
                 </PrimaryMediumButton>

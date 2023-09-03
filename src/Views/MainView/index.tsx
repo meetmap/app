@@ -1,13 +1,10 @@
-import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import React, { useEffect } from 'react';
-import { Button, SafeAreaView, Text, View } from 'react-native';
-import { RootStackParamList } from '../../types/NavigationProps';
-import LikeButton from '../../shared/Buttons/LikeButton';
+import React from 'react';
+import { View } from 'react-native';
+import {RootStackParamList} from '../../types/NavigationProps';
 import styled from 'styled-components/native';
 import BottomControlls from './BottomControlls';
 import MapContent from './MapContent';
-import useLocation from '../../hooks/useLocation';
 import MapHeader from './MapHeader';
 import BackgroundGeolocation, { Subscription } from 'react-native-background-geolocation';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';

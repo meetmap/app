@@ -21,7 +21,7 @@ const FriendPin = ({ userData, profilePicture }: IFriendPin) => {
     const { t } = useTranslation()
     return (
         <StyledUserPinViewWrapper>
-            <StyledUserPinView timeDifference={timeDifference} onPress={() => navigation.navigate("ProfileView", { userId: userData.cid, username: userData.username })}>
+            <StyledUserPinView timeDifference={timeDifference} onPress={() => navigation.navigate("ProfileView", { userCid: userData.cid })}>
                 <LoadableProfileImage containerSize={44} profilePicture={profilePicture} />
                 <StyledLocationUpdateTime>
                     <StyledLocationUpdateTimeText numberOfLines={1} ellipsizeMode={"clip"} timeDifference={timeDifference}>

@@ -29,6 +29,11 @@ import SearchModalView from './Views/SearchModalView';
 import EventLikesModalView from './Views/EventLikesModalView';
 import ChooseLocationView from './Views/ChooseLocationView';
 import CreateTicketModal from './Views/CreateTicketModal';
+import FavoriteTagsView from './Views/FavoriteTagsView';
+import PublishMessageView from './Views/PublishMessageView';
+import ChatView from './Views/ChatView';
+
+
 const Stack = createNativeStackNavigator();
 const AppBottomSheetOptions: NativeStackNavigationOptions = {
     contentStyle: {
@@ -73,11 +78,12 @@ const Navigator = () => {
                             name="ProfileView"
                             component={ProfileView}
                             options={(route) => ({
-                                title: `@${route.route.params.username}`,
                                 headerTitleStyle: {
                                     fontSize: 18,
                                     fontWeight: "900"
-                                }
+                                },
+                                headerBackTitleVisible: false,
+                                headerTitle: ""
                             })}
                         />
                         <Stack.Screen
@@ -96,6 +102,7 @@ const Navigator = () => {
                             component={SelfProfileView}
                         />
 
+                        <Stack.Screen options={{ title: "Pick fav tags" }} name={"FavoriteTagsView"} component={FavoriteTagsView} />
                         <Stack.Screen options={{ title: t("createEvent") }} name={"CreateEventView"} component={CreateEventView} />
                         <Stack.Screen options={{ presentation: "modal", title: t("chooseEventLocation") }} name={"ChooseLocationView"} component={ChooseLocationView} />
                         <Stack.Screen options={{
@@ -119,6 +126,11 @@ const Navigator = () => {
                             name='ReportAProblemView'
                             component={ReportAProblemView}
                         />
+
+
+                        <Stack.Screen options={{ title: t("chooseLanguage") }} name={"PublishMessageView"} component={PublishMessageView} />
+                        <Stack.Screen options={AppBottomSheetOptions} name={"ChatView"} component={ChatView} />
+
                         <Stack.Screen options={{ title: t("chooseLanguage") }} name={"ChooseLanguageView"} component={ChooseLanguageView} />
                         <Stack.Screen
                             name={"MyBottomSheet"}

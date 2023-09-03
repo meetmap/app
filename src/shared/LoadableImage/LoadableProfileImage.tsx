@@ -11,12 +11,13 @@ export interface ILoadableImage extends ViewProps {
     containerBorderRadius?: number
 }
 
-const LoadableProfileImage = ({ profilePicture, containerSize = 100, containerBorderRadius = 50 }: ILoadableImage) => {
+const LoadableProfileImage = ({ profilePicture, containerSize = 100, containerBorderRadius = 50, ...rest }: ILoadableImage) => {
     const [isImageLoading, setIsImageLoading] = useState(true)
     return (
         <StyledImageView
             containerBorderRadius={containerBorderRadius}
             containerSize={containerSize}
+            {...rest}
         >
             <StyledImage onLoadEnd={() => setIsImageLoading(false)}
                 source={profilePicture ?
