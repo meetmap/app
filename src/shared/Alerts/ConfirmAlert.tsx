@@ -1,4 +1,3 @@
-import React, { SetStateAction } from 'react'
 import { Alert } from 'react-native'
 
 const ConfirmAlert = (

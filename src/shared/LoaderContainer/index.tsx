@@ -1,7 +1,6 @@
 import React from 'react'
 import { ActivityIndicator, View } from 'react-native'
 import styled from 'styled-components/native'
-import LoaderIcon from '../Icons/LoaderIcon'
 
 const LoaderContainer = () => {
     return (

@@ -1,16 +1,13 @@
-import { ActionSheetIOS, Alert } from "react-native";
-import { IPartialUser, IUserSelf } from "../../../types/users";
-import { flyTo } from "../../../hooks/Map/useFlyTo";
-import ConfirmAlert from "../../Alerts/ConfirmAlert";
-import { flyToUser } from "../../../hooks/Map/flyToUser";
-import { RefObject } from "react";
-import MapView from "react-native-maps";
-import { NavigationProps, RootStackParamList } from "../../../types/NavigationProps";
+import { ActionSheetIOS } from "react-native";
+import { IPartialUser } from "@src/types/users";
+import { flyToUser } from "@src/hooks/Map/flyToUser";
+import { RootStackParamList } from "@src/types/NavigationProps";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { trigger } from "react-native-haptic-feedback";
-import { ICoordinates } from "../../../types/location";
 import { t } from "i18next";
-const ProfileActions = (userData: IPartialUser, flyTo: (coordinates: ICoordinates) => Promise<void>,  navigation: NativeStackNavigationProp<RootStackParamList, 'ProfileView'>) => {
+import { ICoordinates } from "@src/types/location";
+
+const ProfileActions = (userData: IPartialUser, flyTo: (_coordinates: ICoordinates) => Promise<void>,  navigation: NativeStackNavigationProp<RootStackParamList, 'ProfileView'>) => {
     trigger("impactLight");
     ActionSheetIOS.showActionSheetWithOptions(
         {
@@ -21,7 +18,7 @@ const ProfileActions = (userData: IPartialUser, flyTo: (coordinates: ICoordinate
             if (buttonIndex === 0) {
                 // cancel action
             } else if (buttonIndex === 1) {
-
+                // empty
             } else if (buttonIndex === 2) {
                 flyToUser(userData.cid, flyTo, navigation)
             } 

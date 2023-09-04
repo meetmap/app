@@ -1,37 +1,33 @@
-import React, { useEffect } from 'react'
-import { useAppDispatch, useAppSelector } from './store/hooks';
+import React from 'react'
+import { useAppSelector } from './store/hooks';
 import { NativeStackNavigationOptions, createNativeStackNavigator } from '@react-navigation/native-stack';
-import WelcomeView from './Views/WelcomeView';
-import LoginView from './Views/LoginView';
-import MainView from './Views/MainView';
-import ProfileView from './Views/ProfileView';
-import SelfProfileView from './Views/SelfProfileView';
-import FilterModalView from './Views/FilterModalView';
-import { InitializeUserThunk } from './store/slices/userSlice';
-import EventModalView from './Views/EventModalView';
-import WelcomeLoaderView from './Views/WelcomeLoaderView';
-import MyBottomSheet from './Views/MyBottomSheet';
-import { Alert, Button, TouchableOpacity } from 'react-native';
-import SettingsIcon from './shared/Icons/SettingsIcon';
-import GoBackArrowIcon from './shared/Icons/GoBackArrowIcon';
-import SettingsView from './Views/SettingsView';
-import EventsListModalView from './Views/EventListModalView';
-import UsersListModalView from './Views/UsersListModalView';
-import RegisterView from './Views/RegisterView';
-import ChooseLanguageView from './Views/ChooseLanguageView';
+import WelcomeView from '@src/Views/WelcomeView';
+import LoginView from '@src/Views/LoginView';
+import MainView from '@src/Views/MainView';
+import ProfileView from '@src/Views/ProfileView';
+import SelfProfileView from '@src/Views/SelfProfileView';
+import FilterModalView from '@src/Views/FilterModalView';
+import EventModalView from '@src/Views/EventModalView';
+import WelcomeLoaderView from '@src/Views/WelcomeLoaderView';
+import { TouchableOpacity } from 'react-native';
+import SettingsIcon from '@src/shared/Icons/SettingsIcon';
+import SettingsView from '@src/Views/SettingsView';
+import EventsListModalView from '@src/Views/EventListModalView';
+import UsersListModalView from '@src/Views/UsersListModalView';
+import RegisterView from '@src/Views/RegisterView';
+import ChooseLanguageView from '@src/Views/ChooseLanguageView';
 import { useTranslation } from 'react-i18next';
-import ReportAProblemView from './Views/ReportAProblemView';
-import CreateEventView from './Views/CreateEventView';
-import InviteFriendsModalView from './Views/InviteFriendsModalView';
-import ErrorPopup from './shared/ErrorPopup';
-import FriendsModalView from './Views/FriendsModalView';
-import SearchModalView from './Views/SearchModalView';
-import EventLikesModalView from './Views/EventLikesModalView';
-import ChooseLocationView from './Views/ChooseLocationView';
-import CreateTicketModal from './Views/CreateTicketModal';
-import FavoriteTagsView from './Views/FavoriteTagsView';
-import PublishMessageView from './Views/PublishMessageView';
-import ChatView from './Views/ChatView';
+import ReportAProblemView from '@src/Views/ReportAProblemView';
+import CreateEventView from '@src/Views/CreateEventView';
+import InviteFriendsModalView from '@src/Views/InviteFriendsModalView';
+import FriendsModalView from '@src/Views/FriendsModalView';
+import SearchModalView from '@src/Views/SearchModalView';
+import EventLikesModalView from '@src/Views/EventLikesModalView';
+import ChooseLocationView from '@src/Views/ChooseLocationView';
+import CreateTicketModal from '@src/Views/CreateTicketModal';
+import FavoriteTagsView from '@src/Views/FavoriteTagsView';
+import PublishMessageView from '@src/Views/PublishMessageView';
+import ChatView from '@src/Views/ChatView';
 
 
 const Stack = createNativeStackNavigator();
@@ -48,7 +44,7 @@ const Navigator = () => {
     const { t } = useTranslation()
     return (
         <Stack.Navigator
-            screenOptions={({ navigation }) => ({
+            screenOptions={() => ({
                 headerShadowVisible: false,
                 cardStyle: { backgroundColor: '#fff' },
                 // headerTransparent: true,
@@ -63,7 +59,7 @@ const Navigator = () => {
                     <Stack.Group >
                         <Stack.Screen name="MainView" component={MainView} options={{ headerShown: false }} />
                         <Stack.Screen
-                            options={{ title: "", headerBackTitleVisible: false }} 
+                            options={{ title: "", headerBackTitleVisible: false }}
                             name='EventModalView'
                             component={EventModalView}
                         />
@@ -77,7 +73,7 @@ const Navigator = () => {
                         <Stack.Screen
                             name="ProfileView"
                             component={ProfileView}
-                            options={(route) => ({
+                            options={() => ({
                                 headerTitleStyle: {
                                     fontSize: 18,
                                     fontWeight: "900"
@@ -89,7 +85,7 @@ const Navigator = () => {
                         <Stack.Screen
                             options={({ navigation }) => ({
                                 title: "",
-                                headerRight: (data) => (
+                                headerRight: () => (
                                     <TouchableOpacity
                                         onPress={() => navigation.navigate('SettingsView')}
                                     >
@@ -132,17 +128,6 @@ const Navigator = () => {
                         <Stack.Screen options={AppBottomSheetOptions} name={"ChatView"} component={ChatView} />
 
                         <Stack.Screen options={{ title: t("chooseLanguage") }} name={"ChooseLanguageView"} component={ChooseLanguageView} />
-                        <Stack.Screen
-                            name={"MyBottomSheet"}
-                            component={MyBottomSheet}
-                            options={{
-                                contentStyle: {
-                                    backgroundColor: 'transparent'
-                                },
-                                headerShown: false,
-                                presentation: "transparentModal",
-                            }}
-                        />
                     </Stack.Group>
                     :
                     <Stack.Group>

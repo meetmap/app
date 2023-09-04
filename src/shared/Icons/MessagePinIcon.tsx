@@ -1,7 +1,6 @@
 import * as React from "react"
 import Svg, { Path } from "react-native-svg"
 import { useTheme } from "styled-components"
-import { TextcolorsType } from "../Text"
 import { IMessageStyleType } from "../Message/NewMessage"
 
 function MessagePinIcon({ messageStyle = "Primary" }: { messageStyle?: IMessageStyleType }) {

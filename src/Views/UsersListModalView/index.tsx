@@ -1,23 +1,26 @@
 import React, { useEffect, useState } from 'react'
 import { FlatList, View } from 'react-native'
 import styled from 'styled-components'
-import { IEvent } from '../../types/event'
-import EventLg from '../../shared/EventInList/EventLg'
-import TextStatus from '../../shared/TextStatus'
-import LoaderContainer from '../../shared/LoaderContainer'
+import TextStatus from '@src/shared/TextStatus'
+import LoaderContainer from '@src/shared/LoaderContainer'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
-import { RootStackParamList } from '../../types/NavigationProps'
-import { H1 } from '../../shared/Text'
-import { getFriendsListByCId } from '../../api/friends'
-import { IPartialUser } from '../../types/users'
-import UserDataInList from '../../shared/Profile/UserDataInList'
+import { RootStackParamList } from '@src/types/NavigationProps'
+import { H1 } from '@src/shared/Text'
+import { getFriendsListByCId } from '@src/api/friends'
+import { IPartialUser } from '@src/types/users'
 import { useTranslation } from 'react-i18next'
-import { IPaginateRespose } from '../../types/response'
+import { IPaginateRespose } from '@src/types/response'
+import { ListProfileInfo } from '@src/shared/Profile'
 
 
 export interface IEventsListModalViewProps {
     navigation: NativeStackNavigationProp<RootStackParamList, 'EventsListModalView'>;
-    route: any
+    route: {
+        params: {
+            userCId: string
+            username: string
+        }
+    }
 }
 
 
@@ -55,7 +58,7 @@ const UsersListModalView = ({ route }: IEventsListModalViewProps) => {
                 data={usersListData.paginatedResults}
                 horizontal={false}
                 scrollEnabled
-                renderItem={({ item }) => <UserDataInList userData={item} />}
+                renderItem={({ item }) => <ListProfileInfo userData={item} />}
                 keyExtractor={item => item.id}
             />
         </StyledEventsListModal>

@@ -1,28 +1,15 @@
-import { Image, Text, TouchableOpacity, View } from "react-native"
+import { Image, Text, View } from "react-native"
 import styled from "styled-components"
-import { H6, Span } from "../Text"
-import { IEvent, IEventByLocation } from "../../types/event"
-import { useMap } from "../../hooks/MapProvider"
-import { Camera } from "react-native-maps"
-import { useNavigation } from "@react-navigation/native"
-import { NavigationProps } from "../../types/NavigationProps"
+import { IEventByLocation } from "@src/types/event"
 
-const ClusterEventPin = ({ eventData, count, coordinates, cids }: {
+const ClusterEventPin = ({ eventData, count }: {
     eventData: IEventByLocation,
     count: number,
     coordinates: number[],
     cids: string[]
 }) => {
-    // const { getCamera, onZoomInPress } = useMap()
-
-    const navigation = useNavigation<NavigationProps>();
-
-    // const handlePressOnEventCluster = async () => {
-    //     navigation.navigate("EventsListModalView", { eventCids: cids })
-    // }
     return (
         <StyledEventPinContent
-            // onPress={handlePressOnEventCluster}
         >
             <StyledEventImage
                 source={{ uri: eventData.thumbnail }}

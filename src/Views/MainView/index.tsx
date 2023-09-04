@@ -1,14 +1,14 @@
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React from 'react';
 import { View } from 'react-native';
-import {RootStackParamList} from '../../types/NavigationProps';
+import {RootStackParamList} from '@src/types/NavigationProps';
 import styled from 'styled-components/native';
 import BottomControlls from './BottomControlls';
 import MapContent from './MapContent';
 import MapHeader from './MapHeader';
 import BackgroundGeolocation, { Subscription } from 'react-native-background-geolocation';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { updateUserLocationThunk } from '../../store/slices/locationSlice';
+import { useAppDispatch, useAppSelector } from '@src/store/hooks';
+import { updateUserLocationThunk } from '@src/store/slices/locationSlice';
 
 export interface IMainViewProps {
   navigation: NativeStackNavigationProp<RootStackParamList, 'MainView'>;

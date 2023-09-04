@@ -1,6 +1,6 @@
 import React from 'react'
 import { RefreshControl } from 'react-native'
-import styled from 'styled-components'
+// import styled from 'styled-components'
 
 const Refresh = ({ refreshing, onRefresh }: { refreshing: boolean, onRefresh: () => void }) => {
     return (
@@ -15,10 +15,10 @@ const Refresh = ({ refreshing, onRefresh }: { refreshing: boolean, onRefresh: ()
 
 export default Refresh
 
-const StyledRefreshContent = styled.div`
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-`
+// const StyledRefreshContent = styled.div`
+//     width: 100%;
+//     height: 100%;
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+// `

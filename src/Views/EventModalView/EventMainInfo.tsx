@@ -1,13 +1,13 @@
 import React from 'react';
 import { View } from 'react-native';
-import { H1, P, Span } from '../../shared/Text';
-import { Line } from '../../shared/Line';
+import { H1, P, Span } from '@src/shared/Text';
+import { Line } from '@src/shared/Line';
 import styled from 'styled-components';
-import { IEvent } from '../../types/event';
+import { IEvent } from '@src/types/event';
 import { useTranslation } from 'react-i18next';
 import moment from 'moment';
-import { useCalculateDistance } from '../../hooks/useCalculateDistance';
-import { useAppSelector } from '../../store/hooks';
+import { useCalculateDistance } from '@src/hooks/useCalculateDistance';
+import { useAppSelector } from '@src/store/hooks';
 
 
 interface IEventMainInfo {

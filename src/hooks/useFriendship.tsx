@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { FriendshipStatusType } from '../types/users'
 import { acceptFriendship, rejectFriendship, requestFriendship } from '../api/friends'
 

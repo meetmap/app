@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { MapProviderContext } from "./MapProvider";
-import { Camera, Region } from "react-native-maps";
-import { ICoordinates } from "../../types/location";
+import { Camera } from "react-native-maps";
+import { ICoordinates } from "@src/types/location";
 
 export const useMap = () => {
   const { mapViewRef } = useContext(MapProviderContext);

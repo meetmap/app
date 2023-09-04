@@ -1,12 +1,12 @@
 import React, { Dispatch, SetStateAction } from 'react'
 import { Button, TextInput, View } from 'react-native'
 import { styled } from 'styled-components/native'
-import LoadableProfileImage from '../../shared/LoadableImage/LoadableProfileImage'
-import { IUserSelf } from '../../types/users'
+import LoadableProfileImage from '@src/shared/LoadableImage/LoadableProfileImage'
+import { IUserSelf } from '@src/types/users'
 import { launchImageLibrary } from 'react-native-image-picker'
-import { IUploadedImage } from '../../api/events'
+import { IUploadedImage } from '@src/api/events'
 import { useTranslation } from 'react-i18next'
-import { IEditUserData } from '../../api/users'
+import { IEditUserData } from '@src/api/users'
 
 
 const EditView = ({ userData, setImage, image, setEditUserData, editUserData }: {

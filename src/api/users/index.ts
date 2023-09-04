@@ -1,7 +1,7 @@
 // import axios from "axios"
 // import { UsersUrl } from "../baseUrl"
 
-import { IPartialUser, IUserSelf } from '../../types/users';
+import { IPartialUser, IUserSelf } from '@src/types/users';
 import { getAxios } from '../axios';
 
 export interface ILoginWithUsername {

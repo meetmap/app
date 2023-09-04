@@ -1,4 +1,4 @@
-import { ActionSheetIOS, Alert } from "react-native";
+import { ActionSheetIOS } from "react-native";
 import { trigger } from "react-native-haptic-feedback";
 import i18next, { t } from "i18next";
 

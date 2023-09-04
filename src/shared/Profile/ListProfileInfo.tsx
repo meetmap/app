@@ -1,16 +1,16 @@
 import React from "react"
-import { IPartialUser } from "../../types/users"
+import { IPartialUser } from "@src/types/users"
 import { H6, Span } from "../Text"
 import RequestFriendshipIconButton from "../Buttons/Users/RequestFriendshipIconButton"
 import FriendsInListButton from "../Buttons/Users/FriendsInListButton"
 import styled from "styled-components/native"
-import { Image, TouchableOpacity, View } from "react-native"
-import useFriendship from "../../hooks/useFriendship"
+import useFriendship from "@src/hooks/useFriendship"
 import LoadableProfileImage from "../LoadableImage/LoadableProfileImage"
 import { useNavigation } from "@react-navigation/native"
-import { NavigationProps } from "../../types/NavigationProps"
+import { NavigationProps } from "@src/types/NavigationProps"
+import { TouchableOpacity, View } from "react-native"
 
-const UserDataInList = ({ userData, profile = false }: { userData: IPartialUser, profile?: boolean }) => {
+export const ListProfileInfo = ({ userData }: { userData: IPartialUser }) => {
     // const [localFriendshipStatus, setLocalFriendshipStatus] = useState(userData.friendshipStatus)
     const { handleChangeFriendshipStatus, localFriendshipStatus } = useFriendship(userData.friendshipStatus, userData.cid)
     const navigation = useNavigation<NavigationProps>();
@@ -43,8 +43,6 @@ const UserDataInList = ({ userData, profile = false }: { userData: IPartialUser,
         </StyledUserDataInList>
     )
 }
-
-export default UserDataInList
 
 const StyledUserDataInList = styled(View)`
     flex-direction: row;

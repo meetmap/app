@@ -1,17 +1,13 @@
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import React, { ReactNode, useCallback, useMemo, useRef, useState } from 'react';
-import { View, Text, StyleSheet, Button, TouchableOpacity } from 'react-native';
-import { NavigationProps, RootStackParamList } from '../../types/NavigationProps';
-import styled from 'styled-components/native';
-import { H1, Title } from '../Text';
-import BottomSheet, { BottomSheetModal, BottomSheetProps, BottomSheetView } from '@gorhom/bottom-sheet';
+import React, { ReactNode, useCallback, useRef, useState } from 'react';
+import { View, TouchableOpacity } from 'react-native';
+import { NavigationProps} from '@src/types/NavigationProps';
+import BottomSheet, { BottomSheetProps } from '@gorhom/bottom-sheet';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation} from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import Animated, { FadeIn, FadeOut, interpolate, useAnimatedStyle } from 'react-native-reanimated';
+import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
 import GoBackArrowIcon from '../Icons/GoBackArrowIcon';
 import BottomSheetBackdrop from './BottomSheetBackdrop';
-import BottomSheetBackground from './BottomSheetBackground';
 
 export interface IAppBottomSheet extends BottomSheetProps {
     children: ReactNode
@@ -25,7 +21,7 @@ const AppBottomSheet = ({ children, snapIndex = 0, ...rest }: IAppBottomSheet) =
 
     const [sheetFullscreen, setSheetFullscreen] = useState(false)
 
-    const handleSheetChange = useCallback((index) => {
+    const handleSheetChange = useCallback((index: number) => {
         const snapArray = rest.snapPoints as []
         if (snapArray.toString().includes("100")) {
             setSheetFullscreen(snapArray.length === index + 1)
@@ -58,24 +54,24 @@ const AppBottomSheet = ({ children, snapIndex = 0, ...rest }: IAppBottomSheet) =
                     enablePanDownToClose
                     handleStyle={{ position: "absolute", width: "100%", display: sheetFullscreen ? "none" : "flex" }}
                     style={{ overflow: 'hidden', borderRadius: 36 }}
-                    backgroundStyle={{overflow: "hidden"}}
+                    backgroundStyle={{ overflow: "hidden" }}
                     // backgroundComponent={BottomSheetBackground}
                     handleIndicatorStyle={{ width: 40 }}
                     {...rest}
                 >
                     {/* <View style={{ flex: 1 }}> */}
-                        {children}
-                        {sheetFullscreen &&
-                            <Animated.View
-                                entering={FadeIn}
-                                exiting={FadeOut}
-                                style={{ position: "absolute", top: top, paddingHorizontal: 16 }}
-                            >
-                                <TouchableOpacity onPress={handleClosePress}>
-                                    <GoBackArrowIcon />
-                                </TouchableOpacity>
-                            </Animated.View>
-                        }
+                    {children}
+                    {sheetFullscreen &&
+                        <Animated.View
+                            entering={FadeIn}
+                            exiting={FadeOut}
+                            style={{ position: "absolute", top: top, paddingHorizontal: 16 }}
+                        >
+                            <TouchableOpacity onPress={handleClosePress}>
+                                <GoBackArrowIcon />
+                            </TouchableOpacity>
+                        </Animated.View>
+                    }
                     {/* </View> */}
                 </BottomSheet>
             </View >
@@ -85,11 +81,3 @@ const AppBottomSheet = ({ children, snapIndex = 0, ...rest }: IAppBottomSheet) =
 
 export default AppBottomSheet;
 
-const styles = StyleSheet.create({
-    container: {
-        backgroundColor: "red",
-        flex: 1,
-        top: 0,
-        paddingTop: 200,
-    },
-});

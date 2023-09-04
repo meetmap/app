@@ -1,12 +1,13 @@
 import styled from "styled-components/native";
 
 import React, { ReactNode, useState } from 'react'
-import { TextInput, TextInputProps, View, Text, Modal, Button, TouchableOpacity, StyleProp } from "react-native";
-import { H1, Span } from "../Text";
+import {  View, Text, Modal, Button, TouchableOpacity } from "react-native";
+import { Span } from "../Text";
 import RNDateTimePicker, { DatePickerOptions } from "@react-native-community/datetimepicker";
 import { useTranslation } from "react-i18next";
 import moment from "moment";
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 //@ts-ignore
 interface IPrimaryDatePicker extends DatePickerOptions {
     name?: string;
@@ -36,7 +37,6 @@ const PrimaryDatePicker = ({
     inputSize = "Default",
     placeholder = "Pick date",
     mode = "date",
-    name,
     label,
     momentLocaleFormat = initialMomentLocaleFormat,
     ...rest

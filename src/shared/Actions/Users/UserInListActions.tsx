@@ -1,16 +1,13 @@
-import { ActionSheetIOS, Alert } from "react-native";
-import { IPartialUser } from "../../../types/users";
-import { flyTo } from "../../../hooks/Map/useFlyTo";
+import { ActionSheetIOS } from "react-native";
+import { IPartialUser } from "@src/types/users";
 import ConfirmAlert from "../../Alerts/ConfirmAlert";
-import { flyToUser } from "../../../hooks/Map/flyToUser";
-import { RefObject } from "react";
-import MapView from "react-native-maps";
-import { NavigationProps } from "../../../types/NavigationProps";
+import { flyToUser } from "@src/hooks/Map/flyToUser";
+import { NavigationProps } from "@src/types/NavigationProps";
 import { trigger } from "react-native-haptic-feedback";
-import { ICoordinates } from "../../../types/location";
 import { t } from "i18next";
+import { ICoordinates } from "@src/types/location";
 
-const UserInListActions = (userData: IPartialUser, handleChangeFriendshipStatus: () => Promise<void>, flyTo: (coordinates: ICoordinates) => Promise<void>, navigation: NavigationProps) => {
+const UserInListActions = (userData: IPartialUser, handleChangeFriendshipStatus: () => Promise<void>, flyTo: (_coordinates: ICoordinates) => Promise<void>, navigation: NavigationProps) => {
     trigger("impactLight");
     ActionSheetIOS.showActionSheetWithOptions(
         {
@@ -24,7 +21,9 @@ const UserInListActions = (userData: IPartialUser, handleChangeFriendshipStatus:
             } else if (buttonIndex === 1) {
                 ConfirmAlert(handleChangeFriendshipStatus, "Are you sure?", `Do you really want to remove ${userData.name || userData.username} from your friends list`)
             } else if (buttonIndex === 2) {
+                /* empty */
             } else if (buttonIndex === 3) {
+                /* empty */
             } else if (buttonIndex === 4) {
                 flyToUser(userData.cid, flyTo, navigation)
             }

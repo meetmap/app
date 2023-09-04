@@ -1,4 +1,4 @@
-import { ICoordinates, ILocation } from "../../types/location";
+import { ICoordinates } from "@src/types/location";
 import { getAxios } from "../axios";
 
 function newAbortSignal(timeoutMs: number) {

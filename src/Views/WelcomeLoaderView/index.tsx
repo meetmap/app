@@ -2,8 +2,8 @@ import React from 'react'
 import { View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import styled from 'styled-components/native'
-import { H2, Title } from '../../shared/Text'
-import LoaderContainer from '../../shared/LoaderContainer'
+import { Title } from '@src/shared/Text'
+import LoaderContainer from '@src/shared/LoaderContainer'
 import { useTranslation } from 'react-i18next'
 
 const WelcomeLoaderView = () => {
@@ -37,13 +37,6 @@ const StyledLoaderPageContent = styled(View)`
     gap: 36px;
     padding: 0 16px;
     padding-top: 83px;
-`
-
-const StyledLoaderContent = styled(View)`
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 `
 
 const StyledAuthHeadContent = styled(View)`

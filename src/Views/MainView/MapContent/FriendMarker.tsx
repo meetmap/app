@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { AnimatedRegion, Marker } from 'react-native-maps'
-import { GetFriendsLocationResponse } from '../../../api/location'
-import FriendPin from '../../../shared/Pins/FriendPin'
-import { useNavigation } from '@react-navigation/native'
-import { NavigationProps } from '../../../types/NavigationProps'
+import { GetFriendsLocationResponse } from '@src/api/location'
+import FriendPin from '@src/shared/Pins/FriendPin'
 
 const FriendMarker = ({ friend }: { friend: GetFriendsLocationResponse }) => {
     const [coordinate, setCoordinate] = useState<AnimatedRegion | null>(null);
@@ -37,7 +35,6 @@ const FriendMarker = ({ friend }: { friend: GetFriendsLocationResponse }) => {
             }).start();
         }
     }
-    const navigation = useNavigation<NavigationProps>()
     return (
         <Marker.Animated
             key={friend.id}

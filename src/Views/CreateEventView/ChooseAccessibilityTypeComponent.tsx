@@ -1,9 +1,9 @@
 import React from 'react'
-import PrimaryFormInput from '../../shared/Input/PrimaryFormInput'
+import PrimaryFormInput from '@src/shared/Input/PrimaryFormInput'
 import { trigger } from 'react-native-haptic-feedback';
 import { ActionSheetIOS } from 'react-native';
 import { useTranslation } from 'react-i18next';
-import { useAppSelector } from '../../store/hooks';
+import { useAppSelector } from '@src/store/hooks';
 import { IEventFormValues } from '.';
 
 const ChooseAccessibilityTypeComponent = ({ handleChangeFormValue }: { handleChangeFormValue: (valueKey: keyof IEventFormValues, value: string | Date | undefined | number) => void }) => {

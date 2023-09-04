@@ -1,13 +1,13 @@
 import React from 'react'
 import { Dimensions, TouchableOpacity, View } from 'react-native'
-import PrimaryCarousel from '../../shared/Carousel/PrimaryCarousel'
-import { H5, H6 } from '../../shared/Text'
+import PrimaryCarousel from '@src/shared/Carousel/PrimaryCarousel'
+import { H5, H6 } from '@src/shared/Text'
 import styled from 'styled-components'
 import { useTranslation } from 'react-i18next'
 import { launchImageLibrary } from 'react-native-image-picker'
-import { IUploadedImage } from '../../api/events'
-import { useAppDispatch, useAppSelector } from '../../store/hooks'
-import { setEventImages } from '../../store/slices/createEventFormSlice'
+import { IUploadedImage } from '@src/api/events'
+import { useAppDispatch, useAppSelector } from '@src/store/hooks'
+import { setEventImages } from '@src/store/slices/createEventFormSlice'
 
 const ChooseImagesComponent = () => {
     const { t } = useTranslation()

@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { SecureStoreKeys } from '../../constants';
+import { SecureStoreKeys } from '@src/constants';
 
 
 export const getFromSecureStore = async (key: SecureStoreKeys): Promise<string | null> => {

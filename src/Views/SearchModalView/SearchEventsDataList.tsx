@@ -1,14 +1,12 @@
-import React, { Dispatch, SetStateAction, useCallback, useState } from 'react'
-import { IEvent } from '../../types/event'
-import { FlatList, RefreshControl } from 'react-native'
+import React from 'react'
+import { IEvent } from '@src/types/event'
+import { FlatList } from 'react-native'
 import { AxiosError } from 'axios'
-import TextStatus from '../../shared/TextStatus'
+import TextStatus from '@src/shared/TextStatus'
 import { useTranslation } from 'react-i18next'
-import EventLg from '../../shared/EventInList/EventLg'
-import LoaderContainer from '../../shared/LoaderContainer'
-import { searchEvents } from '../../api/events'
-import { IPaginateRespose } from '../../types/response'
-import { useAppSelector } from '../../store/hooks'
+import EventLg from '@src/shared/EventInList/EventLg'
+import LoaderContainer from '@src/shared/LoaderContainer'
+import { IPaginateRespose } from '@src/types/response'
 
 const SearchEventsDataList = ({ searchEventsData, isSearchLoading, searchError, paginate }: { searchEventsData: IPaginateRespose<IEvent> | null, isSearchLoading: boolean, searchError: AxiosError | null, paginate: () => Promise<void> }) => {
     const { t } = useTranslation()

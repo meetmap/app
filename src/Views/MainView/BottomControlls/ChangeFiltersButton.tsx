@@ -1,11 +1,11 @@
 import React from 'react'
-import { useAppDispatch, useAppSelector } from '../../../store/hooks'
-import { setMapFiltersState } from '../../../store/slices/mapSlice'
+import { useAppDispatch, useAppSelector } from '@src/store/hooks'
+import { setMapFiltersState } from '@src/store/slices/mapSlice'
 import styled from 'styled-components'
-import CubeButton from '../../../shared/Buttons/CubeButton'
-import UsersIcon from '../../../shared/Icons/UsersIcon'
-import TicketIcon from '../../../shared/Icons/TicketIcon'
-import FiltersIcon from '../../../shared/Icons/FiltersIcon'
+import UsersIcon from '@src/shared/Icons/UsersIcon'
+import TicketIcon from '@src/shared/Icons/TicketIcon'
+import FiltersIcon from '@src/shared/Icons/FiltersIcon'
+import { CubeButton } from '@src/shared/Buttons'
 
 const ChangeFiltersButton = () => {
     const mapFilters = [

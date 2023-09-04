@@ -1,19 +1,19 @@
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import React, { useEffect, useState } from 'react'
-import { Button, RefreshControl, SafeAreaView, ScrollView, Text, View } from 'react-native'
-import { RootStackParamList } from '../../types/NavigationProps';
-import UserProfileInfo from '../../shared/Profile/UserProfileInfo';
-import { getUserById } from '../../api/users';
-import { IPartialUser } from '../../types/users';
-import LoaderContainer from '../../shared/LoaderContainer';
-import TextStatus from '../../shared/TextStatus';
+import React, { useEffect } from 'react'
+import { RefreshControl, ScrollView, View } from 'react-native'
+import { RootStackParamList } from '@src/types/NavigationProps';
+import { getUserById } from '@src/api/users';
+import { IPartialUser } from '@src/types/users';
+import LoaderContainer from '@src/shared/LoaderContainer';
+import TextStatus from '@src/shared/TextStatus';
 import styled from 'styled-components';
-import PrimaryMediumButton from '../../shared/Buttons/PrimaryMediumButton';
-import MoreIcon from '../../shared/Icons/MoreIcon';
-import { useMap } from '../../hooks/MapProvider';
-import ProfileActions from '../../shared/Actions/Users/ProfileActions';
+import MoreIcon from '@src/shared/Icons/MoreIcon';
+import { useMap } from '@src/hooks/MapProvider';
+import ProfileActions from '@src/shared/Actions/Users/ProfileActions';
 import { useTranslation } from 'react-i18next';
-import useAxios from '../../hooks/useAxios';
+import useAxios from '@src/hooks/useAxios';
+import { PrimaryButton } from '@src/shared/Buttons';
+import { UserProfileInfo } from '@src/shared/Profile';
 
 
 interface IPageProps {
@@ -51,10 +51,10 @@ const ProfileView = ({ route, navigation }: IPageProps) => {
             >
                 <UserProfileInfo userData={userData} />
                 <StyledProfileActions>
-                    <PrimaryMediumButton style={{ flex: 1 }} btnType='Secondary' title={t("inviteToAnEvent")} />
-                    <PrimaryMediumButton btnType='Secondary' onPress={() => ProfileActions(userData, flyTo, navigation)}>
+                    <PrimaryButton btnSize="md" style={{ flex: 1 }} btnType='Secondary' title={t("inviteToAnEvent")} />
+                    <PrimaryButton btnSize="md" btnType='Secondary' onPress={() => ProfileActions(userData, flyTo, navigation)}>
                         <MoreIcon />
-                    </PrimaryMediumButton>
+                    </PrimaryButton>
                 </StyledProfileActions>
             </ScrollView>
         )

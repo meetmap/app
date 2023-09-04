@@ -1,13 +1,10 @@
-import { useNavigation } from '@react-navigation/native'
-import React, { Dispatch, SetStateAction, useState } from 'react'
+import React from 'react'
 import styled from 'styled-components/native'
-import { NavigationProps } from '../../types/NavigationProps'
 import { P } from '../Text'
-import { ITag } from '../../types/event'
+import { ITag } from '@src/types/event'
 import { TouchableOpacity } from 'react-native'
-import { useAppDispatch, useAppSelector } from '../../store/hooks'
-import { IFilters } from '../../store/slices/filtersSlice'
-import { setTagsState } from '../../store/slices/createEventFormSlice'
+import { useAppDispatch, useAppSelector } from '@src/store/hooks'
+import { setTagsState } from '@src/store/slices/createEventFormSlice'
 
 const FilterTag = ({ tag }: { tag: ITag }) => {
     const { tagsCids } = useAppSelector(state => state.createEventFormSlice.eventFormValues)

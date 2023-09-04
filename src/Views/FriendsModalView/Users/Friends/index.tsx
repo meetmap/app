@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import FriendsList from "./FriendsList";
-import { Line } from "react-native-svg";
 import { TouchableOpacity, View } from "react-native";
 import styled from "styled-components/native";
 import { useTranslation } from "react-i18next";
-import { H3, Span } from "../../../../shared/Text";
-import ChooseFrendsListType from "../../../../shared/Actions/Users/ChooseFrendsListType";
-import VerticalArrowSmIcon from "../../../../shared/Icons/VerticalArrowSmIcon";
+import { H3, Span } from "@src/shared/Text";
+import ChooseFrendsListType from "@src/shared/Actions/Users/ChooseFrendsListType";
+import VerticalArrowSmIcon from "@src/shared/Icons/VerticalArrowSmIcon";
 
 const Friends = () => {
     const [friendListType, setFriendListType] = useState("friends")

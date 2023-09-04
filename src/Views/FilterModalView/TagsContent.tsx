@@ -1,22 +1,18 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
-import { H3, H6, P, Span } from '../../shared/Text'
+import React, { Dispatch, SetStateAction} from 'react'
+import { H3, H6, P, Span } from '@src/shared/Text'
 import styled from 'styled-components'
 import { TouchableOpacity, View } from 'react-native'
 import { StyledFiltersSection } from '.'
-import useAxios from '../../hooks/useAxios'
-import { ITag } from '../../types/event'
-import { getTags } from '../../api/events'
-import FilterTag from '../../shared/Tags/FilterTag'
-import TextStatus from '../../shared/TextStatus'
-import LoaderContainer from '../../shared/LoaderContainer'
-import SearchInput from '../../shared/Input/SearchInput'
-import { IFilters } from '../../store/slices/filtersSlice'
-import useAxiosPaginated from '../../hooks/useAxiosPaginated'
-import useAxiosSearch from '../../hooks/useAxiosSearch'
+import { ITag } from '@src/types/event'
+import { getTags } from '@src/api/events'
+import FilterTag from '@src/shared/Tags/FilterTag'
+import SearchInput from '@src/shared/Input/SearchInput'
+import { IFilters } from '@src/store/slices/filtersSlice'
+import useAxiosSearch from '@src/hooks/useAxiosSearch'
 import { useTranslation } from 'react-i18next'
 
 const TagsContent = ({ choosedFilters, setChoosedFilters }: { choosedFilters: IFilters, setChoosedFilters: Dispatch<SetStateAction<IFilters>> }) => {
-    const { data: tags, error, loading, paginate, fetchData } = useAxiosSearch<ITag>(getTags)
+    const { data: tags, paginate, fetchData } = useAxiosSearch<ITag>(getTags)
     const handleSearchFilters = async (text: string) => {
         fetchData({ q: text })
     }

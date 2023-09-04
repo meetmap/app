@@ -1,19 +1,18 @@
 import React, { useState } from 'react'
-import { Keyboard, KeyboardAvoidingView, Modal, Switch, TouchableOpacity, View } from 'react-native'
+import { Keyboard, KeyboardAvoidingView, TouchableOpacity, View } from 'react-native'
 import { styled } from 'styled-components/native'
-import { H5, H6, Span } from '../../shared/Text'
-import PrimaryButton from '../../shared/Buttons/PrimaryButton'
-import PrimaryFormInput from '../../shared/Input/PrimaryFormInput'
+import { Span } from '@src/shared/Text'
+import PrimaryFormInput from '@src/shared/Input/PrimaryFormInput'
 import { useNavigation } from '@react-navigation/native'
-import { NavigationProps, RootStackParamList } from '../../types/NavigationProps'
-import { useAppDispatch, useAppSelector } from '../../store/hooks'
+import { NavigationProps, RootStackParamList } from '@src/types/NavigationProps'
+import { useAppDispatch, useAppSelector } from '@src/store/hooks'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
-import { setTicketsState } from '../../store/slices/createEventFormSlice'
-import ConfirmAlert from '../../shared/Alerts/ConfirmAlert'
-import { ITicket } from '../../types/event'
+import { setTicketsState } from '@src/store/slices/createEventFormSlice'
+import ConfirmAlert from '@src/shared/Alerts/ConfirmAlert'
+import { ITicket } from '@src/types/event'
 import { useTranslation } from 'react-i18next'
 import { z } from 'zod'
-import PrimaryMediumButton from '../../shared/Buttons/PrimaryMediumButton'
+import { PrimaryButton } from '@src/shared/Buttons'
 
 interface ICreateTicketModal {
     navigation: NativeStackNavigationProp<RootStackParamList, 'CreateTicketModal'>;
@@ -172,13 +171,4 @@ const StyledTicketForm = styled.TouchableOpacity`
 `
 const StyledInputsContent = styled.View`
     gap: 8px;
-`
-const StyledSwitchContainer = styled.View`
-align-items: flex-end;
-justify-content: flex-end;
-`
-const StyledSwitchBlock = styled.View`
-    flex: 1;
-    align-items: center;
-    justify-content: center;
 `

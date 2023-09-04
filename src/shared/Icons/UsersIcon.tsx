@@ -1,5 +1,5 @@
 import React from 'react'
-import Svg, { SvgProps, G, Path, Defs, ClipPath } from "react-native-svg"
+import Svg, { G, Path, Defs, ClipPath } from "react-native-svg"
 const UsersIcon = () => {
     return (
         <Svg

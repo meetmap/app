@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { FlatList, View } from 'react-native';
 import styled from 'styled-components';
-import { IEvent } from '../../types/event';
-import EventLg from '../../shared/EventInList/EventLg';
-import TextStatus from '../../shared/TextStatus';
-import LoaderContainer from '../../shared/LoaderContainer';
+import { IEvent } from '@src/types/event';
+import EventLg from '@src/shared/EventInList/EventLg';
+import TextStatus from '@src/shared/TextStatus';
+import LoaderContainer from '@src/shared/LoaderContainer';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../types/NavigationProps';
-import { H1 } from '../../shared/Text';
+import { RootStackParamList } from '@src/types/NavigationProps';
+import { H1 } from '@src/shared/Text';
 import { useTranslation } from 'react-i18next';
-import { getEventsListByCids } from '../../api/events';
-import useAxiosPaginated from '../../hooks/useAxiosPaginated';
+import { getEventsListByCids } from '@src/api/events';
+import useAxiosPaginated from '@src/hooks/useAxiosPaginated';
 
 export interface IEventsListModalViewProps {
     navigation: NativeStackNavigationProp<
@@ -21,7 +21,7 @@ export interface IEventsListModalViewProps {
 }
 
 const EventsListModalView = ({ route }: IEventsListModalViewProps) => {
-    const { data, loading, error, refreshing, onRefresh, paginate } =
+    const { data, loading, error, paginate } =
         useAxiosPaginated<IEvent>(page =>
             getEventsListByCids(route.params.eventCids, page)
         );

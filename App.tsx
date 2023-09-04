@@ -1,9 +1,9 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- */
+// /**
+//  * Sample React Native App
+//  * https://github.com/facebook/react-native
+//  *
+//  * @format
+//  */
 
 import { NavigationContainer, NavigationContainerRef } from '@react-navigation/native';
 import React, { useEffect, useRef } from 'react';
@@ -12,7 +12,6 @@ import { mainTheme } from './src/shared/Theme';
 import { Provider } from 'react-redux';
 import { store } from './src/store/store';
 import Navigator from './src/Navigator';
-import { StatusBar, View } from 'react-native';
 import codePush from 'react-native-code-push';
 import { MapProvider } from './src/hooks/MapProvider';
 import './i18n.config'
@@ -22,9 +21,7 @@ import { getLocales } from 'react-native-localize';
 import { useTranslation } from 'react-i18next';
 import ErrorPopup from './src/shared/ErrorPopup';
 import RNBootSplash from "react-native-bootsplash";
-import { useAppDispatch } from './src/store/hooks';
 import { InitializeUserThunk } from './src/store/slices/userSlice';
-import NetInfo from "@react-native-community/netinfo";
 import { NavigationProps } from './src/types/NavigationProps';
 
 const App: () => JSX.Element = () => {

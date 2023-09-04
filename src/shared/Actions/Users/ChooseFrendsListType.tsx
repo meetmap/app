@@ -1,5 +1,5 @@
-import { TFunction, t } from 'i18next';
-import React, { Dispatch, SetStateAction, useState } from 'react'
+import { t } from 'i18next';
+import { Dispatch, SetStateAction} from 'react'
 import { ActionSheetIOS } from 'react-native';
 import { trigger } from 'react-native-haptic-feedback';
 

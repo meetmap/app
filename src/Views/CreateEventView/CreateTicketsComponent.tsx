@@ -1,11 +1,11 @@
 import React from 'react'
 import { FlatList, TouchableOpacity, View } from 'react-native'
-import { P, Span } from '../../shared/Text'
-import { useAppSelector } from '../../store/hooks'
-import PrimaryTicket from '../../shared/Ticket/PrimaryTicket'
+import { P, Span } from '@src/shared/Text'
+import { useAppSelector } from '@src/store/hooks'
+import PrimaryTicket from '@src/shared/Ticket/PrimaryTicket'
 import styled from 'styled-components'
 import { useNavigation } from '@react-navigation/native'
-import { NavigationProps } from '../../types/NavigationProps'
+import { NavigationProps } from '@src/types/NavigationProps'
 
 const CreateTicketsComponent = () => {
     const { eventFormValues } = useAppSelector(state => state.createEventFormSlice)

@@ -1,15 +1,14 @@
-import React, { useEffect, useState } from 'react'
-import { Text, TouchableOpacity, View } from 'react-native'
+import React, { useState } from 'react'
+import { TouchableOpacity, View } from 'react-native'
 import { trigger } from "react-native-haptic-feedback";
 import styled from 'styled-components'
-import { useAppDispatch } from '../../store/hooks'
-import { likeEvent, removeLikeOnEvent } from '../../api/events'
+import { likeEvent, removeLikeOnEvent } from '@src/api/events'
 import HeartIcon from '../Icons/HeartIcon'
-import { H6, P } from '../Text';
+import { H6 } from '../Text';
 import { useNavigation } from '@react-navigation/native';
-import { NavigationProps } from '../../types/NavigationProps';
+import { NavigationProps } from '@src/types/NavigationProps';
 
-const LikeButton = ({ eventCid, isLiked, likeCount }: { eventCid: string, isLiked: boolean, likeCount?: number }) => {
+export const LikeButton = ({ eventCid, isLiked, likeCount }: { eventCid: string, isLiked: boolean, likeCount?: number }) => {
     const [isLikedState, setIsLikedState] = useState(isLiked)
     const [likeCountState, setLikeCountState] = useState(likeCount)
     const navigation = useNavigation<NavigationProps>()
@@ -54,7 +53,6 @@ const LikeButton = ({ eventCid, isLiked, likeCount }: { eventCid: string, isLike
     )
 }
 
-export default LikeButton
 
 const StyledLikeContainer = styled(View)`
     position: absolute;

@@ -1,11 +1,11 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Button, FlatList, Text, View } from 'react-native'
+import { FlatList } from 'react-native'
 import { styled } from 'styled-components/native'
-import { H3, P } from '../../shared/Text'
-import { setToSecureStore } from '../../api/secure-store'
-import { SecureStoreKeys } from '../../constants'
-import CheckSmIcon from '../../shared/Icons/CheckSmIcon'
+import { H3} from '@src/shared/Text'
+import { setToSecureStore } from '@src/api/secure-store'
+import { SecureStoreKeys } from '@src/constants'
+import CheckSmIcon from '@src/shared/Icons/CheckSmIcon'
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated'
 
 const ChooseLanguageView = () => {

@@ -1,5 +1,5 @@
-import { Dispatch, SetStateAction, useCallback, useEffect, useState } from 'react';
-import axios, { AxiosResponse, AxiosError } from 'axios';
+import { useCallback, useEffect, useState } from 'react';
+import { AxiosError } from 'axios';
 
 type UseAxiosResult<T> = {
     data: T | null;
@@ -12,7 +12,7 @@ type UseAxiosResult<T> = {
     paginate: () => Promise<void>
 };
 
-const useAxios = <T extends unknown>(
+const useAxios = <T,>(
     axiosPromise: Promise<T>
 ): UseAxiosResult<T> => {
     const [data, setData] = useState<T | null>(null);

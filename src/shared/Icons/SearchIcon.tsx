@@ -1,5 +1,5 @@
 import React from 'react'
-import Svg, { Circle, Path, SvgProps } from 'react-native-svg'
+import Svg, { Circle, Path } from 'react-native-svg'
 import { TextcolorsType } from '../Text'
 import { useTheme } from 'styled-components'
 

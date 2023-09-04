@@ -1,16 +1,14 @@
 import * as React from "react"
-import { ActivityIndicator, Image, TouchableOpacity, View } from "react-native"
-import Svg, { SvgProps, Path, Rect, Mask } from "react-native-svg"
+import { TouchableOpacity } from "react-native"
 import styled from "styled-components"
 import LoadableProfileImage from "../LoadableImage/LoadableProfileImage"
-import { useState } from "react"
 import { useNavigation } from "@react-navigation/native"
-import { NavigationProps } from "../../types/NavigationProps"
+import { NavigationProps } from "@src/types/NavigationProps"
 
-interface IUserPin extends SvgProps {
+interface IUserPin {
     profilePicture: string | undefined
 }
-const UserPin = ({ profilePicture, ...props }: IUserPin) => {
+const UserPin = ({ profilePicture }: IUserPin) => {
     const navigation = useNavigation<NavigationProps>();
     return (
         <StyledUserPinView onPress={() => navigation.navigate("SelfProfileView")}>

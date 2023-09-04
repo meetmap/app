@@ -1,10 +1,8 @@
-import { useNavigation } from '@react-navigation/native'
 import React from 'react'
 import styled from 'styled-components/native'
-import { NavigationProps } from '../../types/NavigationProps'
 import { P } from '../Text'
-import { ITag } from '../../types/event'
-import { TouchableOpacity, View } from 'react-native'
+import { ITag } from '@src/types/event'
+import { View } from 'react-native'
 
 const EventTag = ({tag}: {tag: ITag}) => {
     // const navigation = useNavigation<NavigationProps>()

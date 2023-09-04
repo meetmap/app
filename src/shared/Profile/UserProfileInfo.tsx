@@ -1,15 +1,14 @@
 import styled from "styled-components/native";
-import { IPartialUser, IUserSelf } from "../../types/users";
-import { Image, TouchableOpacity, View } from "react-native";
+import { IPartialUser } from "@src/types/users";
+import { TouchableOpacity, View } from "react-native";
 import { H1, P } from "../Text";
-import LoadableImage from "../LoadableImage/LoadableImage";
 import LoadableProfileImage from "../LoadableImage/LoadableProfileImage";
 import { useNavigation } from "@react-navigation/native";
-import { NavigationProps } from "../../types/NavigationProps";
+import { NavigationProps } from "@src/types/NavigationProps";
 import { useTranslation } from "react-i18next";
-import { getTimeDifference } from "../../hooks/getTimeDifference";
+import { getTimeDifference } from "@src/hooks/getTimeDifference";
 
-const UserProfileInfo = ({ userData }: { userData: IPartialUser }) => {
+export const UserProfileInfo = ({ userData }: { userData: IPartialUser }) => {
   const navigation = useNavigation<NavigationProps>()
   const { t } = useTranslation()
   const onlineTime = getTimeDifference(userData.lastTimeOnline)
@@ -35,7 +34,6 @@ const UserProfileInfo = ({ userData }: { userData: IPartialUser }) => {
   );
 };
 
-export default UserProfileInfo;
 
 const StyledUserInfoHead = styled(View)`
   display: flex;
@@ -53,17 +51,17 @@ const StyledUserTextInfo = styled(View)`
   text-align: center;
   padding: 0 22px;
 `;
-const StyledUserProfileInfo = styled(View)`
-  flex-direction: row;
-  gap: 4px;
-`
 const StyledUserTextGeneralInfo = styled(View)`
   gap: 8px;
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
-const StyledSocialNetworks = styled(View)`
-  display: flex;
-  gap: 16px;
-`;
+// const StyledUserProfileInfo = styled(View)`
+//   flex-direction: row;
+//   gap: 4px;
+// `
+// const StyledSocialNetworks = styled(View)`
+//   display: flex;
+//   gap: 16px;
+// `;

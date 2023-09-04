@@ -1,11 +1,10 @@
-import { useState } from "react"
-import { FriendshipStatusType, IPartialUser } from "../../../types/users"
+import { FriendshipStatusType, IPartialUser } from "@src/types/users"
 import MoreIcon from "../../Icons/MoreIcon"
 import UserInListActions from "../../Actions/Users/UserInListActions"
 import { TouchableOpacity } from "react-native"
-import { useMap } from "../../../hooks/MapProvider"
+import { useMap } from "@src/hooks/MapProvider"
 import { useNavigation } from "@react-navigation/native"
-import { NavigationProps } from "../../../types/NavigationProps"
+import { NavigationProps } from "@src/types/NavigationProps"
 
 const FriendsInListButton = ({ userData, localFriendshipStatus, handleChangeFriendshipStatus }: {
     userData: IPartialUser,

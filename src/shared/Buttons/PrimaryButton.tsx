@@ -1,8 +1,10 @@
-import styled from "styled-components/native";
+import styled, { css } from "styled-components/native";
 
-import React, { ButtonHTMLAttributes, ReactNode } from 'react'
+import React, { ReactNode } from 'react'
 import { TextcolorsType } from "../Text";
-import { Button, ButtonProps, StyleSheet, Text, TouchableOpacity, TouchableOpacityProps, View } from "react-native";
+import { Text, TouchableOpacity, TouchableOpacityProps } from "react-native";
+
+export type ButtonSizeType = "sm" | "md" | "lg"
 
 export type ButtonType = "Primary" | "Secondary" | "White" | "Black" | "Error"
 
@@ -11,34 +13,83 @@ export interface IPrimaryButton extends TouchableOpacityProps {
     textColor?: TextcolorsType
     children?: ReactNode
     title?: string
+    btnSize?: ButtonSizeType
 }
 
-const PrimaryButton = ({ children, btnType = "Primary", title, textColor, ...rest }: IPrimaryButton) => {
+export const PrimaryButton = ({
+    btnSize = "lg",
+    children,
+    btnType = "Primary",
+    title,
+    textColor,
+    ...rest
+}: IPrimaryButton) => {
     return (
-        <StyledPrimaryButton btnType={btnType} {...rest }>
+        <StyledPrimaryButton btnSize={btnSize} btnType={btnType} {...rest}>
             {children}
-            <StyledPrimaryButtonText textColor={textColor} btnType={btnType}>{title}</StyledPrimaryButtonText>
+            {title && <StyledPrimaryButtonText textColor={textColor} btnType={btnType}>{title}</StyledPrimaryButtonText>}
         </StyledPrimaryButton>
     )
 }
 
-export default PrimaryButton
 
-const StyledPrimaryButton = styled(TouchableOpacity) <{ btnType: ButtonType }>`
+
+const defineSize = ({ btnSize }: IPrimaryButton) => {
+    switch (btnSize) {
+        case "lg":
+            return css`
+                padding: 20px 24px;
+                gap: 8px;
+                border-radius: 20px;
+            `
+        case "md":
+            return css`
+                padding: 12px 12px;
+                gap: 8px;
+                border-radius: 14px;
+            `
+        case "sm":
+            return css`
+                padding: 10px 16px;
+                gap: 4px;
+                border-radius: 20px;
+            `
+    }
+}
+const defineFontSize = ({ btnSize }: IPrimaryButton) => {
+    switch (btnSize) {
+        case "lg":
+            return css`
+                font-size: 16px;
+                font-weight: 600;
+            `
+        case "md":
+            return css`
+                font-size: 14px;
+                font-weight: 500;
+            `
+        case "sm":
+            return css`
+                font-size: 12px;
+                font-weight: 500;
+            `
+    }
+}
+
+const StyledPrimaryButton = styled(TouchableOpacity) <IPrimaryButton>`
     flex-direction: row;
-    padding: 20px 24px;
     justify-content: center;
     align-items: center;
-    gap: 8px;
 
-    background: ${props => props.theme.colors.BUTTON[props.btnType].BGDefault};
-    border: solid 1px ${props => props.theme.colors.BUTTON[props.btnType].BorderDefault};
-    border-radius: 20px;
+    background: ${props => props.theme.colors.BUTTON[props.btnType!].BGDefault};
+    border: solid 1px ${props => props.theme.colors.BUTTON[props.btnType!].BorderDefault};
+
+    ${defineSize}
 `
 
-const StyledPrimaryButtonText = styled(Text)<{btnType: ButtonType, textColor?: TextcolorsType}>`
+const StyledPrimaryButtonText = styled(Text) <{ btnType: ButtonType, textColor?: TextcolorsType }>`
     color: ${props => props.textColor ? props.theme.colors.TEXT[props.textColor] : props.theme.colors.BUTTON[props.btnType].TextDefault};
-    font-size: 16px;
     font-style: normal;
-    font-weight: 600;
+
+    ${defineFontSize}
 `

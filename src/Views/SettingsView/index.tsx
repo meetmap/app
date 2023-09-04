@@ -2,24 +2,25 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import React, { useCallback, useEffect, useState } from 'react'
 import { ActivityIndicator, RefreshControl, SafeAreaView, ScrollView, TouchableOpacity, View } from 'react-native'
 import { styled } from 'styled-components/native'
-import { NavigationProps, RootStackParamList } from '../../types/NavigationProps';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { NavigationProps, RootStackParamList } from '@src/types/NavigationProps';
+import { useAppDispatch, useAppSelector } from '@src/store/hooks';
 import { useNavigation } from '@react-navigation/native';
-import { H5 } from '../../shared/Text';
+import { H5 } from '@src/shared/Text';
 import EditView from './EditView';
-import { IEditUserData, IUploadedImage, changeUserProfilePicture, checkAssetsUploadStatus, getUserSelf, updateUser } from '../../api/users';
-import { LogOutThunk, setUserdata } from '../../store/slices/userSlice';
-import PrimaryButton from '../../shared/Buttons/PrimaryButton';
-import SelfProfileInfo from '../../shared/Profile/SelfProfile';
+import { IEditUserData, IUploadedImage, changeUserProfilePicture, checkAssetsUploadStatus, getUserSelf, updateUser } from '@src/api/users';
+import { LogOutThunk, setUserdata } from '@src/store/slices/userSlice';
 import Settings from './Settings';
 import { useTranslation } from 'react-i18next';
+import { AxiosError } from 'axios';
+import { SelfProfileInfo } from '@src/shared/Profile';
+import { PrimaryButton } from '@src/shared/Buttons';
 
 
 export interface ISettingsViewProps {
   navigation: NativeStackNavigationProp<RootStackParamList, 'SettingsView'>;
 }
 
-const SettingsView = ({ }: ISettingsViewProps) => {
+const SettingsView: React.FC<ISettingsViewProps> = () => {
   const { t } = useTranslation()
   const [editMode, setEditMode] = useState(false)
   const userData = useAppSelector(state => state.userSlice.user)
@@ -27,7 +28,7 @@ const SettingsView = ({ }: ISettingsViewProps) => {
 
   const [image, setImage] = useState<IUploadedImage | undefined>()
   const [isEditing, setIsEditing] = useState(false)
-  const [editingError, setEditingError] = useState(undefined)
+  const [, setEditingError] = useState<string | null>(null)
   const [editUserData, setEditUserData] = useState<IEditUserData>({
     name: userData?.name,
     description: userData?.description
@@ -61,9 +62,11 @@ const SettingsView = ({ }: ISettingsViewProps) => {
           })
           const user = await getUserSelf()
           dispatch(setUserdata(user))
-        } catch (error: any) {
-          console.log(error.message)
-          setEditingError(error.message)
+        } catch (error) {
+          if (error instanceof AxiosError) {
+            console.log(error.message)
+            setEditingError(error.message)
+          }
         }
         // setEditMode(false)
         setImage(undefined)
@@ -74,9 +77,11 @@ const SettingsView = ({ }: ISettingsViewProps) => {
           await updateUser(editUserData)
           const user = await getUserSelf()
           dispatch(setUserdata(user))
-        } catch (error: any) {
-          console.log(error.message)
-          setEditingError(error.message)
+        } catch (error) {
+          if (error instanceof AxiosError) {
+            console.log(error.message)
+            setEditingError(error.message)
+          }
         }
       }
       setIsEditing(false)

@@ -1,28 +1,28 @@
 import styled from "styled-components/native"
-import { SafeAreaView, ScrollView, TouchableOpacity, View } from "react-native"
+import { TouchableOpacity, View } from "react-native"
 import { NativeStackNavigationProp } from "@react-navigation/native-stack"
-import { NavigationProps, RootStackParamList } from "../../types/NavigationProps"
-import { H1, H3, H6 } from "../../shared/Text"
-import PrimaryMediumButton from "../../shared/Buttons/PrimaryMediumButton"
+import { NavigationProps, RootStackParamList } from "@src/types/NavigationProps"
+import { H1, H3, H6 } from "@src/shared/Text"
 import TagsContent from "./TagsContent"
-import PrimaryFormInput from "../../shared/Input/PrimaryFormInput"
-import { Line } from "../../shared/Line"
-import { useCallback, useEffect, useState } from "react"
-import { useAppDispatch, useAppSelector } from "../../store/hooks"
-import { IFilters, setFiltersState } from "../../store/slices/filtersSlice"
-import PrimaryDatePicker from "../../shared/Input/PrimaryDatePicker"
+import PrimaryFormInput from "@src/shared/Input/PrimaryFormInput"
+import { Line } from "@src/shared/Line"
+import { useCallback, useState } from "react"
+import { useAppDispatch, useAppSelector } from "@src/store/hooks"
+import { IFilters, setFiltersState } from "@src/store/slices/filtersSlice"
+import PrimaryDatePicker from "@src/shared/Input/PrimaryDatePicker"
 import { useNavigation } from "@react-navigation/native"
 import Slider from "@react-native-community/slider"
 import { useTranslation } from "react-i18next"
-import AppBottomSheet from "../../shared/AppBottomSheet"
+import AppBottomSheet from "@src/shared/AppBottomSheet"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { BottomSheetFooter, BottomSheetFooterProps, BottomSheetScrollView } from "@gorhom/bottom-sheet"
+import { PrimaryButton } from "@src/shared/Buttons"
 
 export interface IMainViewProps {
     navigation: NativeStackNavigationProp<RootStackParamList, 'FilterModalView'>;
 }
 
-const FilterModalView = ({ }: IMainViewProps) => {
+const FilterModalView: React.FC<IMainViewProps> = () => {
     const { tags, minPrice, maxPrice, startDate, radius } = useAppSelector(state => state.filtersSlice.filters)
     const { t } = useTranslation()
     const [choosedFilters, setChoosedFilters] = useState<IFilters>({
@@ -67,26 +67,26 @@ const FilterModalView = ({ }: IMainViewProps) => {
             radius: null
         }))
     }
-    const { top, bottom } = useSafeAreaInsets()
+    const { bottom } = useSafeAreaInsets()
     const renderFooter = useCallback(
         (props: BottomSheetFooterProps) => (
-            <StyledFilterModalFooter style={{paddingBottom: bottom}} {...props}>
+            <StyledFilterModalFooter style={{ paddingBottom: bottom }} {...props}>
                 <TouchableOpacity onPress={clearFilters}>
                     <H6 textcolor="Grey">{t("clear")}</H6>
                 </TouchableOpacity>
-                <PrimaryMediumButton onPress={submitFilters} title={t("submit")}></PrimaryMediumButton>
+                <PrimaryButton btnSize="md" onPress={submitFilters} title={t("submit")} />
             </StyledFilterModalFooter>
         ),
         []
     );
     return (
-        <AppBottomSheet snapPoints={[ "90%"]} footerComponent={renderFooter}>
+        <AppBottomSheet snapPoints={["90%"]} footerComponent={renderFooter}>
             <StyledSearchModal>
                 <StyledFilterModalHeader>
                     <H1>{t("filters")}</H1>
                 </StyledFilterModalHeader>
                 <BottomSheetScrollView>
-                    <StyledFiltersContent style={{marginBottom: bottom + 80}}>
+                    <StyledFiltersContent style={{ marginBottom: bottom + 80 }}>
                         <StyledFiltersSection>
                             <H3>{t("price")}</H3>
                             <StyledInputsRangeContainer>

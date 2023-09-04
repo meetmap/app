@@ -1,14 +1,11 @@
 import * as React from "react"
-import { ActivityIndicator, Image, Text, TouchableOpacity, View } from "react-native"
+import { Text, TouchableOpacity, View } from "react-native"
 import styled from "styled-components"
 import LoadableProfileImage from "../LoadableImage/LoadableProfileImage"
-import { useState } from "react"
-import { ViewProps } from "react-native-svg/lib/typescript/fabric/utils"
 import { useNavigation } from "@react-navigation/native"
-import { NavigationProps } from "../../types/NavigationProps"
-import { IPartialUser } from "../../types/users"
-import { GetFriendsLocationResponse } from "../../api/location"
-import { getTimeDifference } from "../../hooks/getTimeDifference"
+import { NavigationProps } from "@src/types/NavigationProps"
+import { GetFriendsLocationResponse } from "@src/api/location"
+import { getTimeDifference } from "@src/hooks/getTimeDifference"
 import { useTranslation } from "react-i18next"
 
 interface IFriendPin {

@@ -1,13 +1,13 @@
 import axios, { AxiosError } from 'axios';
-import { EVENTS_URL, AUTH_URL, MAIN_APP_URL, API_BASE_URL } from './baseUrl';
+import { API_BASE_URL } from './baseUrl';
 import jwtDecode from 'jwt-decode';
 import { refreshAccessToken } from './refreshAccessToken';
-import { SecureStoreKeys } from '../constants/secure-store';
+import { SecureStoreKeys } from '@src/constants/secure-store';
 import { getFromSecureStore, setToSecureStore } from './secure-store';
-import { store } from '../store/store';
-import { setUserdata } from '../store/slices/userSlice';
-import { showErrorModal } from '../store/slices/globalErrorSlice';
-import AppError from '../utils/AppError';
+import { store } from '@src/store/store';
+import { setUserdata } from '@src/store/slices/userSlice';
+import { showErrorModal } from '@src/store/slices/globalErrorSlice';
+import AppError from '@src/utils/AppError';
 import { t } from 'i18next';
 import NetInfo from '@react-native-community/netinfo';
 

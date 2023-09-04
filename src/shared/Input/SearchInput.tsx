@@ -1,11 +1,11 @@
-import React, { InputHTMLAttributes, ReactNode } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import SearchIcon from '../Icons/SearchIcon'
 import { TextInput, TextInputProps, View } from 'react-native'
 
 
-interface ISearchInput extends TextInputProps {
-}
+type ISearchInput = TextInputProps
+
 const SearchInput = ({ ...rest }: ISearchInput) => {
     return (
         <StyledInputContent>

@@ -1,12 +1,9 @@
-import { useNavigation } from '@react-navigation/native'
-import React, { Dispatch, SetStateAction, useState } from 'react'
+import React, { Dispatch, SetStateAction} from 'react'
 import styled from 'styled-components/native'
-import { NavigationProps } from '../../types/NavigationProps'
 import { P } from '../Text'
-import { ITag } from '../../types/event'
+import { ITag } from '@src/types/event'
 import { TouchableOpacity } from 'react-native'
-import { useAppDispatch, useAppSelector } from '../../store/hooks'
-import { IFilters } from '../../store/slices/filtersSlice'
+import { IFilters } from '@src/store/slices/filtersSlice'
 
 const FilterTag = ({ tag, choosedFilters, setChoosedFilters }: { tag: ITag, choosedFilters: IFilters, setChoosedFilters: Dispatch<SetStateAction<IFilters>> }) => {
     const tagsState = choosedFilters.tags

@@ -1,9 +1,7 @@
 import styled from "styled-components/native";
-
 import React, { ReactNode, useState } from 'react'
 import { TextInput, TextInputProps, TouchableOpacity, View } from "react-native";
-import { Text } from "react-native-svg";
-import { H1, Span } from "../Text";
+import { Span } from "../Text";
 import EyeIcon from "../Icons/Eye";
 
 interface IPrimaryFormInput extends TextInputProps {
@@ -14,7 +12,7 @@ interface IPrimaryFormInput extends TextInputProps {
     icon?: ReactNode
 }
 
-const SercuredFormInput = ({ name, label, isSuccess, isError, icon, ...rest }: IPrimaryFormInput) => {
+const SercuredFormInput = ({ name, label, ...rest }: IPrimaryFormInput) => {
     const [passwordHidden, setPasswordHidden] = useState(true)
     return (
         <StyledInputContent>

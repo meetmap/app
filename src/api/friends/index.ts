@@ -1,9 +1,9 @@
-import { IPaginateRespose } from "../../types/response";
-import { IPartialUser } from "../../types/users";
+import { IPaginateRespose } from "@src/types/response";
+import { IPartialUser } from "@src/types/users";
 import { getAxios } from "../axios";
 
 
-export interface GetSelfFriendsResponse extends IPartialUser { }
+export type GetSelfFriendsResponse = IPartialUser
 
 export const getUserFriends = async (userСId: string): Promise<IPaginateRespose<IPartialUser>> => {
   const { data } = await getAxios("users", true).get<IPaginateRespose<IPartialUser>>("/friends/get/".concat(userСId));

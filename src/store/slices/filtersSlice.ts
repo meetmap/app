@@ -1,6 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import MapView, { Address } from "react-native-maps";
-import { ITag } from "../../types/event";
+import { createSlice } from "@reduxjs/toolkit";
 
 export interface IFilters {
     tags: string[]

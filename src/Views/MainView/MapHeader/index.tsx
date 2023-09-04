@@ -1,16 +1,11 @@
-import React, { SetStateAction, useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import HeaderStatus from './HeaderStatus'
-import { View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import LinearGradient from 'react-native-linear-gradient'
-import { H5 } from '../../../shared/Text'
-import { useAppSelector } from '../../../store/hooks'
+import { H5 } from '@src/shared/Text'
+import { useAppSelector } from '@src/store/hooks'
 
-interface ITopControlls {
-    activeFilter: number,
-    setActiveFilter: React.Dispatch<SetStateAction<number>>
-}
 
 const MapHeader = () => {
     const tags = useAppSelector(state => state.filtersSlice.filters?.tags)

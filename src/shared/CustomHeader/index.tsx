@@ -1,9 +1,9 @@
 import React from 'react'
-import { TouchableOpacity, View } from 'react-native'
+import { TouchableOpacity } from 'react-native'
 import styled from 'styled-components/native'
 import GoBackArrowIcon from '../Icons/GoBackArrowIcon'
 import { useNavigation } from '@react-navigation/native'
-import { NavigationProps } from '../../types/NavigationProps'
+import { NavigationProps } from '@src/types/NavigationProps'
 import SettingsIcon from '../Icons/SettingsIcon'
 
 const CustomHeader = () => {

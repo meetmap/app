@@ -1,9 +1,9 @@
 import React from 'react'
 import { IEventFormValues, StyledCreateEventFormContainer } from '.'
 import { View } from 'react-native'
-import { P, Span } from '../../shared/Text'
+import { P, Span } from '@src/shared/Text'
 import Slider from '@react-native-community/slider'
-import { useAppSelector } from '../../store/hooks'
+import { useAppSelector } from '@src/store/hooks'
 import { useTranslation } from 'react-i18next'
 
 const ChangeEventMinAgeComponent = ({ handleChangeFormValue }: { handleChangeFormValue: (valueKey: keyof IEventFormValues, value: string | Date | undefined | number) => void }) => {

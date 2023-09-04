@@ -1,10 +1,10 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Line } from 'react-native-svg'
-import { H3 } from '../../shared/Text'
+import { H3 } from '@src/shared/Text'
 import { useTranslation } from 'react-i18next'
-import EventTag from '../../shared/Tags/EventTag'
-import { IEvent, ITag } from '../../types/event'
+import EventTag from '@src/shared/Tags/EventTag'
+import { ITag } from '@src/types/event'
 import styled from 'styled-components'
 
 interface IEventTags {

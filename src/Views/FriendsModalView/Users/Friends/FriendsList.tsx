@@ -1,12 +1,11 @@
 import { Dispatch, SetStateAction, useEffect } from "react";
-import styled from "styled-components/native";
-import { FlatList, ScrollView } from "react-native";
-import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
-import { GetInitialFriendsThunk } from "../../../../store/slices/friendsSlice";
-import LoaderContainer from "../../../../shared/LoaderContainer";
-import TextStatus from "../../../../shared/TextStatus";
-import UserDataInList from "../../../../shared/Profile/UserDataInList";
+import { FlatList} from "react-native";
+import { useAppDispatch, useAppSelector } from "@src/store/hooks";
+import { GetInitialFriendsThunk } from "@src/store/slices/friendsSlice";
+import LoaderContainer from "@src/shared/LoaderContainer";
+import TextStatus from "@src/shared/TextStatus";
 import { useTranslation } from "react-i18next";
+import { ListProfileInfo } from "@src/shared/Profile";
 
 const FriendsList = ({ friendListType, setFriendListType }: { friendListType: string, setFriendListType: Dispatch<SetStateAction<string>> }) => {
     const { t } = useTranslation()
@@ -54,14 +53,10 @@ const FriendsList = ({ friendListType, setFriendListType }: { friendListType: st
             data={choosedFriendsData().paginatedResults}
             horizontal={false}
             scrollEnabled
-            renderItem={({ item }) => <UserDataInList userData={item} />}
+            renderItem={({ item }) => <ListProfileInfo userData={item} />}
             keyExtractor={item => item.id}
         />
     )
 }
 
 export default FriendsList
-
-const StyledUsersList = styled(ScrollView)`
-  gap: 9px;
-`;

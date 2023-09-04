@@ -1,15 +1,14 @@
 import React, { useState } from 'react'
-import { Alert, Keyboard, KeyboardAvoidingView, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native'
-import { H1, H6, P } from '../../shared/Text'
+import { Alert, Keyboard, KeyboardAvoidingView, Text, TouchableOpacity} from 'react-native'
+import { H1, P } from '@src/shared/Text'
 import { useTranslation } from 'react-i18next'
-import PrimaryFormInput from '../../shared/Input/PrimaryFormInput'
+import PrimaryFormInput from '@src/shared/Input/PrimaryFormInput'
 import styled from 'styled-components/native'
-import PrimaryButton from '../../shared/Buttons/PrimaryButton'
-import { RootStackParamList } from '../../types/NavigationProps'
+import { RootStackParamList } from '@src/types/NavigationProps'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
-import PrimaryMediumButton from '../../shared/Buttons/PrimaryMediumButton'
-import { Line } from '../../shared/Line'
-import ReportAProblemActions from '../../shared/Actions/ReportAProblem'
+import { Line } from '@src/shared/Line'
+import ReportAProblemActions from '@src/shared/Actions/ReportAProblem'
+import { PrimaryButton } from '@src/shared/Buttons'
 
 export interface IReportAProblemViewProps {
     navigation: NativeStackNavigationProp<RootStackParamList, 'ReportAProblemView'>;

@@ -1,11 +1,7 @@
 import styled from "styled-components/native";
-
 import React, { ReactNode } from 'react'
 import { TextInput, TextInputProps, View } from "react-native";
-import { Text } from "react-native-svg";
-import { H1, Span } from "../Text";
-import Animated, { ZoomIn, ZoomOut } from "react-native-reanimated";
-import ErrorIcon from "../Icons/ErrorIcon";
+import { Span } from "../Text";
 
 interface IPrimaryFormInput extends TextInputProps {
     name?: string
@@ -16,7 +12,7 @@ interface IPrimaryFormInput extends TextInputProps {
     inputStyle?: "White" | "Primary"
 }
 
-const PrimaryFormInput = ({ name, label, isSuccess, inputStyle = "White", isError, icon, ...rest }: IPrimaryFormInput) => {
+const PrimaryFormInput = ({ name, label, inputStyle = "White", ...rest }: IPrimaryFormInput) => {
     return (
         <StyledInputContent>
             {label &&

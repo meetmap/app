@@ -1,11 +1,11 @@
 import React from 'react'
 import { View } from 'react-native'
-import { Span } from '../../shared/Text'
-import PrimaryDatePicker from '../../shared/Input/PrimaryDatePicker'
+import { Span } from '@src/shared/Text'
+import PrimaryDatePicker from '@src/shared/Input/PrimaryDatePicker'
 import { useTranslation } from 'react-i18next'
-import { useAppDispatch, useAppSelector } from '../../store/hooks'
+import { useAppDispatch, useAppSelector } from '@src/store/hooks'
 import { IEventFormValues, StyledCreateEventFormContainer } from '.'
-import { setEventFormValuesState } from '../../store/slices/createEventFormSlice'
+import { setEventFormValuesState } from '@src/store/slices/createEventFormSlice'
 
 const ChooseEventDatesComponent = () => {
     const { t } = useTranslation()

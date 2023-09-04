@@ -1,22 +1,21 @@
 import { useEffect, useState } from "react"
-import { IEvent, ITag } from "../../types/event"
+import { IEvent} from "@src/types/event"
 import styled from "styled-components/native"
 import { View } from "react-native"
-import { searchEvents } from "../../api/events"
+import { searchEvents } from "@src/api/events"
 import { NativeStackNavigationProp } from "@react-navigation/native-stack"
-import { RootStackParamList } from "../../types/NavigationProps"
+import { RootStackParamList } from "@src/types/NavigationProps"
 import { useTranslation } from "react-i18next"
 import SearchEventsDataList from "./SearchEventsDataList"
-import { AxiosError } from "axios"
-import SearchEventsInput from "../../shared/Input/SearchEventsInput"
-import { useAppSelector } from "../../store/hooks"
-import useAxiosSearch from "../../hooks/useAxiosSearch"
+import SearchEventsInput from "@src/shared/Input/SearchEventsInput"
+import { useAppSelector } from "@src/store/hooks"
+import useAxiosSearch from "@src/hooks/useAxiosSearch"
 
 export interface ISearchModalViewProps {
     navigation: NativeStackNavigationProp<RootStackParamList, 'SearchModalView'>;
 }
 
-const SearchModalView = ({ }: ISearchModalViewProps) => {
+const SearchModalView: React.FC<ISearchModalViewProps> = () => {
 
     const filters = useAppSelector(state => state.filtersSlice.filters)
     const [searchText, setSearchText] = useState("")

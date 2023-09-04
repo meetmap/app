@@ -17,8 +17,8 @@
     "jsx": "react-jsx",
     "baseUrl": "./",
     "paths": {
-      "@/*": ["src/*"]
+      "@src/*": ["src/*"]
     }
   },
-  "include": ["src", ".eslintrc.js", "webpack.config.ts"]
+  "include": ["src", ".eslintrc.js"]
 }

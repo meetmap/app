@@ -1,9 +1,9 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
+import React, { Dispatch, SetStateAction } from 'react'
 import { TouchableOpacity } from 'react-native'
 import styled from 'styled-components'
-import { ITag } from '../../types/event'
+import { ITag } from '@src/types/event'
 import { P } from '../Text'
-import Animated, { interpolate, interpolateColor, useAnimatedStyle, useDerivedValue, withTiming } from 'react-native-reanimated'
+import Animated, { interpolateColor, useAnimatedStyle, useDerivedValue, withTiming } from 'react-native-reanimated'
 
 interface IFavTag {
     tag: ITag

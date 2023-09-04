@@ -46,9 +46,6 @@ export const getAddressThunk = createAsyncThunk<
         mapView: MapView
         latitude: number;
         longitude: number;
-    },
-    {
-        rejectValue: { error: any };
     }
 >('address/get',
     async ({ mapView, latitude, longitude }) => {

@@ -1,23 +1,21 @@
-import React, { useEffect, useState } from "react";
-import { useAppDispatch } from "../../store/hooks";
-import PrimaryButton from "../../shared/Buttons/PrimaryButton";
-import { Button, Modal, Pressable, TouchableOpacity, View, Text } from "react-native";
-import { LoginUserThunk, RegisterUserThunk } from "../../store/slices/userSlice";
+import React, { useState } from "react";
+import { useAppDispatch } from "@src/store/hooks";
+import { TouchableOpacity, View } from "react-native";
+import { RegisterUserThunk } from "@src/store/slices/userSlice";
 import styled from "styled-components/native";
-import PrimaryFormInput from "../../shared/Input/PrimaryFormInput";
-import { H1, H2, H6, Span, Title } from "../../shared/Text";
+import PrimaryFormInput from "@src/shared/Input/PrimaryFormInput";
+import { Title } from "@src/shared/Text";
 import { SafeAreaView } from "react-native-safe-area-context";
-import SercuredFormInput from "../../shared/Input/SercuredFormInput";
-import GoBackArrowIcon from "../../shared/Icons/GoBackArrowIcon";
+import SercuredFormInput from "@src/shared/Input/SercuredFormInput";
+import GoBackArrowIcon from "@src/shared/Icons/GoBackArrowIcon";
 import { useNavigation } from "@react-navigation/native";
-import { NavigationProps } from "../../types/NavigationProps";
-import RNDateTimePicker, { DateTimePickerEvent } from "@react-native-community/datetimepicker";
-import PrimaryDatePicker from "../../shared/Input/PrimaryDatePicker";
+import { NavigationProps } from "@src/types/NavigationProps";
+import { DateTimePickerEvent } from "@react-native-community/datetimepicker";
+import PrimaryDatePicker from "@src/shared/Input/PrimaryDatePicker";
 import { useTranslation } from "react-i18next";
-import Animated, { Layout, useAnimatedStyle, withSpring } from "react-native-reanimated";
-import { Formik, FormikErrors, FormikProps, useFormik, useFormikContext } from "formik";
-import * as yup from 'yup'
-import { z } from "zod";
+import Animated, { useAnimatedStyle, withSpring } from "react-native-reanimated";
+import { ZodError, z } from "zod";
+import { PrimaryButton } from "@src/shared/Buttons";
 
 interface IRegisterFormData {
     name: string,
@@ -45,9 +43,7 @@ const RegisterView = () => {
         name: z.string().nonempty({ message: t("registerNameError") }),
         username: z.string().nonempty({ message: t("registerUsernameError") }),
         email: z.string().email({ message: t("registerEmailError") }),
-        birthDate: z.date().refine(value => {}, {
-            message: t("registerBirthDateError")
-        }),
+        birthDate: z.date(),
         password: z.string().min(6, t("registerPasswordLengthError")).refine(value => PASSWORD_REGEX.test(value), {
             message: t("registerPasswordError")
         }),
@@ -126,11 +122,11 @@ const RegisterView = () => {
             const opacity = isCloseToStage
                 ? withSpring(1 - stageDiff / (isPastStage ? -10 : 10), config)
                 : withSpring(0);
-            const pointerEvents = stageDiff === 0 ? "auto" : "none"
+            // const pointerEvents = stageDiff === 0 ? "auto" : "none"
             return {
                 transform: [{ translateY }, { scale }],
                 opacity,
-                pointerEvents
+                // pointerEvents
             };
         });
     };
@@ -142,19 +138,28 @@ const RegisterView = () => {
         setCurrentStage(stage => stage - 1)
     }
 
-    const handleFillForm = async () => {
+    const handleFillForm = async (setStageValue?: number) => {
         const key: keyof IRegisterFormData = headerValues[currentStage - 1].valueKey
         if (currentStage < 6) {
             try {
+                if(setStageValue && setStageValue < currentStage){
+                    setCurrentStage(setStageValue)
+                    return
+                }
                 const fieldSchema = userFormSchema.shape[key];
                 fieldSchema.parse(formValues[key]);
-                setCurrentStage(stage => stage + 1)
+                if (setStageValue) {
+                    setCurrentStage(setStageValue)
+                } else {
+                    setCurrentStage(stage => stage + 1)
+                }
                 if (formValuesErrors[key]) {
                     setFormValuesErrors((state => ({ ...state, [key]: null })))
                 }
             } catch (error) {
-                console.log(JSON.parse(error.message))
-                setFormValuesErrors((state => ({ ...state, [key]: JSON.parse(error.message)[0].message })))
+                if (error instanceof ZodError) {
+                    setFormValuesErrors((state => ({ ...state, [key]: JSON.parse(error.message)[0].message })))
+                }
             }
         }
         if (currentStage === 6) {
@@ -166,12 +171,15 @@ const RegisterView = () => {
                     name: formValues.name,
                     username: formValues.username,
                     email: formValues.email,
+                    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                     birthDate: formValues.birthDate!,
                     password: formValues.password,
                 }))
             } catch (error) {
-                console.log(JSON.parse(error.message))
-                setFormValuesErrors((state => ({ ...state, [key]: JSON.parse(error.message)[0].message })))
+                if (error instanceof ZodError) {
+                    console.log(JSON.parse(error.message))
+                    setFormValuesErrors((state => ({ ...state, [key]: JSON.parse(error.message)[0].message })))
+                }
             }
         }
     }
@@ -191,31 +199,38 @@ const RegisterView = () => {
                         <RegisterPrimaryFormInput
                             label={formValuesErrors.name || t("registerNameLabel")}
                             name='name'
+                            autoComplete="name"
                             isError={!!formValuesErrors.name}
                             onChangeText={(value) => handleChange('name', value)}
                             value={formValues.name}
                             placeholder={t("name")}
+                            onFocus={() => handleFillForm(1)}
                         />
                     </StyledAnimatedInputContainer>
                     <StyledAnimatedInputContainer style={[useAnimatedInputStyles(2)]}>
                         <RegisterPrimaryFormInput
                             label={formValuesErrors.username || t("registerUsernameLabel")}
                             name='username'
+                            autoComplete="username"
                             isError={!!formValuesErrors.username}
                             onChangeText={(value) => handleChange('username', value)}
                             value={formValues.username}
                             placeholder={t("username")}
+                            onFocus={() => handleFillForm(2)}
                         />
                     </StyledAnimatedInputContainer>
                     <StyledAnimatedInputContainer style={[useAnimatedInputStyles(3)]}>
                         <RegisterPrimaryFormInput
                             label={formValuesErrors.email || t("registerEmailLabel")}
                             name='email'
+                            autoComplete="email"
                             isError={!!formValuesErrors.email}
                             onChangeText={(value) => handleChange('email', value)}
                             value={formValues.email}
                             placeholder={"E-mail"}
+                            inputMode="email"
                             keyboardType="email-address"
+                            onFocus={() => handleFillForm(3)}
                         />
                     </StyledAnimatedInputContainer>
                     <StyledAnimatedInputContainer style={[useAnimatedInputStyles(4)]}>
@@ -238,20 +253,24 @@ const RegisterView = () => {
                         <RegisterSercuredFormInput
                             label={formValuesErrors.password || t("registerPasswordLabel")}
                             name='password'
+                            autoComplete="password-new"
                             isError={!!formValuesErrors.password}
                             onChangeText={(value) => handleChange('password', value)}
                             value={formValues.password}
                             placeholder={t("password")}
+                            onFocus={() => handleFillForm(5)}
                         />
                     </StyledAnimatedInputContainer>
                     <StyledAnimatedInputContainer style={[useAnimatedInputStyles(6)]}>
                         <RegisterSercuredFormInput
                             label={formValuesErrors.repeatPassword || t("registerRepeatPasswordLabel")}
                             name='repeatPassword'
+                            autoComplete="password-new"
                             isError={!!formValuesErrors.repeatPassword}
                             onChangeText={(value) => handleChange('repeatPassword', value)}
                             value={formValues.repeatPassword}
                             placeholder={t("repeatPassword")}
+                            onFocus={() => handleFillForm(6)}
                         />
                     </StyledAnimatedInputContainer>
                 </StyledFormContent>
@@ -262,7 +281,7 @@ const RegisterView = () => {
                         <PrimaryButton onPress={goBackForm} btnType='Secondary' title={"<"} />
                     </Animated.View>
                 }
-                <PrimaryButton style={{ flex: 1 }} onPress={handleFillForm} btnType='Primary' title={t("goNext")} />
+                <PrimaryButton style={{ flex: 1 }} onPress={() => handleFillForm(undefined)} btnType='Primary' title={t("goNext")} />
             </StyledButtonContent>
             {/* </>
                 )}
@@ -319,10 +338,6 @@ const RegisterPrimaryFormInput = styled(PrimaryFormInput)`
     border-radius: 20px;
 `
 const RegisterSercuredFormInput = styled(SercuredFormInput)`
-    padding: 24px;
-    border-radius: 20px;
-`
-const RegisterPrimaryDatePicker = styled(PrimaryDatePicker)`
     padding: 24px;
     border-radius: 20px;
 `

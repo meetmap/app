@@ -2,7 +2,7 @@ import React from 'react'
 import { TouchableOpacity, TouchableOpacityProps, View } from 'react-native'
 import styled from 'styled-components'
 import { H5, P } from '../Text'
-import { ITicket } from '../../types/event'
+import { ITicket } from '@src/types/event'
 import { useTranslation } from 'react-i18next'
 
 

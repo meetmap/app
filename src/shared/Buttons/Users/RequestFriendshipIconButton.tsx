@@ -1,5 +1,5 @@
 import { TouchableOpacity, TouchableOpacityProps } from "react-native"
-import { FriendshipStatusType } from "../../../types/users"
+import { FriendshipStatusType } from "@src/types/users"
 import SuccessIcon from "../../Icons/SuccessIcon"
 import AddUserToFriendsIcon from "../../Icons/AddUserToFriendsIcon"
 
@@ -9,7 +9,7 @@ interface IFriendRequestButton extends TouchableOpacityProps {
     userCId: string
 }
 
-const RequestFriendshipIconButton = ({ handleChangeFriendshipStatus, localFriendshipStatus, userCId, ...rest }: IFriendRequestButton) => {
+const RequestFriendshipIconButton = ({ handleChangeFriendshipStatus, localFriendshipStatus, ...rest }: IFriendRequestButton) => {
 
     if (["add-friend", "rejected", "pending"].includes(localFriendshipStatus)) {
         return (

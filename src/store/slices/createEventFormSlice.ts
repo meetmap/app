@@ -1,9 +1,7 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import MapView, { Address } from "react-native-maps";
-import { ITag, ITicket } from "../../types/event";
-import { ICoordinates } from "./locationSlice";
-import { IEventFormValues } from "../../Views/CreateEventView";
-import { IUploadedImage } from "../../api/users";
+import { createSlice } from "@reduxjs/toolkit";
+import { ITicket } from "@src/types/event";
+import { IEventFormValues } from "@src/Views/CreateEventView";
+import { IUploadedImage } from "@src/api/users";
 
 
 interface InitialState {

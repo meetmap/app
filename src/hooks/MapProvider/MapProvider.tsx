@@ -1,13 +1,11 @@
-import React, { createContext, Dispatch, SetStateAction, useRef, RefObject } from "react";
+import React, { createContext, useRef, RefObject } from "react";
 import MapView from "react-native-maps";
 
-type UseStateT<T> = [T, Dispatch<SetStateAction<T>>];
 interface IMapContext {
   mapViewRef: RefObject<MapView>;
 }
 export const MapProviderContext = createContext<IMapContext>({
-  //@ts-ignore
-  cameraRef: null,
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   //@ts-ignore
   mapViewRef: null,
 });

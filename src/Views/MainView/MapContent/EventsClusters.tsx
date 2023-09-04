@@ -1,11 +1,11 @@
 import { Marker } from "react-native-maps"
-import EventPin from "../../../shared/Pins/EventPin"
-import { ClusterPoint } from "../../../hooks/useSuperCluster"
-import ClusterEventPin from "../../../shared/Pins/ClusterEventPin"
-import { useAppSelector } from "../../../store/hooks"
-import Animated, { FadeIn, FadeOut } from "react-native-reanimated"
+import EventPin from "@src/shared/Pins/EventPin"
+import { ClusterPoint } from "@src/hooks/useSuperCluster"
+import ClusterEventPin from "@src/shared/Pins/ClusterEventPin"
+import { useAppSelector } from "@src/store/hooks"
+import Animated, { FadeIn } from "react-native-reanimated"
 import { useNavigation } from "@react-navigation/native"
-import { NavigationProps } from "../../../types/NavigationProps"
+import { NavigationProps } from "@src/types/NavigationProps"
 
 const AnimatedMarker = Animated.createAnimatedComponent(Marker);
 
@@ -15,7 +15,7 @@ const EventsClusters = ({ clusters }: { clusters: ClusterPoint[] }) => {
     if (mapFiler === "Events" || mapFiler === "All") {
         return (
             <>
-                {clusters.map((cluster, index) => {
+                {clusters.map((cluster) => {
                     const [lng, lat] = cluster.geometry.coordinates
                     if (cluster.properties.cluster) {
                         return (
@@ -40,7 +40,7 @@ const EventsClusters = ({ clusters }: { clusters: ClusterPoint[] }) => {
                     return (
                         <AnimatedMarker
                             entering={FadeIn}
-                            onPress={() =>  navigation.navigate("EventModalView", { eventCid: cluster.properties.data.cid })}
+                            onPress={() => navigation.navigate("EventModalView", { eventCid: cluster.properties.data.cid })}
                             key={`pin${cluster.properties.data.cid}`}
                             coordinate={{
                                 latitude: lat,

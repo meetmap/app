@@ -1,7 +1,6 @@
-import { formatDistance, formatDistanceStrict, formatDistanceToNow, parseISO } from "date-fns";
+import { formatDistanceStrict, parseISO } from "date-fns";
 import i18n from "../../i18n.config";
 import { ru, enUS } from 'date-fns/locale'
-import { t } from "i18next";
 
 export const getTimeDifference = (lastModifiedTime: string): string | null => {
     const lastModifiedDate = parseISO(lastModifiedTime);

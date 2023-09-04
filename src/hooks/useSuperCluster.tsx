@@ -1,6 +1,5 @@
-import { debounce } from 'lodash';
-import { useState, useEffect, useMemo, useRef } from 'react';
-import Supercluster, { PointFeature, ClusterFeature, AnyProps, ClusterProperties } from 'supercluster';
+/* eslint-disable no-unused-vars */
+import Supercluster, { PointFeature,  AnyProps, ClusterProperties } from 'supercluster';
 import { IEventByLocation } from '../types/event';
 
 type Position = [number, number] | [number, number, number];
@@ -23,7 +22,9 @@ interface Options {
   maxZoom?: number;
   minZoom?: number;
   log?: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   reduce?: (accumulated: any, props: Readonly<any>) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   map?: (props: Readonly<AnyProps>) => any;
 }
 

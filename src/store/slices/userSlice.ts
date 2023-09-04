@@ -1,13 +1,13 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { SecureStoreKeys } from '../../constants/secure-store';
-import { IUserSelf } from '../../types/users';
+import { SecureStoreKeys } from '@src/constants/secure-store';
+import { IUserSelf } from '@src/types/users';
 import {
   ICreateUser,
   createUser,
   getUserSelf,
   loginWithUsername,
-} from '../../api/users';
-import { getFromSecureStore, removeFromSecureStore, setToSecureStore } from '../../api/secure-store';
+} from '@src/api/users';
+import { getFromSecureStore, removeFromSecureStore, setToSecureStore } from '@src/api/secure-store';
 import NetInfo from "@react-native-community/netinfo";
 
 interface InitialState {

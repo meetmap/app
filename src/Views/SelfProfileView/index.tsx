@@ -1,22 +1,21 @@
 import React, { useState } from 'react'
-import { NativeScrollEvent, RefreshControl, SafeAreaView, ScrollView, Text, View, useWindowDimensions } from 'react-native'
+import { NativeScrollEvent, RefreshControl, ScrollView, View } from 'react-native'
 import LikedEvents from './Events/LikedEvents';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../types/NavigationProps';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import PrimaryMediumButton from '../../shared/Buttons/PrimaryMediumButton';
+import { RootStackParamList } from '@src/types/NavigationProps';
+import { useAppDispatch, useAppSelector } from '@src/store/hooks';
 import { styled } from 'styled-components/native';
-import MoreIcon from '../../shared/Icons/MoreIcon';
-import SelfProfileActions from '../../shared/Actions/Users/SelfProfileActions';
-import SelfProfileInfo from '../../shared/Profile/SelfProfile';
+import MoreIcon from '@src/shared/Icons/MoreIcon';
+import SelfProfileActions from '@src/shared/Actions/Users/SelfProfileActions';
+import { SelfProfileInfo } from '@src/shared/Profile';
 import { useTranslation } from 'react-i18next';
-import { H3 } from '../../shared/Text';
-import { getLikedEvents } from '../../api/events';
-import useAxiosPaginated from '../../hooks/useAxiosPaginated';
-import { IEvent } from '../../types/event';
-import { getUserSelf } from '../../api/users';
-import { setUserdata } from '../../store/slices/userSlice';
+import { H3 } from '@src/shared/Text';
+import { getLikedEvents } from '@src/api/events';
+import useAxiosPaginated from '@src/hooks/useAxiosPaginated';
+import { IEvent } from '@src/types/event';
+import { getUserSelf } from '@src/api/users';
+import { setUserdata } from '@src/store/slices/userSlice';
+import { PrimaryButton } from '@src/shared/Buttons';
 
 
 export interface ISelfProfileViewProps {
@@ -51,7 +50,7 @@ const SelfProfileView = ({ navigation }: ISelfProfileViewProps) => {
             await fetchLikedEventsData()
             setSelfProfileRefreshing(false)
         } catch (error) {
-
+            //empty
         }
     }
     return (
@@ -68,11 +67,11 @@ const SelfProfileView = ({ navigation }: ISelfProfileViewProps) => {
         >
             <SelfProfileInfo userData={selfUserData} />
             <StyledProfileActions>
-                <PrimaryMediumButton style={{ flex: 1 }} onPress={() => navigation.navigate("CreateEventView")} btnType='Secondary' title={t("createEvent")} />
-                <PrimaryMediumButton style={{ flex: 1 }} onPress={() => navigation.navigate("FavoriteTagsView")} btnType='Secondary' title="Fav tags" />
-                <PrimaryMediumButton btnType='Secondary' onPress={() => SelfProfileActions(selfUserData)}>
+                <PrimaryButton btnSize="md" style={{ flex: 1 }} onPress={() => navigation.navigate("CreateEventView")} btnType='Secondary' title={t("createEvent")} />
+                <PrimaryButton btnSize="md" style={{ flex: 1 }} onPress={() => navigation.navigate("FavoriteTagsView")} btnType='Secondary' title="Fav tags" />
+                <PrimaryButton btnSize="md" btnType='Secondary' onPress={() => SelfProfileActions(selfUserData)}>
                     <MoreIcon />
-                </PrimaryMediumButton>
+                </PrimaryButton>
             </StyledProfileActions>
             <H3 style={{ paddingVertical: 10, backgroundColor: "white" }}>{t("likedEvents")}</H3>
             <StyledEventsContainer>

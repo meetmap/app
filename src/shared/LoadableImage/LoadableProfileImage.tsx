@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-import { ActivityIndicator, Image, View } from 'react-native'
-import { ImageProps } from 'react-native'
+import { ActivityIndicator, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
 import { ViewProps } from 'react-native-svg/lib/typescript/fabric/utils'
 import { styled } from 'styled-components/native'

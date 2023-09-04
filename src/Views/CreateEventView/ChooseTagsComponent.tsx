@@ -1,18 +1,16 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react'
-import { H3, H6, P, Span } from '../../shared/Text'
+import React from 'react'
+import { H3, H6, P, Span } from '@src/shared/Text'
 import styled from 'styled-components'
 import { TouchableOpacity, View } from 'react-native'
-import { ITag } from '../../types/event'
-import { getTags } from '../../api/events'
-import FilterTag from '../../shared/Tags/FilterTag'
-import SearchInput from '../../shared/Input/SearchInput'
-import { IFilters } from '../../store/slices/filtersSlice'
-import useAxiosSearch from '../../hooks/useAxiosSearch'
-import CreateEventTag from '../../shared/Tags/CreateEventTag'
+import { ITag } from '@src/types/event'
+import { getTags } from '@src/api/events'
+import SearchInput from '@src/shared/Input/SearchInput'
+import useAxiosSearch from '@src/hooks/useAxiosSearch'
+import CreateEventTag from '@src/shared/Tags/CreateEventTag'
 import { StyledCreateEventFormContainer } from '.'
 
 const ChooseTagsComponent = () => {
-    const { data: tags, error, loading, paginate, fetchData } = useAxiosSearch<ITag>(getTags)
+    const { data: tags, paginate, fetchData } = useAxiosSearch<ITag>(getTags)
     const handleSearchFilters = async (text: string) => {
         fetchData({ q: text })
     }

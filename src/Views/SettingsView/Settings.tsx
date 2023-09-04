@@ -1,12 +1,8 @@
 import React from 'react'
 import { styled } from 'styled-components/native'
-import { P } from '../../shared/Text'
-import { View } from 'react-native'
-import RightArrowIcon from '../../shared/Icons/RightArrowIcon'
-import { useNavigation } from '@react-navigation/native'
 import Setting from './Setting'
 import { useTranslation } from 'react-i18next'
-import ChooseLanguage from '../../shared/Actions/ChooseLanguage'
+import ChooseLanguage from '@src/shared/Actions/ChooseLanguage'
 
 const Settings = () => {
     const { i18n, t } = useTranslation()

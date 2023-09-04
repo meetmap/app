@@ -1,23 +1,19 @@
 import moment from "moment";
-import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { IEvent } from "../../types/event";
-import { useState } from "react";
-import LikeButton from "../Buttons/LikeButton";
+import { useAppSelector } from "@src/store/hooks";
+import { IEvent } from "@src/types/event";
 import { H6, Span } from "../Text";
 import MoreIcon from "../Icons/MoreIcon";
-import OpenEventActions from "../Actions/Events/OpenEventActions";
 import styled from "styled-components/native";
-import { Image, ImageBackground, TouchableOpacity, View } from "react-native";
-import { useCalculateDistance } from "../../hooks/useCalculateDistance";
+import { TouchableOpacity, View } from "react-native";
+import { useCalculateDistance } from "@src/hooks/useCalculateDistance";
 import LoadableImage from "../LoadableImage/LoadableImage";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import { IMainViewProps } from "../../Views/WelcomeView";
-import { NavigationProps } from "../../types/NavigationProps";
-import { useMap } from "../../hooks/MapProvider";
+import { useNavigation } from "@react-navigation/native";
+import { NavigationProps } from "@src/types/NavigationProps";
+import { useMap } from "@src/hooks/MapProvider";
 import EventInListActions from "../Actions/Events/EventInListActions";
 import { useTranslation } from "react-i18next";
 import 'moment/locale/ru'
-import FastImage from "react-native-fast-image";
+import { LikeButton } from "../Buttons";
 
 const EventLg = ({ eventData }: { eventData: IEvent }) => {
     const { userCoordinates } = useAppSelector(state => state.locationSlice)
@@ -34,7 +30,6 @@ const EventLg = ({ eventData }: { eventData: IEvent }) => {
     }
     const formattedStartTime = moment(eventData.startTime).locale(i18n.language).format(momentLocaleFormat[i18n.language as keyof typeof momentLocaleFormat]);
     const navigation = useNavigation<NavigationProps>();
-    const route = useRoute();
     const { flyTo } = useMap()
 
     // const fullscreen = route.name.toLowerCase().includes('modal')

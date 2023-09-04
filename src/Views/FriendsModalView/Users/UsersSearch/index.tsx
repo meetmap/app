@@ -1,11 +1,11 @@
 import { Dispatch, SetStateAction, useState } from "react"
 import UsersSearchList from "./UsersSearchList"
 import { useTranslation } from "react-i18next"
-import { IPartialUser } from "../../../../types/users"
-import { searchUsersByQuery } from "../../../../api/users"
-import SearchInput from "../../../../shared/Input/SearchInput"
+import { IPartialUser } from "@src/types/users"
+import { searchUsersByQuery } from "@src/api/users"
+import SearchInput from "@src/shared/Input/SearchInput"
 
-const UsersSearch = ({ searchUsersInputData, setSearchUsersInputData }: { searchUsersInputData: string | null, setSearchUsersInputData: Dispatch<SetStateAction<string | null>> }) => {
+const UsersSearch = ({  setSearchUsersInputData }: { searchUsersInputData: string | null, setSearchUsersInputData: Dispatch<SetStateAction<string | null>> }) => {
     const [searchUsersData, setSearchUsersData] = useState<IPartialUser[] | null>(null)
     const [searchUsersLoading, setSearchUsersLoading] = useState(false)
     const handleSearchUserData = async (text: string) => {

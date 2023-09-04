@@ -1,17 +1,14 @@
 import React, { useState } from "react"
-import { IPartialUser } from "../../types/users"
+import { IPartialUser } from "@src/types/users"
 import { H6, P, Span } from "../Text"
-import RequestFriendshipIconButton from "../Buttons/Users/RequestFriendshipIconButton"
-import FriendsInListButton from "../Buttons/Users/FriendsInListButton"
 import styled from "styled-components/native"
-import { Image, TouchableOpacity, View } from "react-native"
-import useFriendship from "../../hooks/useFriendship"
+import { TouchableOpacity, View } from "react-native"
 import LoadableProfileImage from "../LoadableImage/LoadableProfileImage"
 import { useNavigation } from "@react-navigation/native"
-import { NavigationProps } from "../../types/NavigationProps"
+import { NavigationProps } from "@src/types/NavigationProps"
 import { useTranslation } from "react-i18next"
 
-const UserDataInInviteList = ({ userData }: { userData: IPartialUser }) => {
+export const InviteListProfileInfo = ({ userData }: { userData: IPartialUser }) => {
     const navigation = useNavigation<NavigationProps>();
     const [invited, setInvited] = useState(false) //userInvited
     const { t } = useTranslation()
@@ -36,7 +33,6 @@ const UserDataInInviteList = ({ userData }: { userData: IPartialUser }) => {
     )
 }
 
-export default UserDataInInviteList
 
 const StyledUserDataInList = styled(View)`
     flex-direction: row;

@@ -1,11 +1,11 @@
 import React, { useEffect, useRef } from 'react'
 import { StyledCreateEventFormContainer } from '.'
-import { P, Span } from '../../shared/Text'
+import { P, Span } from '@src/shared/Text'
 import { Image, TouchableOpacity, View } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
-import { NavigationProps } from '../../types/NavigationProps'
+import { NavigationProps } from '@src/types/NavigationProps'
 import MapView from 'react-native-maps'
-import { useAppSelector } from '../../store/hooks'
+import { useAppSelector } from '@src/store/hooks'
 import styled from 'styled-components'
 
 const ChooseEventLocationComponent = () => {

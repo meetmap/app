@@ -1,11 +1,11 @@
 import React from "react"
-import { FlatList, ScrollView, View } from "react-native"
+import { FlatList, View } from "react-native"
 import styled from "styled-components/native"
 import { useTranslation } from "react-i18next"
-import LoaderContainer from "../../../../shared/LoaderContainer"
-import { IPartialUser } from "../../../../types/users"
-import TextStatus from "../../../../shared/TextStatus"
-import UserDataInList from "../../../../shared/Profile/UserDataInList"
+import LoaderContainer from "@src/shared/LoaderContainer"
+import { IPartialUser } from "@src/types/users"
+import TextStatus from "@src/shared/TextStatus"
+import { ListProfileInfo } from "@src/shared/Profile"
 
 const UsersSearchList = ({ searchUsersData, searchUsersLoading }: { searchUsersData: IPartialUser[] | null, searchUsersLoading: boolean }) => {
     const { t } = useTranslation()
@@ -25,7 +25,7 @@ const UsersSearchList = ({ searchUsersData, searchUsersLoading }: { searchUsersD
                     data={searchUsersData}
                     horizontal={false}
                     scrollEnabled
-                    renderItem={({ item }) => <UserDataInList userData={item} />}
+                    renderItem={({ item }) => <ListProfileInfo userData={item} />}
                     keyExtractor={item => item.id}
                 />
             </StyledUsersList>

@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { ScrollView, TouchableOpacity, View } from 'react-native'
-import { H3, H5, H6, P, Span } from '../../shared/Text'
-import useAxiosSearch from '../../hooks/useAxiosSearch'
-import { getTags } from '../../api/events'
-import { ITag } from '../../types/event'
+import { H3, H5, H6, P, Span } from '@src/shared/Text'
+import useAxiosSearch from '@src/hooks/useAxiosSearch'
+import { getTags } from '@src/api/events'
+import { ITag } from '@src/types/event'
 import { useTranslation } from 'react-i18next'
-import SearchInput from '../../shared/Input/SearchInput'
-import FilterTag from '../../shared/Tags/FilterTag'
-import FavTag from '../../shared/Tags/FavTag'
+import SearchInput from '@src/shared/Input/SearchInput'
+import FavTag from '@src/shared/Tags/FavTag'
 import styled from 'styled-components'
 import { useNavigation } from '@react-navigation/native'
 
 const FavoriteTagsView = () => {
-    const { data: tags, error, loading, paginate, fetchData } = useAxiosSearch<ITag>(getTags)
+    const { data: tags,  paginate, fetchData } = useAxiosSearch<ITag>(getTags)
     const handleSearchFilters = async (text: string) => {
         fetchData({ q: text })
     }

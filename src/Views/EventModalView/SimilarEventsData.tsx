@@ -1,14 +1,12 @@
 import React from 'react'
 import { FlatList, View } from 'react-native'
 import styled from 'styled-components'
-import { H3 } from '../../shared/Text'
+import { H3 } from '@src/shared/Text'
 import { useTranslation } from 'react-i18next'
-import useAxiosPaginated from '../../hooks/useAxiosPaginated'
-import { IEvent } from '../../types/event'
-import { getSimilarEventsByCid } from '../../api/events'
-import LoaderContainer from '../../shared/LoaderContainer'
-import EventLg from '../../shared/EventInList/EventLg'
-import { IPaginateRespose } from '../../types/response'
+import { IEvent } from '@src/types/event'
+import LoaderContainer from '@src/shared/LoaderContainer'
+import EventLg from '@src/shared/EventInList/EventLg'
+import { IPaginateRespose } from '@src/types/response'
 
 
 interface ISimilarEventsData {

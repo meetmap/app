@@ -1,12 +1,8 @@
 import React, { useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import { Marker } from 'react-native-maps';
-import { getUpdatedFriendsLocationThunk } from '../../../store/slices/locationSlice';
-import FriendPin from '../../../shared/Pins/FriendPin';
-import Animated, { FadeIn, FadeOut } from 'react-native-reanimated';
+import { useAppDispatch, useAppSelector } from '@src/store/hooks';
+import { getUpdatedFriendsLocationThunk } from '@src/store/slices/locationSlice';
 import FriendMarker from './FriendMarker';
 import { useNetInfo } from '@react-native-community/netinfo';
-import AppError from '../../../utils/AppError';
 
 const FriendsClusters = () => {
   const dispatch = useAppDispatch();

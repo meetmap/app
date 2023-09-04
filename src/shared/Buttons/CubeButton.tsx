@@ -1,26 +1,22 @@
 import styled from "styled-components/native";
 
-import React, { ButtonHTMLAttributes, ReactNode } from 'react'
-import { TextcolorsType } from "../Text";
-import { Button, ButtonProps, StyleSheet, Text, TouchableOpacity, TouchableOpacityProps, View } from "react-native";
-import { ButtonType } from "./PrimaryButton";
+import React, { ReactNode } from 'react'
+import { TouchableOpacity, TouchableOpacityProps } from "react-native";
 
 
-interface IPrimaryButton extends TouchableOpacityProps {
+interface ICubeButton extends TouchableOpacityProps {
     children: ReactNode
 }
 
-const PrimaryButton = ({ children, ...rest }: IPrimaryButton) => {
+export const CubeButton = ({ children, ...rest }: ICubeButton) => {
     return (
-        <StyledPrimaryButton {...rest}>
+        <StyledCubeButton {...rest}>
             {children}
-        </StyledPrimaryButton>
+        </StyledCubeButton>
     )
 }
 
-export default PrimaryButton
-
-const StyledPrimaryButton = styled(TouchableOpacity)`
+const StyledCubeButton = styled(TouchableOpacity)`
     background-color: rgba(255, 255, 255, 1);
     display: flex;
     align-items: center;

@@ -5,11 +5,11 @@ import {
   getUserFriends,
   rejectFriendship,
   requestFriendship
-} from "../../api/friends";
+} from "@src/api/friends";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { IPartialUser } from "../../types/users";
+import { IPartialUser } from "@src/types/users";
 import { RootState } from "../store";
-import { IPaginateRespose } from "../../types/response";
+import { IPaginateRespose } from "@src/types/response";
 
 
 interface InitialState {

@@ -1,13 +1,13 @@
 import styled from "styled-components/native";
-import { IPartialUser, IUserSelf } from "../../types/users";
-import { Image, TouchableOpacity, View } from "react-native";
+import { IUserSelf } from "@src/types/users";
+import { TouchableOpacity, View } from "react-native";
 import { H1, P } from "../Text";
 import LoadableProfileImage from "../LoadableImage/LoadableProfileImage";
 import { useTranslation } from "react-i18next";
 import { useNavigation } from "@react-navigation/native";
-import { NavigationProps } from "../../types/NavigationProps";
+import { NavigationProps } from "@src/types/NavigationProps";
 
-const SelfProfileInfo = ({ userData }: { userData: IUserSelf }) => {
+export const SelfProfileInfo = ({ userData }: { userData: IUserSelf }) => {
   const { t } = useTranslation()
   const navigation = useNavigation<NavigationProps>()
   return (
@@ -30,7 +30,6 @@ const SelfProfileInfo = ({ userData }: { userData: IUserSelf }) => {
   );
 };
 
-export default SelfProfileInfo;
 
 const StyledUserInfoHead = styled(View)`
   display: flex;
@@ -56,8 +55,4 @@ const StyledUserTextGeneralInfo = styled(View)`
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
-const StyledSocialNetworks = styled(View)`
-  display: flex;
-  gap: 16px;
 `;

@@ -1,10 +1,10 @@
 import React from 'react'
 import styled from 'styled-components/native'
-import { H5, H6, P } from '../../shared/Text'
+import { H6 } from '@src/shared/Text'
 import { View } from 'react-native'
-import RightArrowIcon from '../../shared/Icons/RightArrowIcon'
+import RightArrowIcon from '@src/shared/Icons/RightArrowIcon'
 
-const Setting = ({ title, value, onPress }: { title: string, value?: string, onPress: any }) => {
+const Setting = ({ title, value, onPress }: { title: string, value?: string, onPress: () => void }) => {
     return (
         <StyledSetting onPress={onPress}>
             <H6>{title}</H6>

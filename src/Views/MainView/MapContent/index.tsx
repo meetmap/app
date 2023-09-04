@@ -1,12 +1,12 @@
-import MapView, { Details, Marker, Region } from 'react-native-maps';
-import { useAppDispatch, useAppSelector } from '../../../store/hooks';
-import { getAddressThunk, setAddressState } from '../../../store/slices/mapSlice';
+import MapView, { Region } from 'react-native-maps';
+import { useAppDispatch, useAppSelector } from '@src/store/hooks';
+import { getAddressThunk } from '@src/store/slices/mapSlice';
 import UserMarker from './UserMarker';
-import { useMap } from '../../../hooks/MapProvider';
+import { useMap } from '@src/hooks/MapProvider';
 import { debounce } from 'lodash';
 import EventsClusters from './EventsClusters';
 import FriendsClusters from './FriendsClusters';
-import useEventsOnMap from '../../../hooks/useEventsOnMap';
+import useEventsOnMap from '@src/hooks/useEventsOnMap';
 import { useEffect } from 'react';
 
 const MapContent = () => {
@@ -30,7 +30,6 @@ const MapContent = () => {
 
   const handleRegionChangeComplete = async (
     region: Region,
-    details: Details,
   ) => {
     getEventsByCoordinates(region)
 

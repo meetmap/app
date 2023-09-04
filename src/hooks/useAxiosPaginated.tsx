@@ -1,11 +1,9 @@
 import {
-    Dispatch,
-    SetStateAction,
     useCallback,
     useEffect,
     useState,
 } from 'react';
-import axios, { AxiosResponse, AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import { IPaginateRespose } from '../types/response';
 
 type UseAxiosResult<T> = {
@@ -19,8 +17,8 @@ type UseAxiosResult<T> = {
     paginate: () => Promise<void>;
 };
 
-const useAxiosPaginated = <T extends unknown>(
-    axiosPromise: (page?: number) => Promise<IPaginateRespose<T>>
+const useAxiosPaginated = <T,>(
+    axiosPromise: (_page?: number) => Promise<IPaginateRespose<T>>
 ): UseAxiosResult<IPaginateRespose<T>> => {
     const [data, setData] = useState<IPaginateRespose<T> | null>(null);
     const [loading, setLoading] = useState<boolean>(true);

@@ -1,13 +1,8 @@
-import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
+import React, { FC, useRef, useState } from 'react';
 import {
-    Animated,
-    Dimensions,
     FlatList,
     Image,
-    NativeScrollEvent,
-    NativeSyntheticEvent,
     StyleSheet,
-    Text,
     View,
     ViewToken,
 } from 'react-native';
@@ -27,7 +22,7 @@ interface ImageCarouselProps {
 }
 
 
-const PrimaryCarousel: FC<ImageCarouselProps> = ({ data, width, height, squared = false }) => {
+const PrimaryCarousel: FC<ImageCarouselProps> = ({ data, width, squared = false }) => {
     const [activeIndex, setActiveIndex] = useState<number>(0)
 
     const onViewableItemsChanged = ({ viewableItems }: { viewableItems: ViewToken[] }) => {
@@ -47,7 +42,7 @@ const PrimaryCarousel: FC<ImageCarouselProps> = ({ data, width, height, squared 
         <StyledCarouselView squared={squared}>
             <FlatList
                 data={data}
-                renderItem={({ item, index }) => {
+                renderItem={({ item }) => {
                     return (
                         <View style={{ width }}>
                             <Image source={{ uri: item }} style={styles.itemImage} />

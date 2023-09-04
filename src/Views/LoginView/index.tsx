@@ -1,18 +1,17 @@
 import { useEffect, useState } from "react";
-import { useAppDispatch } from "../../store/hooks";
-import PrimaryButton from "../../shared/Buttons/PrimaryButton";
-import { Text } from "react-native-svg";
+import { useAppDispatch } from "@src/store/hooks";
 import { TouchableOpacity, View } from "react-native";
-import { LoginUserThunk } from "../../store/slices/userSlice";
+import { LoginUserThunk } from "@src/store/slices/userSlice";
 import styled from "styled-components/native";
-import PrimaryFormInput from "../../shared/Input/PrimaryFormInput";
-import { H1, H2, Span, Title } from "../../shared/Text";
+import PrimaryFormInput from "@src/shared/Input/PrimaryFormInput";
+import { Span, Title } from "@src/shared/Text";
 import { SafeAreaView } from "react-native-safe-area-context";
-import SercuredFormInput from "../../shared/Input/SercuredFormInput";
-import GoBackArrowIcon from "../../shared/Icons/GoBackArrowIcon";
+import SercuredFormInput from "@src/shared/Input/SercuredFormInput";
+import GoBackArrowIcon from "@src/shared/Icons/GoBackArrowIcon";
 import { useNavigation } from "@react-navigation/native";
-import { NavigationProps } from "../../types/NavigationProps";
+import { NavigationProps } from "@src/types/NavigationProps";
 import { useTranslation } from "react-i18next";
+import { PrimaryButton } from "@src/shared/Buttons";
 
 interface ILoginFormData {
     username: string,

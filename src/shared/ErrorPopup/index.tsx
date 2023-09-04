@@ -1,19 +1,19 @@
 import React, { RefObject, useEffect, useState } from 'react'
 import styled from 'styled-components/native'
-import { useAppDispatch, useAppSelector } from '../../store/hooks'
-import { H6, P } from '../Text'
-import { hideErrorModal } from '../../store/slices/globalErrorSlice'
-import { Button, TouchableOpacity } from 'react-native'
+import { useAppDispatch, useAppSelector } from '@src/store/hooks'
+import { P } from '../Text'
+import { hideErrorModal } from '@src/store/slices/globalErrorSlice'
+import { TouchableOpacity } from 'react-native'
 import Animated, { FadeInDown, FadeInUp } from 'react-native-reanimated'
-import { NavigationContainerRef, useRoute } from '@react-navigation/native'
-import { NavigationProps } from '../../types/NavigationProps'
+import { NavigationContainerRef } from '@react-navigation/native'
+import { NavigationProps } from '@src/types/NavigationProps'
 
-const ErrorPopup = ({navigationRef}: {navigationRef: RefObject<NavigationContainerRef<NavigationProps>>}) => {
+const ErrorPopup = ({ navigationRef }: { navigationRef: RefObject<NavigationContainerRef<NavigationProps>> }) => {
     const { errorMessage } = useAppSelector(state => state.globalErrorSlice)
     const dispatch = useAppDispatch()
     const [routeName, setRouteName] = useState<string | undefined>(undefined)
 
-    
+
 
     useEffect(() => {
         setRouteName(navigationRef.current?.getCurrentRoute()?.name)
@@ -26,7 +26,7 @@ const ErrorPopup = ({navigationRef}: {navigationRef: RefObject<NavigationContain
         }
     }, [errorMessage, dispatch]);
 
-    if(routeName === "MainView"){
+    if (routeName === "MainView") {
         return null
     }
     if (errorMessage) {

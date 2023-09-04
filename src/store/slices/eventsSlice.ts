@@ -1,7 +1,6 @@
-import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
-import { IEvent, IEventByLocation } from "../../types/event";
-import { getAllNearEvents } from "../../api/events";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { IEventByLocation } from "@src/types/event";
+import { getAllNearEvents } from "@src/api/events";
 
 interface InitialState {
   events: IEventByLocation[];
@@ -37,7 +36,7 @@ export const getEventsByLocationThunk = createAsyncThunk<
     lng: number;
     radius: number;
   }
->("events/location", async (payload, { rejectWithValue }) => {
+>("events/location", async (payload) => {
   const data = await getAllNearEvents(payload);
   return data;
 });
@@ -69,15 +68,15 @@ const eventsSlice = createSlice({
           }
         }));
       })
-      .addCase(getEventsByLocationThunk.pending, (state, action) => {
+      .addCase(getEventsByLocationThunk.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(getEventsByLocationThunk.rejected, (state, action) => {
+      .addCase(getEventsByLocationThunk.rejected, (state) => {
         state.isLoading = false;
       });
   },
 });
 
-export const { } = eventsSlice.actions;
+// export const { } = eventsSlice.actions;
 
 export default eventsSlice.reducer;

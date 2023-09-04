@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import styled from 'styled-components';
 import UsersSearch from './Users/UsersSearch';
 import Friends from './Users/Friends';
-import AppBottomSheet from '../../shared/AppBottomSheet';
+import AppBottomSheet from '@src/shared/AppBottomSheet';
 
 const FriendsModalView = () => {
     const [searchUsersInputData, setSearchUsersInputData] = useState<string | null>(null)

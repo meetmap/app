@@ -1,10 +1,8 @@
-import { Axios, AxiosError } from 'axios';
-import { store } from '../../store/store';
-import { ICreateEventFormValues, IEvent, IEventByLocation, ITag } from '../../types/event';
-import { IPaginateRespose } from '../../types/response';
-import { IPartialUser } from '../../types/users';
+import { store } from '@src/store/store';
+import { ICreateEventFormValues, IEvent, IEventByLocation, ITag } from '@src/types/event';
+import { IPaginateRespose } from '@src/types/response';
+import { IPartialUser } from '@src/types/users';
 import { getAxios } from '../axios';
-import { EVENTS_URL } from '../baseUrl';
 import FormData from 'form-data';
 import { IUploadImageResponce } from '../users';
 
@@ -22,7 +20,7 @@ export const getSimilarEventsByCid = async (eventCid: string, page?: number) => 
 };
 export const getEventsListByCids = async (
   eventCids: string[],
-  page: number = 1,
+  page = 1,
 ) => {
   const res = await getAxios('events', true).post<IPaginateRespose<IEvent>>(
     `/events/batch`,
@@ -89,7 +87,7 @@ export const getAllNearEvents = async ({
   return res.data;
 };
 
-export const getEventLikes = async (eventCid: string, page: number = 1) => {
+export const getEventLikes = async (eventCid: string, page = 1) => {
   const res = await getAxios('events', true).get<IPaginateRespose<IPartialUser>>(
     `/events/likes/${eventCid}`,
     {
@@ -101,7 +99,7 @@ export const getEventLikes = async (eventCid: string, page: number = 1) => {
   return res.data;
 };
 
-export const getLikedEvents = async (page: number = 1) => {
+export const getLikedEvents = async (page = 1) => {
   const res = await getAxios('events', true).get<IPaginateRespose<IEvent>>(
     `/users/events/liked`,
     {

@@ -1,11 +1,11 @@
-import { Image, ImageBackground, SafeAreaView, StatusBar, View } from 'react-native'
+import { ImageBackground, SafeAreaView, View } from 'react-native'
 import styled from 'styled-components/native'
-import PrimaryButton from '../../shared/Buttons/PrimaryButton'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../types/NavigationProps';
-import { H1, Title } from '../../shared/Text';
-import HorizontalLogoIcon from '../../shared/Icons/Logos/HorizontalLogoIcon';
+import { RootStackParamList } from '@src/types/NavigationProps';
+import { Title } from '@src/shared/Text';
+import HorizontalLogoIcon from '@src/shared/Icons/Logos/HorizontalLogoIcon';
 import { useTranslation } from 'react-i18next';
+import { PrimaryButton } from '@src/shared/Buttons';
 
 export interface IMainViewProps {
     navigation: NativeStackNavigationProp<RootStackParamList, 'WelcomeView'>;

@@ -1,23 +1,26 @@
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import React, { useState } from 'react'
+import React from 'react'
 import { FlatList, View } from 'react-native'
-import { RootStackParamList } from '../../types/NavigationProps';
-import TextStatus from '../../shared/TextStatus';
-import LoaderContainer from '../../shared/LoaderContainer';
-import useAxios from '../../hooks/useAxios';
-import { getOutcomingFrienshipRequests, getUserFriends } from '../../api/friends';
-import { useAppSelector } from '../../store/hooks';
-import { IPartialUser, IUserSelf } from '../../types/users';
+import { RootStackParamList } from '@src/types/NavigationProps';
+import TextStatus from '@src/shared/TextStatus';
+import LoaderContainer from '@src/shared/LoaderContainer';
+import { getUserFriends } from '@src/api/friends';
+import { useAppSelector } from '@src/store/hooks';
+import { IPartialUser } from '@src/types/users';
 import { useTranslation } from 'react-i18next';
-import { H1 } from '../../shared/Text';
+import { H1 } from '@src/shared/Text';
 import styled from 'styled-components';
-import UserDataInInviteList from '../../shared/Profile/UserDataInInviteList';
-import useAxiosPaginated from '../../hooks/useAxiosPaginated';
+import useAxiosPaginated from '@src/hooks/useAxiosPaginated';
+import { InviteListProfileInfo } from '@src/shared/Profile';
 
 
 export interface IEventWhoWillGoModalViewProps {
     navigation: NativeStackNavigationProp<RootStackParamList, 'EventWhoWillGoModalView'>;
-    route: any
+    route: {
+        params: {
+            username: string
+        }
+    }
 }
 
 
@@ -49,7 +52,7 @@ const EventWhoWillGoModalView = ({ route }: IEventWhoWillGoModalViewProps) => {
                 data={data.paginatedResults}
                 horizontal={false}
                 scrollEnabled
-                renderItem={({ item }) => <UserDataInInviteList userData={item} />}
+                renderItem={({ item }) => <InviteListProfileInfo userData={item} />}
                 keyExtractor={item => item.id}
             />
         </StyledEventsListModal>

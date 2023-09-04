@@ -1,4 +1,3 @@
-import React from 'react'
 import { Alert, Share } from 'react-native';
 
 export const onShare = async (message: string, url?: string) => {
@@ -16,6 +15,7 @@ export const onShare = async (message: string, url?: string) => {
         } else if (result.action === Share.dismissedAction) {
             // dismissed
         }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
         Alert.alert(error.message);
     }

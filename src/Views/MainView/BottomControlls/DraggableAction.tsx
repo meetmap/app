@@ -1,21 +1,19 @@
-import React, { useEffect, useRef } from 'react'
-import { useAppDispatch, useAppSelector } from '../../../store/hooks'
-import { useMap } from '../../../hooks/MapProvider'
+import React from 'react'
+import { useAppSelector } from '@src/store/hooks'
+import { useMap } from '@src/hooks/MapProvider'
 import { useNavigation } from '@react-navigation/native'
-import { NavigationProps } from '../../../types/NavigationProps'
+import { NavigationProps } from '@src/types/NavigationProps'
 import Animated, { runOnJS, useAnimatedReaction, useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated'
-import { Gesture, GestureDetector, TouchableOpacity } from 'react-native-gesture-handler'
+import { Gesture, GestureDetector} from 'react-native-gesture-handler'
 import styled from 'styled-components'
-import LoadableProfileImage from '../../../shared/LoadableImage/LoadableProfileImage'
-import { Text, View } from 'react-native'
+import LoadableProfileImage from '@src/shared/LoadableImage/LoadableProfileImage'
 import { trigger } from 'react-native-haptic-feedback'
-import DragArrowIcon from '../../../shared/Icons/DragArrowIcon'
-import PlusIcon from '../../../shared/Icons/PlusIcon'
-import CompassIcon from '../../../shared/Icons/CompassIcon'
-import UsersIcon from '../../../shared/Icons/UsersIcon'
-import TicketIcon from '../../../shared/Icons/TicketIcon'
-import FiltersIcon from '../../../shared/Icons/FiltersIcon'
-import { setMapFiltersState } from '../../../store/slices/mapSlice'
+import DragArrowIcon from '@src/shared/Icons/DragArrowIcon'
+import PlusIcon from '@src/shared/Icons/PlusIcon'
+import CompassIcon from '@src/shared/Icons/CompassIcon'
+import UsersIcon from '@src/shared/Icons/UsersIcon'
+import TicketIcon from '@src/shared/Icons/TicketIcon'
+import FiltersIcon from '@src/shared/Icons/FiltersIcon'
 
 const DraggableAction = () => {
     const profilePic = useAppSelector(state => state.userSlice.user?.profilePicture)
@@ -38,7 +36,6 @@ const DraggableAction = () => {
         }
     ]
     const mapFiler = useAppSelector(state => state.mapSlice.mapFilters)
-    const dispatch = useAppDispatch()
     const filterIndex = mapFilters.findIndex(filter => filter.name === mapFiler)
     const changeMapFilters = () => {
         // if (filterIndex < mapFilters.length - 1) {
@@ -52,9 +49,9 @@ const DraggableAction = () => {
     const handleGoToProfile = async () => {
         navigation.navigate('SelfProfileView')
     }
-    const handleGoToFriends = async () => {
-        navigation.navigate('FriendsModalView')
-    }
+    // const handleGoToFriends = async () => {
+    //     navigation.navigate('FriendsModalView')
+    // }
     const handleCreateEvent = async () => {
         navigation.navigate('CreateEventView')
     }
@@ -142,7 +139,7 @@ const DraggableAction = () => {
     const gestureStartTime = useSharedValue(0);
 
     useAnimatedReaction(() => leftBtnInRange.value || rightBtnInRange.value || topBtnInRange.value,
-        (newValue, _oldValue) => {
+        (newValue) => {
             if (newValue) {
                 runOnJS(triggerHaptic)();
             }
@@ -176,7 +173,7 @@ const DraggableAction = () => {
                 y: offset.value.y,
             };
         })
-        .onFinalize((e) => {
+        .onFinalize(() => {
             rotation.value = withSpring(0);
             isPressed.value = false;
             offset.value = withSpring({ x: 0, y: 0 }, {

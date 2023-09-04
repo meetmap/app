@@ -1,11 +1,11 @@
 import React from 'react'
 import { Linking, View } from 'react-native'
 import styled from 'styled-components'
-import PrimaryMediumButton from '../../shared/Buttons/PrimaryMediumButton'
 import { useNavigation } from '@react-navigation/native'
-import { NavigationProps } from '../../types/NavigationProps'
+import { NavigationProps } from '@src/types/NavigationProps'
 import { useTranslation } from 'react-i18next'
-import TicketIcon from '../../shared/Icons/TicketIcon'
+import TicketIcon from '@src/shared/Icons/TicketIcon'
+import { PrimaryButton } from '@src/shared/Buttons'
 
 interface IEventFooterActions {
     link: string
@@ -28,11 +28,11 @@ const EventFooterActions = ({ link, eventCid }: IEventFooterActions) => {
     };
     return (
         <StyledEventFooter>
-            <PrimaryMediumButton onPress={handleBuyTicketOpenLink} btnType='Primary' title={t("buyTickets")}><TicketIcon /></PrimaryMediumButton>
+            <PrimaryButton btnSize="md" onPress={handleBuyTicketOpenLink} btnType='Primary' title={t("buyTickets")}><TicketIcon /></PrimaryButton>
             <StyledEventFooterActions>
-                <PrimaryMediumButton onPress={() => navigation.navigate("InviteFriendsModalView", { eventCid })} style={{ flex: 1 }} btnType='Secondary' title={t("inviteFriend")} />
-                <PrimaryMediumButton style={{ flex: 1 }} btnType='Secondary' title={t("seeWhoGoes")} />
-                <PrimaryMediumButton style={{ flex: 1 }} btnType='Secondary' title={t("iWillGo")} />
+                <PrimaryButton btnSize="md" onPress={() => navigation.navigate("InviteFriendsModalView", { eventCid })} style={{ flex: 1 }} btnType='Secondary' title={t("inviteFriend")} />
+                <PrimaryButton btnSize="md" style={{ flex: 1 }} btnType='Secondary' title={t("seeWhoGoes")} />
+                <PrimaryButton btnSize="md" style={{ flex: 1 }} btnType='Secondary' title={t("iWillGo")} />
             </StyledEventFooterActions>
         </StyledEventFooter>
     )

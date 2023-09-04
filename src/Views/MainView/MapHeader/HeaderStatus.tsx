@@ -1,17 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { Title } from '../../../shared/Text'
-import { useAppSelector } from '../../../store/hooks'
+import { Title } from '@src/shared/Text'
+import { useAppSelector } from '@src/store/hooks'
 import styled from 'styled-components/native'
-import { View } from 'react-native'
 import Animated, { FadeIn, FadeOut } from 'react-native-reanimated'
-import { useMap } from '../../../hooks/MapProvider'
 
 const HeaderStatus = () => {
     const { addressState } = useAppSelector(state => state.mapSlice)
     const mapFiler = useAppSelector(state => state.mapSlice.mapFilters)
     const [filterShows, setFilterShows] = useState(false)
     const { errorMessage } = useAppSelector(state => state.globalErrorSlice)
-    const { mapViewRef } = useMap()
     useEffect(() => {
         const showCurrentFilter = () => {
             setFilterShows(true)

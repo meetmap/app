@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { AppColorTheme } from "../../types/other";
+import { AppColorTheme } from "@src/types/other";
 
 interface InitialState {
   theme: AppColorTheme;

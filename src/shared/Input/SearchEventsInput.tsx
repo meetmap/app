@@ -1,15 +1,14 @@
-import React, { InputHTMLAttributes, ReactNode } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import SearchIcon from '../Icons/SearchIcon'
 import { TextInput, TextInputProps, TouchableOpacity, View } from 'react-native'
-import FiltersIcon from '../Icons/FiltersIcon'
 import { useNavigation } from '@react-navigation/native'
-import { NavigationProps } from '../../types/NavigationProps'
+import { NavigationProps } from '@src/types/NavigationProps'
 import Filters2Icon from '../Icons/Filters2Icon'
 
 
-interface ISearchEventsInput extends TextInputProps {
-}
+type ISearchEventsInput = TextInputProps
+
 const SearchEventsInput = ({ ...rest }: ISearchEventsInput) => {
     const navigation = useNavigation<NavigationProps>()
     return (

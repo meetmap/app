@@ -6,18 +6,18 @@ import {
   Platform,
   ToastAndroid,
 } from 'react-native';
-import Geolocation, {GeoPosition} from 'react-native-geolocation-service';
+import Geolocation from 'react-native-geolocation-service';
 import {useAppDispatch} from '../store/hooks';
 import {updateUserLocationThunk} from '../store/slices/locationSlice';
 
 const useLocation = () => {
-  const [forceLocation, setForceLocation] = useState(true);
-  const [highAccuracy, setHighAccuracy] = useState(true);
-  const [locationDialog, setLocationDialog] = useState(true);
-  const [significantChanges, setSignificantChanges] = useState(false);
-  const [observing, setObserving] = useState(false);
-  const [foregroundService, setForegroundService] = useState(false);
-  const [useLocationManager, setUseLocationManager] = useState(false);
+  const [forceLocation] = useState(true);
+  const [highAccuracy] = useState(true);
+  const [locationDialog] = useState(true);
+  const [significantChanges] = useState(false);
+  const [, setObserving] = useState(false);
+  const [foregroundService] = useState(false);
+  const [useLocationManager] = useState(false);
   // const [location, setLocation] = useState<GeoPosition | null>(null);
 
   const dispatch = useAppDispatch();
@@ -66,6 +66,7 @@ const useLocation = () => {
         '',
         [
           {text: 'Go to Settings', onPress: openSetting},
+          // eslint-disable-next-line @typescript-eslint/no-empty-function
           {text: "Don't Use Location", onPress: () => {}},
         ],
       );

@@ -1,23 +1,20 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import styled from 'styled-components/native'
-import { H3, H5, H6, Span } from '../../shared/Text'
-import { ICreator } from '../../types/event'
-import useAxios from '../../hooks/useAxios'
-import { getUserById } from '../../api/users'
-import LoaderContainer from '../../shared/LoaderContainer'
+import { H3, H5, Span } from '@src/shared/Text'
+import { ICreator } from '@src/types/event'
+import useAxios from '@src/hooks/useAxios'
+import { getUserById } from '@src/api/users'
 import { ActivityIndicator, View } from 'react-native'
-import { IPartialUser } from '../../types/users'
-import LoadableProfileImage from '../../shared/LoadableImage/LoadableProfileImage'
+import { IPartialUser } from '@src/types/users'
+import LoadableProfileImage from '@src/shared/LoadableImage/LoadableProfileImage'
 import { useTranslation } from 'react-i18next'
-import PrimarySmallButton from '../../shared/Buttons/PrimarySmallButton'
-import FriendsInListButton from '../../shared/Buttons/Users/FriendsInListButton'
-import FriendshipStatusButton from '../../shared/Buttons/Users/FriendshipStatusButton'
+import FriendshipStatusButton from '@src/shared/Buttons/Users/FriendshipStatusButton'
 import { useNavigation } from '@react-navigation/native'
-import { NavigationProps } from '../../types/NavigationProps'
+import { NavigationProps } from '@src/types/NavigationProps'
 
 const EventCreatorInfo = ({ creator }: { creator?: ICreator }) => {
     if (creator) {
-        const { data, error, loading } = useAxios<IPartialUser>(getUserById(creator.creatorCid))
+        const { data, loading } = useAxios<IPartialUser>(getUserById(creator.creatorCid))
         const { t } = useTranslation()
         const navigation = useNavigation<NavigationProps>()
         if (loading) {

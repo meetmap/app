@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { store } from '../store/store';
 import getClusters, { ClusterPoint } from './useSuperCluster';
 import { Region } from 'react-native-maps';
@@ -8,7 +8,7 @@ import { useMap } from './MapProvider';
 import { getEventsByLocationThunk } from '../store/slices/eventsSlice';
 
 const useEventsOnMap = () => {
-    const { mapViewRef, getCamera } = useMap()
+    const { mapViewRef } = useMap()
     const mapFilter = useAppSelector(state => state.mapSlice.mapFilters);
     const windowWidth = Dimensions.get('window').width;
     const [zoomLevel, setZoomLevel] = useState(5);

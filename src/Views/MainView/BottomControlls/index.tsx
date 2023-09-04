@@ -1,14 +1,11 @@
-import { useAppDispatch, useAppSelector } from "../../../store/hooks";
-import CubeButton from "../../../shared/Buttons/CubeButton";
-import SearchIcon from "../../../shared/Icons/SearchIcon";
-import { Image, TouchableOpacity, View } from "react-native";
+import SearchIcon from "@src/shared/Icons/SearchIcon";
 import styled from "styled-components/native";
 import { IMainViewProps } from "..";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Gesture, GestureDetector, GestureHandlerRootView } from "react-native-gesture-handler";
-import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import DraggableAction from "./DraggableAction";
-import UsersIcon from "../../../shared/Icons/UsersIcon";
+import UsersIcon from "@src/shared/Icons/UsersIcon";
+import { CubeButton } from "@src/shared/Buttons";
 
 const BottomControlls = ({ navigation }: IMainViewProps) => {
 
