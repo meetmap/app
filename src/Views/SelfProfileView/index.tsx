@@ -22,7 +22,7 @@ export interface ISelfProfileViewProps {
     navigation: NativeStackNavigationProp<RootStackParamList, 'SelfProfileView'>;
 }
 
-const SelfProfileView = ({ navigation }: ISelfProfileViewProps) => {
+export const SelfProfileView = ({ navigation }: ISelfProfileViewProps) => {
     const selfUserData = useAppSelector(state => state.userSlice.user)
     const { t } = useTranslation()
     const dispatch = useAppDispatch()
@@ -81,7 +81,6 @@ const SelfProfileView = ({ navigation }: ISelfProfileViewProps) => {
     )
 }
 
-export default SelfProfileView
 
 const StyledProfileActions = styled(View)`
     flex-direction: row;

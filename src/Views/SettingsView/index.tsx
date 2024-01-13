@@ -20,7 +20,7 @@ export interface ISettingsViewProps {
   navigation: NativeStackNavigationProp<RootStackParamList, 'SettingsView'>;
 }
 
-const SettingsView: React.FC<ISettingsViewProps> = () => {
+export const SettingsView: React.FC<ISettingsViewProps> = () => {
   const { t } = useTranslation()
   const [editMode, setEditMode] = useState(false)
   const userData = useAppSelector(state => state.userSlice.user)
@@ -143,8 +143,6 @@ const SettingsView: React.FC<ISettingsViewProps> = () => {
     )
   }
 }
-
-export default SettingsView
 
 const StyledButtonsList = styled.View`
   gap: 6px;

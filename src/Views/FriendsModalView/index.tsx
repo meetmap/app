@@ -5,7 +5,7 @@ import UsersSearch from './Users/UsersSearch';
 import Friends from './Users/Friends';
 import AppBottomSheet from '@src/shared/AppBottomSheet';
 
-const FriendsModalView = () => {
+export const FriendsModalView = () => {
     const [searchUsersInputData, setSearchUsersInputData] = useState<string | null>(null)
     return (
         <AppBottomSheet snapPoints={["40%", "90%"]}>
@@ -18,8 +18,6 @@ const FriendsModalView = () => {
         </AppBottomSheet>
     )
 }
-
-export default FriendsModalView
 
 const UsersContainer = styled(View)`
   display: flex;

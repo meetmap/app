@@ -6,7 +6,7 @@ import { Title } from '@src/shared/Text'
 import LoaderContainer from '@src/shared/LoaderContainer'
 import { useTranslation } from 'react-i18next'
 
-const WelcomeLoaderView = () => {
+export const WelcomeLoaderView = () => {
     const { i18n } = useTranslation()
     return (
         <SafeAreaView>
@@ -26,8 +26,6 @@ const WelcomeLoaderView = () => {
         </SafeAreaView>
     )
 }
-
-export default WelcomeLoaderView
 
 const StyledLoaderPageContent = styled(View)`
     display: flex;

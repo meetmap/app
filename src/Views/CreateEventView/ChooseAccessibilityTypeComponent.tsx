@@ -4,9 +4,9 @@ import { trigger } from 'react-native-haptic-feedback';
 import { ActionSheetIOS } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useAppSelector } from '@src/store/hooks';
-import { IEventFormValues } from '.';
+import { ICreateEventFormValues } from '@src/types/event';
 
-const ChooseAccessibilityTypeComponent = ({ handleChangeFormValue }: { handleChangeFormValue: (valueKey: keyof IEventFormValues, value: string | Date | undefined | number) => void }) => {
+const ChooseAccessibilityTypeComponent = ({ handleChangeFormValue }: { handleChangeFormValue: (valueKey: keyof ICreateEventFormValues, value: string | Date | undefined | number) => void }) => {
     const { t } = useTranslation()
     const { eventFormValues } = useAppSelector(state => state.createEventFormSlice)
 

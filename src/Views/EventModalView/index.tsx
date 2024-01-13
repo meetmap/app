@@ -21,7 +21,7 @@ import { LikeButton } from '@src/shared/Buttons'
 import EventStories from './EventStories'
 
 
-export interface IEventModalViewProps {
+interface IEventModalViewProps {
     navigation: NativeStackNavigationProp<RootStackParamList, 'EventModalView'>;
     route: {
         params: {
@@ -30,7 +30,7 @@ export interface IEventModalViewProps {
     }
 }
 
-const EventModalView = ({ route, navigation }: IEventModalViewProps) => {
+export const EventModalView = ({ route, navigation }: IEventModalViewProps) => {
     const { data: eventData, loading: eventDataLoading, error } = useAxios<IEvent>(getEventByCid(route.params.eventCid))
     const { data: similarEventsData, paginate } = useAxiosPaginated<IEvent>((page) => getSimilarEventsByCid(route.params.eventCid, page))
     const { width } = Dimensions.get("screen")
@@ -93,8 +93,6 @@ const EventModalView = ({ route, navigation }: IEventModalViewProps) => {
         </ScrollView>
     )
 }
-
-export default EventModalView
 
 
 const StyledEventModalContent = styled(View)`

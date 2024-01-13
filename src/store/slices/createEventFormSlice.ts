@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { ITicket } from "@src/types/event";
-import { IEventFormValues } from "@src/Views/CreateEventView";
+import { ICreateEventFormValues, ITicket } from "@src/types/event";
 import { IUploadedImage } from "@src/api/users";
 
 
+
 interface InitialState {
-    eventFormValues: IEventFormValues
+    eventFormValues: ICreateEventFormValues
     images: IUploadedImage[]
 }
 
@@ -28,7 +28,7 @@ const createEventFormSlice = createSlice({
     name: "createEventFormSlice",
     initialState,
     reducers: {
-        setEventFormValuesState: (state, action: { payload: IEventFormValues }) => {
+        setEventFormValuesState: (state, action: { payload: ICreateEventFormValues }) => {
             state.eventFormValues = action.payload
         },
         setTicketsState: (state, action: { payload: ITicket[] }) => {

@@ -10,7 +10,7 @@ import FavTag from '@src/shared/Tags/FavTag'
 import styled from 'styled-components'
 import { useNavigation } from '@react-navigation/native'
 
-const FavoriteTagsView = () => {
+export const FavoriteTagsView = () => {
     const { data: tags,  paginate, fetchData } = useAxiosSearch<ITag>(getTags)
     const handleSearchFilters = async (text: string) => {
         fetchData({ q: text })
@@ -60,8 +60,6 @@ const FavoriteTagsView = () => {
         </ScrollView>
     )
 }
-
-export default FavoriteTagsView
 
 const StyledTagsContainer = styled(View)`
     flex-direction: row;

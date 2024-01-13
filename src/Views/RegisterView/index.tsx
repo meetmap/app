@@ -36,7 +36,7 @@ interface IRegisterFormDataErrors {
 const PASSWORD_REGEX = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])[A-Za-z0-9]{6,}$/;
 
 
-const RegisterView = () => {
+export const RegisterView = () => {
     const navigation = useNavigation<NavigationProps>()
     const { t } = useTranslation()
     const userFormSchema = z.object({
@@ -290,7 +290,6 @@ const RegisterView = () => {
     )
 }
 
-export default RegisterView
 
 
 const StyledLoginViewContainer = styled(SafeAreaView)`

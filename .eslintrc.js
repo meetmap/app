@@ -21,8 +21,8 @@ module.exports = {
     },
     plugins: ["react"],
     rules: {
-        "no-unused-vars": ["off", { "argsIgnorePattern": "^_" }],
-        "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+        // "no-unused-vars": ["off", { "argsIgnorePattern": "^_" }],
+        // "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
         "@typescript-eslint/no-misused-promises": [
             "error",
             {

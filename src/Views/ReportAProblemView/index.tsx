@@ -10,12 +10,12 @@ import { Line } from '@src/shared/Line'
 import ReportAProblemActions from '@src/shared/Actions/ReportAProblem'
 import { PrimaryButton } from '@src/shared/Buttons'
 
-export interface IReportAProblemViewProps {
+interface IReportAProblemViewProps {
     navigation: NativeStackNavigationProp<RootStackParamList, 'ReportAProblemView'>;
 }
 
 
-const ReportAProblemView = ({ navigation }: IReportAProblemViewProps) => {
+export const ReportAProblemView = ({ navigation }: IReportAProblemViewProps) => {
     const { t } = useTranslation()
 
     const [reportFormData, setReportFormData] = useState<{
@@ -66,7 +66,6 @@ const ReportAProblemView = ({ navigation }: IReportAProblemViewProps) => {
     )
 }
 
-export default ReportAProblemView
 
 
 const StyledReportForm = styled.KeyboardAvoidingView`

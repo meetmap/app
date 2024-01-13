@@ -23,7 +23,7 @@ interface IErrors {
 }
 
 
-const LoginView = () => {
+export const LoginView = () => {
 
 
     const dispatch = useAppDispatch()
@@ -108,8 +108,6 @@ const LoginView = () => {
         </StyledLoginViewContainer>
     )
 }
-
-export default LoginView
 
 
 const StyledLoginViewContainer = styled(SafeAreaView)`

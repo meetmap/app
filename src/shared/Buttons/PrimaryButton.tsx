@@ -27,7 +27,7 @@ export const PrimaryButton = ({
     return (
         <StyledPrimaryButton btnSize={btnSize} btnType={btnType} {...rest}>
             {children}
-            {title && <StyledPrimaryButtonText textColor={textColor} btnType={btnType}>{title}</StyledPrimaryButtonText>}
+            {title && <StyledPrimaryButtonText btnSize={btnSize} textColor={textColor} btnType={btnType}>{title}</StyledPrimaryButtonText>}
         </StyledPrimaryButton>
     )
 }
@@ -87,7 +87,7 @@ const StyledPrimaryButton = styled(TouchableOpacity) <IPrimaryButton>`
     ${defineSize}
 `
 
-const StyledPrimaryButtonText = styled(Text) <{ btnType: ButtonType, textColor?: TextcolorsType }>`
+const StyledPrimaryButtonText = styled(Text) <{ btnType: ButtonType, textColor?: TextcolorsType, btnSize: ButtonSizeType }>`
     color: ${props => props.textColor ? props.theme.colors.TEXT[props.textColor] : props.theme.colors.BUTTON[props.btnType].TextDefault};
     font-style: normal;
 

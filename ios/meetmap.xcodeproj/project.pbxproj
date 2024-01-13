@@ -31,6 +31,7 @@
 		00E356EE1AD99517003FC87E /* meetmapTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = meetmapTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* meetmapTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = meetmapTests.m; sourceTree = "<group>"; };
+		0D5845042AA72B0000396A3F /* meetmap.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = meetmap.entitlements; path = meetmap/meetmap.entitlements; sourceTree = "<group>"; };
 		0D725EB72A680978008953B2 /* meetmap-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "meetmap-Bridging-Header.h"; sourceTree = "<group>"; };
 		0D725EB82A680978008953B2 /* swiftBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = swiftBridge.swift; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* meetmap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = meetmap.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -89,6 +90,7 @@
 		13B07FAE1A68108700A75B9A /* meetmap */ = {
 			isa = PBXGroup;
 			children = (
+				0D5845042AA72B0000396A3F /* meetmap.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -494,6 +496,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = meetmap/meetmap.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = GN8N2T5WYV;
 				ENABLE_BITCODE = NO;
@@ -526,6 +529,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = meetmap/meetmap.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = GN8N2T5WYV;
 				INFOPLIST_FILE = meetmap/Info.plist;
@@ -610,10 +614,7 @@
 				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_CFLAGS = "$(inherited)  ";
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-DFOLLY_NO_CONFIG",
@@ -678,10 +679,7 @@
 					"\"$(inherited)\"",
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_CFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_CFLAGS = "$(inherited)  ";
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
 					"-DFOLLY_NO_CONFIG",

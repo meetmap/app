@@ -14,7 +14,7 @@ import useAxiosPaginated from '@src/hooks/useAxiosPaginated';
 import { InviteListProfileInfo } from '@src/shared/Profile';
 
 
-export interface IEventWhoWillGoModalViewProps {
+interface IEventWhoWillGoModalViewProps {
     navigation: NativeStackNavigationProp<RootStackParamList, 'EventWhoWillGoModalView'>;
     route: {
         params: {
@@ -24,7 +24,7 @@ export interface IEventWhoWillGoModalViewProps {
 }
 
 
-const EventWhoWillGoModalView = ({ route }: IEventWhoWillGoModalViewProps) => {
+export const EventWhoWillGoModalView = ({ route }: IEventWhoWillGoModalViewProps) => {
     const { t } = useTranslation()
     const userData = useAppSelector(state => state.userSlice.user)!
     const { data, loading, error } = useAxiosPaginated<IPartialUser>(() => getUserFriends(userData.cid))
@@ -59,7 +59,6 @@ const EventWhoWillGoModalView = ({ route }: IEventWhoWillGoModalViewProps) => {
     )
 }
 
-export default EventWhoWillGoModalView
 
 const StyledEventsListModal = styled(View)`
     flex-direction: column;;

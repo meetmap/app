@@ -21,7 +21,7 @@ interface IPageProps {
     route: { params: { userCid: string } }
 }
 
-const ProfileView = ({ route, navigation }: IPageProps) => {
+export const ProfileView = ({ route, navigation }: IPageProps) => {
     const { data: userData, loading: userDataLoading, onRefresh, refreshing, error } = useAxios<IPartialUser>(getUserById(route.params.userCid))
     const { flyTo } = useMap()
 
@@ -69,7 +69,6 @@ const ProfileView = ({ route, navigation }: IPageProps) => {
     )
 }
 
-export default ProfileView
 
 const StyledProfileActions = styled(View)`
     flex-direction: row;

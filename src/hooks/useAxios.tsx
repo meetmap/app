@@ -6,7 +6,6 @@ type UseAxiosResult<T> = {
     loading: boolean;
     error: AxiosError | null;
     refreshing: boolean
-    // setData: Dispatch<SetStateAction<T | null>>
     fetchData: () => Promise<void>
     onRefresh: () => Promise<void>
     paginate: () => Promise<void>

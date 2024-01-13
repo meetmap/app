@@ -4,14 +4,15 @@ import { Span } from '@src/shared/Text'
 import PrimaryDatePicker from '@src/shared/Input/PrimaryDatePicker'
 import { useTranslation } from 'react-i18next'
 import { useAppDispatch, useAppSelector } from '@src/store/hooks'
-import { IEventFormValues, StyledCreateEventFormContainer } from '.'
+import { StyledCreateEventFormContainer } from '.'
 import { setEventFormValuesState } from '@src/store/slices/createEventFormSlice'
+import { ICreateEventFormValues } from '@src/types/event'
 
 const ChooseEventDatesComponent = () => {
     const { t } = useTranslation()
     const { eventFormValues } = useAppSelector(state => state.createEventFormSlice)
     const dispatch = useAppDispatch()
-    const setFiltersDateValues = (valueKey: keyof IEventFormValues, value: number | undefined) => {
+    const setFiltersDateValues = (valueKey: keyof ICreateEventFormValues, value: number | undefined) => {
         if (value)
             dispatch(setEventFormValuesState({ ...eventFormValues, [valueKey]: new Date(value) }))
     }

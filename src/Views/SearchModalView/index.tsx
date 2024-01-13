@@ -11,11 +11,11 @@ import SearchEventsInput from "@src/shared/Input/SearchEventsInput"
 import { useAppSelector } from "@src/store/hooks"
 import useAxiosSearch from "@src/hooks/useAxiosSearch"
 
-export interface ISearchModalViewProps {
+interface ISearchModalViewProps {
     navigation: NativeStackNavigationProp<RootStackParamList, 'SearchModalView'>;
 }
 
-const SearchModalView: React.FC<ISearchModalViewProps> = () => {
+export const SearchModalView: React.FC<ISearchModalViewProps> = () => {
 
     const filters = useAppSelector(state => state.filtersSlice.filters)
     const [searchText, setSearchText] = useState("")
@@ -54,8 +54,6 @@ const SearchModalView: React.FC<ISearchModalViewProps> = () => {
         </StyledSearchModal>
     )
 }
-
-export default SearchModalView
 
 
 const StyledSearchModal = styled(View)`

@@ -1,49 +1,57 @@
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import React from 'react';
-import { View } from 'react-native';
+import {View} from 'react-native';
 import {RootStackParamList} from '@src/types/NavigationProps';
 import styled from 'styled-components/native';
 import BottomControlls from './BottomControlls';
 import MapContent from './MapContent';
 import MapHeader from './MapHeader';
-import BackgroundGeolocation, { Subscription } from 'react-native-background-geolocation';
-import { useAppDispatch, useAppSelector } from '@src/store/hooks';
-import { updateUserLocationThunk } from '@src/store/slices/locationSlice';
+import BackgroundGeolocation, {
+  Subscription,
+} from 'react-native-background-geolocation';
+import {useAppDispatch, useAppSelector} from '@src/store/hooks';
+import {updateUserLocationThunk} from '@src/store/slices/locationSlice';
 
-export interface IMainViewProps {
+interface IMainViewProps {
   navigation: NativeStackNavigationProp<RootStackParamList, 'MainView'>;
 }
 
-const MainView = ({ navigation }: IMainViewProps) => {
+export const MainView = ({navigation}: IMainViewProps) => {
   const [enabled, setEnabled] = React.useState(false);
   // const [location, setLocation] = React.useState('');
-  const dispatch = useAppDispatch()
-  const userData = useAppSelector(state => state.userSlice.user)
+  const dispatch = useAppDispatch();
+  const userData = useAppSelector(state => state.userSlice.user);
   React.useEffect(() => {
     /// 1.  Subscribe to events.
-    const onLocation: Subscription = BackgroundGeolocation.onLocation((location) => {
-      if (location) {
-        dispatch(
-          updateUserLocationThunk({
-            lat: location.coords?.latitude,
-            lng: location.coords?.longitude,
-          }),
-        );
-      }
-      // setLocation(JSON.stringify(location, null, 2));
-    })
+    const onLocation: Subscription = BackgroundGeolocation.onLocation(
+      location => {
+        if (location) {
+          dispatch(
+            updateUserLocationThunk({
+              lat: location.coords?.latitude,
+              lng: location.coords?.longitude,
+            }),
+          );
+        }
+        // setLocation(JSON.stringify(location, null, 2));
+      },
+    );
 
-    const onMotionChange: Subscription = BackgroundGeolocation.onMotionChange((event) => {
-      console.log('[onMotionChange]', event);
-    });
+    const onMotionChange: Subscription = BackgroundGeolocation.onMotionChange(
+      event => {
+        console.log('[onMotionChange]', event);
+      },
+    );
 
-    const onActivityChange: Subscription = BackgroundGeolocation.onActivityChange((event) => {
-      console.log('[onActivityChange]', event);
-    })
+    const onActivityChange: Subscription =
+      BackgroundGeolocation.onActivityChange(event => {
+        console.log('[onActivityChange]', event);
+      });
 
-    const onProviderChange: Subscription = BackgroundGeolocation.onProviderChange((event) => {
-      console.log('[onProviderChange]', event);
-    })
+    const onProviderChange: Subscription =
+      BackgroundGeolocation.onProviderChange(event => {
+        console.log('[onProviderChange]', event);
+      });
 
     /// 2. ready the plugin.
     BackgroundGeolocation.ready({
@@ -58,17 +66,19 @@ const MainView = ({ navigation }: IMainViewProps) => {
       // Application config
       // debug: true, // <-- enable this hear sounds for background-geolocation life-cycle.
       logLevel: BackgroundGeolocation.LOG_LEVEL_VERBOSE,
-      stopOnTerminate: false,   // <-- Allow the background-service to continue tracking when user closes the app.
-      startOnBoot: true,        // <-- Auto start tracking when device is powered-up.
+      stopOnTerminate: false, // <-- Allow the background-service to continue tracking when user closes the app.
+      startOnBoot: true, // <-- Auto start tracking when device is powered-up.
       // HTTP / SQLite config
 
-
       // url: 'http://yourserver.com/locations',
-      batchSync: false,       // <-- [Default: false] Set true to sync locations to server in a single HTTP request.
-      autoSync: true,         // <-- [Default: true] Set true to sync each location to server as it arrives.
-    }).then((state) => {
-      setEnabled(true)
-      console.log("- BackgroundGeolocation is configured and ready: ", state.enabled);
+      batchSync: false, // <-- [Default: false] Set true to sync locations to server in a single HTTP request.
+      autoSync: true, // <-- [Default: true] Set true to sync each location to server as it arrives.
+    }).then(state => {
+      setEnabled(true);
+      console.log(
+        '- BackgroundGeolocation is configured and ready: ',
+        state.enabled,
+      );
     });
 
     return () => {
@@ -79,7 +89,7 @@ const MainView = ({ navigation }: IMainViewProps) => {
       onMotionChange.remove();
       onActivityChange.remove();
       onProviderChange.remove();
-    }
+    };
   }, []);
 
   /// 3. start / stop BackgroundGeolocation
@@ -91,7 +101,6 @@ const MainView = ({ navigation }: IMainViewProps) => {
     }
   }, [enabled, !!userData]);
 
-
   return (
     <StyledMainPageContainer>
       <MapContent />
@@ -100,8 +109,6 @@ const MainView = ({ navigation }: IMainViewProps) => {
     </StyledMainPageContainer>
   );
 };
-
-export default MainView;
 
 const StyledMainPageContainer = styled(View)`
   position: relative;

@@ -18,11 +18,11 @@ import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { BottomSheetFooter, BottomSheetFooterProps, BottomSheetScrollView } from "@gorhom/bottom-sheet"
 import { PrimaryButton } from "@src/shared/Buttons"
 
-export interface IMainViewProps {
+interface IMainViewProps {
     navigation: NativeStackNavigationProp<RootStackParamList, 'FilterModalView'>;
 }
 
-const FilterModalView: React.FC<IMainViewProps> = () => {
+export const FilterModalView: React.FC<IMainViewProps> = () => {
     const { tags, minPrice, maxPrice, startDate, radius } = useAppSelector(state => state.filtersSlice.filters)
     const { t } = useTranslation()
     const [choosedFilters, setChoosedFilters] = useState<IFilters>({
@@ -142,8 +142,6 @@ const FilterModalView: React.FC<IMainViewProps> = () => {
         </AppBottomSheet>
     )
 }
-
-export default FilterModalView
 
 
 const StyledSearchModal = styled(View)`
